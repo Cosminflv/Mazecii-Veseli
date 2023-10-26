@@ -94,11 +94,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GuesserPlayer.cpp" />
+    <ClCompile Include="PainterPlayer.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerRole.cpp" />
     <QtRcc Include="GarticApp.qrc" />
     <QtUic Include="GarticApp.ui" />
     <QtMoc Include="GarticApp.h" />
     <ClCompile Include="GarticApp.cpp" />
     <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GuesserPlayer.h" />
+    <ClInclude Include="PainterPlayer.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerRole.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
