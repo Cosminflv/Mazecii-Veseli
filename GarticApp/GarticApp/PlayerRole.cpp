@@ -10,9 +10,18 @@ std::ostream& operator<<(std::ostream& os, PlayerRole role)
 	{
 		os << "Painter";
 	}
-	else
-	{
-		os << "Unknown type";
-	}
 	return os;
+}
+
+PlayerRole ConvertToRole(const std::string& role)
+{
+	if (role == "Guesser")
+	{
+		return PlayerRole::Guesser;
+	}
+	if (role == "Painter")
+	{
+		return PlayerRole::Painter;
+	}
+	throw std::exception("Unknown player type.\n");
 }

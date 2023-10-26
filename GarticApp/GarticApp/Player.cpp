@@ -12,5 +12,5 @@ std::string Player::GetUsername() const
 std::ostream& operator<<(std::ostream& os, const Player& player)
 {
 	return os << player.m_username << " " << player.m_role <<
-		" " << player.m_role << std::endl;
+		" " << player.m_score << std::endl;
 }
