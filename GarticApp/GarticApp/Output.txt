@@ -2,3 +2,5 @@ user1 Guesser 74
 
 user2 Painter 78
 
+user3 Guesser 90
+

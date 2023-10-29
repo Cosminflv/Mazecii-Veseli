@@ -7,6 +7,11 @@ Game::Game(std::vector<Player*> players, std::map<Player*, int> leaderboard, std
 {
 }
 
+Game::Game()
+{
+	
+}
+
 
 std::vector<Player*> Game::GetPlayers() const
 {
@@ -21,6 +26,21 @@ std::vector<Round*> Game::GetRounds() const
 std::map<Player*, int>Game::GetLeaderboard() const
 {
 	return m_leaderboard;
+}
+void Game::playRound()
+{
+
+}
+void Game::UpdateLeaderboard()
+{
+	m_leaderboard.clear();
+		for (Round* round : m_rounds) {
+			for (Player* player : m_players) {
+				int roundScore = player->GetScore();
+				m_leaderboard[player] += roundScore;
+			}
+		}
+
 }
 void Game::addPlayer(Player* player)
 {

@@ -16,7 +16,7 @@ int main(int argc, char* argv[])
 	std::string username;
 	std::string role;
 	int16_t score;
-	std::vector<Player*> players;
+	Game game;
 
 	for (std::ifstream input ("Input.txt"); !input.eof(); )
 	{
@@ -25,17 +25,20 @@ int main(int argc, char* argv[])
 		{
 			PlayerRole Role = ConvertToRole(role);
 			Player* player = new GuesserPlayer(username, Role, score);
-			players.push_back(player);
+			game.addPlayer(player);
 		}
 		else if (role == "Painter")
 		{
 			PlayerRole Role = ConvertToRole(role);
 			Player* player = new PainterPlayer(username, Role, score);
-			players.push_back(player);
+			game.addPlayer(player);
 		}
 	}
-
-	for (auto player : players)
+	
+	std::vector<Player*>playersInGame = game.GetPlayers();
+	Player* player = playersInGame[0];
+	Round runda(player, "ana");
+	for (auto player : playersInGame)
 	{
 		output << *player << "\n";
 	}

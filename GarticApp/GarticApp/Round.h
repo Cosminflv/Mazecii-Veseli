@@ -6,6 +6,7 @@
 #include "Player.h"
 class Round
 {
+public:
 	Round(Player* player, std::string word);
 	void SeeWord(std::string word);
 	bool GuessWord(std::string word);

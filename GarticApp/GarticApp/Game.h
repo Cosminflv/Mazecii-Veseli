@@ -12,11 +12,14 @@ private:
 
 public:
 	Game(std::vector<Player*>players, std::map<Player*, int>leaderboard, std::vector<Round*>rounds);
+	Game();
 	std::vector<Player*> GetPlayers() const;
 	std::vector<Round*>GetRounds()const;
 	void addPlayer(Player* player);
 	void addRound(Round* round);
 	std::map<Player*, int>GetLeaderboard()const;
+	void playRound();
+	void UpdateLeaderboard();
 	~Game();
 
 };

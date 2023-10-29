@@ -20,6 +20,11 @@ int Player::SetScore(int points)
 	return m_score;
 }
 
+int16_t  Player::GetScore()
+{
+	return m_score;
+}
+
 std::ostream& operator<<(std::ostream& os, const Player& player)
 {
 	return os << player.m_username << " " << player.m_role <<
