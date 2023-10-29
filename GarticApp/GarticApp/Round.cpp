@@ -29,4 +29,35 @@ int Round::GetSecond()
 	return static_cast<int>(elapsedTime.count());
 }
 
+void Round::CalculateScore(Player* player, std::string word)
+{
+	player->GetRole();
+
+	if (player->GetRole() == PlayerRole::Painter)
+	{
+		SeeWord(word);
+	}
+	else if (player->GetRole() == PlayerRole::Guesser)
+	{
+		while (Round::GetSecond() < m_duration)
+		{
+			if (Round::GuessWord(word))
+			{
+				std::cout << "Guessed at second: " << Round::GetSecond() << std::endl;
+				if (Round::GetSecond() < m_duration / 2)
+					player->SetScore(100);
+				else
+				{
+					int score = static_cast<int>(std::round(((60.0 - Round::GetSecond()) * 100) / 30));
+					player->SetScore(score);
+				}
+				break;
+			}
+			else if (!Round::GuessWord(word))
+				player->SetScore(-50);
+		}
+	}
+
+}
+
 
