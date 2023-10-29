@@ -6,6 +6,7 @@
 #include "Round.h"
 #include <fstream>
 #include <vector>
+#include"Game.h"
 
 int main(int argc, char* argv[])
 {
@@ -38,6 +39,8 @@ int main(int argc, char* argv[])
 	{
 		output << *player << "\n";
 	}
+	
+
 
 	w.show();
 	return a.exec();

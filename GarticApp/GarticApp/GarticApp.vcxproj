@@ -94,6 +94,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="GuesserPlayer.cpp" />
     <ClCompile Include="PainterPlayer.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -106,6 +107,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Game.h" />
     <ClInclude Include="GuesserPlayer.h" />
     <ClInclude Include="PainterPlayer.h" />
     <ClInclude Include="Player.h" />
