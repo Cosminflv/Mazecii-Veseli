@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "GuesserPlayer.h"
 #include "PainterPlayer.h"
+#include "Round.h"
 #include <fstream>
 #include <vector>
 
@@ -14,7 +15,6 @@ int main(int argc, char* argv[])
 	std::string username;
 	std::string role;
 	int16_t score;
-
 	std::vector<Player*> players;
 
 	for (std::ifstream input ("Input.txt"); !input.eof(); )

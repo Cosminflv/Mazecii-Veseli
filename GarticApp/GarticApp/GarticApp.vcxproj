@@ -98,6 +98,7 @@
     <ClCompile Include="PainterPlayer.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerRole.cpp" />
+    <ClCompile Include="Round.cpp" />
     <QtRcc Include="GarticApp.qrc" />
     <QtUic Include="GarticApp.ui" />
     <QtMoc Include="GarticApp.h" />
@@ -109,6 +110,7 @@
     <ClInclude Include="PainterPlayer.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerRole.h" />
+    <ClInclude Include="Round.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Input.txt" />

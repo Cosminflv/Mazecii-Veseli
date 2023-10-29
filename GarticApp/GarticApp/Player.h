@@ -9,7 +9,7 @@ public:
 	Player(const std::string& username, PlayerRole role, int16_t score);
 	std::string GetUsername() const;
 	virtual PlayerRole GetRole() = 0;
-
+	int SetScore(int points);
 	friend std::ostream& operator <<(std::ostream& os, const Player& player);
 
 private:
