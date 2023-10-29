@@ -11,7 +11,6 @@ public:
 	virtual PlayerRole GetRole() = 0;
 	int SetScore(int points);
 	friend std::ostream& operator <<(std::ostream& os, const Player& player);
-
 private:
 	std::string m_username;
 	PlayerRole m_role;

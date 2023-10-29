@@ -6,14 +6,15 @@
 #include "Player.h"
 class Round
 {
-	Round(std::vector<Player*> players, std::string word, int duration);
+	Round(Player* player, std::string word);
 	void SeeWord(std::string word);
 	bool GuessWord(std::string word);
 	void StartRound();
 	int GetSecond();
 private:
 	std::string m_word;
-	int duration;
+	Player* m_player;
+	int m_duration;
 	std::chrono::time_point<std::chrono::steady_clock> m_startTime;
 };
 
