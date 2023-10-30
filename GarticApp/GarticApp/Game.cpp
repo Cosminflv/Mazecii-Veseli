@@ -54,16 +54,7 @@ void Game::addRound(Round* round)
 
 Game::~Game()
 {
-	for (Player* player : m_players)
-	{
-		delete player;
-	}
-	for (Round* round : m_rounds)
-	{
-		delete round;
-	}
-	for (auto& entry : m_leaderboard)
-	{
-		delete entry.first; 
-	}
+	m_players.clear();
+	m_rounds.clear();
+	m_leaderboard.clear();
 }

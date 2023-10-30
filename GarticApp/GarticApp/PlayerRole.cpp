@@ -15,13 +15,5 @@ std::ostream& operator<<(std::ostream& os, PlayerRole role)
 
 PlayerRole ConvertToRole(const std::string& role)
 {
-	if (role == "Guesser")
-	{
-		return PlayerRole::Guesser;
-	}
-	if (role == "Painter")
-	{
-		return PlayerRole::Painter;
-	}
-	throw std::exception("Unknown player type.\n");
+	return role == "Guesser" ? PlayerRole::Guesser : PlayerRole::Painter;
 }

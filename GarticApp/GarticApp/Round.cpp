@@ -31,6 +31,7 @@ int Round::GetSecond()
 
 void Round::CalculateScore(Player* player, std::string word)
 {
+	bool hasGuessedCorrectly = false;
 	player->GetRole();
 
 	if (player->GetRole() == PlayerRole::Painter)
@@ -39,10 +40,11 @@ void Round::CalculateScore(Player* player, std::string word)
 	}
 	else if (player->GetRole() == PlayerRole::Guesser)
 	{
-		while (Round::GetSecond() < m_duration)
+		while (Round::GetSecond() < m_duration && !hasGuessedCorrectly)
 		{
 			if (Round::GuessWord(word))
 			{
+				hasGuessedCorrectly = true;
 				std::cout << "Guessed at second: " << Round::GetSecond() << std::endl;
 				if (Round::GetSecond() < m_duration / 2)
 					player->SetScore(100);
@@ -53,11 +55,12 @@ void Round::CalculateScore(Player* player, std::string word)
 				}
 				break;
 			}
-			else if (!Round::GuessWord(word))
-				player->SetScore(-50);
 		}
 	}
-
+	if (!hasGuessedCorrectly)
+	{
+		player->SetScore(-50);
+	}
 }
 
 

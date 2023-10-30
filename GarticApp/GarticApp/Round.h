@@ -15,7 +15,6 @@ public:
 	void CalculateScore(Player* player, std::string word);
 private:
 	std::string m_word;
-	Player* m_player;
 	int m_duration;
 	std::chrono::time_point<std::chrono::steady_clock> m_startTime;
 };
