@@ -1,6 +1,7 @@
-#include "PlayerRole.h"
+module playerRole;
+using garticApp::PlayerRole;
 
-std::ostream& operator<<(std::ostream& os, PlayerRole role)
+std::ostream& garticApp:: operator<<(std::ostream& os, PlayerRole role)
 {
 	if (role == PlayerRole::Guesser)
 	{
@@ -13,7 +14,7 @@ std::ostream& operator<<(std::ostream& os, PlayerRole role)
 	return os;
 }
 
-PlayerRole ConvertToRole(const std::string& role)
+PlayerRole garticApp::ConvertToRole(const std::string& role)
 {
 	return role == "Guesser" ? PlayerRole::Guesser : PlayerRole::Painter;
 }

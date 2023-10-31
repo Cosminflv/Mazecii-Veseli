@@ -100,8 +100,9 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="player.ixx" />
     <ClCompile Include="PlayerRole.cpp" />
-    <ClCompile Include="PlayerrRole.cpp" />
     <ClCompile Include="playerRole.ixx" />
+    <ClCompile Include="PlayerRole_module.cpp" />
+    <ClCompile Include="Player_module.cpp" />
     <ClCompile Include="Round.cpp" />
     <QtRcc Include="GarticApp.qrc" />
     <QtUic Include="GarticApp.ui" />

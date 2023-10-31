@@ -25,13 +25,13 @@ int main(int argc, char* argv[])
 		{
 			PlayerRole Role = ConvertToRole(role);
 			Player* player = new GuesserPlayer(username, Role, score);
-			game.addPlayer(player);
+			game.AddPlayer(player);
 		}
 		else if (role == "Painter")
 		{
 			PlayerRole Role = ConvertToRole(role);
 			Player* player = new PainterPlayer(username, Role, score);
-			game.addPlayer(player);
+			game.AddPlayer(player);
 		}
 	}
 	
@@ -43,8 +43,6 @@ int main(int argc, char* argv[])
 		output << *player << "\n";
 	}
 	
-
-
 	w.show();
 	return a.exec();
 }

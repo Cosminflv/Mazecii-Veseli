@@ -27,10 +27,11 @@ std::map<Player*, int>Game::GetLeaderboard() const
 {
 	return m_leaderboard;
 }
-void Game::playRound()
+void Game::PlayRound()
 {
 
 }
+
 void Game::UpdateLeaderboard()
 {
 	m_leaderboard.clear();
@@ -42,12 +43,12 @@ void Game::UpdateLeaderboard()
 		}
 
 }
-void Game::addPlayer(Player* player)
+void Game::AddPlayer(Player* player)
 {
 	m_players.push_back(player);
 }
 
-void Game::addRound(Round* round)
+void Game::AddRound(Round* round)
 {
 	m_rounds.push_back(round);
 }

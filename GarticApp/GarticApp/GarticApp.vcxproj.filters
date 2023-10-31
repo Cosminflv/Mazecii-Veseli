@@ -58,13 +58,16 @@
     <ClCompile Include="player.ixx">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerRole.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="playerRole.ixx">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerrRole.cpp">
+    <ClCompile Include="PlayerRole_module.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerRole.cpp">
+    <ClCompile Include="Player_module.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

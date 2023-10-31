@@ -15,12 +15,13 @@ public:
 	Game();
 	std::vector<Player*> GetPlayers() const;
 	std::vector<Round*>GetRounds()const;
-	void addPlayer(Player* player);
+	void AddPlayer(Player* player);
 	//no need to add rounds during a game,
 	//the number of rounds is given by the number of players
-	void addRound(Round* round);
+	void AddRound(Round* round);
 	std::map<Player*, int>GetLeaderboard()const;
-	void startGame();
+	void PlayRound();
+	void StartGame();
 	void UpdateLeaderboard();
 	~Game();
 
