@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 
-enum class PlayerRole: uint16_t
+enum class PlayerRole : uint16_t
 {
 	Guesser,
 	Painter
@@ -9,3 +9,5 @@ enum class PlayerRole: uint16_t
 
 std::ostream& operator<< (std::ostream& os, PlayerRole role);
 PlayerRole ConvertToRole(const std::string& role);
+
+
