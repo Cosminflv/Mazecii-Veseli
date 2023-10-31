@@ -11,10 +11,14 @@ public:
 	virtual PlayerRole GetRole() = 0;
 	int SetScore(int points);
 	int16_t  GetScore();
+	bool GetPlayerStatus();
+	void SetPlayerStatus(bool status);
 	friend std::ostream& operator <<(std::ostream& os, const Player& player);
+
 private:
 	std::string m_username;
 	PlayerRole m_role;
 	int16_t m_score;
+	bool m_hasPainted;
 };
 

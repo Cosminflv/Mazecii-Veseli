@@ -1,6 +1,6 @@
-user1 Guesser 74
+user1 Guesser 74 0
 
-user2 Painter 78
+user2 Painter 78 0
 
-user3 Guesser 90
+user3 Guesser 90 0
 
