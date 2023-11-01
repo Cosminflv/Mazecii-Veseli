@@ -1,20 +1,20 @@
 module playerRole;
-using garticApp::PlayerRole;
+using garticApp::mPlayerRole;
 
-std::ostream& garticApp:: operator<<(std::ostream& os, PlayerRole role)
+std::ostream& garticApp:: operator<<(std::ostream& os, mPlayerRole role)
 {
-	if (role == PlayerRole::Guesser)
+	if (role == mPlayerRole::Guesser)
 	{
 		os << "Guesser";
 	}
-	if (role == PlayerRole::Painter)
+	if (role == mPlayerRole::Painter)
 	{
 		os << "Painter";
 	}
 	return os;
 }
 
-PlayerRole garticApp::ConvertToRole(const std::string& role)
+mPlayerRole garticApp::ConvertToRole(const std::string& role)
 {
-	return role == "Guesser" ? PlayerRole::Guesser : PlayerRole::Painter;
+	return role == "Guesser" ? mPlayerRole::Guesser : mPlayerRole::Painter;
 }

@@ -6,21 +6,22 @@ export module player;
 
 namespace garticApp
 {
-	export class Player
+	export class mPlayer
 	{
 	public:
-		Player(const std::string& username, PlayerRole role, int16_t score);
+		mPlayer(const std::string& username, mPlayerRole role, int16_t score);
 		std::string GetUsername() const;
-		int16_t GetScore();
-		bool GetPlayerStatus();
+		int16_t GetScore() const;
+		bool GetPlayerStatus() const;
 		int SetScore(int points);
 		void SetPlayerStatus(bool status);
-
+		mPlayerRole GetRole() const;
+		void SetPlayerRole(mPlayerRole role);
 	private:
 		std::string m_username;
 		int16_t m_score;
-		PlayerRole m_role;
+		mPlayerRole m_role;
 		bool m_hasPainted;
 	};
-	export std::ostream& operator <<(std::ostream& os, const Player& player);
+	export std::ostream& operator <<(std::ostream& os, const mPlayer& player);
 }

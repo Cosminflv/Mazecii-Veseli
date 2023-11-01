@@ -8,11 +8,12 @@ class Player
 public:
 	Player(const std::string& username, PlayerRole role, int16_t score);
 	std::string GetUsername() const;
+	int16_t GetScore() const;
+	bool GetPlayerStatus() const;
 	virtual PlayerRole GetRole() = 0;
 	int SetScore(int points);
-	int16_t  GetScore();
-	bool GetPlayerStatus();
 	void SetPlayerStatus(bool status);
+	void SetPlayerRole(PlayerRole role);
 	friend std::ostream& operator <<(std::ostream& os, const Player& player);
 
 private:

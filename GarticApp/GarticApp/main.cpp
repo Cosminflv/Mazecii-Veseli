@@ -40,6 +40,7 @@ int main(int argc, char* argv[])
 	Round runda(player, "ana");
 	for (auto player : playersInGame)
 	{
+		output << player->GetPlayerStatus() << std::endl;
 		output << *player << "\n";
 	}
 	
