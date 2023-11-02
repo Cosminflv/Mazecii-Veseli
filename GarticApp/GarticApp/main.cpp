@@ -4,7 +4,7 @@
 #include "GuesserPlayer.h"
 #include "PainterPlayer.h"
 
-#include "Round.h"
+#include "SubRound.h"
 #include <fstream>
 #include <vector>
 #include"Game.h"
@@ -38,7 +38,7 @@ int main(int argc, char* argv[])
 	
 	std::vector<Player*>playersInGame = game.GetPlayers();
 	Player* player = playersInGame[0];
-	Round runda(player, "ana");
+	SubRound runda(player, "ana");
 	for (auto player : playersInGame)
 	{
 		output << player->GetPlayerStatus() << std::endl;

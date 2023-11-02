@@ -1,6 +1,6 @@
 #include "Game.h"
 
-Game::Game(std::vector<Player*> players, std::map<Player*, int> leaderboard, std::vector<Round*> rounds):
+Game::Game(std::vector<Player*> players, std::map<Player*, int> leaderboard, std::vector<SubRound*> rounds):
 	m_players(players),
 	m_leaderboard(leaderboard),
 	m_rounds(rounds)
@@ -18,7 +18,7 @@ std::vector<Player*> Game::GetPlayers() const
 	return m_players;
 }
 
-std::vector<Round*> Game::GetRounds() const
+std::vector<SubRound*> Game::GetRounds() const
 {
 	return m_rounds;
 }
@@ -35,7 +35,7 @@ void Game::PlayRound()
 void Game::UpdateLeaderboard()
 {
 	m_leaderboard.clear();
-		for (Round* round : m_rounds) {
+		for (SubRound* round : m_rounds) {
 			for (Player* player : m_players) {
 				int roundScore = player->GetScore();
 				m_leaderboard[player] += roundScore;
@@ -48,7 +48,7 @@ void Game::AddPlayer(Player* player)
 	m_players.push_back(player);
 }
 
-void Game::AddRound(Round* round)
+void Game::AddRound(SubRound* round)
 {
 	m_rounds.push_back(round);
 }

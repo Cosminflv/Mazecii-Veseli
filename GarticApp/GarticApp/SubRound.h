@@ -4,10 +4,10 @@
 #include <string>
 #include <iostream>
 #include "Player.h"
-class Round
+class SubRound
 {
 public:
-	Round(Player* player, std::string word);
+	SubRound(Player* player, std::string word);
 	void SeeWord(std::string word);
 	bool GuessWord(std::string word);
 	void StartRound();

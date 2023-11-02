@@ -104,8 +104,9 @@
     <ClCompile Include="playerRole.ixx" />
     <ClCompile Include="PlayerRole_module.cpp" />
     <ClCompile Include="Player_module.cpp" />
-    <ClCompile Include="Round.cpp" />
+    <ClCompile Include="SubRound.cpp" />
     <ClCompile Include="ScribbleArea.cpp" />
+    <ClCompile Include="SubRound.ixx" />
     <QtRcc Include="GarticApp.qrc" />
     <QtUic Include="GarticApp.ui" />
     <QtMoc Include="GarticApp.h" />
@@ -119,7 +120,7 @@
     <ClInclude Include="PainterPlayer.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerRole.h" />
-    <ClInclude Include="Round.h" />
+    <ClInclude Include="SubRound.h" />
     <ClInclude Include="ScribbleArea.h" />
   </ItemGroup>
   <ItemGroup>
