@@ -86,4 +86,9 @@ bool SubRound::HasSubRoundEnded()
 	return false;
 }
 
+int SubRound::GetSizeOfPlayers()
+{
+	return m_players.size();
+}
+
 

@@ -15,7 +15,7 @@ public:
 	void CalculateScore(std::vector<Player*> players, std::string word);
 	bool HaveAllPlayersGuessed();
 	bool HasSubRoundEnded();
-
+	int GetSizeOfPlayers();
 private:
 	std::vector<Player*> m_players;
 	int m_counterGuessingPlayers;
