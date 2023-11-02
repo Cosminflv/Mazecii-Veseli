@@ -6,4 +6,3 @@ user2 Painter 78 0
 
 0
 user3 Guesser 90 0
-

@@ -104,6 +104,7 @@
     <ClCompile Include="PlayerRole_module.cpp" />
     <ClCompile Include="Player_module.cpp" />
     <ClCompile Include="Round.cpp" />
+    <ClCompile Include="ScribbleArea.cpp" />
     <QtRcc Include="GarticApp.qrc" />
     <QtUic Include="GarticApp.ui" />
     <QtMoc Include="GarticApp.h" />
@@ -117,6 +118,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerRole.h" />
     <ClInclude Include="Round.h" />
+    <ClInclude Include="ScribbleArea.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Input.txt" />

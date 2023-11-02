@@ -70,6 +70,9 @@
     <ClCompile Include="Player_module.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ScribbleArea.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h">
@@ -88,6 +91,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PlayerRole.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ScribbleArea.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
