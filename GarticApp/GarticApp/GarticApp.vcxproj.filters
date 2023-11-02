@@ -79,6 +79,9 @@
     <ClCompile Include="SubRound.ixx">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="SubRound_Module.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h">

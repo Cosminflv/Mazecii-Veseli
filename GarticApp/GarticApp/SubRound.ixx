@@ -1,9 +1,10 @@
 module;
 import <iostream>;
-export module Round;
+import <chrono>;
+import <thread>;
+export module SubRound;
 export import playerRole;
 export import player;
-
 namespace garticApp
 {
 	export class mSubRound {

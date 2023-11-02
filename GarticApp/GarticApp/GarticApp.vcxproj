@@ -107,6 +107,7 @@
     <ClCompile Include="SubRound.cpp" />
     <ClCompile Include="ScribbleArea.cpp" />
     <ClCompile Include="SubRound.ixx" />
+    <ClCompile Include="SubRound_Module.cpp" />
     <QtRcc Include="GarticApp.qrc" />
     <QtUic Include="GarticApp.ui" />
     <QtMoc Include="GarticApp.h" />
