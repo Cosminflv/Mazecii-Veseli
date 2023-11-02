@@ -94,6 +94,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ChatWidget.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GuesserPlayer.cpp" />
     <ClCompile Include="PainterPlayer.cpp" />
@@ -112,6 +113,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ChatWidget.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GuesserPlayer.h" />
     <ClInclude Include="PainterPlayer.h" />

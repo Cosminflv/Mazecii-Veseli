@@ -16,10 +16,10 @@ public:
 	void setPenWidth(int newWidth);
 
 	QColor getPenColor() const;
-	int penWidth() const;
+	int getPenWidth() const;
 
 	~ScribbleArea();
-public slots:
+private slots:
 	void onClearButtonClicked();
 
 protected:
@@ -42,6 +42,6 @@ private:
 	QPoint m_lastPoint;
 	QPainterPath mPath;
 
-	QPushButton* mButton;
+	QPushButton* m_clearButton;
 };
 

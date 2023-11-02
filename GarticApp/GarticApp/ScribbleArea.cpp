@@ -9,9 +9,9 @@ ScribbleArea::ScribbleArea(QWidget* parent)
 	m_penColor = Qt::red;
 	m_penWidth = 5;
 
-	mButton = new QPushButton("Clear Screen", this);
-	mButton->setGeometry(10, 10, 100, 30);
-	connect(mButton, &QPushButton::clicked, this, &ScribbleArea::onClearButtonClicked);
+	m_clearButton = new QPushButton("Clear Screen", this);
+	m_clearButton->setGeometry(10, 10, 100, 30);
+	connect(m_clearButton, &QPushButton::clicked, this, &ScribbleArea::onClearButtonClicked);
 }
 
 void ScribbleArea::setPenColor(const QColor& newColor)
@@ -29,14 +29,14 @@ QColor ScribbleArea::getPenColor() const
 	return m_penColor;
 }
 
-int ScribbleArea::penWidth() const
+int ScribbleArea::getPenWidth() const
 {
 	return m_penWidth;
 }
 
 ScribbleArea::~ScribbleArea()
 {
-	//delete mButton;
+	delete m_clearButton;
 }
 
 void ScribbleArea::mousePressEvent(QMouseEvent* event)
