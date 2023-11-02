@@ -3,7 +3,6 @@
 #include <QtWidgets/QMainWindow>
 #include "ui_GarticApp.h"
 #include "ScribbleArea.h"
-#include "MyBoardWidget.cpp"
 
 class GarticApp : public QMainWindow
 {
@@ -16,5 +15,5 @@ public:
 private:
     Ui::GarticAppClass ui;
     ScribbleArea* scribbleArea;
-    MyBoardWidget* boardArea;
+
 };

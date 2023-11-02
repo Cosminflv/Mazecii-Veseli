@@ -5,19 +5,22 @@
 #include <QPoint>
 #include <QWidget>
 #include <qpainterpath.h>
+#include <QPushButton>
 
 class ScribbleArea : public QWidget
 {
 public:
 	ScribbleArea(QWidget* parent = 0);
+
 	void setPenColor(const QColor& newColor);
 	void setPenWidth(int newWidth);
 
 	QColor getPenColor() const;
 	int penWidth() const;
 
-	//bool openImage(const QString& fileName);
-	//bool saveImage(const QString& fileName, const char* fileFormat);
+	~ScribbleArea();
+public slots:
+	void onClearButtonClicked();
 
 protected:
 	void mousePressEvent(QMouseEvent* event) override;
@@ -38,5 +41,7 @@ private:
 	QImage m_image;
 	QPoint m_lastPoint;
 	QPainterPath mPath;
+
+	QPushButton* mButton;
 };
 
