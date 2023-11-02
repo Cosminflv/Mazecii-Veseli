@@ -1,6 +1,6 @@
 ﻿#include "SubRound.h"
 
-SubRound::SubRound(Player* player, std::string word) : m_player(player), m_word(word)
+SubRound::SubRound(std::vector<Player*> players, std::string word) : m_players(players), m_word(word), m_counterGuessingPlayers(0), m_hasTimeEnded(false)
 {
 	m_duration = 60;
 }
@@ -29,38 +29,61 @@ int SubRound::GetSecond()
 	return static_cast<int>(elapsedTime.count());
 }
 
-void SubRound::CalculateScore(Player* player, std::string word)
+void SubRound::CalculateScore(std::vector<Player*> players, std::string word)
 {
-	bool hasGuessedCorrectly = false;
-	player->GetRole();
+	for (int i = 0; i < players.size(); i++)
+	{
+		bool hasGuessedCorrectly = false;
+		players[i]->GetRole();
 
-	if (player->GetRole() == PlayerRole::Painter)
-	{
-		SeeWord(word);
-	}
-	else if (player->GetRole() == PlayerRole::Guesser)
-	{
-		while (SubRound::GetSecond() < m_duration && !hasGuessedCorrectly)
+		if (players[i]->GetRole() == PlayerRole::Painter)
 		{
-			if (SubRound::GuessWord(word))
+			SeeWord(word);
+		}
+		else if (players[i]->GetRole() == PlayerRole::Guesser)
+		{
+			while (SubRound::GetSecond() < m_duration && !hasGuessedCorrectly)
 			{
-				hasGuessedCorrectly = true;
-				std::cout << "Guessed at second: " << SubRound::GetSecond() << std::endl;
-				if (SubRound::GetSecond() < m_duration / 2)
-					player->SetScore(100);
-				else
+				if (SubRound::GuessWord(word))
 				{
-					int score = static_cast<int>(std::round(((60.0 - SubRound::GetSecond()) * 100) / 30));
-					player->SetScore(score);
+					hasGuessedCorrectly = true;
+					m_counterGuessingPlayers++;
+					std::cout << "Guessed at second: " << SubRound::GetSecond() << std::endl;
+					if (SubRound::GetSecond() < m_duration / 2)
+					{
+						players[i]->SetScore(100);
+					}
+					else
+					{
+						int score = static_cast<int>(std::round(((60.0 - SubRound::GetSecond()) * 100) / 30));
+						players[i]->SetScore(score);
+					}
+					break;
 				}
-				break;
 			}
 		}
+		if (!hasGuessedCorrectly)
+		{
+			players[i]->SetScore(-50);
+			m_hasTimeEnded = true;
+		}
 	}
-	if (!hasGuessedCorrectly)
-	{
-		player->SetScore(-50);
-	}
+}
+
+bool SubRound::HaveAllPlayersGuessed()
+{
+	if (m_counterGuessingPlayers == m_players.size()-1)
+		return true;
+	return false;
+}
+
+bool SubRound::HasSubRoundEnded()
+{
+	if (HaveAllPlayersGuessed() == true)
+		return true;
+	else if (m_hasTimeEnded == true)
+		return true;
+	return false;
 }
 
 

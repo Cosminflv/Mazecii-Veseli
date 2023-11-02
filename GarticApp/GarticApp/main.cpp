@@ -37,8 +37,8 @@ int main(int argc, char* argv[])
 	}
 	
 	std::vector<Player*>playersInGame = game.GetPlayers();
-	Player* player = playersInGame[0];
-	SubRound runda(player, "ana");
+	//Player* player = playersInGame[0];
+	SubRound runda(playersInGame, "ana");
 	for (auto player : playersInGame)
 	{
 		output << player->GetPlayerStatus() << std::endl;

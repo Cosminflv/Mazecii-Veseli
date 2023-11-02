@@ -36,7 +36,6 @@ void mSubRound::CalculateScore(mPlayer* player, std::string word)
 {
 	bool hasGuessedCorrectly = false;
 	player->GetRole();
-
 	if (player->GetRole() == mPlayerRole::Painter)
 	{
 		SeeWord(word);

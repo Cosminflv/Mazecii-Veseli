@@ -10,6 +10,8 @@ namespace garticApp
 	export class mSubRound {
 	public:
 		mSubRound(mPlayer* player, std::string word);
+		//hasSubRoundEnded - dupa ce trec 60 de sec se terminna automat sau daca toti jucatorii ghicesc inainte de 60sec se trece la urmatoarea subrunda
+		//ajutator - atribut HaveAllPlayersGuessTheWord? ->  
 		void SeeWord(std::string word);
 		bool GuessWord(std::string word);
 		void StartRound();

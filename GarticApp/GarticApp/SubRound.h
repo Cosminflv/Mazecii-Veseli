@@ -7,16 +7,21 @@
 class SubRound
 {
 public:
-	SubRound(Player* player, std::string word);
+	SubRound(std::vector<Player*> players, std::string word);
 	void SeeWord(std::string word);
 	bool GuessWord(std::string word);
 	void StartRound();
 	int GetSecond();
-	void CalculateScore(Player* player, std::string word);
+	void CalculateScore(std::vector<Player*> players, std::string word);
+	bool HaveAllPlayersGuessed();
+	bool HasSubRoundEnded();
+
 private:
-	Player* m_player;
+	std::vector<Player*> m_players;
+	int m_counterGuessingPlayers;
 	std::string m_word;
 	int m_duration;
+	bool m_hasTimeEnded;
 	std::chrono::time_point<std::chrono::steady_clock> m_startTime;
 };
 
