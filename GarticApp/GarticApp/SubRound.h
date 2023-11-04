@@ -10,7 +10,7 @@ public:
 	SubRound(std::vector<Player*> players, std::string word);
 	void SeeWord(std::string word);
 	bool GuessWord(std::string word);
-	void StartRound();
+	void StartSubround();
 	int GetSecond();
 	void CalculateScore(std::vector<Player*> players, std::string word);
 	bool HaveAllPlayersGuessed();

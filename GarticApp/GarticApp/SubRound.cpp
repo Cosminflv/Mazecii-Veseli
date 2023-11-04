@@ -17,7 +17,7 @@ bool SubRound::GuessWord(std::string word)
 	std::getline(std::cin, enterWord);
 	return enterWord == word;
 }
-void SubRound::StartRound()
+void SubRound::StartSubround()
 {
 	m_startTime = std::chrono::steady_clock::now();
 }
@@ -48,6 +48,7 @@ void SubRound::CalculateScore(std::vector<Player*> players, std::string word)
 				{
 					hasGuessedCorrectly = true;
 					m_counterGuessingPlayers++;
+					players[i]->SetPlayerStatus(true);
 					std::cout << "Guessed at second: " << SubRound::GetSecond() << std::endl;
 					if (SubRound::GetSecond() < m_duration / 2)
 					{
