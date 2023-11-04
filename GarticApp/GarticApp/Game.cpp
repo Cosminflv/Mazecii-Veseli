@@ -1,15 +1,16 @@
 #include "Game.h"
 
-Game::Game(std::vector<Player*> players, std::map<Player*, int> leaderboard, std::vector<SubRound*> rounds):
+Game::Game(std::vector<Player*> players, std::map<Player*, int> leaderboard, std::vector<Round*> rounds) :
 	m_players(players),
-	m_leaderboard(leaderboard),
-	m_rounds(rounds)
+	m_leaderboard(leaderboard)
+
 {
+	m_rounds.resize(4);
 }
 
 Game::Game()
 {
-	
+
 }
 
 
@@ -18,7 +19,7 @@ std::vector<Player*> Game::GetPlayers() const
 	return m_players;
 }
 
-std::vector<SubRound*> Game::GetRounds() const
+std::vector<Round*> Game::GetRounds() const
 {
 	return m_rounds;
 }
@@ -32,10 +33,38 @@ void Game::PlayRound()
 
 }
 
+void Game::StartGame()
+{
+}
+
+void Game::EndGame()
+{
+	std::cout << "Jocul s-a incheiat!\n";
+	//afisare clasament
+	std::string choice;
+	std::cout << "Doriti sa reluati jocul? (Da/Nu): ";
+	std::cin >> choice;
+
+	if (choice == "Da") {
+		ResetGame();
+		StartGame();
+	}
+	else {
+		std::cout << "Jocul s-a incheiat.\n";
+	}
+}
+
+void Game::ResetGame()
+{
+	for (Player* player : m_players)
+		player->SetScore(0);
+	m_rounds.clear();
+}
+
 void Game::UpdateLeaderboard()
 {
 	m_leaderboard.clear();
-		for (SubRound* round : m_rounds) {
+		for (Round* round : m_rounds) {
 			for (Player* player : m_players) {
 				int roundScore = player->GetScore();
 				m_leaderboard[player] += roundScore;
@@ -48,7 +77,7 @@ void Game::AddPlayer(Player* player)
 	m_players.push_back(player);
 }
 
-void Game::AddRound(SubRound* round)
+void Game::AddRound(Round* round)
 {
 	m_rounds.push_back(round);
 }
