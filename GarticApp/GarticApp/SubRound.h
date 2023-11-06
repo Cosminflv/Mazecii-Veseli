@@ -18,7 +18,7 @@ public:
 	int GetSizeOfPlayers();
 private:
 	std::vector<Player*> m_players;
-	int m_counterGuessingPlayers;
+	int m_counterGuessingPlayers; //RENAME TO PAINTER
 	std::string m_word;
 	int m_duration;
 	bool m_hasTimeEnded;
