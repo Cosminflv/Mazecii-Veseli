@@ -10,7 +10,7 @@ public:
 	std::string GetUsername() const;
 	int16_t GetScore() const;
 	bool GetPlayerStatus() const;
-	virtual PlayerRole GetRole() = 0;
+	PlayerRole GetRole() const;
 	int SetScore(int points);
 	void SetPlayerStatus(bool status);
 	void SetPlayerRole(PlayerRole role);

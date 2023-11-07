@@ -1,6 +1,6 @@
 #include "Round.h"
 
-Round::Round(std::vector<SubRound*> subRounds): m_subRounds(subRounds)
+Round::Round(std::vector<SubRound*> subRounds) : m_subRounds{ subRounds }
 {
 }
 

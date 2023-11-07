@@ -1,8 +1,6 @@
 #include "GarticApp.h"
 #include <QtWidgets/QApplication>
 #include "Player.h"
-#include "GuesserPlayer.h"
-#include "PainterPlayer.h"
 
 #include "SubRound.h"
 #include <fstream>
@@ -22,18 +20,9 @@ int main(int argc, char* argv[])
 	for (std::ifstream input ("Input.txt"); !input.eof(); )
 	{
 		input >> username >> role >> score;
-		if (role == "Guesser")
-		{
-			PlayerRole Role = ConvertToRole(role);
-			Player* player = new GuesserPlayer(username, Role, score);
-			game.AddPlayer(player);
-		}
-		else if (role == "Painter")
-		{
-			PlayerRole Role = ConvertToRole(role);
-			Player* player = new PainterPlayer(username, Role, score);
-			game.AddPlayer(player);
-		}
+		PlayerRole Role = ConvertToRole(role);
+		Player* player = new Player(username, Role, score);
+		game.AddPlayer(player);
 	}
 	
 	std::vector<Player*>playersInGame = game.GetPlayers();

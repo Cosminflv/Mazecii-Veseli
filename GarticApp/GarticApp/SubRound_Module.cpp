@@ -3,7 +3,7 @@ using garticApp::mSubRound;
 using garticApp::mPlayer;
 using garticApp::mPlayerRole;
 
-mSubRound::mSubRound(mPlayer* player, std::string word) : m_player(player), m_word(word)
+mSubRound::mSubRound(mPlayer* player, std::string word) : m_player{ player }, m_word{ word }
 {
 	m_duration = 60;
 }

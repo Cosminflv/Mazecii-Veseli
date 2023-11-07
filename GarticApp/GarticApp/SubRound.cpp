@@ -1,6 +1,7 @@
 ﻿#include "SubRound.h"
 
-SubRound::SubRound(std::vector<Player*> players, std::string word) : m_players(players), m_word(word), m_counterGuessingPlayers(0), m_hasTimeEnded(false)
+SubRound::SubRound(std::vector<Player*> players, std::string word) 
+	: m_players{ players }, m_word{ word }, m_counterGuessingPlayers{ 0 }, m_hasTimeEnded{ false }
 {
 	m_duration = 60;
 }

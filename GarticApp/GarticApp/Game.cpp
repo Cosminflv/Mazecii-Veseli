@@ -1,8 +1,8 @@
 #include "Game.h"
 
 Game::Game(std::vector<Player*> players, std::map<Player*, int> leaderboard, std::vector<Round*> rounds) :
-	m_players(players),
-	m_leaderboard(leaderboard)
+	m_players{ players },
+	m_leaderboard{ leaderboard }
 
 {
 	m_rounds.resize(4);

@@ -3,7 +3,7 @@ using garticApp::mPlayer;
 using garticApp::mPlayerRole;
 
 mPlayer::mPlayer(const std::string& username, mPlayerRole role, int16_t score)
-	:m_username(username), m_role(role), m_score(score), m_hasPainted(false)
+	:m_username{ username }, m_role{ role }, m_score{ score }, m_hasPainted{ false }
 { }
 
 std::string mPlayer::GetUsername() const

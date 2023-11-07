@@ -1,7 +1,7 @@
 #include "Player.h"
 
 Player::Player(const std::string& username, PlayerRole role, int16_t score)
-	: m_username(username), m_role(role), m_score(score), m_hasPainted(false)
+	: m_username{ username }, m_role{ role }, m_score{ score }, m_hasPainted{ false }
 { }
 
 std::string Player::GetUsername() const
@@ -9,9 +9,9 @@ std::string Player::GetUsername() const
 	return m_username;
 }
 
-PlayerRole Player::GetRole()
+PlayerRole Player::GetRole() const
 {
-	return PlayerRole();
+	return m_role;
 }
 
 void Player::SetPlayerRole(PlayerRole role)
