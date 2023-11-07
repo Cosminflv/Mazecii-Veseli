@@ -24,6 +24,20 @@ std::vector<Round*> Game::GetRounds() const
 	return m_rounds;
 }
 
+bool Game::CheckUniquePlayerUsername(Player* player)
+{
+	std::set<std::string> setOfUsernames;
+	for (auto player : m_players)
+	{
+		setOfUsernames.insert(player->GetUsername());
+	}
+	if (setOfUsernames.find(player->GetUsername()) != setOfUsernames.end())
+	{
+		return false; // username was found => not unique
+	}
+	return true; // username was unique
+}
+
 std::map<Player*, int>Game::GetLeaderboard() const
 {
 	return m_leaderboard;

@@ -9,7 +9,6 @@ public:
 	void ResetStatus();
 	bool RoundIsOver();
 
-
 private:
 	std::vector<SubRound*>m_subRounds;
 	std::vector<Player*>m_players;

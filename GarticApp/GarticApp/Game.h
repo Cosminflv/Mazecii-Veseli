@@ -3,18 +3,16 @@
 #include<vector>
 #include "Round.h"
 #include<map>
+#include <set>
+
 class Game
 {
-private:
-	std::vector<Player*>m_players;
-	std::map<Player*, int>m_leaderboard;
-	std::vector<Round*>m_rounds;
-
 public:
 	Game(std::vector<Player*>players, std::map<Player*, int>leaderboard, std::vector<Round*>rounds);
 	Game();
 	std::vector<Player*> GetPlayers() const;
 	std::vector<Round*>GetRounds()const;
+	bool CheckUniquePlayerUsername(Player* player);
 	void AddPlayer(Player* player);
 	//no need to add rounds during a game,
 	//the number of rounds is given by the number of players
@@ -27,6 +25,10 @@ public:
 	void UpdateLeaderboard();
 	~Game();
 
+private:
+	std::vector<Player*>m_players;
+	std::map<Player*, int>m_leaderboard;
+	std::vector<Round*>m_rounds;
 };
 
 

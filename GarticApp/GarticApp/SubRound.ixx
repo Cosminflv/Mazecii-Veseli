@@ -17,6 +17,7 @@ namespace garticApp
 		void StartRound();
 		int GetSecond();
 		void CalculateScore(mPlayer* player, std::string word);
+
 	private:
 		mPlayer* m_player;
 		std::string m_word;

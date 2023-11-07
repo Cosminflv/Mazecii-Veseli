@@ -16,6 +16,7 @@ public:
 	bool HaveAllPlayersGuessed();
 	bool HasSubRoundEnded();
 	int GetSizeOfPlayers();
+
 private:
 	std::vector<Player*> m_players;
 	int m_counterGuessingPlayers; //RENAME TO PAINTER
