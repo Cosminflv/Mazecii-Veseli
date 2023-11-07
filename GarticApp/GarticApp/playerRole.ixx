@@ -10,5 +10,5 @@ namespace garticApp
 		Painter
 	};
 	export std::ostream& operator<< (std::ostream& os, mPlayerRole role);
-	export mPlayerRole ConvertToRole(const std::string& role);
+	export mPlayerRole mConvertToRole(const std::string& role);
 }

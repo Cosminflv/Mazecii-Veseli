@@ -14,7 +14,7 @@ std::ostream& garticApp:: operator<<(std::ostream& os, mPlayerRole role)
 	return os;
 }
 
-mPlayerRole garticApp::ConvertToRole(const std::string& role)
+mPlayerRole garticApp::mConvertToRole(const std::string& role)
 {
 	return role == "Guesser" ? mPlayerRole::Guesser : mPlayerRole::Painter;
 }

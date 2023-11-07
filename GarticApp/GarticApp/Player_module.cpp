@@ -44,5 +44,6 @@ void mPlayer::SetPlayerRole(mPlayerRole role)
 
 std::ostream& garticApp::operator<<(std::ostream& os, const mPlayer& player)
 {
-	return os << player.GetUsername() << " ";
+	return os << player.GetUsername() << " " << player.GetRole() << " " <<
+		player.GetScore() << " " << player.GetPlayerStatus() << std::endl;
 }
