@@ -2,6 +2,8 @@
 #include <chrono>
 #include <thread>
 #include <string>
+#include <cstdlib> //pentru functie de random
+#include <ctime> //pentru initializarea generatorului de numere aleatoare
 #include <iostream>
 #include "Player.h"
 class SubRound
@@ -12,11 +14,11 @@ public:
 	bool GuessWord(std::string word);
 	void StartSubround();
 	int GetSecond();
+	void ChoosePainter(std::vector<Player*>& players);
 	void CalculateScore(std::vector<Player*> players, std::string word);
 	bool HaveAllPlayersGuessed();
 	bool HasSubRoundEnded();
 	int GetSizeOfPlayers();
-
 private:
 	std::vector<Player*> m_players;
 	int m_counterGuessingPlayers; //RENAME TO PAINTER

@@ -30,6 +30,28 @@ int SubRound::GetSecond()
 	return static_cast<int>(elapsedTime.count());
 }
 
+void SubRound::ChoosePainter(std::vector<Player*>& players)
+{
+	// Inițializează generatorul de numere aleatoare
+	std::srand(static_cast<unsigned>(std::time(nullptr)));
+	std::vector<Player*> availablePainters;
+	for (Player* player : players)
+	{
+		if (!player->GetPlayerStatus())
+			availablePainters.push_back(player);
+	}
+	if (availablePainters.empty())
+	{
+		std::cout << "Au desenat toti jucatorii. Runda s-a terminat!";
+		return;
+	}
+
+	Player* selectedPainter = availablePainters[std::rand() % availablePainters.size()];
+	int indice=std::distance(players.begin(), std::find(players.begin(), players.end(), selectedPainter));
+	players[indice]->SetPlayerStatus(true);
+	std::cout << selectedPainter << " deseneaza!";
+}
+
 void SubRound::CalculateScore(std::vector<Player*> players, std::string word)
 {
 	for (int i = 0; i < players.size(); i++)
