@@ -1,17 +1,17 @@
 ﻿#include "SubRound.h"
 
-SubRound::SubRound(std::vector<Player*> players, std::string word) 
+SubRound::SubRound(std::vector<Player*> players,const std::string& word) 
 	: m_players{ players }, m_word{ word }, m_counterGuessingPlayers{ 0 }, m_hasTimeEnded{ false }
 {
 	m_duration = 60;
 }
 
-void SubRound::SeeWord(std::string word)
+void SubRound::SeeWord(const std::string &word)
 {
 	std::cout << "Your word is: " << word;
 }
 
-bool SubRound::GuessWord(std::string word)
+bool SubRound::GuessWord(const std::string &word)
 {
 	std::cout << "Enter your word: ";
 	std::string enterWord;
@@ -44,7 +44,7 @@ void SubRound::ChoosePainter(std::vector<Player*>& players)
 	std::cout << players[index] << " deseneaza!";
 }
 
-void SubRound::CalculateScore(std::vector<Player*> players, std::string word)
+void SubRound::CalculateScore(std::vector<Player*> players,const  std::string &word)
 {
 	for (int i = 0; i < players.size(); i++)
 	{

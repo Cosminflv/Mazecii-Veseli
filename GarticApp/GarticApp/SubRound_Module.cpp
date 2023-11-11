@@ -3,17 +3,17 @@ using garticApp::mSubRound;
 using garticApp::mPlayer;
 using garticApp::mPlayerRole;
 
-mSubRound::mSubRound(mPlayer* player, std::string word) : m_player{ player }, m_word{ word }
+mSubRound::mSubRound(mPlayer* player,const std::string& word) : m_player{ player }, m_word{ word }
 {
 	m_duration = 60;
 }
 
-void mSubRound::SeeWord(std::string word)
+void mSubRound::SeeWord(const std::string &word)
 {
 	std::cout << "Your word is: " << word;
 }
 
-bool mSubRound::GuessWord(std::string word)
+bool mSubRound::GuessWord(const std::string &word)
 {
 	std::cout << "Enter your word: ";
 	std::string enterWord;
@@ -46,7 +46,7 @@ void mSubRound::ChoosePainter(std::vector<mPlayer*>& players)
 	std::cout << players[index]<< " deseneaza!";
 }
 
-void mSubRound::CalculateScore(mPlayer* player, std::string word)
+void mSubRound::CalculateScore(mPlayer* player,const  std::string &word)
 {
 	bool hasGuessedCorrectly = false;
 	player->GetRole();
