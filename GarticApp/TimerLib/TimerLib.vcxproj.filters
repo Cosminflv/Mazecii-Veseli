@@ -18,5 +18,8 @@
     <ClCompile Include="TimerLib.cppm">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="timer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,9 +1,9 @@
 export module Timer;
 
-#include <chrono>
-#include <thread>
-#include <atomic>
-#include <functional>
+import <chrono>;
+import <thread>;
+import <atomic>;
+import <functional>;
 
 using Thread = std::thread;
 using AtomicBool = std::atomic<bool>;
@@ -18,11 +18,21 @@ public:
 	//Constructors
 	Timer(int total_minutes);
 
+	//Destructor
+	~Timer();
+
+	//Setters
+	void SetNotifyChange(TimerCallback newFunc);
+	void SetTimerResolution(int ms);
+
 
 	//Flow of the timer
 	void StartTimer();
 	void StopTimer();
 	void ResetTimer();
+
+private:
+	void Run();
 
 private:
 	Thread m_thread;
@@ -31,11 +41,12 @@ private:
 
 	AtomicBool m_running;
 
+	ConditionVariable m_cv;
+
 	std::chrono::milliseconds m_initialTime;
 	std::chrono::milliseconds m_remainingTime;
 	std::chrono::milliseconds m_toDecreaseTime;
 	std::chrono::milliseconds m_timerResolution;
 
 	TimerCallback m_notifyChange;
-
 };
