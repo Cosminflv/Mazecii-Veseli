@@ -1,7 +1,10 @@
-module;
+module; 
 import <iostream>;
+import <ctime>;
+import <cstdlib>;
 import <chrono>;
 import <thread>;
+import <string>;
 export module SubRound;
 export import playerRole;
 export import player;
@@ -10,18 +13,21 @@ namespace garticApp
 	export class mSubRound {
 	public:
 		mSubRound(mPlayer* player, std::string word);
-		//hasSubRoundEnded - dupa ce trec 60 de sec se terminna automat sau daca toti jucatorii ghicesc inainte de 60sec se trece la urmatoarea subrunda
-		//ajutator - atribut HaveAllPlayersGuessTheWord? ->  
 		void SeeWord(std::string word);
 		bool GuessWord(std::string word);
 		void StartRound();
 		int GetSecond();
+		void ChoosePainter(std::vector<mPlayer*>& players);
 		void CalculateScore(mPlayer* player, std::string word);
-
+		bool HaveAllPlayersGuessed();
+		bool HasSubRoundEnded();
+		int GetSizeOfPlayers();
 	private:
-		mPlayer* m_player;
+		std::vector<mPlayer*> m_player;
+		int m_counterGuessingPlayers;
 		std::string m_word;
 		int m_duration;
+		bool m_hasTimeEnded;
 		std::chrono::time_point<std::chrono::steady_clock> m_startTime;
 	};
 }

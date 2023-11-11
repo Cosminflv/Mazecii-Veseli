@@ -45,7 +45,6 @@ void SubRound::ChoosePainter(std::vector<Player*>& players)
 		std::cout << "Au desenat toti jucatorii. Runda s-a terminat!";
 		return;
 	}
-
 	Player* selectedPainter = availablePainters[std::rand() % availablePainters.size()];
 	int indice=std::distance(players.begin(), std::find(players.begin(), players.end(), selectedPainter));
 	players[indice]->SetPlayerStatus(true);

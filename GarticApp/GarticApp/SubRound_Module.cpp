@@ -1,4 +1,4 @@
-module SubRound;
+﻿module SubRound;
 using garticApp::mSubRound;
 using garticApp::mPlayer;
 using garticApp::mPlayerRole;
@@ -65,4 +65,23 @@ void mSubRound::CalculateScore(mPlayer* player, std::string word)
 	}
 }
 
+bool mSubRound::HaveAllPlayersGuessed()
+{
+	if (m_counterGuessingPlayers == m_player.size() - 1)
+		return true;
+	return false;
+}
 
+bool mSubRound::HasSubRoundEnded()
+{
+	if (HaveAllPlayersGuessed() == true)
+		return true;
+	else if (m_hasTimeEnded == true)
+		return true;
+	return false;
+}
+
+int mSubRound::GetSizeOfPlayers()
+{
+	return m_player.size();
+}
