@@ -79,6 +79,12 @@
     <ClCompile Include="Round.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="round.ixx">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Round_module.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h">

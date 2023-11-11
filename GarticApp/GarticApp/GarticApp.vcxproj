@@ -67,6 +67,17 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <EnableModules>true</EnableModules>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <EnableModules>true</EnableModules>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
@@ -103,6 +114,8 @@
     <ClCompile Include="PlayerRole_module.cpp" />
     <ClCompile Include="Player_module.cpp" />
     <ClCompile Include="Round.cpp" />
+    <ClCompile Include="round.ixx" />
+    <ClCompile Include="Round_module.cpp" />
     <ClCompile Include="SubRound.cpp" />
     <ClCompile Include="ScribbleArea.cpp" />
     <ClCompile Include="SubRound.ixx" />
