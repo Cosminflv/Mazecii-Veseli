@@ -2,8 +2,7 @@
 #include <chrono>
 #include <thread>
 #include <string>
-#include <cstdlib> //pentru functie de random
-#include <ctime> //pentru initializarea generatorului de numere aleatoare
+#include <random>
 #include <iostream>
 #include "Player.h"
 class SubRound

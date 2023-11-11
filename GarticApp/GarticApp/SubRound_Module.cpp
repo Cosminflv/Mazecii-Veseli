@@ -32,6 +32,20 @@ int mSubRound::GetSecond()
 	return static_cast<int>(elapsedTime.count());
 }
 
+void mSubRound::ChoosePainter(std::vector<mPlayer*>& players)
+{
+	if (players.empty()) {
+		std::cout << "Vectorul de jucatori este gol.\n";
+		return;
+	}
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<std::size_t> dis(0, players.size() - 1);
+	std::size_t index = dis(gen);
+	players[index]->SetPlayerStatus(true);
+	std::cout << players[index]<< " deseneaza!";
+}
+
 void mSubRound::CalculateScore(mPlayer* player, std::string word)
 {
 	bool hasGuessedCorrectly = false;

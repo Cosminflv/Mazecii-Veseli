@@ -1,7 +1,6 @@
 module; 
 import <iostream>;
-import <ctime>;
-import <cstdlib>;
+import <random>;
 import <chrono>;
 import <thread>;
 import <string>;
