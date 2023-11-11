@@ -25,6 +25,7 @@ public:
 	void SetNotifyChange(TimerCallback newFunc);
 	void SetTimerResolution(int ms);
 
+	bool IsTimeExpired();
 
 	//Flow of the timer
 	void StartTimer();
@@ -35,6 +36,8 @@ private:
 	void Run();
 
 private:
+	bool m_suspended;
+
 	Thread m_thread;
 
 	Mutex m_mutex;

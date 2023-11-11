@@ -11,6 +11,7 @@ Timer::Timer(int total_minutes)
 	, m_running{false}
 	, m_timerResolution{1}
 	, m_toDecreaseTime{0}
+	, m_suspended(false)
 {
 }
 
@@ -33,6 +34,11 @@ void Timer::SetTimerResolution(int ms)
 	m_timerResolution = static_cast<std::chrono::milliseconds>(ms);
 }
 
+bool Timer::IsTimeExpired()
+{
+	return m_remainingTime <= std::chrono::milliseconds(0);
+}
+
 void Timer::StartTimer()
 {
 	m_running = true;
@@ -44,6 +50,18 @@ void Timer::StartTimer()
 	}
 }
 
+void Timer::StopTimer()
+{
+	m_suspended = true;
+
+	m_cv.notify_all();
+}
+
+void Timer::ResetTimer()
+{
+	m_remainingTime = std::chrono::milliseconds(m_initialTime);
+}
+
 void Timer::Run()
 {
 	while (m_running)
@@ -52,6 +70,10 @@ void Timer::Run()
 
 		std::unique_lock lk(m_mutex);
 		m_cv.wait_for(lk, m_timerResolution, [&] { return !m_running; });
+
+		if (m_suspended) {
+			continue;
+		}
 
 		auto elapsedTime = TimeInMillis(initial_time);
 		m_toDecreaseTime += elapsedTime;
