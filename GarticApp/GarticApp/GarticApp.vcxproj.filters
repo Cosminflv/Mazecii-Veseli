@@ -85,6 +85,12 @@
     <ClCompile Include="Round_module.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="game.ixx">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game_module.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h">

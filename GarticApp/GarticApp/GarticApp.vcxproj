@@ -107,6 +107,8 @@
   <ItemGroup>
     <ClCompile Include="ChatWidget.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="game.ixx" />
+    <ClCompile Include="Game_module.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="player.ixx" />
     <ClCompile Include="PlayerRole.cpp" />
