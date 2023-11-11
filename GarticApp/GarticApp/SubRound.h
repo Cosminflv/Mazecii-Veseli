@@ -8,13 +8,13 @@
 class SubRound
 {
 public:
-	SubRound(std::vector<Player*> players, std::string word);
-	void SeeWord(std::string word);
-	bool GuessWord(std::string word);
+	SubRound(std::vector<Player*> players,const std::string &word);
+	void SeeWord(const std::string &word);
+	bool GuessWord(const std::string &word);
 	void StartSubround();
 	int GetSecond();
 	void ChoosePainter(std::vector<Player*>& players);
-	void CalculateScore(std::vector<Player*> players, std::string word);
+	void CalculateScore(std::vector<Player*> players,const std::string &word);
 	bool HaveAllPlayersGuessed();
 	bool HasSubRoundEnded();
 	int GetSizeOfPlayers();

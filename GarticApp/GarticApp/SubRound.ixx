@@ -11,13 +11,13 @@ namespace garticApp
 {
 	export class mSubRound {
 	public:
-		mSubRound(mPlayer* player, std::string word);
-		void SeeWord(std::string word);
-		bool GuessWord(std::string word);
+		mSubRound(mPlayer* player,const std::string& word);
+		void SeeWord(const std::string &word);
+		bool GuessWord(const std::string &word);
 		void StartRound();
 		int GetSecond();
 		void ChoosePainter(std::vector<mPlayer*>& players);
-		void CalculateScore(mPlayer* player, std::string word);
+		void CalculateScore(mPlayer* player,const std::string& word);
 		bool HaveAllPlayersGuessed();
 		bool HasSubRoundEnded();
 		int GetSizeOfPlayers();
