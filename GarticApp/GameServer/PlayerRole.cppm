@@ -11,5 +11,5 @@ namespace garticApp
 	};
 
 	export std::ostream& operator<< (std::ostream& os, PlayerRole role);
-	export PlayerRole mConvertToRole(const std::string& role);
+	export PlayerRole ConvertToRole(const std::string& role);
 }
