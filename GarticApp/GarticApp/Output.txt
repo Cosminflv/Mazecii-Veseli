@@ -1,9 +1,3 @@
-0
 user1 Guesser 74 0
-
-0
-user2 Painter 78 0
-
-0
+user2 Painter 78 1
 user3 Guesser 90 0
-

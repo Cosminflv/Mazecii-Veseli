@@ -40,9 +40,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SubRound.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -51,9 +48,6 @@
     </ClCompile>
     <ClCompile Include="player.ixx">
       <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerRole.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="playerRole.ixx">
       <Filter>Header Files</Filter>
@@ -93,16 +87,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SubRound.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerRole.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ScribbleArea.h">

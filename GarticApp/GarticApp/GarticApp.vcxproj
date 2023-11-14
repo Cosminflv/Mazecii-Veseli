@@ -109,9 +109,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="game.ixx" />
     <ClCompile Include="Game_module.cpp" />
-    <ClCompile Include="Player.cpp" />
     <ClCompile Include="player.ixx" />
-    <ClCompile Include="PlayerRole.cpp" />
     <ClCompile Include="playerRole.ixx" />
     <ClCompile Include="PlayerRole_module.cpp" />
     <ClCompile Include="Player_module.cpp" />
@@ -131,8 +129,6 @@
   <ItemGroup>
     <ClInclude Include="ChatWidget.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="PlayerRole.h" />
     <ClInclude Include="Round.h" />
     <ClInclude Include="SubRound.h" />
     <ClInclude Include="ScribbleArea.h" />

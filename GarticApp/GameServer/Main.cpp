@@ -6,7 +6,9 @@
 #include <sqlite_orm/sqlite_orm.h>
 namespace sql = sqlite_orm;
 
-int main() {
+int main()
+{
+	std::cout << "see\n";
 	crow::SimpleApp app;
 	app.port(18080).multithreaded().run();
 
