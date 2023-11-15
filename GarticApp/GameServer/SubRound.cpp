@@ -25,6 +25,7 @@ void SubRound::StartRound()
 	m_startTime = std::chrono::steady_clock::now();
 }
 
+//aici trebuie sa ma folosesc codul lui Cosmin
 int SubRound::GetSecond()
 {
 	auto currentTime = std::chrono::steady_clock::now();

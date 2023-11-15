@@ -36,6 +36,9 @@
     <ClCompile Include="SubRound.cppm">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="Round.cppm">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="PlayerData.txt">
