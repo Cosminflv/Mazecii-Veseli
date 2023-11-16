@@ -13,9 +13,9 @@ namespace garticApp
 		std::string GetUsername() const;
 		int16_t GetScore() const;
 		bool GetPlayerStatus() const;
+		PlayerRole GetRole() const;
 		int SetScore(int points);
 		void SetPlayerStatus(bool status);
-		PlayerRole GetRole() const;
 		std::string GetRoleAsString() const;
 		void SetPlayerRole(PlayerRole role);
 	private:

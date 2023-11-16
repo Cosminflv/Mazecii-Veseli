@@ -6,6 +6,7 @@
 #include <QWidget>
 #include <qpainterpath.h>
 #include <QPushButton>
+#include <QColorDialog>
 
 class ScribbleArea : public QWidget
 {
@@ -21,6 +22,7 @@ public:
 	~ScribbleArea();
 private slots:
 	void onClearButtonClicked();
+	void onColorButtonClicked();
 
 protected:
 	void mousePressEvent(QMouseEvent* event) override;
@@ -43,5 +45,6 @@ private:
 	QPainterPath mPath;
 
 	QPushButton* m_clearButton;
+	QPushButton* m_selectColor;
 };
 

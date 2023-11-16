@@ -7,9 +7,11 @@ import <string>;
 export module SubRound;
 export import PlayerRole;
 export import Player;
+
 namespace garticApp
 {
-	export class SubRound {
+	export class SubRound 
+	{
 	public:
 		SubRound(Player* player, const std::string& word);
 		void SeeWord(const std::string& word);
@@ -21,6 +23,7 @@ namespace garticApp
 		bool HaveAllPlayersGuessed();
 		bool HasSubRoundEnded();
 		int GetSizeOfPlayers();
+
 	private:
 		std::vector<Player*> m_player;
 		int m_counterGuessingPlayers;
