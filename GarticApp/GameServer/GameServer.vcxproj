@@ -144,6 +144,7 @@
     <ClCompile Include="Player.cppm" />
     <ClCompile Include="PlayerRole.cpp" />
     <ClCompile Include="PlayerRole.cppm" />
+    <ClCompile Include="Round.cpp" />
     <ClCompile Include="Round.cppm" />
     <ClCompile Include="SubRound.cpp" />
     <ClCompile Include="SubRound.cppm" />

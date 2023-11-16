@@ -7,10 +7,10 @@ import<vector>;
 
 namespace garticApp
 {
-	export class mRound
+	export class Round
 	{
 	public:
-		mRound(std::vector<SubRound*>subRounds);
+		Round(std::vector<SubRound*>subRounds);
 		int GetSizeOfRound();
 		void ResetStatus();
 		bool RoundIsOver();
