@@ -2,21 +2,21 @@
 #include <QtWidgets/QApplication>
 //#include "Player.h"
 //#include "SubRound.h"
-#include <fstream>
-#include <vector>
+//#include <fstream>
+//#include <vector>
 //#include"Game.h"
 
-import player;
-import playerRole;
-
-int main(int argc, char* argv[])
-{
-	QApplication a(argc, argv);
-	GarticApp w;
-	std::ofstream output("Output.txt");
-	std::string username;
-	std::string role;
-	int16_t score;
+//import player;
+//import playerRole;
+//
+//int main(int argc, char* argv[])
+//{
+//	QApplication a(argc, argv);
+//	GarticApp w;
+//	std::ofstream output("Output.txt");
+//	std::string username;
+//	std::string role;
+//	int16_t score;
 	//Game game;
 
 	//for (std::ifstream input ("Input.txt"); !input.eof(); )
@@ -43,7 +43,7 @@ int main(int argc, char* argv[])
 	//	output << *player << "\n";
 	//}
 
-	using namespace garticApp;
+	/*using namespace garticApp;
 	std::vector<mPlayer*> players;
 	for (std::ifstream input("Input.txt"); !input.eof();)
 	{
@@ -57,8 +57,8 @@ int main(int argc, char* argv[])
 	{
 		output << *player;
 	}
-	
-	w.show();
-	return a.exec();
-}
+
+	w.show();*/
+	/*return a.exec();
+}*/
 

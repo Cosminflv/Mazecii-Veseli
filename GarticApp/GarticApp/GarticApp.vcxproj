@@ -106,35 +106,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ChatWidget.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="game.ixx" />
-    <ClCompile Include="Game_module.cpp" />
-    <ClCompile Include="player.ixx" />
-    <ClCompile Include="playerRole.ixx" />
-    <ClCompile Include="PlayerRole_module.cpp" />
-    <ClCompile Include="Player_module.cpp" />
-    <ClCompile Include="Round.cpp" />
-    <ClCompile Include="round.ixx" />
-    <ClCompile Include="Round_module.cpp" />
-    <ClCompile Include="SubRound.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="ScribbleArea.cpp" />
-    <ClCompile Include="SubRound.ixx" />
-    <ClCompile Include="SubRound_Module.cpp" />
     <QtRcc Include="GarticApp.qrc" />
     <QtUic Include="GarticApp.ui" />
     <QtMoc Include="GarticApp.h" />
     <ClCompile Include="GarticApp.cpp" />
-    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChatWidget.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="Round.h" />
-    <ClInclude Include="SubRound.h" />
     <ClInclude Include="ScribbleArea.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Input.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
