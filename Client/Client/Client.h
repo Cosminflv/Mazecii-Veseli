@@ -4,6 +4,7 @@
 #include "ui_Client.h"
 #include "ScribbleArea.h"
 #include "ChatWidget.h"
+#include "TimerWidget.h"
 
 class Client : public QMainWindow
 {
@@ -17,5 +18,6 @@ private:
     Ui::ClientClass ui;
     ScribbleArea* m_scribbleArea;
     ChatWidget* m_chatWidget;
+    TimerWidget* m_timerWidget;
 
 };

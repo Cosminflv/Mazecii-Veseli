@@ -90,6 +90,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ScribbleArea.cpp" />
+    <ClCompile Include="TimerWidget.cpp" />
     <QtRcc Include="Client.qrc" />
     <QtUic Include="Client.ui" />
     <QtMoc Include="Client.h" />
@@ -100,6 +101,7 @@
   <ItemGroup>
     <ClInclude Include="ChatWidget.h" />
     <ClInclude Include="ScribbleArea.h" />
+    <ClInclude Include="TimerWidget.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

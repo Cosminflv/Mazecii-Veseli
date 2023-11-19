@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GarticApp", "GarticApp\GarticApp.vcxproj", "{16073F3F-DD62-4A70-AC43-C4082FCC4C94}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tests", "Tests\Tests.vcxproj", "{908822D0-5821-4C72-BAA4-679BD4BF8550}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TimerLib", "TimerLib\TimerLib.vcxproj", "{5C64A57E-2274-410C-9B20-E2686B706F62}"
@@ -19,14 +17,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{16073F3F-DD62-4A70-AC43-C4082FCC4C94}.Debug|x64.ActiveCfg = Debug|x64
-		{16073F3F-DD62-4A70-AC43-C4082FCC4C94}.Debug|x64.Build.0 = Debug|x64
-		{16073F3F-DD62-4A70-AC43-C4082FCC4C94}.Debug|x86.ActiveCfg = Debug|x64
-		{16073F3F-DD62-4A70-AC43-C4082FCC4C94}.Debug|x86.Build.0 = Debug|x64
-		{16073F3F-DD62-4A70-AC43-C4082FCC4C94}.Release|x64.ActiveCfg = Release|x64
-		{16073F3F-DD62-4A70-AC43-C4082FCC4C94}.Release|x64.Build.0 = Release|x64
-		{16073F3F-DD62-4A70-AC43-C4082FCC4C94}.Release|x86.ActiveCfg = Release|x64
-		{16073F3F-DD62-4A70-AC43-C4082FCC4C94}.Release|x86.Build.0 = Release|x64
 		{908822D0-5821-4C72-BAA4-679BD4BF8550}.Debug|x64.ActiveCfg = Debug|x64
 		{908822D0-5821-4C72-BAA4-679BD4BF8550}.Debug|x64.Build.0 = Debug|x64
 		{908822D0-5821-4C72-BAA4-679BD4BF8550}.Debug|x86.ActiveCfg = Debug|Win32

@@ -1,19 +1,28 @@
 #include "Client.h"
 
-Client::Client(QWidget *parent)
+Client::Client(QWidget* parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
 
     m_scribbleArea = new ScribbleArea;
     m_chatWidget = new ChatWidget;
+    m_timerWidget = new TimerWidget;
 
-    QSplitter* splitter = new QSplitter(Qt::Horizontal); // Create a horizontal splitter
+    QGridLayout* mainLayout = new QGridLayout(this);
 
-    splitter->addWidget(m_scribbleArea);
-    splitter->addWidget(m_chatWidget);
+    mainLayout->addWidget(m_timerWidget, 0, 0);
+    mainLayout->addWidget(m_scribbleArea, 1, 0);
+    mainLayout->addWidget(m_chatWidget, 1, 1);
 
-    setCentralWidget(splitter); // Set the splitter as the central widget
+    mainLayout->setColumnStretch(0, 5);
+    mainLayout->setColumnStretch(1, 2);
+
+    QWidget* centralWidget = new QWidget(this);
+
+    centralWidget->setLayout(mainLayout);
+
+    setCentralWidget(centralWidget);
 
     setWindowTitle(tr("Scribble"));
 }
@@ -22,4 +31,5 @@ Client::~Client()
 {
     delete m_scribbleArea;
     delete m_chatWidget;
+    delete m_timerWidget;
 }
