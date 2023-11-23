@@ -12,7 +12,8 @@ private slots:
 	void sendMessage();
 
 private:
-	void setupUI() {
+	void setupUI()
+	{
 		QVBoxLayout* layout = new QVBoxLayout;
 
 		messageDisplay = new QTextEdit(this);
@@ -20,6 +21,7 @@ private:
 		layout->addWidget(messageDisplay);
 
 		messageInput = new QLineEdit(this);
+		messageInput->setFixedHeight(35);
 		layout->addWidget(messageInput);
 
 		
@@ -28,6 +30,7 @@ private:
 
 		setLayout(layout);
 	}
+
 protected:
 	void keyPressEvent(QKeyEvent* e) override;
 

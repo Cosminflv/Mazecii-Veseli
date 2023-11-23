@@ -49,12 +49,18 @@
     <ClCompile Include="TimerWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChatWidget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ScribbleArea.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerWidget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
