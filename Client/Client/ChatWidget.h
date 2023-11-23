@@ -1,5 +1,6 @@
 #pragma once
 #include <QtWidgets>
+#include <QKeyEvent>
 
 class ChatWidget : public QWidget
 {
@@ -21,11 +22,15 @@ private:
 		messageInput = new QLineEdit(this);
 		layout->addWidget(messageInput);
 
+		
 		sendButton = new QPushButton("Send", this);
 		layout->addWidget(sendButton);
 
 		setLayout(layout);
 	}
+protected:
+	void keyPressEvent(QKeyEvent* e) override;
+
 private:
 	QTextEdit* messageDisplay;
 	QLineEdit* messageInput;

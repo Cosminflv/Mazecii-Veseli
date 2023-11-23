@@ -21,3 +21,11 @@ void ChatWidget::sendMessage()
 		messageInput->clear();
 	}
 }
+
+void ChatWidget::keyPressEvent(QKeyEvent* e)
+{
+	if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)
+	{
+		sendMessage();
+	}
+}
