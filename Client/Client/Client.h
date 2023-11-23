@@ -19,5 +19,4 @@ private:
     ScribbleArea* m_scribbleArea;
     ChatWidget* m_chatWidget;
     TimerWidget* m_timerWidget;
-
 };

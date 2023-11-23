@@ -57,8 +57,10 @@
     <ClInclude Include="ScribbleArea.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TimerWidget.h">
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="TimerWidget.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
+    </QtMoc>
   </ItemGroup>
 </Project>

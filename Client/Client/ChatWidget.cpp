@@ -4,6 +4,7 @@ ChatWidget::ChatWidget(QWidget* parent)
 {
 	setupUI();
 	connect(sendButton, &QPushButton::clicked, this, &ChatWidget::sendMessage);
+
 }
 
 ChatWidget::~ChatWidget()

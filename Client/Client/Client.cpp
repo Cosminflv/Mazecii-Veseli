@@ -25,6 +25,13 @@ Client::Client(QWidget* parent)
     setCentralWidget(centralWidget);
 
     setWindowTitle(tr("Scribble"));
+
+    connect(m_timerWidget, &TimerWidget::timerUpdate, [this](const QString& timeString, const QPalette& textColor)
+        {
+            m_timerWidget->GetTimeLabel()->setText(timeString);
+            m_timerWidget->GetTimeLabel()->setPalette(textColor);
+        });
+
 }
 
 Client::~Client()

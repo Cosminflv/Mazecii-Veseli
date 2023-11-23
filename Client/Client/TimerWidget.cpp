@@ -1,5 +1,4 @@
 #include "TimerWidget.h"
-
 #include <QVBoxLayout>
 
 TimerWidget::TimerWidget()
@@ -8,23 +7,31 @@ TimerWidget::TimerWidget()
 	m_timer->setInterval(1000);
 	connect(m_timer, &QTimer::timeout, this, &TimerWidget::updateTimer);
 
-	timeLabel = new QLabel("00:00", this);
+	m_timeLabel = new QLabel("01:00", this);
 
-	timeLabel->setFont(QFont("Arial", 10));
-	timeLabel->setAlignment(Qt::AlignTop);
+	m_timeLabel->setFont(QFont("Arial", 20));
+	m_timeLabel->setAlignment(Qt::AlignTop);
 
 	QVBoxLayout* layout = new QVBoxLayout(this);
-	layout->addWidget(timeLabel);
+	layout->addWidget(m_timeLabel);
 	setLayout(layout);
 
-	m_seconds = 0;
+	m_seconds = 60;
 
 	m_timer->start();
+
 }
 
-void TimerWidget::updateTimer() {
-	m_seconds += 1;
-	if (m_seconds <= 60) {
+QLabel* TimerWidget::GetTimeLabel() const
+{
+	return m_timeLabel;
+}
+
+void TimerWidget::updateTimer() 
+{
+	if (m_seconds > 0)
+	{
+		m_seconds -= 1;
 		int minutes = m_seconds / 60;
 		int seconds = m_seconds % 60;
 
@@ -32,10 +39,24 @@ void TimerWidget::updateTimer() {
 			.arg(minutes, 2, 10, QChar('0'))
 			.arg(seconds, 2, 10, QChar('0'));
 
-		timeLabel->setText(timeString);
+		m_timeLabel->setText(timeString);
+
+		QPalette textColor = m_timeLabel->palette();
+
+		if (m_seconds <= 60 && m_seconds > 10)
+		{
+			textColor.setColor(QPalette::WindowText, Qt::darkGreen);
+		}
+		else
+		{
+			textColor.setColor(QPalette::WindowText, Qt::red);
+		}
+
+		emit timerUpdate(timeString, textColor);
 	}
-	else {
+	else
+	{
 		m_timer->stop();
-		timeLabel->setText("01:00");
+		m_timeLabel->setText("00:00");
 	}
 }

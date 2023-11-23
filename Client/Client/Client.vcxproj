@@ -101,7 +101,7 @@
   <ItemGroup>
     <ClInclude Include="ChatWidget.h" />
     <ClInclude Include="ScribbleArea.h" />
-    <ClInclude Include="TimerWidget.h" />
+    <QtMoc Include="TimerWidget.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

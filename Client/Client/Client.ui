@@ -12,7 +12,7 @@
   </property>
   <property name="font">
    <font>
-    <family>Segoe UI Variable Display Semib</family>
+    <family>Arial</family>
     <pointsize>10</pointsize>
     <bold>true</bold>
    </font>
@@ -27,7 +27,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>24</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
