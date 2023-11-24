@@ -1,7 +1,9 @@
-module SubRound;
-using garticApp::SubRound;
-using garticApp::Player;
-using garticApp::PlayerRole;
+#include "Round.h"
+#include "SubRound.h"
+
+#include <iostream>
+#include <string>
+#include <random>
 
 SubRound::SubRound(Player* player, const std::string& word) : m_player{ player }, m_word{ word }
 {

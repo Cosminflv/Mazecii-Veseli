@@ -3,13 +3,10 @@
 
 #include <crow.h>
 #include <sqlite_orm/sqlite_orm.h>
+#include "Player.h"
 namespace sql = sqlite_orm;
-
-import PlayerRole;
-import Player;
 int main()
 {
-	using namespace garticApp;
 	std::string username;
 	std::string role;
 	int16_t score;

@@ -1,6 +1,5 @@
-module Player;
-using garticApp::Player;
-using garticApp::PlayerRole;
+#include "Player.h"
+#include <iostream>
 
 Player::Player(const std::string& username, PlayerRole role, int16_t score)
 	:m_username{ username }, m_role{ role }, m_score{ score }, m_hasPainted{ false }
@@ -47,7 +46,7 @@ void Player::SetPlayerRole(PlayerRole role)
 	this->m_role = role;
 }
 
-std::ostream& garticApp::operator<<(std::ostream& os, const Player& player)
+std::ostream& operator<<(std::ostream& os, const Player& player)
 {
 	return os << "Username: "<<player.GetUsername() << "\nRole: " << player.GetRole() << "\nScore: " <<
 		player.GetScore() << "\nStatus: " << player.GetPlayerStatus() << "\n";

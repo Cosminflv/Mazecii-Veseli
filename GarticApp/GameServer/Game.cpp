@@ -1,7 +1,8 @@
-module Game;
-using garticApp::Player;
-using garticApp::Round;
-using garticApp::Game;
+#include "Game.h"
+#include "Player.h"
+#include "Round.h"
+#include <map>
+#include <set>
 
 Game::Game(std::vector<Player*> players, std::map<Player*, int> leaderboard, std::vector<Round*> rounds) :
 	m_players{ players },

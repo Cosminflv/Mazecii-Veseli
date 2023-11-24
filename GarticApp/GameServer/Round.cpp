@@ -1,7 +1,4 @@
-module Round;
-using garticApp::Player;
-using garticApp::SubRound;
-using garticApp::Round;
+#include "Round.h"
 
 Round::Round(std::vector<SubRound*> subRounds) : m_subRounds{ subRounds }
 {

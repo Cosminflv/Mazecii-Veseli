@@ -140,19 +140,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Game.cppm" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Player.cppm" />
     <ClCompile Include="PlayerRole.cpp" />
-    <ClCompile Include="PlayerRole.cppm" />
     <ClCompile Include="Round.cpp" />
-    <ClCompile Include="Round.cppm" />
     <ClCompile Include="SubRound.cpp" />
-    <ClCompile Include="SubRound.cppm" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="PlayerData.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerRole.h" />
+    <ClInclude Include="Round.h" />
+    <ClInclude Include="SubRound.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
