@@ -4,7 +4,7 @@
 #include <map>
 #include <set>
 
-Game::Game(std::vector<Player*> players, std::map<Player*, int> leaderboard, std::vector<Round*> rounds) :
+Game::Game(std::vector<PlayerPtr> players, std::map<PlayerPtr, int> leaderboard, std::vector<RoundPtr> rounds) :
 	m_players{ players },
 	m_leaderboard{ leaderboard }
 
@@ -18,17 +18,17 @@ Game::Game()
 }
 
 
-std::vector<Player*> Game::GetPlayers() const
+std::vector<PlayerPtr> Game::GetPlayers() const
 {
 	return m_players;
 }
 
-std::vector<Round*> Game::GetRounds() const
+std::vector<RoundPtr> Game::GetRounds() const
 {
 	return m_rounds;
 }
 
-bool Game::CheckUniquePlayerUsername(Player* player)
+bool Game::CheckUniquePlayerUsername(PlayerPtr player)
 {
 	std::set<std::string> setOfUsernames;
 	for (auto player : m_players)
@@ -42,7 +42,7 @@ bool Game::CheckUniquePlayerUsername(Player* player)
 	return true; // username was unique
 }
 
-std::map<Player*, int>Game::GetLeaderboard() const
+std::map<PlayerPtr, int>Game::GetLeaderboard() const
 {
 	return m_leaderboard;
 }
@@ -53,6 +53,7 @@ void Game::PlayRound()
 
 void Game::StartGame()
 {
+	
 }
 
 void Game::EndGame()
@@ -74,7 +75,7 @@ void Game::EndGame()
 
 void Game::ResetGame()
 {
-	for (Player* player : m_players)
+	for (PlayerPtr player : m_players)
 		player->SetScore(0);
 	m_rounds.clear();
 }
@@ -82,20 +83,19 @@ void Game::ResetGame()
 void Game::UpdateLeaderboard()
 {
 	m_leaderboard.clear();
-	for (Round* round : m_rounds) {
-		for (Player* player : m_players) {
+	for (RoundPtr round : m_rounds) {
+		for (PlayerPtr player : m_players) {
 			int roundScore = player->GetScore();
 			m_leaderboard[player] += roundScore;
 		}
 	}
-
 }
-void Game::AddPlayer(Player* player)
+void Game::AddPlayer(PlayerPtr player)
 {
 	m_players.push_back(player);
 }
 
-void Game::AddRound(Round* round)
+void Game::AddRound(RoundPtr round)
 {
 	m_rounds.push_back(round);
 }

@@ -1,22 +1,26 @@
 #pragma once 
-#include <vector>
-#include <map>
 #include "Player.h"
 #include "Round.h"
+
+#include <vector>
+#include <map>
+
+using PlayerPtr = std::shared_ptr<class Player>;
+using RoundPtr = std::shared_ptr<class Round>;
 
 class Game
 {
 public:
-	Game(std::vector<Player*>players, std::map<Player*, int>leaderboard, std::vector<Round*>rounds);
+	Game(std::vector<PlayerPtr>players, std::map<PlayerPtr, int> leaderboard, std::vector<RoundPtr> rounds);
 	Game();
-	std::vector<Player*> GetPlayers() const;
-	std::vector<Round*>GetRounds()const;
-	bool CheckUniquePlayerUsername(Player* player);
-	void AddPlayer(Player* player);
+	std::vector<PlayerPtr> GetPlayers() const;
+	std::vector<RoundPtr>GetRounds()const;
+	bool CheckUniquePlayerUsername(PlayerPtr player);
+	void AddPlayer(PlayerPtr player);
 	//no need to add rounds during a game,
 	//the number of rounds is given by the number of players
-	void AddRound(Round* round);
-	std::map<Player*, int>GetLeaderboard()const;
+	void AddRound(RoundPtr round);
+	std::map<PlayerPtr, int>GetLeaderboard()const;
 	void PlayRound();
 	void StartGame();
 	void EndGame();
@@ -25,8 +29,8 @@ public:
 	~Game();
 
 private:
-	std::vector<Player*>m_players;
-	std::map<Player*, int>m_leaderboard;
-	std::vector<Round*>m_rounds;
+	std::vector<PlayerPtr>m_players;
+	std::map<PlayerPtr, int>m_leaderboard;
+	std::vector<RoundPtr>m_rounds;
 };
 
