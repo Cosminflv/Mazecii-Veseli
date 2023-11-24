@@ -1,6 +1,7 @@
 #pragma once 
 #include "Player.h"
 #include "Round.h"
+//#include "Timer.h"
 
 #include <vector>
 #include <map>
@@ -14,7 +15,7 @@ public:
 	Game(std::vector<PlayerPtr>players, std::map<PlayerPtr, int> leaderboard, std::vector<RoundPtr> rounds);
 	Game();
 	std::vector<PlayerPtr> GetPlayers() const;
-	std::vector<RoundPtr>GetRounds()const;
+	std::vector<RoundPtr>GetRounds() const;
 	bool CheckUniquePlayerUsername(PlayerPtr player);
 	void AddPlayer(PlayerPtr player);
 	//no need to add rounds during a game,
@@ -32,5 +33,6 @@ private:
 	std::vector<PlayerPtr>m_players;
 	std::map<PlayerPtr, int>m_leaderboard;
 	std::vector<RoundPtr>m_rounds;
+	//Timer m_timer;
 };
 

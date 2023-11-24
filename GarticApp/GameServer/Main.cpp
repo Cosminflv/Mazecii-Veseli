@@ -4,7 +4,9 @@
 #include <crow.h>
 #include <sqlite_orm/sqlite_orm.h>
 #include "Player.h"
+
 namespace sql = sqlite_orm;
+
 int main()
 {
 	std::string username;

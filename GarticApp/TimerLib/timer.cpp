@@ -1,4 +1,4 @@
-module Timer;
+#include "Timer.h"
 
 static std::chrono::milliseconds TimeInMillis(const std::chrono::steady_clock::time_point& initial_time)
 {

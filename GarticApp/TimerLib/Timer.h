@@ -1,9 +1,9 @@
-export module Timer;
+#pragma once
 
-import <chrono>;
-import <thread>;
-import <atomic>;
-import <functional>;
+#include <chrono>;
+#include <thread>;
+#include <atomic>;
+#include <functional>;
 
 using Thread = std::thread;
 using AtomicBool = std::atomic<bool>;
@@ -12,8 +12,7 @@ using Mutex = std::mutex;
 using TimerCallback = std::function<void()>;
 
 
-export class _declspec(dllexport) Timer
-{
+class Timer {
 public:
 	//Constructors
 	Timer(int total_minutes);

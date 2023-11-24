@@ -7,12 +7,11 @@
 Game::Game(std::vector<PlayerPtr> players, std::map<PlayerPtr, int> leaderboard, std::vector<RoundPtr> rounds) :
 	m_players{ players },
 	m_leaderboard{ leaderboard }
-
 {
 	m_rounds.resize(4);
 }
 
-Game::Game()
+Game::Game() 
 {
 
 }
