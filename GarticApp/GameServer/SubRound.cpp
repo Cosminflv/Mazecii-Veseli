@@ -22,6 +22,7 @@ bool SubRound::GuessWord(const std::string& word)
 	std::getline(std::cin, enterWord);
 	return enterWord == word;
 }
+
 void SubRound::StartRound()
 {
 	m_startTime = std::chrono::steady_clock::now();
@@ -47,6 +48,15 @@ void SubRound::ChoosePainter(std::vector<Player*>& players)
 	std::size_t index = dis(gen);
 	players[index]->SetPlayerStatus(true);
 	std::cout << players[index] << " deseneaza!";
+}
+
+std::string SubRound::SelectRandomWord()
+{
+	std::string words[] = { "cuvinte", "din", "baza", "de", "date" }; // de modificat pentru a fi preluate cuvintele din Baza de Date
+	int numWords = sizeof(words) / sizeof(words[0]);
+	srand(static_cast<unsigned int>(time(nullptr)));
+	int randomIndex = rand() % numWords;
+	return words[randomIndex];
 }
 
 void SubRound::CalculateScore(Player* player, const  std::string& word)

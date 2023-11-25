@@ -6,6 +6,7 @@ public:
 	SubRound(Player* player, const std::string& word);
 	void SeeWord(const std::string& word);
 	bool GuessWord(const std::string& word);
+	std::string SelectRandomWord(); // cuvintele ar trebui preluate din baza de date, dar deocamdata incerc sa implementez
 	void StartRound();
 	int GetSecond();
 	void ChoosePainter(std::vector<Player*>& players);

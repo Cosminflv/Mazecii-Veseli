@@ -38,7 +38,6 @@ void TimerWidget::updateTimer()
 		QString timeString = QString("%1:%2")
 			.arg(minutes, 2, 10, QChar('0'))
 			.arg(seconds, 2, 10, QChar('0'));
-
 		m_timeLabel->setText(timeString);
 
 		QPalette textColor = m_timeLabel->palette();
@@ -51,7 +50,6 @@ void TimerWidget::updateTimer()
 		{
 			textColor.setColor(QPalette::WindowText, Qt::red);
 		}
-
 		emit timerUpdate(timeString, textColor);
 	}
 	else
