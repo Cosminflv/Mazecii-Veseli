@@ -7,6 +7,7 @@ public:
 	void SeeWord(const std::string& word);
 	bool GuessWord(const std::string& word);
 	std::string SelectRandomWord(); // cuvintele ar trebui preluate din baza de date, dar deocamdata incerc sa implementez
+	void ShowLetters(std::string& word);
 	void StartRound();
 	int GetSecond();
 	void ChoosePainter(std::vector<Player*>& players);

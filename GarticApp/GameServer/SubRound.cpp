@@ -59,6 +59,20 @@ std::string SubRound::SelectRandomWord()
 	return words[randomIndex];
 }
 
+void SubRound::ShowLetters(std::string& word)
+{
+	int sizeOfWord = word.size();
+	int maxLettersToShow = sizeOfWord / 2;
+	std::string displayWord(sizeOfWord, '_');
+	std::cout << "Ghiceste cuvantul: " << displayWord << std::endl;
+	for (int i = 0; i < maxLettersToShow; ++i) {
+		std::this_thread::sleep_for(std::chrono::seconds(30)); //de modificat pentru a fi pus timer-ul general.
+		int randomIndex = rand() % sizeOfWord;
+		displayWord[randomIndex] = word[randomIndex];
+		std::cout << "Litera " << i + 1 << ": " << displayWord << std::endl;
+	}
+}
+
 void SubRound::CalculateScore(Player* player, const  std::string& word)
 {
 	bool hasGuessedCorrectly = false;
