@@ -1,6 +1,5 @@
-#include "Round.h"
+﻿#include "Round.h"
 #include "SubRound.h"
-
 #include <iostream>
 #include <string>
 #include <random>
@@ -50,6 +49,68 @@ void SubRound::ChoosePainter(std::vector<Player*>& players)
 	std::cout << players[index] << " deseneaza!";
 }
 
+
+void SubRound::CalculateScore(Player* player, const std::string& word, const std::vector<Player*>& opponents)
+{
+	player->GetRole();
+	if (player->GetRole() == PlayerRole::Guesser)
+	{
+		bool hasGuessedCorrectly = false;
+		if (player->GetRole() == PlayerRole::Guesser)
+		{
+			while (SubRound::GetSecond() < m_duration && !hasGuessedCorrectly)
+			{
+				if (SubRound::GuessWord(word))
+				{
+					hasGuessedCorrectly = true;
+					std::cout << "Guessed at second: " << SubRound::GetSecond() << std::endl; //de modificat cu timer-ul din DLL
+					if (SubRound::GetSecond() < m_duration / 2)
+						player->SetScore(100);
+					else
+					{
+						int score = static_cast<int>(std::round(((60.0 - SubRound::GetSecond()) * 100) / 30));
+						player->SetScore(score);
+					}
+					break;
+				}
+			}
+		}
+		if (!hasGuessedCorrectly)
+		{
+			player->SetScore(-50);
+		}
+	}
+	if (player->GetRole() == PlayerRole::Painter)
+	{
+		SeeWord(word);
+		double opponentsAverageTime = 0.0;
+		int numOpponents = 0;
+
+		for (const Player* opponent : opponents)
+		{
+			if (opponent->GetRole() == PlayerRole::Guesser && opponent->GetScore() == 100)
+			{
+			//	opponentsAverageTime += opponent.GetSecond();
+				numOpponents++;
+				//DE GANDIT MAI BINE CUM POATE FI ACEASTA FUNCTIE IMPLEMENTATA
+			}
+		}
+		if (numOpponents > 0)
+		{
+			opponentsAverageTime /= numOpponents;
+
+			int painterScore = static_cast<int>(std::round(((60.0 - opponentsAverageTime) * 100) / 60));
+			player->SetScore(painterScore);
+		}
+		else
+		{
+			// Nu există adversari care au ghicit corect
+			player->SetScore(-100);
+		}
+	}
+}
+
+
 std::string SubRound::SelectRandomWord()
 {
 	std::string words[] = { "cuvinte", "din", "baza", "de", "date" }; // de modificat pentru a fi preluate cuvintele din Baza de Date
@@ -70,39 +131,6 @@ void SubRound::ShowLetters(std::string& word)
 		int randomIndex = rand() % sizeOfWord;
 		displayWord[randomIndex] = word[randomIndex];
 		std::cout << "Litera " << i + 1 << ": " << displayWord << std::endl;
-	}
-}
-
-void SubRound::CalculateScore(Player* player, const  std::string& word)
-{
-	bool hasGuessedCorrectly = false;
-	player->GetRole();
-	if (player->GetRole() == PlayerRole::Painter)
-	{
-		SeeWord(word);
-	}
-	else if (player->GetRole() == PlayerRole::Guesser)
-	{
-		while (SubRound::GetSecond() < m_duration && !hasGuessedCorrectly)
-		{
-			if (SubRound::GuessWord(word))
-			{
-				hasGuessedCorrectly = true;
-				std::cout << "Guessed at second: " << SubRound::GetSecond() << std::endl;
-				if (SubRound::GetSecond() < m_duration / 2)
-					player->SetScore(100);
-				else
-				{
-					int score = static_cast<int>(std::round(((60.0 - SubRound::GetSecond()) * 100) / 30));
-					player->SetScore(score);
-				}
-				break;
-			}
-		}
-	}
-	if (!hasGuessedCorrectly)
-	{
-		player->SetScore(-50);
 	}
 }
 

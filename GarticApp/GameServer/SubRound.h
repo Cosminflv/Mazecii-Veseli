@@ -11,7 +11,7 @@ public:
 	void StartRound();
 	int GetSecond();
 	void ChoosePainter(std::vector<Player*>& players);
-	void CalculateScore(Player* player, const std::string& word);
+	void CalculateScore(Player* player, const std::string& word, const std::vector<Player*>& opponents);
 	bool HaveAllPlayersGuessed();
 	bool HasSubRoundEnded();
 	int GetSizeOfPlayers();
