@@ -9,12 +9,12 @@ SubRound::SubRound(const std::string& word, const int numberOfPlayers) : m_word{
 	m_duration = 60;
 }
 
-void SubRound::SeeWord(const std::string& word)
+void SubRound::SeeWord(const std::string& word) const
 {
 	std::cout << "Your word is: " << word;
 }
 
-bool SubRound::GuessWord(const std::string& word)
+bool SubRound::GuessWord(const std::string& word) const
 {
 	std::cout << "Enter your word: ";
 	std::string enterWord;
@@ -28,7 +28,7 @@ void SubRound::StartRound()
 }
 
 //aici trebuie sa ma folosesc codul lui Cosmin
-int SubRound::GetSecond()
+int SubRound::GetSecond() const
 {
 	auto currentTime = std::chrono::steady_clock::now();
 	auto elapsedTime = std::chrono::duration_cast<std::chrono::seconds>(currentTime - m_startTime);
@@ -50,7 +50,7 @@ void SubRound::ChoosePainter(std::vector<Player*>& players)
 }
 
 
-void SubRound::CalculateScore(const PlayerPtr& player, const std::string& word, const std::vector<PlayerPtr>& opponents)
+void SubRound::CalculateScore(const PlayerPtr& player, const std::string& word, const std::vector<PlayerPtr>& opponents) const
 {
 	player->GetRole();
 	if (player->GetRole() == PlayerRole::Guesser)
@@ -111,7 +111,7 @@ void SubRound::CalculateScore(const PlayerPtr& player, const std::string& word, 
 }
 
 
-std::string SubRound::SelectRandomWord()
+std::string SubRound::SelectRandomWord() const
 {
 	std::string words[] = { "cuvinte", "din", "baza", "de", "date" }; // de modificat pentru a fi preluate cuvintele din Baza de Date
 	int numWords = sizeof(words) / sizeof(words[0]);
@@ -120,7 +120,7 @@ std::string SubRound::SelectRandomWord()
 	return words[randomIndex];
 }
 
-void SubRound::ShowLetters(std::string& word)
+void SubRound::ShowLetters(std::string& word) const
 {
 	int sizeOfWord = word.size();
 	int maxLettersToShow = sizeOfWord / 2;
@@ -134,14 +134,14 @@ void SubRound::ShowLetters(std::string& word)
 	}
 }
 
-bool SubRound::HaveAllPlayersGuessed()
+bool SubRound::HaveAllPlayersGuessed() const
 {
 	if (m_counterGuessingPlayers == m_numberOfPlayers - 1)
 		return true;
 	return false;
 }
 
-bool SubRound::HasSubRoundEnded()
+bool SubRound::HasSubRoundEnded() const
 {
 	if (HaveAllPlayersGuessed() == true)
 		return true;

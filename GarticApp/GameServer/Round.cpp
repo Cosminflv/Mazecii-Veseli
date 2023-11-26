@@ -4,18 +4,18 @@ Round::Round(std::vector<SubRound*> subRounds, int numberOfPlayers) : m_subRound
 {
 }
 
-int Round::GetSizeOfRound()
+int Round::GetSizeOfRound() const
 {
 	return m_subRounds[0]->getNumberOfPlayers();
 }
 
-void Round::ResetStatus(std::vector<PlayerPtr>& players)
+void Round::ResetStatus(std::vector<PlayerPtr>& players) const
 {
 	for (PlayerPtr player : players)
 		player->SetPlayerStatus(false);
 }
 
-bool Round::RoundIsOver(std::vector<PlayerPtr>& players)
+bool Round::RoundIsOver(std::vector<PlayerPtr>& players) const
 {
 	uint16_t contor = 0;
 	for (PlayerPtr player : players)

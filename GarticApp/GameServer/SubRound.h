@@ -7,16 +7,16 @@ class SubRound
 {
 public:
 	SubRound(const std::string& word, int numberOfPlayers);
-	void SeeWord(const std::string& word);
-	bool GuessWord(const std::string& word);
-	std::string SelectRandomWord(); // cuvintele ar trebui preluate din baza de date, dar deocamdata incerc sa implementez
-	void ShowLetters(std::string& word);
+	void SeeWord(const std::string& word) const;
+	bool GuessWord(const std::string& word) const;
+	std::string SelectRandomWord() const; // cuvintele ar trebui preluate din baza de date, dar deocamdata incerc sa implementez
+	void ShowLetters(std::string& word) const;
 	void StartRound();
-	int GetSecond();
+	int GetSecond() const;
 	void ChoosePainter(std::vector<Player*>& players);
-	void CalculateScore(const PlayerPtr& player, const std::string& word, const std::vector<PlayerPtr>& opponents);
-	bool HaveAllPlayersGuessed();
-	bool HasSubRoundEnded();
+	void CalculateScore(const PlayerPtr& player, const std::string& word, const std::vector<PlayerPtr>& opponents) const;
+	bool HaveAllPlayersGuessed() const;
+	bool HasSubRoundEnded() const;
 	int getNumberOfPlayers() const;
 
 private:

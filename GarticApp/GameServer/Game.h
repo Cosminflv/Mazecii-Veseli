@@ -16,7 +16,7 @@ public:
 	Game();
 	std::vector<PlayerPtr> GetPlayers() const;
 	std::vector<RoundPtr>GetRounds() const;
-	bool CheckUniquePlayerUsername(PlayerPtr player);
+	bool CheckUniquePlayerUsername(PlayerPtr player) const;
 	void AddPlayer(PlayerPtr player);
 	//no need to add rounds during a game,
 	//the number of rounds is given by the number of players
