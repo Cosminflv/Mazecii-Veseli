@@ -1,29 +1,29 @@
 #include "Round.h"
 
-Round::Round(std::vector<SubRound*> subRounds) : m_subRounds{ subRounds }
+Round::Round(std::vector<SubRound*> subRounds, int numberOfPlayers) : m_subRounds{ subRounds }, m_numberOfPlayers{ numberOfPlayers }
 {
 }
 
 int Round::GetSizeOfRound()
 {
-	return m_subRounds[0]->GetSizeOfPlayers();
+	return m_subRounds[0]->getNumberOfPlayers();
 }
 
-void Round::ResetStatus()
+void Round::ResetStatus(std::vector<PlayerPtr>& players)
 {
-	for (Player* player : m_players)
+	for (PlayerPtr player : players)
 		player->SetPlayerStatus(false);
 }
 
-bool Round::RoundIsOver()
+bool Round::RoundIsOver(std::vector<PlayerPtr>& players)
 {
 	uint16_t contor = 0;
-	for (Player* player : m_players)
+	for (PlayerPtr player : players)
 		if (player->GetPlayerStatus() == true)
 			contor++;
-	if (contor == m_players.size())
+	if (contor == players.size())
 	{
-		ResetStatus();
+		ResetStatus(players);
 		return true;
 	}
 	return false;

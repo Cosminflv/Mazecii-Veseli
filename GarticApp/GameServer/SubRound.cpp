@@ -4,7 +4,7 @@
 #include <string>
 #include <random>
 
-SubRound::SubRound(Player* player, const std::string& word) : m_player{ player }, m_word{ word }
+SubRound::SubRound(const std::string& word, const int numberOfPlayers) : m_word{ word }, m_numberOfPlayers{ numberOfPlayers }
 {
 	m_duration = 60;
 }
@@ -50,12 +50,12 @@ void SubRound::ChoosePainter(std::vector<Player*>& players)
 }
 
 
-void SubRound::CalculateScore(Player* player, const std::string& word, const std::vector<Player*>& opponents)
+void SubRound::CalculateScore(const PlayerPtr& player, const std::string& word, const std::vector<PlayerPtr>& opponents)
 {
 	player->GetRole();
 	if (player->GetRole() == PlayerRole::Guesser)
 	{
-		bool hasGuessedCorrectly = false;
+		bool hasGuessedCorrectly = false; 
 		if (player->GetRole() == PlayerRole::Guesser)
 		{
 			while (SubRound::GetSecond() < m_duration && !hasGuessedCorrectly)
@@ -86,7 +86,7 @@ void SubRound::CalculateScore(Player* player, const std::string& word, const std
 		double opponentsAverageTime = 0.0;
 		int numOpponents = 0;
 
-		for (const Player* opponent : opponents)
+		for (const PlayerPtr opponent : opponents)
 		{
 			if (opponent->GetRole() == PlayerRole::Guesser && opponent->GetScore() == 100)
 			{
@@ -136,7 +136,7 @@ void SubRound::ShowLetters(std::string& word)
 
 bool SubRound::HaveAllPlayersGuessed()
 {
-	if (m_counterGuessingPlayers == m_player.size() - 1)
+	if (m_counterGuessingPlayers == m_numberOfPlayers - 1)
 		return true;
 	return false;
 }
@@ -150,7 +150,7 @@ bool SubRound::HasSubRoundEnded()
 	return false;
 }
 
-int SubRound::GetSizeOfPlayers()
+int SubRound::getNumberOfPlayers() const
 {
-	return m_player.size();
+	return m_numberOfPlayers;
 }

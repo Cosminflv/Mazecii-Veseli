@@ -6,13 +6,13 @@
 class Round
 {
 public:
-	Round(std::vector<SubRound*>subRounds);
+	Round(std::vector<SubRound*>subRounds, const int numberOfPlayers);
 	int GetSizeOfRound();
-	void ResetStatus();
-	bool RoundIsOver();
+	void ResetStatus(std::vector<PlayerPtr>& players);
+	bool RoundIsOver(std::vector<PlayerPtr>& players);
 
 private:
 	std::vector<SubRound*>m_subRounds;
-	std::vector<Player*>m_players;
+	int m_numberOfPlayers;
 };
 

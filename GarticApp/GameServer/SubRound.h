@@ -1,9 +1,12 @@
 #pragma once
 #include <vector>
+
+using PlayerPtr = std::shared_ptr<class Player>;
+
 class SubRound
 {
 public:
-	SubRound(Player* player, const std::string& word);
+	SubRound(const std::string& word, int numberOfPlayers);
 	void SeeWord(const std::string& word);
 	bool GuessWord(const std::string& word);
 	std::string SelectRandomWord(); // cuvintele ar trebui preluate din baza de date, dar deocamdata incerc sa implementez
@@ -11,14 +14,14 @@ public:
 	void StartRound();
 	int GetSecond();
 	void ChoosePainter(std::vector<Player*>& players);
-	void CalculateScore(Player* player, const std::string& word, const std::vector<Player*>& opponents);
+	void CalculateScore(const PlayerPtr& player, const std::string& word, const std::vector<PlayerPtr>& opponents);
 	bool HaveAllPlayersGuessed();
 	bool HasSubRoundEnded();
-	int GetSizeOfPlayers();
+	int getNumberOfPlayers() const;
 
 private:
-	std::vector<Player*> m_player;
 	int m_counterGuessingPlayers;
+	int m_numberOfPlayers;
 	std::string m_word;
 	int m_duration;
 	bool m_hasTimeEnded;
