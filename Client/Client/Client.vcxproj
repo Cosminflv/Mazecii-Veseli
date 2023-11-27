@@ -89,6 +89,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ColorWidget.cpp" />
     <ClCompile Include="PlayerWidget.cpp" />
     <ClCompile Include="ScribbleArea.cpp" />
     <ClCompile Include="TimerWidget.cpp" />
@@ -101,6 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChatWidget.h" />
+    <QtMoc Include="ColorWidget.h" />
     <ClInclude Include="PlayerWidget.h" />
     <ClInclude Include="ScribbleArea.h" />
     <QtMoc Include="TimerWidget.h" />
