@@ -3,7 +3,8 @@
 ChatWidget::ChatWidget(QWidget* parent)
 {
 	setupUI();
-	connect(sendButton, &QPushButton::clicked, this, &ChatWidget::sendMessage);
+	//connect(sendButton, &QPushButton::clicked, this, &ChatWidget::sendMessage);
+	messageInput->setFont(QFont("Arial", 11));
 
 }
 
@@ -11,7 +12,7 @@ ChatWidget::~ChatWidget()
 {
 	delete messageDisplay;
 	delete messageInput;
-	delete sendButton;
+	//delete sendButton;
 }
 
 void ChatWidget::sendMessage()

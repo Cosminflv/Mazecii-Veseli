@@ -25,8 +25,8 @@ private:
 		layout->addWidget(messageInput);
 
 		
-		sendButton = new QPushButton("Send", this);
-		layout->addWidget(sendButton);
+	//	sendButton = new QPushButton("Send", this);
+	//	layout->addWidget(sendButton);
 
 		setLayout(layout);
 	}
@@ -37,6 +37,6 @@ protected:
 private:
 	QTextEdit* messageDisplay;
 	QLineEdit* messageInput;
-	QPushButton* sendButton;
+	//QPushButton* sendButton;
 };
 

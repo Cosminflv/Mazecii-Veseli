@@ -21,11 +21,9 @@ void PlayerWidget::setUpPlayerUI()
 {
 	QVBoxLayout* layout = new QVBoxLayout(this);
 	m_playerList = new QTextEdit(this);
-	
+	m_playerList->setReadOnly(true);
+	layout->addWidget(m_playerList);
 	/*cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:18080/playerinfo" });
 
 	auto players = crow::json::load(response.text);*/
-
-	m_playerList->setReadOnly(true);
-	layout->addWidget(m_playerList);
 }

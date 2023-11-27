@@ -1,6 +1,5 @@
 #pragma once
 #include <QtWidgets>
-#include <QtWidgets>
 #include <QPushButton>
 #include <QColorDialog>
 
@@ -22,15 +21,15 @@ private:
         "#FF0000", // Qt::red
         "#00FF00", // Qt::green
         "#66ccff", // blue
-        "#ffff00", // Qt::yellow
-        "#ff3399", //pink
+        "#ffdb4d", // yellow
+        "#ff3399", // pink
         "#804000", // brown
         "#FFFFFF", // Qt::white
         "#b30000", // dark red       
         "#006600", // dark green       
-        "#0047b3",  //dark blue       
+        "#0047b3", // dark blue       
         "#ff9933", // orange        
-        "#9966ff", //purple       
-        "#4d4d4d"  //gray
+        "#9966ff", // purple       
+        "#4d4d4d"  // gray
     };
 };

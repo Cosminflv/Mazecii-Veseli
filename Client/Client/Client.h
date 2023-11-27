@@ -6,6 +6,7 @@
 #include "ChatWidget.h"
 #include "TimerWidget.h"
 #include "PlayerWidget.h"
+#include "ColorWidget.h"
 
 class Client : public QMainWindow
 {
@@ -21,4 +22,5 @@ private:
     ChatWidget* m_chatWidget;
     TimerWidget* m_timerWidget;
     PlayerWidget* m_playerWidget;
+    ColorWidget* m_colorWidget;
 };
