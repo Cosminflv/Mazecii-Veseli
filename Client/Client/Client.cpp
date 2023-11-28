@@ -10,11 +10,13 @@ Client::Client(QWidget* parent)
     m_timerWidget = new TimerWidget;
     m_playerWidget = new PlayerWidget;
     m_colorWidget = new ColorWidget;
+    m_wordWidget = new WordWidget;
 
     m_scribbleArea->setFixedHeight(500);
     m_chatWidget->setFixedHeight(500);
     m_playerWidget->setFixedHeight(400);
     m_colorWidget->setFixedHeight(100);
+    m_wordWidget->setFixedSize(200, 50);
 
     QGridLayout* mainLayout = new QGridLayout(this);
 
@@ -23,6 +25,9 @@ Client::Client(QWidget* parent)
     mainLayout->addWidget(m_colorWidget, 2, 0);
     mainLayout->addWidget(m_scribbleArea, 1, 1, 2, 1); // Row 1, Column 1, Row Span 2, Column Span 1
     mainLayout->addWidget(m_chatWidget, 1, 2, 3, 1); // Row 0, Column 2, Row Span 3, Column Span 1
+    mainLayout->addWidget(m_wordWidget, 0, 1, 1, 3);
+
+    mainLayout->setAlignment(m_wordWidget, Qt::AlignCenter);
 
     mainLayout->setColumnStretch(0, 4);
     mainLayout->setColumnStretch(1, 11);
@@ -30,6 +35,8 @@ Client::Client(QWidget* parent)
     mainLayout->setRowStretch(0, 1);
     mainLayout->setRowStretch(1, 3);
     mainLayout->setRowStretch(2, 2);
+
+    m_wordWidget->displayWord("D:\\_IOANA\\Documents\\0_AN_II_SEM_I\\MC\\GarticApp\\Client\\Client\\Input.txt", m_timerWidget);
 
     QWidget* centralWidget = new QWidget(this);
     centralWidget->setLayout(mainLayout);

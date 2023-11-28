@@ -27,6 +27,11 @@ QLabel* TimerWidget::GetTimeLabel() const
 	return m_timeLabel;
 }
 
+int TimerWidget::GetSeconds() const
+{
+	return m_seconds;
+}
+
 void TimerWidget::updateTimer() 
 {
 	if (m_seconds > 0)

@@ -1,5 +1,6 @@
 #pragma once
 #include <QtWidgets>
+#include <vector>
 
 class PlayerWidget: public QWidget
 {
@@ -11,6 +12,6 @@ private:
 	void setUpPlayerUI();
 
 private:
-	QTextEdit* m_playerList;
+	QListWidget* m_playerList;
 };
 

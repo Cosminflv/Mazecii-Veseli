@@ -55,6 +55,9 @@
     <ClCompile Include="ColorWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="WordWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChatWidget.h">
@@ -66,6 +69,9 @@
     <ClInclude Include="PlayerWidget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="WordWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="TimerWidget.h">
@@ -74,5 +80,13 @@
     <QtMoc Include="ColorWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Input.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="Players.txt">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>
