@@ -6,10 +6,12 @@ using PlayerPtr = std::shared_ptr<class Player>;
 class SubRound
 {
 public:
+	std::string SelectRandomWord() const; // cuvintele ar trebui preluate din baza de date, dar deocamdata incerc sa implementez
+	//cuvantul returnat din SelectRandowWord va fi transmis prin parametru in restul functiilor de mai jos
+	SubRound();
 	SubRound(const std::string& word, int numberOfPlayers);
 	void SeeWord(const std::string& word) const;
 	bool GuessWord(const std::string& word) const;
-	std::string SelectRandomWord() const; // cuvintele ar trebui preluate din baza de date, dar deocamdata incerc sa implementez
 	void ShowLetters(std::string& word) const;
 	void StartRound();
 	int GetSecond() const;

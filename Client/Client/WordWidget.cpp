@@ -1,6 +1,8 @@
-#include "WordWidget.h"
+﻿#include "WordWidget.h"
+#include <QString>
 
 WordWidget::WordWidget(QWidget* parent)
+    :QWidget(parent)
 {
 	QVBoxLayout* layout = new QVBoxLayout(this);
 	m_word = new QLabel(this);
@@ -56,4 +58,3 @@ void WordWidget::displayWord(const QString& path, TimerWidget* timer)
 
     file.close();
 }
-

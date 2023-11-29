@@ -1,5 +1,5 @@
 #pragma once
-
+#include <WinSock2.h>
 #include <QtWidgets/QMainWindow>
 #include "ui_Client.h"
 #include "ScribbleArea.h"
@@ -8,6 +8,13 @@
 #include "PlayerWidget.h"
 #include "ColorWidget.h"
 #include "WordWidget.h"
+#include <cpr/cpr.h>
+#include <iostream>
+#include <numeric>
+#include <sstream>
+#include <regex>
+#include <string>
+#include <crow.h>
 
 class Client : public QMainWindow
 {

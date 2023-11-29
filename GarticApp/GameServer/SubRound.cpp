@@ -4,6 +4,15 @@
 #include <string>
 #include <random>
 
+
+SubRound::SubRound() :
+	m_counterGuessingPlayers(0),
+	m_numberOfPlayers(0),
+	m_word(""),
+	m_duration(0),
+	m_hasTimeEnded(false)
+{}
+
 SubRound::SubRound(const std::string& word, const int numberOfPlayers) : m_word{ word }, m_numberOfPlayers{ numberOfPlayers }
 {
 	m_duration = 60;

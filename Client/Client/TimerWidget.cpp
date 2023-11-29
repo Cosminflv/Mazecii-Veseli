@@ -5,7 +5,7 @@ TimerWidget::TimerWidget()
 {
 	m_timer = new QTimer(this);
 	m_timer->setInterval(1000);
-	connect(m_timer, &QTimer::timeout, this, &TimerWidget::updateTimer);
+	connect(m_timer, &QTimer::timeout, this, &TimerWidget::updateTimer);	
 
 	m_timeLabel = new QLabel("01:00", this);
 

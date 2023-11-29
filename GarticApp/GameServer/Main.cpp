@@ -4,6 +4,7 @@
 #include <crow.h>
 #include <sqlite_orm/sqlite_orm.h>
 #include "Player.h"
+#include "SubRound.h"
 
 namespace sql = sqlite_orm;
 
@@ -29,12 +30,13 @@ int main()
 	}
 	std::cout << "\n----------------------------------------------------------------\n";
 	
+	SubRound subround;
+
 	crow::SimpleApp app;
 
 	CROW_ROUTE(app, "/playerinfo")([&players]()
 		{
 			std::vector<crow::json::wvalue> playersJson;
-
 			for (const auto& player : players)
 			{
 				crow::json::wvalue p
@@ -47,6 +49,5 @@ int main()
 			}
 			return crow::json::wvalue{ playersJson };
 		});
-
-	app.port(18080).multithreaded().run();
+	
 }
