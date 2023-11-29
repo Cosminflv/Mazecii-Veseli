@@ -58,3 +58,30 @@ void WordWidget::displayWord(const QString& path, TimerWidget* timer)
 
     file.close();
 }
+
+void WordWidget::fetchWordFromServer()
+{
+    cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:18080/word" });
+
+    // Verifică dacă cererea a fost cu succes
+    if (response.error) {
+        // Handle error
+        std::cerr << "Error: " << response.error.message << std::endl;
+    }
+    else {
+        // Parsează răspunsul JSON
+        auto jsonResponse = crow::json::load(response.text);
+
+        // Verifică dacă parsarea a fost cu succes
+        if (jsonResponse) {
+            std::string wordValue = jsonResponse["word"].s();
+
+            // Utilizează cuvântul în cadrul aplicației (afișare, stocare, etc.)
+            std::cout << "Random Word: " << wordValue << std::endl;
+        }
+        else {
+            // Handle JSON parsing error
+            std::cerr << "Error parsing JSON response" << std::endl;
+        }
+    }
+}

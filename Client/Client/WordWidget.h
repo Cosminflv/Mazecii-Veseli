@@ -16,6 +16,7 @@ public:
 	std::pair<size_t, QChar> GetRandomLetter(const QString& word);
 	QString FormWord(const QString& word);
 	void displayWord(const QString& path, TimerWidget* timer);
+	void fetchWordFromServer(); //adaugat de gabita pt test
 
 private:
 	QLabel* m_word;
