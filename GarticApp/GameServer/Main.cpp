@@ -49,5 +49,12 @@ int main()
 			}
 			return crow::json::wvalue{ playersJson };
 		});
+	 CROW_ROUTE(app, "/word")([&subround]() {
+		std::string randomWord = subround.SelectRandomWord();
+		crow::json::wvalue wordJson;
+		wordJson["word"] = randomWord;
+		return crow::json::wvalue{ wordJson };
+		});
+	 app.port(18080).multithreaded().run();
 	
 }
