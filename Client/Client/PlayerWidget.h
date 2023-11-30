@@ -1,4 +1,8 @@
 #pragma once
+#include <cpr/cpr.h>
+#include <crow.h>
+#include <sstream>
+#include <regex>
 #include <QtWidgets>
 #include <vector>
 
@@ -10,6 +14,7 @@ public:
 
 private:
 	void setUpPlayerUI();
+	QString fromJsonToQString(const crow::json::detail::r_string value);
 
 private:
 	QListWidget* m_playerList;

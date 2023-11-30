@@ -8,13 +8,9 @@
 #include "PlayerWidget.h"
 #include "ColorWidget.h"
 #include "WordWidget.h"
-#include <cpr/cpr.h>
 #include <iostream>
 #include <numeric>
-#include <sstream>
-#include <regex>
-#include <string>
-#include <crow.h>
+
 
 class Client : public QMainWindow
 {
