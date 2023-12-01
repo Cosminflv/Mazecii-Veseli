@@ -1,4 +1,5 @@
 ﻿#include "WordWidget.h"
+#include "ClientExceptions.h"
 #include <QString>
 
 WordWidget::WordWidget(QWidget* parent)
@@ -36,41 +37,20 @@ void WordWidget::displayWord(TimerWidget* timer)
 {
 	std::string wordString = fetchWordFromServer();
 
-	if (wordString == "not found") {
-		m_word->setText(FormWord("Word not loaded"));
-		return;
-	}
 	QString wordToDisplay = QString::fromUtf8(wordString.c_str(), static_cast<int>(wordString.size()));
 
-	m_word->setText(wordToDisplay);
+	m_word->setText(FormWord(wordToDisplay));
 }
 
 std::string WordWidget::fetchWordFromServer()
 {
 	cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:18080/word" });
 
-	// Verifică dacă cererea a fost cu succes
 	if (response.error) {
-		// Handle error
-		std::cerr << "Error: " << response.error.message << std::endl;
-		return "not loaded"; //TODO : MAKE EXCEPTIONS
+		throw(WordRequestException("Word request has failed"));
 	}
-	else {
-		// Parsează răspunsul JSON
-		auto jsonResponse = crow::json::load(response.text);
+	auto jsonResponse = crow::json::load(response.text);
 
-		// Verifică dacă parsarea a fost cu succes
-		if (jsonResponse) {
-			std::string wordValue = jsonResponse["word"].s();
+	return jsonResponse["word"].s();
 
-			// Utilizează cuvântul în cadrul aplicației (afișare, stocare, etc.)
-			std::cout << "Random Word: " << wordValue << std::endl;
-			return wordValue;
-		}
-		else {
-			// Handle JSON parsing error
-			std::cerr << "Error parsing JSON response" << std::endl;
-			return "not loaded"; //TODO : MAKE EXCEPTIONS
-		}
-	}
 }

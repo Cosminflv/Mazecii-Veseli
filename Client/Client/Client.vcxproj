@@ -99,10 +99,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ClientException.cpp" />
     <ClCompile Include="ColorWidget.cpp" />
+    <ClCompile Include="PlayerRequestException.cpp" />
     <ClCompile Include="PlayerWidget.cpp" />
     <ClCompile Include="ScribbleArea.cpp" />
+    <ClCompile Include="TimerRequestException.cpp" />
     <ClCompile Include="TimerWidget.cpp" />
+    <ClCompile Include="WordRequestException.cpp" />
     <ClCompile Include="WordWidget.cpp" />
     <QtRcc Include="Client.qrc" />
     <QtUic Include="Client.ui" />
@@ -113,6 +117,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChatWidget.h" />
+    <ClInclude Include="ClientException.h" />
+    <ClInclude Include="ClientExceptions.h" />
+    <ClInclude Include="PlayerRequestException.h" />
+    <ClInclude Include="TimerRequestException.h" />
+    <ClInclude Include="WordRequestException.h" />
     <ClInclude Include="WordWidget.h" />
     <QtMoc Include="ColorWidget.h" />
     <ClInclude Include="PlayerWidget.h" />

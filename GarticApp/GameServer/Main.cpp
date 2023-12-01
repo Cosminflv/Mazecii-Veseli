@@ -13,7 +13,7 @@ int main()
 	std::string username;
 	std::string role;
 	int16_t score;
-		
+
 	std::vector<Player*> players;
 	for (std::ifstream input("PlayerData.txt"); !input.eof();)
 	{
@@ -29,7 +29,7 @@ int main()
 		std::cout << "\nPLAYER " << i + 1 << "\n" << *players[i];
 	}
 	std::cout << "\n----------------------------------------------------------------\n";
-	
+
 	SubRound subround;
 
 	crow::SimpleApp app;
@@ -49,12 +49,13 @@ int main()
 			}
 			return crow::json::wvalue{ playersJson };
 		});
-	 CROW_ROUTE(app, "/word")([&subround]() {
+
+	CROW_ROUTE(app, "/word")([&subround]() {
 		std::string randomWord = subround.SelectRandomWord();
 		crow::json::wvalue wordJson;
 		wordJson["word"] = randomWord;
 		return crow::json::wvalue{ wordJson };
 		});
-	 app.port(18080).multithreaded().run();
-	
+	app.port(18080).multithreaded().run();
+
 }

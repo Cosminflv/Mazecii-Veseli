@@ -1,4 +1,5 @@
 #include "PlayerWidget.h"
+#include "ClientExceptions.h"
 #include <crow/json.h>
 
 PlayerWidget::PlayerWidget(QWidget* parent)
@@ -19,6 +20,10 @@ void PlayerWidget::setUpPlayerUI()
 	m_playerList->setFixedHeight(400);
 
 	cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:18080/playerinfo" });
+
+	if (response.error) {
+		throw(PlayerRequestException("Player Request has failed"));
+	}
 
 	auto playersFromServer = crow::json::load(response.text);
 
