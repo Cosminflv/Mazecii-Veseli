@@ -122,7 +122,7 @@ void SubRound::CalculateScore(const PlayerPtr& player, const std::string& word, 
 
 std::string SubRound::SelectRandomWord() const
 {
-	std::string words[] = { "cuvinte", "din", "baza", "de", "date" }; // de modificat pentru a fi preluate cuvintele din Baza de Date
+	std::string words[] = { "cuvinte", "din", "baza", "de", "date", "andreea", "esti", "frumoasa"}; // de modificat pentru a fi preluate cuvintele din Baza de Date
 	int numWords = sizeof(words) / sizeof(words[0]);
 	srand(static_cast<unsigned int>(time(nullptr)));
 	int randomIndex = rand() % numWords;
