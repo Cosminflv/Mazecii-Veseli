@@ -1,7 +1,7 @@
 #pragma once 
 #include "Player.h"
 #include "Round.h"
-//#include "Timer.h"
+
 
 #include <vector>
 #include <map>
@@ -33,6 +33,5 @@ private:
 	std::vector<PlayerPtr>m_players;
 	std::map<PlayerPtr, int>m_leaderboard;
 	std::vector<RoundPtr>m_rounds;
-	//Timer m_timer;
 };
 

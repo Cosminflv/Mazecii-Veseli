@@ -180,11 +180,6 @@
     <ClInclude Include="Round.h" />
     <ClInclude Include="SubRound.h" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TimerLib\TimerLib.vcxproj">
-      <Project>{5c64a57e-2274-410c-9b20-e2686b706f62}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

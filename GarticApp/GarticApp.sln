@@ -8,9 +8,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TimerLib", "TimerLib\TimerLib.vcxproj", "{5C64A57E-2274-410C-9B20-E2686B706F62}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameServer", "GameServer\GameServer.vcxproj", "{CBB3862A-8F1E-4651-9C80-3AF0D6F6111E}"
-	ProjectSection(ProjectDependencies) = postProject
-		{5C64A57E-2274-410C-9B20-E2686B706F62} = {5C64A57E-2274-410C-9B20-E2686B706F62}
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
