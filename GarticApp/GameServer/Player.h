@@ -8,10 +8,10 @@ public:
 	int16_t GetScore() const;
 	bool GetPlayerStatus() const;
 	PlayerRole GetRole() const;
-	int SetScore(int points);
-	void SetPlayerStatus(bool status);
+	int SetScore(const int &points);
+	void SetPlayerStatus(const bool &status);
 	std::string GetRoleAsString() const;
-	void SetPlayerRole(PlayerRole role);
+	void SetPlayerRole(const PlayerRole &role);
 private:
 	std::string m_username;
 	int16_t m_score;
@@ -20,4 +20,3 @@ private:
 };
 
 std::ostream& operator <<(std::ostream& os, const Player& player);
-

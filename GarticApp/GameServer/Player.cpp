@@ -30,18 +30,18 @@ std::string Player::GetRoleAsString() const
 	return (m_role == PlayerRole::Guesser) ? "Guesser" : "Painter";
 }
 
-int Player::SetScore(int points)
+int Player::SetScore(const int &points)
 {
 	m_score += points;
 	return m_score;
 }
 
-void Player::SetPlayerStatus(bool status)
+void Player::SetPlayerStatus(const bool &status)
 {
 	m_hasPainted = status;
 }
 
-void Player::SetPlayerRole(PlayerRole role)
+void Player::SetPlayerRole(const PlayerRole &role)
 {
 	this->m_role = role;
 }
