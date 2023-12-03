@@ -172,8 +172,8 @@
     <ClCompile Include="SubRound.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="cuvinte.txt" />
     <Text Include="PlayerData.txt" />
+    <Text Include="wordsIn.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />

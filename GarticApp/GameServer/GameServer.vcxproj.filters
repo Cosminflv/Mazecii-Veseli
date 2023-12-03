@@ -41,7 +41,7 @@
     <Text Include="PlayerData.txt">
       <Filter>Source Files</Filter>
     </Text>
-    <Text Include="cuvinte.txt">
+    <Text Include="wordsIn.txt">
       <Filter>Source Files</Filter>
     </Text>
   </ItemGroup>
