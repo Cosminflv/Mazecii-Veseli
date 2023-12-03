@@ -164,6 +164,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameData.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerRole.cpp" />
@@ -171,10 +172,12 @@
     <ClCompile Include="SubRound.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="cuvinte.txt" />
     <Text Include="PlayerData.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameData.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerRole.h" />
     <ClInclude Include="Round.h" />
