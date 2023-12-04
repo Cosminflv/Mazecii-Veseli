@@ -12,11 +12,7 @@ struct Word
 	std::string description;
 
 };
-struct player2
-{
-	std::string username2;
-	uint16_t score2;
-};
+
 inline auto createStorage(const std::string& filename)
 {
 	return sql::make_storage(
@@ -25,12 +21,12 @@ inline auto createStorage(const std::string& filename)
 			"Word",
 			sql::make_column("id", &Word::id, sql::primary_key().autoincrement()),
 			sql::make_column("description", &Word::description)
-		),
-		sql::make_table(
-			"player2",
-			sql::make_column("username2", &player2::username2, sql::primary_key().autoincrement()),
-			sql::make_column("score2", &player2::score2)
 		)
+		/*sql::make_table(
+			"Player",
+			sql::make_column("username", &Player::GetUsername(), sql::primary_key()),
+			sql::make_column("score", &Player::getScore())
+		)*/
 	);
 }
 using Storage = decltype(createStorage(""));

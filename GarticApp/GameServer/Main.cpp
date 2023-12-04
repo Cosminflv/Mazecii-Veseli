@@ -5,11 +5,19 @@
 #include <sqlite_orm/sqlite_orm.h>
 #include "Player.h"
 #include "SubRound.h"
-
+#include "GameData.h"
 namespace sql = sqlite_orm;
 
 int main()
 {
+	
+	Storage db = createStorage("Data.sqlite"); 
+	db.sync_schema(); 
+	auto initWordsCount = db.count<Word>();
+	if (initWordsCount == 0)
+		populateStorage(db);
+   auto wordsCount = db.count<Word>();
+  std::cout << wordsCount << "\n";
 	std::string username;
 	std::string role;
 	int16_t score;
@@ -49,6 +57,23 @@ int main()
 			}
 			return crow::json::wvalue{ playersJson };
 		});
+	CROW_ROUTE(app, "/words")([&db]()
+		{
+			std::vector<crow::json::wvalue>wordsJson;
+			for (const auto& word : db.iterate<Word>())
+			{
+				crow::json::wvalue w{
+					{"id",word.id},
+					{"description",word.description},
+
+				};
+
+				wordsJson.push_back(w);
+			};
+			return crow::json::wvalue{ wordsJson };
+		}
+
+	);
 
 	CROW_ROUTE(app, "/word")([&subround]() {
 		std::string randomWord = subround.SelectRandomWord();
