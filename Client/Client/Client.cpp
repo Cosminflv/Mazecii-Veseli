@@ -36,7 +36,7 @@ Client::Client(QWidget* parent)
     mainLayout->setRowStretch(1, 3);
     mainLayout->setRowStretch(2, 2);
     m_wordWidget->displayWord(m_timerWidget);
-
+  
     QWidget* centralWidget = new QWidget(this);
     centralWidget->setLayout(mainLayout);
     setCentralWidget(centralWidget);

@@ -17,9 +17,9 @@ int main()
 	if (initWordsCount == 0)
 		populateStorage(db);
    auto wordsCount = db.count<Word>();
-  std::cout << wordsCount << "\n";
-	std::string username;
-	std::string role;
+   std::cout << wordsCount << "\n";
+   std::string username;
+   std::string role;
 	int16_t score;
 
 	std::vector<Player*> players;
@@ -75,12 +75,12 @@ int main()
 
 	);
 
-	CROW_ROUTE(app, "/word")([&subround]() {
-		std::string randomWord = subround.SelectRandomWord();
-		crow::json::wvalue wordJson;
-		wordJson["word"] = randomWord;
-		return crow::json::wvalue{ wordJson };
-		});
+	//CROW_ROUTE(app, "/word")([&subround]() {
+	////	std::string randomWord = subround.SelectRandomWord();
+	//	crow::json::wvalue wordJson;
+	//	wordJson["word"] = randomWord;  
+	//	return wordJson; 
+	//	});
 	app.port(18080).multithreaded().run();
 
 }

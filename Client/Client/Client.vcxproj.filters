@@ -76,6 +76,9 @@
     <ClCompile Include="WordRequestException.cpp">
       <Filter>Source Files\Exceptions</Filter>
     </ClCompile>
+    <ClCompile Include="Register.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChatWidget.h">
@@ -113,6 +116,9 @@
     <QtMoc Include="ColorWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="Register.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Input.txt">
@@ -121,5 +127,10 @@
     <Text Include="Players.txt">
       <Filter>Source Files</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="Register.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
 </Project>

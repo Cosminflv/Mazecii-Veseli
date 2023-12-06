@@ -103,6 +103,7 @@
     <ClCompile Include="ColorWidget.cpp" />
     <ClCompile Include="PlayerRequestException.cpp" />
     <ClCompile Include="PlayerWidget.cpp" />
+    <ClCompile Include="Register.cpp" />
     <ClCompile Include="ScribbleArea.cpp" />
     <ClCompile Include="TimerRequestException.cpp" />
     <ClCompile Include="TimerWidget.cpp" />
@@ -114,12 +115,14 @@
     <ClCompile Include="ChatWidget.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="main.cpp" />
+    <QtUic Include="Register.ui" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChatWidget.h" />
     <ClInclude Include="ClientException.h" />
     <ClInclude Include="ClientExceptions.h" />
     <ClInclude Include="PlayerRequestException.h" />
+    <QtMoc Include="Register.h" />
     <ClInclude Include="TimerRequestException.h" />
     <ClInclude Include="WordRequestException.h" />
     <ClInclude Include="WordWidget.h" />

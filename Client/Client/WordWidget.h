@@ -4,6 +4,8 @@
 #include <QFile>
 #include <QVBoxLayout>
 #include "TimerWidget.h"
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <cpr/cpr.h>
 #include <crow.h>
 
@@ -16,7 +18,6 @@ public:
 	std::pair<size_t, QChar> GetRandomLetter(const QString& word);
 	QString FormWord(const QString& word);
 	void displayWord(TimerWidget* timer);
-	std::string fetchWordFromServer(); //adaugat de gabita pt test
 
 private:
 	QLabel* m_word;

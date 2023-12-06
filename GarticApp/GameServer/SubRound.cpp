@@ -10,14 +10,18 @@ SubRound::SubRound() :
 	m_numberOfPlayers(0),
 	m_word(""),
 	m_duration(0),
-	m_hasTimeEnded(false)
-{}
+	m_hasTimeEnded(false),
+	m_storage(createStorage("Data.sqlite")) // initial e createEmptyStorage
+{
+}
 
-SubRound::SubRound(const std::string& word, const int numberOfPlayers) : m_word{ word }, m_numberOfPlayers{ numberOfPlayers }
+SubRound::SubRound(const std::string& word, const int numberOfPlayers, Storage storage)
+	: m_word{ word },
+	m_numberOfPlayers{ numberOfPlayers },
+	m_storage(storage)
 {
 	m_duration = 60;
 }
-
 void SubRound::SeeWord(const std::string& word) const
 {
 	std::cout << "Your word is: " << word;
@@ -119,15 +123,6 @@ void SubRound::CalculateScore(const PlayerPtr& player, const std::string& word, 
 	}
 }
 
-
-std::string SubRound::SelectRandomWord() const
-{
-	std::string words[] = { "cuvinte", "din", "baza", "de", "date", "andreea", "esti", "frumoasa"}; // de modificat pentru a fi preluate cuvintele din Baza de Date
-	int numWords = sizeof(words) / sizeof(words[0]);
-	srand(static_cast<unsigned int>(time(nullptr)));
-	int randomIndex = rand() % numWords;
-	return words[randomIndex];
-}
 
 void SubRound::ShowLetters(std::string& word) const
 {

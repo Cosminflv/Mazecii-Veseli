@@ -1,16 +1,17 @@
 #pragma once
 #include <vector>
 #include "Timer.h"
+#include "GameData.h"
 
 using PlayerPtr = std::shared_ptr<class Player>;
 
 class SubRound
 {
 public:
-	std::string SelectRandomWord() const; // cuvintele ar trebui preluate din baza de date, dar deocamdata incerc sa implementez
+//	std::string SelectRandomWord(); 
 	//cuvantul returnat din SelectRandowWord va fi transmis prin parametru in restul functiilor de mai jos
 	SubRound();
-	SubRound(const std::string& word, int numberOfPlayers);
+	SubRound(const std::string& word, int numberOfPlayers, Storage storage);
 	void SeeWord(const std::string& word) const;
 	bool GuessWord(const std::string& word) const;
 	void ShowLetters(std::string& word) const;
@@ -23,6 +24,7 @@ public:
 	int getNumberOfPlayers() const;
 
 private:
+    Storage m_storage;
 	int m_counterGuessingPlayers;
 	int m_numberOfPlayers;
 	std::string m_word;

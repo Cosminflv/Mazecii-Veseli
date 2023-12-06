@@ -28,29 +28,16 @@ QString WordWidget::FormWord(const QString& word)
 	QString playerView = "";
 	for (int i = 0; i < word.length(); i++)
 	{
-		playerView = playerView + "_ ";
+		playerView = playerView + "_";
 	}
 	return playerView;
 }
 
 void WordWidget::displayWord(TimerWidget* timer)
 {
-	std::string wordString = fetchWordFromServer();
+	//std::string wordString = fetchWordFromServer();
 
-	QString wordToDisplay = QString::fromUtf8(wordString.c_str(), static_cast<int>(wordString.size()));
+	//QString wordToDisplay = QString::fromUtf8(wordString.c_str(), static_cast<int>(wordString.size()));
 
-	m_word->setText(FormWord(wordToDisplay));
-}
-
-std::string WordWidget::fetchWordFromServer()
-{
-	cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:18080/word" });
-
-	if (response.error) {
-		throw(WordRequestException("Word request has failed"));
-	}
-	auto jsonResponse = crow::json::load(response.text);
-
-	return jsonResponse["word"].s();
-
+	//m_word->setText(FormWord(wordToDisplay));
 }

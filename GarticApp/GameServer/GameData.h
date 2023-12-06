@@ -1,9 +1,8 @@
 #pragma once
 #include <string>
 #include <vector>
-
-#include <crow.h>
 #include <sqlite_orm/sqlite_orm.h>
+#include <crow.h>
 namespace sql = sqlite_orm;
 #include "Player.h"
 struct Word
@@ -29,5 +28,7 @@ inline auto createStorage(const std::string& filename)
 		)*/
 	);
 }
+
 using Storage = decltype(createStorage(""));
+
 void populateStorage(Storage& storage);
