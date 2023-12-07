@@ -1,6 +1,7 @@
 #pragma once 
 #include "Player.h"
 #include "Round.h"
+#include "Chat.h"
 
 
 #include <vector>
@@ -33,5 +34,6 @@ private:
 	std::vector<PlayerPtr>m_players;
 	std::map<PlayerPtr, int>m_leaderboard;
 	std::vector<RoundPtr>m_rounds;
+	Chat m_gameChat;
 };
 

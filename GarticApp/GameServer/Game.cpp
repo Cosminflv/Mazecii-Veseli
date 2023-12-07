@@ -9,6 +9,7 @@ Game::Game(std::vector<PlayerPtr> players, std::map<PlayerPtr, int> leaderboard,
 	m_leaderboard{ leaderboard }
 {
 	m_rounds.resize(4);
+	m_gameChat.WriteMessage({"Server", "Hello"});
 }
 
 Game::Game() 

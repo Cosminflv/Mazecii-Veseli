@@ -7,19 +7,20 @@
 #include "SubRound.h"
 #include "GameData.h"
 #include "Timer.h"
+#include "Chat.h"
 namespace sql = sqlite_orm;
 
 int main()
 {
-	Storage db = createStorage("Data.sqlite"); 
-	db.sync_schema(); 
+	Storage db = createStorage("Data.sqlite");
+	db.sync_schema();
 	auto initWordsCount = db.count<Word>();
 	if (initWordsCount == 0)
 		populateStorage(db);
-   auto wordsCount = db.count<Word>();
-   std::cout << wordsCount << "\n";
-   std::string username;
-   std::string role;
+	auto wordsCount = db.count<Word>();
+	std::cout << wordsCount << "\n";
+	std::string username;
+	std::string role;
 	int16_t score;
 
 	std::vector<Player*> players;
@@ -39,6 +40,9 @@ int main()
 	std::cout << "\n----------------------------------------------------------------\n";
 
 	SubRound subround;
+	Chat chat;
+
+	chat.WriteMessage({ "Server", "Hello world!" });
 
 	crow::SimpleApp app;
 
@@ -76,12 +80,29 @@ int main()
 	);
 
 	CROW_ROUTE(app, "/word")([&subround]() {
-	std::string randomWord = subround.SelectRandomWord();
+		std::string randomWord = subround.SelectRandomWord();
 		crow::json::wvalue wordJson;
-		wordJson["word"] = randomWord;  
-		return wordJson; 
+		wordJson["word"] = randomWord;
+		return wordJson;
+		});
+
+	CROW_ROUTE(app, "/chat")([&chat]()
+		{
+			std::vector<crow::json::wvalue> chatMessagesJson;
+			auto chatMessages = chat.getChat();
+			for (const auto& message : chatMessages)
+			{
+				crow::json::wvalue m
+				{
+					{"Username", message.first},
+					{"Message", message.second},
+					
+				};
+
+				chatMessagesJson.push_back(m);
+			}
+			return crow::json::wvalue{ chatMessagesJson };
 		});
 
 	app.port(18080).multithreaded().run();
-
 }
