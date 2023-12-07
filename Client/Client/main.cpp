@@ -9,12 +9,12 @@
 #include <string>
 #include <crow.h>
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
-    QApplication a(argc, argv);
-   Client w;
-   w.show();
-   // Register r;
-  //  r.show();
-    return a.exec();
+	QApplication a(argc, argv);
+	Client w;
+	w.show();
+	Register r;
+	r.show();
+	return a.exec();
 }

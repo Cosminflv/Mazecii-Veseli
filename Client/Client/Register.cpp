@@ -4,6 +4,7 @@ Register::Register(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
+	setWindowTitle("Create Account");
 }
 
 Register::~Register()

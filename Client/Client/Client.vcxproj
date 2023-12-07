@@ -101,6 +101,7 @@
   <ItemGroup>
     <ClCompile Include="ClientException.cpp" />
     <ClCompile Include="ColorWidget.cpp" />
+    <ClCompile Include="Login.cpp" />
     <ClCompile Include="PlayerRequestException.cpp" />
     <ClCompile Include="PlayerWidget.cpp" />
     <ClCompile Include="Register.cpp" />
@@ -114,13 +115,15 @@
     <QtMoc Include="Client.h" />
     <ClCompile Include="ChatWidget.cpp" />
     <ClCompile Include="Client.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <QtUic Include="Login.ui" />
     <QtUic Include="Register.ui" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChatWidget.h" />
     <ClInclude Include="ClientException.h" />
     <ClInclude Include="ClientExceptions.h" />
+    <QtMoc Include="Login.h" />
     <ClInclude Include="PlayerRequestException.h" />
     <QtMoc Include="Register.h" />
     <ClInclude Include="TimerRequestException.h" />
