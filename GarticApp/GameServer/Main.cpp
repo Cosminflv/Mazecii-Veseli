@@ -6,11 +6,11 @@
 #include "Player.h"
 #include "SubRound.h"
 #include "GameData.h"
+#include "Timer.h"
 namespace sql = sqlite_orm;
 
 int main()
 {
-	
 	Storage db = createStorage("Data.sqlite"); 
 	db.sync_schema(); 
 	auto initWordsCount = db.count<Word>();
@@ -81,6 +81,7 @@ int main()
 		wordJson["word"] = randomWord;  
 		return wordJson; 
 		});
+
 	app.port(18080).multithreaded().run();
 
 }
