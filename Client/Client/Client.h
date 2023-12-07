@@ -11,7 +11,6 @@
 #include <iostream>
 #include <numeric>
 
-
 class Client : public QMainWindow
 {
     Q_OBJECT

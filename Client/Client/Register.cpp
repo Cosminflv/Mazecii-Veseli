@@ -7,4 +7,11 @@ Register::Register(QWidget *parent)
 }
 
 Register::~Register()
-{}
+{
+}
+
+void Register::on_pushButton_Register_Clicked()
+{
+	QString username = ui.lineEdit_username->text();
+	QString password = ui.lineEdit_password->text();
+}

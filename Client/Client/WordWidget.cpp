@@ -41,3 +41,30 @@ void WordWidget::displayWord(TimerWidget* timer)
 
 	//m_word->setText(FormWord(wordToDisplay));
 }
+
+QString WordWidget::fetchWordFromServer()
+{
+	cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:18080/word" });
+
+	if (response.error) {
+		throw(WordRequestException("Word request has failed"));
+	}
+
+	QJsonDocument jsonResponse = QJsonDocument::fromJson(response.text.c_str());
+
+	if (!jsonResponse.isObject()) {
+		qDebug() << "Invalid JSON format.";
+		return "";
+	}
+
+	QJsonObject jsonObject = jsonResponse.object();
+	QString word = jsonObject.value("word").toString();
+
+	qDebug() << "Word:" << word;
+	return word;
+}
+
+//void WordWidget::updateWord(const QString& word)
+//{
+//	m_word->setText(word);
+//}

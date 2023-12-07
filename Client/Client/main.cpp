@@ -1,4 +1,5 @@
 ﻿#include "Client.h"
+#include "Register.h"
 #include <QtWidgets/QApplication>
 #include <cpr/cpr.h>
 #include <iostream>
@@ -11,7 +12,9 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    Client w;
-    w.show();
+   // Client w;
+   // w.show();
+    Register r;
+    r.show();
     return a.exec();
 }
