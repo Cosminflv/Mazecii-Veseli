@@ -40,6 +40,19 @@ void SubRound::StartRound()
 	m_startTime = std::chrono::steady_clock::now();
 }
 
+
+std::string SubRound::SelectRandomWord()
+{
+	auto allWords = m_storage.select(&Word::description);
+	if (allWords.empty()) {
+		std::cerr << "Baza de date nu conține cuvinte.\n";
+		return "";
+	}
+	std::srand(static_cast<unsigned int>(std::time(nullptr)));
+	auto randomIndex = std::rand() % allWords.size();
+	return allWords[randomIndex];
+}
+
 //aici trebuie sa ma folosesc codul lui Cosmin
 int SubRound::GetSecond() const
 {
