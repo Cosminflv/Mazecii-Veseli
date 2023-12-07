@@ -5,14 +5,56 @@ Register::Register(QWidget *parent)
 {
 	ui.setupUi(this);
 	setWindowTitle("Create Account");
+	setFixedSize(450, 300);
+
+	QLabel* welcome = new QLabel("\t\tSign up", this);
+	welcome->setGeometry(60, 30, 400, 50);
+
+	QLabel* username = new QLabel("Create Username: ", this);
+	username->setGeometry(30, 100, 130, 30);
+	m_userText = new QLineEdit(this);
+	m_userText->setGeometry(170, 100, 210, 25);
+
+	QLabel* password = new QLabel("Create Password: ", this);
+	password->setGeometry(30, 140, 130, 30);
+	m_passwordText = new QLineEdit(this);
+	m_passwordText->setGeometry(170, 140, 210, 25);
+
+	m_create = new QPushButton("Create account", this);
+	m_create->setGeometry(130, 220, 210, 30);
+
+	connect(m_create, &QPushButton::clicked, this, &Register::CreateAccount);
 }
 
 Register::~Register()
 {
+	delete m_userText;
+	delete m_passwordText;
+	delete m_create;
 }
 
-void Register::on_pushButton_Register_Clicked()
+void Register::PasswordValidation()
 {
-	QString username = ui.lineEdit_username->text();
-	QString password = ui.lineEdit_password->text();
+	// password of at least 6 letters and at least one number
+	std::regex validForm("^(?=.*[A-Za-z]{6,})(?=.*\\d)[A-Za-z\\d]{6,}$");
+
+	if (std::regex_match(m_password, validForm))
+	{
+		qDebug() << " \nVALID.\n";
+	}
+	else
+	{
+		qDebug() << "\nINVALID PASSWORD.\n";
+	}
 }
+
+void Register::CreateAccount()
+{
+	m_username = m_userText->text().toUtf8().constData();
+	m_password = m_passwordText->text().toUtf8().constData();
+
+	PasswordValidation();
+
+	qDebug() << m_username << " " << m_password;
+}
+

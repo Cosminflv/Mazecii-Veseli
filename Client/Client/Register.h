@@ -4,6 +4,7 @@
 #include <Qlabel>
 #include <QLineEdit>
 #include <QPushButton>
+#include <regex>
 #include "ui_Register.h"
 
 class Register : public QMainWindow
@@ -14,9 +15,18 @@ public:
 	Register(QWidget *parent = nullptr);
 	~Register();
 
+	void PasswordValidation();
+
 private slots:
-	void on_pushButton_Register_Clicked();
+	void CreateAccount();
 
 private:
 	Ui::RegisterClass ui;
+
+	QPushButton* m_create;
+	QLineEdit* m_userText;
+	QLineEdit* m_passwordText;
+
+	std::string m_username;
+	std::string m_password;
 };
