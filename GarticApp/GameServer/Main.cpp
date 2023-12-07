@@ -96,13 +96,32 @@ int main()
 				{
 					{"Username", message.first},
 					{"Message", message.second},
-					
 				};
 
 				chatMessagesJson.push_back(m);
 			}
 			return crow::json::wvalue{ chatMessagesJson };
 		});
+
+	CROW_ROUTE(app, "/receive_message")
+		.methods("POST"_method)
+		([&chat](const crow::request& req) {
+		// Access the transmitted JSON data from the client
+		auto json_data = crow::json::load(req.body);
+		if (!json_data) {
+			return crow::response(400);
+		}
+
+		if (json_data.has("username") && json_data.has("message")) {
+			std::string username = json_data["username"].s();
+			std::string password = json_data["message"].s();
+
+			chat.WriteMessage({ username, password });
+		}
+		else {
+			return crow::response(400);
+		}
+			});
 
 	app.port(18080).multithreaded().run();
 }
