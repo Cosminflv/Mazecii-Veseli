@@ -75,12 +75,12 @@ int main()
 
 	);
 
-	//CROW_ROUTE(app, "/word")([&subround]() {
-	////	std::string randomWord = subround.SelectRandomWord();
-	//	crow::json::wvalue wordJson;
-	//	wordJson["word"] = randomWord;  
-	//	return wordJson; 
-	//	});
+	CROW_ROUTE(app, "/word")([&subround]() {
+	std::string randomWord = subround.SelectRandomWord();
+		crow::json::wvalue wordJson;
+		wordJson["word"] = randomWord;  
+		return wordJson; 
+		});
 	app.port(18080).multithreaded().run();
 
 }

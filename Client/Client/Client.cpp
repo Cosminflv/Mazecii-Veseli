@@ -35,8 +35,8 @@ Client::Client(QWidget* parent)
     mainLayout->setRowStretch(0, 1);
     mainLayout->setRowStretch(1, 3);
     mainLayout->setRowStretch(2, 2);
-    m_wordWidget->displayWord(m_timerWidget);
-  
+   // m_wordWidget->displayWord(m_timerWidget);
+    m_wordWidget->updateWord(m_wordWidget->fetchWordFromServer());
     QWidget* centralWidget = new QWidget(this);
     centralWidget->setLayout(mainLayout);
     setCentralWidget(centralWidget);

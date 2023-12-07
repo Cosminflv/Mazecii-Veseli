@@ -64,7 +64,7 @@ QString WordWidget::fetchWordFromServer()
 	return word;
 }
 
-//void WordWidget::updateWord(const QString& word)
-//{
-//	m_word->setText(word);
-//}
+void WordWidget::updateWord(const QString& word)
+{
+	m_word->setText(word);
+}

@@ -19,6 +19,8 @@ public:
 	QString FormWord(const QString& word);
 	void displayWord(TimerWidget* timer);
 	QString fetchWordFromServer();
+	void updateWord(const QString& word);
+
 
 private:
 	QLabel* m_word;
