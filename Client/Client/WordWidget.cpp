@@ -18,6 +18,7 @@ WordWidget::~WordWidget()
 
 std::pair<size_t, QChar> WordWidget::GetRandomLetter(const QString& word)
 {
+	// recommendation : use a std::random_device with std::mt19937, std::uniform_int_distribution
 	srand(time(0));
 	std::pair<size_t, QChar> pair = std::make_pair(rand() % word.size(), word[rand() % word.size()]);
 	return pair;

@@ -7,7 +7,6 @@
 #include <qpainterpath.h>
 #include <QPushButton>
 #include <QColorDialog>
-#include "ColorWidget.h"
 
 class ScribbleArea : public QWidget
 {
@@ -49,6 +48,5 @@ private:
 	QPushButton* m_clearButton;
 	QPushButton* m_selectColor;
 
-	ColorWidget* m_colorWidget;
 };
 

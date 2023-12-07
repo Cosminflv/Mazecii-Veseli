@@ -2,9 +2,10 @@
 
 #include <QMainWindow>
 #include "ui_Login.h"
-#include <QGroupBox>
 #include <QPushButton>
 #include <QLineEdit>
+#include <QVBoxLayout>
+#include <QLabel>
 
 class Login : public QMainWindow
 {
@@ -17,7 +18,6 @@ public:
 private:
 	Ui::LoginClass ui;
 
-	QGroupBox* m_loginWindow;
 	QPushButton* m_login;
 	QPushButton* m_createAccount;
 	QLineEdit* m_userText;

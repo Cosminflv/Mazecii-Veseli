@@ -16,10 +16,6 @@ ScribbleArea::ScribbleArea(QWidget* parent)
 	m_selectColor = new QPushButton("More Colors", this);
 	m_selectColor->setGeometry(440, 460, 100, 30);
 	connect(m_selectColor, &QPushButton::clicked, this, &ScribbleArea::onColorButtonClicked);
-
-	m_colorWidget = new ColorWidget(this);
-	m_colorWidget->setGeometry(220, 10, 180, 30);
-	connect(m_colorWidget, &ColorWidget::selectColor, this, &ScribbleArea::onSelectColor);
 }
 
 void ScribbleArea::setPenColor(const QColor& newColor)
