@@ -12,7 +12,7 @@ namespace sql = sqlite_orm;
 
 int main()
 {
-	Storage db = createStorage("Data.sqlite");
+	Storage db = createStorage("Database.sqlite");
 	db.sync_schema();
 	auto initWordsCount = db.count<Word>();
 	if (initWordsCount == 0)
@@ -69,6 +69,7 @@ int main()
 				crow::json::wvalue w{
 					{"id",word.id},
 					{"description",word.description},
+					{"difficulty",word.difficulty}
 
 				};
 

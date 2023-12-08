@@ -9,7 +9,7 @@ struct Word
 {
 	uint16_t id;
 	std::string description;
-
+	uint16_t difficulty;
 };
 
 inline auto createStorage(const std::string& filename)
@@ -19,7 +19,8 @@ inline auto createStorage(const std::string& filename)
 		sql::make_table(
 			"Word",
 			sql::make_column("id", &Word::id, sql::primary_key().autoincrement()),
-			sql::make_column("description", &Word::description)
+			sql::make_column("description", &Word::description),
+			sql::make_column("difficulty",&Word::difficulty)
 		)
 		/*sql::make_table(
 			"Player",
