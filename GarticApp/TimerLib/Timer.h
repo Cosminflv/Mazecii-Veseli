@@ -12,7 +12,7 @@ using Mutex = std::mutex;
 using TimerCallback = std::function<void()>;
 
 
-class Timer {
+class __declspec(dllexport) Timer {
 public:
 	//Constructors
 	Timer(int total_minutes);

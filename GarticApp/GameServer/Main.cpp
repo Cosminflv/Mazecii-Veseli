@@ -1,17 +1,18 @@
 #include <filesystem>
 #include <memory>
 
+#include "Timer.h"
 #include <crow.h>
 #include <sqlite_orm/sqlite_orm.h>
 #include "Player.h"
 #include "SubRound.h"
 #include "GameData.h"
-#include "Timer.h"
 #include "Chat.h"
 namespace sql = sqlite_orm;
 
 int main()
 {
+	Timer T{ 1 };
 	Storage db = createStorage("Datab.sqlite");
 	db.sync_schema();
 	auto initWordsCount = db.count<Word>();
