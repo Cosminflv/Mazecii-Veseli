@@ -987,7 +987,7 @@ hieroglyph
 sunrise
 2
 tornado
-3
+2
 shoelace
 2
 xylophone

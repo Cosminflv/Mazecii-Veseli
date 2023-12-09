@@ -12,7 +12,7 @@ namespace sql = sqlite_orm;
 
 int main()
 {
-	Storage db = createStorage("Database.sqlite");
+	Storage db = createStorage("Datab.sqlite");
 	db.sync_schema();
 	auto initWordsCount = db.count<Word>();
 	if (initWordsCount == 0)
@@ -87,6 +87,29 @@ int main()
 		return wordJson;
 		});
 
+CROW_ROUTE(app, "/words/<int>")
+	.methods("GET"_method)
+	([&db](const crow::request& req, int difficulty)
+		{
+			std::vector<crow::json::wvalue> wordsJson;
+			auto allWords = db.iterate<Word>();
+
+			for (const auto& word : allWords)
+			{
+				if (word.difficulty == static_cast<uint16_t>(difficulty))
+				{
+					crow::json::wvalue w{
+						{"id", word.id},
+						{"description", word.description},
+						{"difficulty", word.difficulty}
+					};
+
+					wordsJson.push_back(w);
+				}
+			}
+
+			return crow::json::wvalue{ wordsJson };
+		});
 	CROW_ROUTE(app, "/chat")([&chat]()
 		{
 			std::vector<crow::json::wvalue> chatMessagesJson;
