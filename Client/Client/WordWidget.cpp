@@ -36,34 +36,40 @@ QString WordWidget::FormWord(const QString& word)
 
 void WordWidget::displayWord(TimerWidget* timer)
 {
-	//std::string wordString = fetchWordFromServer();
+	std::string wordString = fetchWordFromServer().toUtf8().constData();
 
-	//QString wordToDisplay = QString::fromUtf8(wordString.c_str(), static_cast<int>(wordString.size()));
+	QString wordToDisplay = QString::fromUtf8(wordString.c_str(), static_cast<int>(wordString.size()));
 
-	//m_word->setText(FormWord(wordToDisplay));
+	m_word->setText(FormWord(wordToDisplay));
 }
 
-//QString WordWidget::fetchWordFromServer()
-//{
-//	cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:18080/word" });
-//
-//	if (response.error) {
-//		throw(WordRequestException("Word request has failed"));
-//	}
-//
-//	QJsonDocument jsonResponse = QJsonDocument::fromJson(response.text.c_str());
-//
-//	if (!jsonResponse.isObject()) {
-//		qDebug() << "Invalid JSON format.";
-//		return "";
-//	}
-//
-//	QJsonObject jsonObject = jsonResponse.object();
-//	QString word = jsonObject.value("word").toString();
-//
-//	qDebug() << "Word:" << word;
-//	return word;
-//}
+void WordWidget::display(const std::string& word)
+{
+	QString str = QString::fromUtf8(word.c_str());
+	m_word->setText(str);
+}
+
+QString WordWidget::fetchWordFromServer()
+{
+	cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:18080/word" });
+
+	if (response.error) {
+		throw(WordRequestException("Word request has failed"));
+	}
+
+	QJsonDocument jsonResponse = QJsonDocument::fromJson(response.text.c_str());
+
+	if (!jsonResponse.isObject()) {
+		qDebug() << "Invalid JSON format.";
+		return "";
+	}
+
+	QJsonObject jsonObject = jsonResponse.object();
+	QString word = jsonObject.value("word").toString();
+
+	qDebug() << "Word:" << word;
+	return word;
+}
 
 void WordWidget::updateWord(const QString& word)
 {
