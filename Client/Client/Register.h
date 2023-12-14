@@ -7,6 +7,7 @@
 #include <regex>
 #include "ui_Register.h"
 
+
 class Register : public QMainWindow
 {
 	Q_OBJECT
@@ -19,6 +20,7 @@ public:
 
 private slots:
 	void CreateAccount();
+
 
 private:
 	Ui::RegisterClass ui;

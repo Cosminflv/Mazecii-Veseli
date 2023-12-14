@@ -1,5 +1,6 @@
 #include "Register.h"
-
+#include"crow.h"
+#include<cpr/cpr.h>
 Register::Register(QWidget *parent)
 	: QMainWindow(parent)
 {
@@ -48,6 +49,7 @@ void Register::PasswordValidation()
 	}
 }
 
+
 void Register::CreateAccount()
 {
 	m_username = m_userText->text().toUtf8().constData();
@@ -56,5 +58,18 @@ void Register::CreateAccount()
 	PasswordValidation();
 
 	qDebug() << m_username << " " << m_password;
+	//impachetez campuri
+	crow::json::wvalue jsonPayload;
+	jsonPayload["username"] = m_username;
+	jsonPayload["password"] = m_password;
+	std::string jsonString = jsonPayload.dump();
+	//trimit la server
+	auto response = cpr::Put
+	(
+		cpr::Url{ "http://localhost:18080/register" },
+		cpr::Body{ jsonString },
+		cpr::Header{ {"Content - Type","application/json"} }
+
+	);
 }
 

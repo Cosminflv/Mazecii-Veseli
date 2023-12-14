@@ -8,6 +8,7 @@
 #include "SubRound.h"
 #include "GameData.h"
 #include "Chat.h"
+#include"PlayerDB.h"
 namespace sql = sqlite_orm;
 
 int main()
@@ -147,6 +148,7 @@ CROW_ROUTE(app, "/words/<int>")
 			return crow::response(400);
 		}
 			});
+	
 
 	app.port(18080).multithreaded().run();
 }
