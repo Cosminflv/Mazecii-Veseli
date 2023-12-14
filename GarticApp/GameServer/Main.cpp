@@ -9,6 +9,9 @@
 #include "GameData.h"
 #include "Chat.h"
 #include"PlayerDB.h"
+#include "Routing.h"
+
+
 namespace sql = sqlite_orm;
 
 int main()
@@ -49,6 +52,13 @@ int main()
 		std::cout << "\nPLAYER " << i + 1 << "\n" << *players[i];
 	}
 	std::cout << "\n----------------------------------------------------------------\n";
+
+
+	Routing r;
+	r.Run(storage);
+
+
+
 
 //	SubRound subround;
 //	Chat chat;

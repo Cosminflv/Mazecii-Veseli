@@ -171,6 +171,7 @@
     <ClCompile Include="PlayerDB.cpp" />
     <ClCompile Include="PlayerRole.cpp" />
     <ClCompile Include="Round.cpp" />
+    <ClCompile Include="Routing.cpp" />
     <ClCompile Include="SubRound.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -185,6 +186,7 @@
     <ClInclude Include="PlayerDB.h" />
     <ClInclude Include="PlayerRole.h" />
     <ClInclude Include="Round.h" />
+    <ClInclude Include="Routing.h" />
     <ClInclude Include="SubRound.h" />
   </ItemGroup>
   <ItemGroup>
