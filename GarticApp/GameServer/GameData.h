@@ -43,7 +43,7 @@ class GameStorage
 {
 public:
 	bool Initialize();
-	//std::vector<Word> GetWords();
+	std::vector<Word> GetWords();
 private:
 	void PopulateStorage();
 

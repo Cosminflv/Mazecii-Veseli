@@ -24,6 +24,11 @@ bool GameStorage::Initialize()
 	return  wordsCount != 0;
 }
 
+std::vector<Word> GameStorage::GetWords()
+{
+	return m_db.get_all<Word>();
+}
+
 void GameStorage::PopulateStorage()
 {
 	std::ifstream inputFile("wordsIn.txt");
