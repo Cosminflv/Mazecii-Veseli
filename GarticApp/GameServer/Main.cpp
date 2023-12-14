@@ -148,7 +148,24 @@ CROW_ROUTE(app, "/words/<int>")
 			return crow::response(400);
 		}
 			});
-	
+	CROW_ROUTE(app, "/register")
+		.methods("POST"_method)
+		([&db](const crow::request& req)
+			{
+				crow::json::rvalue jsonData = crow::json::load(req.body);
+				if (!jsonData)
+				{
+					return crow::response(400, "Invalid JSON format");
+				}
+				std::string username = jsonData["username"].s();
+				std::string password = jsonData["password"].s();
+				PlayerDB user;
+				user.SetUsername(username);
+				user.SetPassword(password);
+				db.replace(user);
+				return crow::response(200);
+			}
+	);
 
 	app.port(18080).multithreaded().run();
 }
