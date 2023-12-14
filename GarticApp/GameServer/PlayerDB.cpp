@@ -1,6 +1,7 @@
 #include "PlayerDB.h"
 
-PlayerDB::PlayerDB() :m_username(""), m_password("")
+PlayerDB::PlayerDB(const std::string& username, const std::string& password)
+    :m_username{username},m_password{password}
 {
 }
 
