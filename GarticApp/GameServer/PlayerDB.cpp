@@ -1,5 +1,9 @@
 #include "PlayerDB.h"
 
+PlayerDB::PlayerDB() :m_username(""), m_password("")
+{
+}
+
 std::string PlayerDB::GetUsername() const
 {
     return m_username;
@@ -7,7 +11,7 @@ std::string PlayerDB::GetUsername() const
 
 void PlayerDB::SetUsername(const std::string& username)
 {
-    this->m_username = username;
+    m_username = username;
 }
 
 std::string PlayerDB::GetPassword() const
@@ -17,5 +21,5 @@ std::string PlayerDB::GetPassword() const
 
 void PlayerDB::SetPassword(const std::string& password)
 {
-    this->m_password = password;
+    m_password = password;
 }

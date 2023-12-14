@@ -5,6 +5,7 @@
 #include <crow.h>
 namespace sql = sqlite_orm;
 #include "Player.h"
+#include"PlayerDB.h"
 struct Word
 {
 	uint16_t id;
@@ -21,17 +22,17 @@ inline auto createStorage(const std::string& filename)
 			sql::make_column("id", &Word::id, sql::primary_key().autoincrement()),
 			sql::make_column("description", &Word::description),
 			sql::make_column("difficulty",&Word::difficulty)
-		)
-		/*sql::make_table(
+		),
+		sql::make_table(
 			"Player_Score",
-			sql::make_column("username", &Player::GetUsername(), sql::primary_key()),
-			sql::make_column("score", &Player::getScore())
-		)
+			sql::make_column("username", &Player::SetUsername, &Player::GetUsername, sql::primary_key()),
+			sql::make_column("score", &Player::SetScore, &Player::GetScore)
+		),
 		sql::make_table(
 			"Player_Password",
-			sql::make_column("username", &Player::GetUsername(), sql::primary_key()),
-			sql::make_column("Password", &Player::getScore())
-		)*/
+			sql::make_column("username", &PlayerDB::SetUsername, &PlayerDB::GetUsername, sql::primary_key()),
+			sql::make_column("password", &PlayerDB::SetPassword ,&PlayerDB::GetPassword)
+		)
 	);
 }
 

@@ -5,10 +5,11 @@ class Player
 public:
 	Player(const std::string& username, PlayerRole role, int16_t score);
 	std::string GetUsername() const;
+	void SetUsername(const std::string& username);
 	int16_t GetScore() const;
 	bool GetPlayerStatus() const;
 	PlayerRole GetRole() const;
-	int SetScore(const int &points);
+	void SetScore(const int16_t &points);
 	void SetPlayerStatus(const bool &status);
 	std::string GetRoleAsString() const;
 	void SetPlayerRole(const PlayerRole &role);

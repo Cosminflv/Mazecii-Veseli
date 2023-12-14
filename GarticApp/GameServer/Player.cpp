@@ -10,6 +10,11 @@ std::string Player::GetUsername() const
 	return m_username;
 }
 
+void Player::SetUsername(const std::string& username)
+{
+	m_username = username;
+}
+
 int16_t Player::GetScore() const
 {
 	return m_score;
@@ -29,11 +34,9 @@ std::string Player::GetRoleAsString() const
 {
 	return (m_role == PlayerRole::Guesser) ? "Guesser" : "Painter";
 }
-
-int Player::SetScore(const int &points)
+void  Player::SetScore(const int16_t &points)
 {
-	m_score += points;
-	return m_score;
+	m_score = points;
 }
 
 void Player::SetPlayerStatus(const bool &status)
