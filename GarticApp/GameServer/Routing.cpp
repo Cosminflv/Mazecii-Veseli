@@ -1,5 +1,4 @@
 #include "Routing.h"
-
 void Routing::Run(GameStorage& storage)
 {
 	CROW_ROUTE(m_app, "/")([]() {
@@ -25,5 +24,30 @@ void Routing::Run(GameStorage& storage)
 					return crow::json::wvalue{ wordsJson };
 				}
 			);
+
+	CROW_ROUTE(m_app, "/words/<int>")
+			.methods("GET"_method)
+			([&storage](const crow::request& req, int difficulty)
+				{
+					std::vector<crow::json::wvalue> wordsJson;
+					auto allWords = storage.GetWords();
+		
+					for (const auto& word : allWords)
+					{
+						if (word.difficulty == static_cast<uint16_t>(difficulty))
+						{
+							crow::json::wvalue w{
+								{"id", word.id},
+								{"description", word.description},
+								{"difficulty", word.difficulty}
+							};
+		
+							wordsJson.push_back(w);
+						}
+					}
+		
+					return crow::json::wvalue{ wordsJson };
+				});
+
 	m_app.port(18080).multithreaded().run();
 }
