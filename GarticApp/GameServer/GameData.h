@@ -38,4 +38,18 @@ inline auto createStorage(const std::string& filename)
 
 using Storage = decltype(createStorage(""));
 
-void populateStorage(Storage& storage);
+
+class GameStorage
+{
+public:
+	bool Initialize();
+	//std::vector<Word> GetWords();
+private:
+	void PopulateStorage();
+
+private:
+	const std::string kDbFile{ "Database.sqlite" };
+
+private:
+	Storage m_db = createStorage(kDbFile);
+};

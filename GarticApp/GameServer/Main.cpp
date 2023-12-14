@@ -14,13 +14,22 @@ namespace sql = sqlite_orm;
 int main()
 {
 	Timer T{ 1 };
-	Storage db = createStorage("Datab.sqlite");
+	/*Storage db = createStorage("Datab.sqlite");
 	db.sync_schema();
 	auto initWordsCount = db.count<Word>();
 	if (initWordsCount == 0)
 		populateStorage(db);
 	auto wordsCount = db.count<Word>();
-	std::cout << wordsCount << "\n";
+	std::cout << wordsCount << "\n";*/
+
+	GameStorage storage;
+	if (!storage.Initialize())
+	{
+		std::cout << "Faild to initialize the database!";
+		return -1;
+	}
+
+
 	std::string username;
 	std::string role;
 	int16_t score;
@@ -41,131 +50,131 @@ int main()
 	}
 	std::cout << "\n----------------------------------------------------------------\n";
 
-	SubRound subround;
-	Chat chat;
-
-	chat.WriteMessage({ "Server", "Hello world!" });
-
-	crow::SimpleApp app;
-
-	CROW_ROUTE(app, "/playerinfo")([&players]()
-		{
-			std::vector<crow::json::wvalue> playersJson;
-			for (const auto& player : players)
-			{
-				crow::json::wvalue p
-				{
-					{"Username", player->GetUsername()}, {"Role", player->GetRoleAsString()},
-					{"Score", player->GetScore()}, {"Status", player->GetPlayerStatus()}
-				};
-
-				playersJson.push_back(p);
-			}
-			return crow::json::wvalue{ playersJson };
-		});
-	CROW_ROUTE(app, "/words")([&db]()
-		{
-			std::vector<crow::json::wvalue>wordsJson;
-			for (const auto& word : db.iterate<Word>())
-			{
-				crow::json::wvalue w{
-					{"id",word.id},
-					{"description",word.description},
-					{"difficulty",word.difficulty}
-
-				};
-
-				wordsJson.push_back(w);
-			};
-			return crow::json::wvalue{ wordsJson };
-		}
-
-	);
-
-	CROW_ROUTE(app, "/word")([&subround]() {
-		std::string randomWord = subround.SelectRandomWord();
-		crow::json::wvalue wordJson;
-		wordJson["word"] = randomWord;
-		return wordJson;
-		});
-
-CROW_ROUTE(app, "/words/<int>")
-	.methods("GET"_method)
-	([&db](const crow::request& req, int difficulty)
-		{
-			std::vector<crow::json::wvalue> wordsJson;
-			auto allWords = db.iterate<Word>();
-
-			for (const auto& word : allWords)
-			{
-				if (word.difficulty == static_cast<uint16_t>(difficulty))
-				{
-					crow::json::wvalue w{
-						{"id", word.id},
-						{"description", word.description},
-						{"difficulty", word.difficulty}
-					};
-
-					wordsJson.push_back(w);
-				}
-			}
-
-			return crow::json::wvalue{ wordsJson };
-		});
-	CROW_ROUTE(app, "/chat")([&chat]()
-		{
-			std::vector<crow::json::wvalue> chatMessagesJson;
-			auto chatMessages = chat.getChat();
-			for (const auto& message : chatMessages)
-			{
-				crow::json::wvalue m
-				{
-					{"Username", message.first},
-					{"Message", message.second},
-				};
-
-				chatMessagesJson.push_back(m);
-			}
-			return crow::json::wvalue{ chatMessagesJson };
-		});
-
-	CROW_ROUTE(app, "/receive_message")
-		.methods("POST"_method)
-		([&chat](const crow::request& req) {
-		// Access the transmitted JSON data from the client
-		auto json_data = crow::json::load(req.body);
-		if (!json_data) {
-			return crow::response(400);
-		}
-
-		if (json_data.has("username") && json_data.has("message")) {
-			std::string username = json_data["username"].s();
-			std::string password = json_data["message"].s();
-
-			chat.WriteMessage({ username, password });
-		}
-		else {
-			return crow::response(400);
-		}
-			});
-	CROW_ROUTE(app, "/register")
-		.methods("POST"_method)
-		([&db](const crow::request& req)
-			{
-				crow::json::rvalue jsonData = crow::json::load(req.body);
-				if (!jsonData)
-				{
-					return crow::response(400, "Invalid JSON format");
-				}
-				std::string username = jsonData["username"].s();
-				std::string password = jsonData["password"].s();
-				PlayerDB user;
-				user.SetUsername(username);
-				user.SetPassword(password);
-				db.replace(user);
-				return crow::response(200);
-			}
-	);
-
-	app.port(18080).multithreaded().run();
+//	SubRound subround;
+//	Chat chat;
+//
+//	chat.WriteMessage({ "Server", "Hello world!" });
+//
+//	crow::SimpleApp app;
+//
+//	CROW_ROUTE(app, "/playerinfo")([&players]()
+//		{
+//			std::vector<crow::json::wvalue> playersJson;
+//			for (const auto& player : players)
+//			{
+//				crow::json::wvalue p
+//				{
+//					{"Username", player->GetUsername()}, {"Role", player->GetRoleAsString()},
+//					{"Score", player->GetScore()}, {"Status", player->GetPlayerStatus()}
+//				};
+//
+//				playersJson.push_back(p);
+//			}
+//			return crow::json::wvalue{ playersJson };
+//		});
+//	CROW_ROUTE(app, "/words")([&db]()
+//		{
+//			std::vector<crow::json::wvalue>wordsJson;
+//			for (const auto& word : db.iterate<Word>())
+//			{
+//				crow::json::wvalue w{
+//					{"id",word.id},
+//					{"description",word.description},
+//					{"difficulty",word.difficulty}
+//
+//				};
+//
+//				wordsJson.push_back(w);
+//			};
+//			return crow::json::wvalue{ wordsJson };
+//		}
+//
+//	);
+//
+//	CROW_ROUTE(app, "/word")([&subround]() {
+//		std::string randomWord = subround.SelectRandomWord();
+//		crow::json::wvalue wordJson;
+//		wordJson["word"] = randomWord;
+//		return wordJson;
+//		});
+//
+//CROW_ROUTE(app, "/words/<int>")
+//	.methods("GET"_method)
+//	([&db](const crow::request& req, int difficulty)
+//		{
+//			std::vector<crow::json::wvalue> wordsJson;
+//			auto allWords = db.iterate<Word>();
+//
+//			for (const auto& word : allWords)
+//			{
+//				if (word.difficulty == static_cast<uint16_t>(difficulty))
+//				{
+//					crow::json::wvalue w{
+//						{"id", word.id},
+//						{"description", word.description},
+//						{"difficulty", word.difficulty}
+//					};
+//
+//					wordsJson.push_back(w);
+//				}
+//			}
+//
+//			return crow::json::wvalue{ wordsJson };
+//		});
+//	CROW_ROUTE(app, "/chat")([&chat]()
+//		{
+//			std::vector<crow::json::wvalue> chatMessagesJson;
+//			auto chatMessages = chat.getChat();
+//			for (const auto& message : chatMessages)
+//			{
+//				crow::json::wvalue m
+//				{
+//					{"Username", message.first},
+//					{"Message", message.second},
+//				};
+//
+//				chatMessagesJson.push_back(m);
+//			}
+//			return crow::json::wvalue{ chatMessagesJson };
+//		});
+//
+//	CROW_ROUTE(app, "/receive_message")
+//		.methods("POST"_method)
+//		([&chat](const crow::request& req) {
+//		// Access the transmitted JSON data from the client
+//		auto json_data = crow::json::load(req.body);
+//		if (!json_data) {
+//			return crow::response(400);
+//		}
+//
+//		if (json_data.has("username") && json_data.has("message")) {
+//			std::string username = json_data["username"].s();
+//			std::string password = json_data["message"].s();
+//
+//			chat.WriteMessage({ username, password });
+//		}
+//		else {
+//			return crow::response(400);
+//		}
+//			});
+//	CROW_ROUTE(app, "/register")
+//		.methods("POST"_method)
+//		([&db](const crow::request& req)
+//			{
+//				crow::json::rvalue jsonData = crow::json::load(req.body);
+//				if (!jsonData)
+//				{
+//					return crow::response(400, "Invalid JSON format");
+//				}
+//				std::string username = jsonData["username"].s();
+//				std::string password = jsonData["password"].s();
+//				PlayerDB user;
+//				user.SetUsername(username);
+//				user.SetPassword(password);
+//				db.replace(user);
+//				return crow::response(200);
+//			}
+//	);
+//
+//	app.port(18080).multithreaded().run();
 }
