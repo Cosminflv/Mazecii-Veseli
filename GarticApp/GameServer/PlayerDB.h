@@ -1,5 +1,6 @@
 #pragma once
 #include<string>
+
 class PlayerDB
 {
 public:
@@ -11,7 +12,6 @@ public:
 
 	std::string GetPassword()const;
 	void SetPassword(const std::string& password);
-
 
 private:
 	std::string m_username;

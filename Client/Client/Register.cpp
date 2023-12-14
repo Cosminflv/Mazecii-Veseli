@@ -63,13 +63,15 @@ void Register::CreateAccount()
 	jsonPayload["username"] = m_username;
 	jsonPayload["password"] = m_password;
 	std::string jsonString = jsonPayload.dump();
-	//trimit la server
-	auto response = cpr::Put
-	(
-		cpr::Url{ "http://localhost:18080/register" },
-		cpr::Body{ jsonString },
-		cpr::Header{ {"Content - Type","application/json"} }
-
-	);
+	cpr::Response r = cpr::Post(cpr::Url("http://localhost:18080/registerinfo"), cpr::Body{ jsonString });
+	
+	if (r.status_code == 200)
+	{
+		qDebug() << "register data sent.\n";
+	}
+	else
+	{
+		qDebug() << "register FAIL\n";
+	}
 }
 

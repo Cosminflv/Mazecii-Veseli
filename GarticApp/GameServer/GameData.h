@@ -38,7 +38,6 @@ inline auto createStorage(const std::string& filename)
 
 using Storage = decltype(createStorage(""));
 
-
 class GameStorage
 {
 public:
