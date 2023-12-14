@@ -3,16 +3,23 @@
 class Player
 {
 public:
+
+	Player() = default;
 	Player(const std::string& username, PlayerRole role, int16_t score);
+
 	std::string GetUsername() const;
 	void SetUsername(const std::string& username);
+
 	int16_t GetScore() const;
+	void SetScore(int16_t points);
+
 	bool GetPlayerStatus() const;
-	PlayerRole GetRole() const;
-	void SetScore(const int16_t &points);
 	void SetPlayerStatus(const bool &status);
+
+	PlayerRole GetRole() const;
 	std::string GetRoleAsString() const;
 	void SetPlayerRole(const PlayerRole &role);
+
 private:
 	std::string m_username;
 	int16_t m_score;
