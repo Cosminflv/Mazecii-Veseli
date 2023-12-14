@@ -23,9 +23,14 @@ inline auto createStorage(const std::string& filename)
 			sql::make_column("difficulty",&Word::difficulty)
 		)
 		/*sql::make_table(
-			"Player",
+			"Player_Score",
 			sql::make_column("username", &Player::GetUsername(), sql::primary_key()),
 			sql::make_column("score", &Player::getScore())
+		)
+		sql::make_table(
+			"Player_Password",
+			sql::make_column("username", &Player::GetUsername(), sql::primary_key()),
+			sql::make_column("Password", &Player::getScore())
 		)*/
 	);
 }
