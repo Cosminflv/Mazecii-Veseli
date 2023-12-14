@@ -5,5 +5,25 @@ void Routing::Run(GameStorage& storage)
 	CROW_ROUTE(m_app, "/")([]() {
 		return "Meow";
 		});
+
+	CROW_ROUTE(m_app, "/words")([&storage]()
+		      {
+			        
+					std::vector<crow::json::wvalue>wordsJson;
+					auto words = storage.GetWords();
+					for (const auto& word : words)
+					{
+						crow::json::wvalue w{
+							{"id",word.id},
+							{"description",word.description},
+							{"difficulty",word.difficulty}
+		
+						};
+		
+						wordsJson.push_back(w);
+					};
+					return crow::json::wvalue{ wordsJson };
+				}
+			);
 	m_app.port(18080).multithreaded().run();
 }
