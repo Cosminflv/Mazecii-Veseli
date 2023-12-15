@@ -50,5 +50,5 @@ void Login::LogintoAccount()
 void Login::CreateNewAccount()
 {
 	Register* r = new Register();
-	r->show();
+	r->show();	
 }

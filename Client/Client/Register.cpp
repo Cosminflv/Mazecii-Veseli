@@ -1,6 +1,7 @@
 #include "Register.h"
 #include"crow.h"
 #include<cpr/cpr.h>
+#include "Client.h"
 
 Register::Register(QWidget *parent)
 	: QMainWindow(parent)
@@ -35,6 +36,16 @@ Register::~Register()
 	delete m_create;
 }
 
+std::string Register::GetUsername() const
+{
+	return m_username;
+}
+
+std::string Register::GetPassword() const
+{
+	return m_password;
+}
+
 bool Register::PasswordValidation()
 {
 	// password of at least 6 letters and at least one number
@@ -52,6 +63,11 @@ bool Register::PasswordValidation()
 	}
 }
 
+bool Register::AccountCreated()
+{
+	return m_accountCreated;
+}
+
 void Register::CreateAccount()
 {
 	m_username = m_userText->text().toUtf8().constData();
@@ -66,10 +82,13 @@ void Register::CreateAccount()
 		jsonPayload["password"] = m_password;
 		std::string jsonString = jsonPayload.dump();
 		cpr::Response r = cpr::Post(cpr::Url("http://localhost:18080/registerinfo"), cpr::Body{ jsonString });
-
+		m_accountCreated = true;
 		if (r.status_code == 200)
 		{
 			qDebug() << "register data sent.\n";
+			Client* w = new Client();
+			w->show();
+			w->GetChat()->SetClientUsername(m_username);
 		}
 		else
 		{

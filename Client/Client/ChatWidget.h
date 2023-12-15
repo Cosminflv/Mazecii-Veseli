@@ -1,12 +1,16 @@
 #pragma once
 #include <QtWidgets>
 #include <QKeyEvent>
+#include <string>
 
 class ChatWidget : public QWidget
 {
 public:
 	ChatWidget(QWidget* parent = nullptr);
 	~ChatWidget();
+
+	std::string GetUsernameOfClient() const;
+	void SetClientUsername(const std::string& user);
 
 private slots:
 	void sendMessage();
@@ -24,10 +28,6 @@ private:
 		messageInput->setFixedHeight(35);
 		layout->addWidget(messageInput);
 
-		
-	//	sendButton = new QPushButton("Send", this);
-	//	layout->addWidget(sendButton);
-
 		setLayout(layout);
 	}
 
@@ -37,6 +37,6 @@ protected:
 private:
 	QTextEdit* messageDisplay;
 	QLineEdit* messageInput;
-	//QPushButton* sendButton;
+	std::string m_username;
 };
 

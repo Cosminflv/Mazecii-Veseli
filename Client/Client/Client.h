@@ -19,6 +19,8 @@ public:
     Client(QWidget *parent = nullptr);
     ~Client();
 
+    ChatWidget* GetChat() const;
+
 private:
     Ui::ClientClass ui;
     ScribbleArea* m_scribbleArea;

@@ -57,7 +57,7 @@ int main()
 	//	r.Run(storage);
 
 		SubRound subround;
-	//	Chat chat;
+		Chat chat;
 	//
 	//	chat.WriteMessage({ "Server", "Hello world!" });
 	//
@@ -98,12 +98,12 @@ int main()
 	//
 	//	);
 	//
-		//CROW_ROUTE(app, "/word")([&subround]() {
-		//	std::string randomWord = subround.SelectRandomWord();
-		//	crow::json::wvalue wordJson;
-		//	wordJson["word"] = randomWord;
-		//	return wordJson;
-		//	});
+		CROW_ROUTE(app, "/word")([&subround]() {
+			std::string randomWord = subround.SelectRandomWord();
+			crow::json::wvalue wordJson;
+			wordJson["word"] = randomWord;
+			return wordJson;
+			});
 	//
 	//CROW_ROUTE(app, "/words/<int>")
 	//	.methods("GET"_method)
@@ -145,26 +145,27 @@ int main()
 	//			return crow::json::wvalue{ chatMessagesJson };
 	//		});
 	//
-	//	CROW_ROUTE(app, "/receive_message")
-	//		.methods("POST"_method)
-	//		([&chat](const crow::request& req) {
-	//		// Access the transmitted JSON data from the client
-	//		auto json_data = crow::json::load(req.body);
-	//		if (!json_data) {
-	//			return crow::response(400);
-	//		}
-	//
-	//		if (json_data.has("username") && json_data.has("message")) {
-	//			std::string username = json_data["username"].s();
-	//			std::string password = json_data["message"].s();
-	//
-	//			chat.WriteMessage({ username, password });
-	//		}
-	//		else {
-	//			return crow::response(400);
-	//		}
-	//			});
-	// 
+		CROW_ROUTE(app, "/receive_message")
+			.methods("POST"_method)
+			([](const crow::request& req) {
+			// Access the transmitted JSON data from the client
+			crow::json::rvalue json_data = crow::json::load(req.body);
+			if (!json_data) {
+				return crow::response(400);
+			}
+
+			//if (json_data.has("username") && json_data.has("message")) {
+				std::string username = json_data["username"].s();
+				std::string message = json_data["message"].s();
+
+				//chat.WriteMessage({ username, message });
+				std::cout << "Received message from" << username << ": " << message;
+				return crow::response(200);
+			//}
+			/*else {
+				return crow::response(400);
+			}*/
+				});
 
 	CROW_ROUTE(app, "/registerinfo")
 		.methods("POST"_method)
