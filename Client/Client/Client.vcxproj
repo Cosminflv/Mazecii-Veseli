@@ -102,6 +102,7 @@
     <ClCompile Include="ClientException.cpp" />
     <ClCompile Include="ColorWidget.cpp" />
     <ClCompile Include="Login.cpp" />
+    <ClCompile Include="PasswordException.cpp" />
     <ClCompile Include="PlayerRequestException.cpp" />
     <ClCompile Include="PlayerWidget.cpp" />
     <ClCompile Include="Register.cpp" />
@@ -124,6 +125,7 @@
     <ClInclude Include="ClientException.h" />
     <ClInclude Include="ClientExceptions.h" />
     <QtMoc Include="Login.h" />
+    <ClInclude Include="PasswordException.h" />
     <ClInclude Include="PlayerRequestException.h" />
     <QtMoc Include="Register.h" />
     <ClInclude Include="TimerRequestException.h" />

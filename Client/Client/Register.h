@@ -6,8 +6,7 @@
 #include <QPushButton>
 #include <regex>
 #include "ui_Register.h"
-//#include <cpr/cpr.h>
-//#include "crow.h"
+#include "ClientExceptions.h"
 
 class Register : public QMainWindow
 {
@@ -17,7 +16,7 @@ public:
 	Register(QWidget *parent = nullptr);
 	~Register();
 
-	void PasswordValidation();
+	bool PasswordValidation();
 
 private slots:
 	void CreateAccount();

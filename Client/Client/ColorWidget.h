@@ -17,14 +17,14 @@ private:
 
     const QStringList m_colors =
     {
-        "#000000", // Qt::black
-        "#FF0000", // Qt::red
-        "#00FF00", // Qt::green
+        "#000000", // black
+        "#e60000", // red
+        "#47d147", // green
         "#66ccff", // blue
         "#ffdb4d", // yellow
         "#ff3399", // pink
         "#804000", // brown
-        "#FFFFFF", // Qt::white
+        "#ffffff", // white
         "#b30000", // dark red       
         "#006600", // dark green       
         "#0047b3", // dark blue       

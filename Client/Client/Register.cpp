@@ -1,6 +1,7 @@
 #include "Register.h"
 #include"crow.h"
 #include<cpr/cpr.h>
+
 Register::Register(QWidget *parent)
 	: QMainWindow(parent)
 {
@@ -34,7 +35,7 @@ Register::~Register()
 	delete m_create;
 }
 
-void Register::PasswordValidation()
+bool Register::PasswordValidation()
 {
 	// password of at least 6 letters and at least one number
 	std::regex validForm("^(?=.*[A-Za-z]{6,})(?=.*\\d)[A-Za-z\\d]{6,}$");
@@ -42,36 +43,42 @@ void Register::PasswordValidation()
 	if (std::regex_match(m_password, validForm))
 	{
 		qDebug() << " \nVALID.\n";
+		return true;
 	}
 	else
 	{
 		qDebug() << "\nINVALID PASSWORD.\n";
+		return false;
 	}
 }
-
 
 void Register::CreateAccount()
 {
 	m_username = m_userText->text().toUtf8().constData();
 	m_password = m_passwordText->text().toUtf8().constData();
 
-	PasswordValidation();
-
-	qDebug() << m_username << " " << m_password;
-	//impachetez campuri
-	crow::json::wvalue jsonPayload;
-	jsonPayload["username"] = m_username;
-	jsonPayload["password"] = m_password;
-	std::string jsonString = jsonPayload.dump();
-	cpr::Response r = cpr::Post(cpr::Url("http://localhost:18080/registerinfo"), cpr::Body{ jsonString });
-	
-	if (r.status_code == 200)
+	if (PasswordValidation())
 	{
-		qDebug() << "register data sent.\n";
+		qDebug() << m_username << " " << m_password;
+		//impachetez campuri
+		crow::json::wvalue jsonPayload;
+		jsonPayload["username"] = m_username;
+		jsonPayload["password"] = m_password;
+		std::string jsonString = jsonPayload.dump();
+		cpr::Response r = cpr::Post(cpr::Url("http://localhost:18080/registerinfo"), cpr::Body{ jsonString });
+
+		if (r.status_code == 200)
+		{
+			qDebug() << "register data sent.\n";
+		}
+		else
+		{
+			qDebug() << "register FAIL\n";
+		}
 	}
 	else
 	{
-		qDebug() << "register FAIL\n";
+		throw(PasswordException("Invalid password."));
 	}
 }
 

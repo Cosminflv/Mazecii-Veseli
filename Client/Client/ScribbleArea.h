@@ -48,5 +48,6 @@ private:
 	QPushButton* m_clearButton;
 	QPushButton* m_selectColor;
 
+	const QList<int> m_sizes = { 7, 14, 21 };
 };
 

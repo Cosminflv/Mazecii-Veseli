@@ -8,6 +8,8 @@ ScribbleArea::ScribbleArea(QWidget* parent)
 	m_isScribbling = false;
 	m_penColor = Qt::black;
 	m_penWidth = 5;
+	int offset = 50;
+	int up = 0;
 
 	m_clearButton = new QPushButton("Clear Screen", this);
 	m_clearButton->setGeometry(10, 10, 100, 30);
@@ -16,6 +18,19 @@ ScribbleArea::ScribbleArea(QWidget* parent)
 	m_selectColor = new QPushButton("More Colors", this);
 	m_selectColor->setGeometry(440, 460, 100, 30);
 	connect(m_selectColor, &QPushButton::clicked, this, &ScribbleArea::onColorButtonClicked);
+
+	for (const int& size : m_sizes)
+	{
+		QPushButton* sizeButton = new QPushButton("\u2022", this);
+		sizeButton->setFont(QFont("Arial", 23 + up));
+		sizeButton->setGeometry(offset + 70, 10, 30, 30);
+		connect(sizeButton, &QPushButton::clicked, [this, size]()
+			{
+				setPenWidth(size);
+			});
+		offset += 30 + 10;
+		up += 7;
+	}
 }
 
 void ScribbleArea::setPenColor(const QColor& newColor)

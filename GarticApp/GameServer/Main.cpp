@@ -44,13 +44,13 @@ int main()
 		Player* player = new Player(username, Role, score);
 		players.push_back(player);
 	}
-	players[1]->SetPlayerStatus(true);
+	/*players[1]->SetPlayerStatus(true);
 	std::cout << "PLAYER DATA:\n";
 	for (int i = 0; i < players.size(); i++)
 	{
 		std::cout << "\nPLAYER " << i + 1 << "\n" << *players[i];
 	}
-	std::cout << "\n----------------------------------------------------------------\n";
+	std::cout << "\n----------------------------------------------------------------\n";*/
 
 
 	//	Routing r;
