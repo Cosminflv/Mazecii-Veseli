@@ -49,7 +49,7 @@ std::string Register::GetPassword() const
 bool Register::PasswordValidation()
 {
 	// password of at least 6 letters and at least one number
-	std::regex validForm("^(?=.*[A-Za-z]{6,})(?=.*\\d)[A-Za-z\\d]{6,}$");
+	std::regex validForm("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$");
 
 	if (std::regex_match(m_password, validForm))
 	{

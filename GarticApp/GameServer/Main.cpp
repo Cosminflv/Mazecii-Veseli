@@ -57,7 +57,7 @@ int main()
 	//	r.Run(storage);
 
 		SubRound subround;
-		Chat chat;
+		
 	//
 	//	chat.WriteMessage({ "Server", "Hello world!" });
 	//
@@ -128,66 +128,68 @@ int main()
 	//
 	//			return crow::json::wvalue{ wordsJson };
 	//		});
-	//	CROW_ROUTE(app, "/chat")([&chat]()
-	//		{
-	//			std::vector<crow::json::wvalue> chatMessagesJson;
-	//			auto chatMessages = chat.getChat();
-	//			for (const auto& message : chatMessages)
-	//			{
-	//				crow::json::wvalue m
-	//				{
-	//					{"Username", message.first},
-	//					{"Message", message.second},
-	//				};
-	//
-	//				chatMessagesJson.push_back(m);
-	//			}
-	//			return crow::json::wvalue{ chatMessagesJson };
-	//		});
-	//
+		
+		Chat chat;
+	
+		
 		CROW_ROUTE(app, "/receive_message")
 			.methods("POST"_method)
-			([](const crow::request& req) {
-			// Access the transmitted JSON data from the client
-			crow::json::rvalue json_data = crow::json::load(req.body);
-			if (!json_data) {
-				return crow::response(400);
-			}
+			([](const crow::request& req)
+				{
 
-			//if (json_data.has("username") && json_data.has("message")) {
-				std::string username = json_data["username"].s();
-				std::string message = json_data["message"].s();
+					crow::json::rvalue json_data = crow::json::load(req.body);
+					if (!json_data) {
+						return crow::response(400, "Invalid JSON format");
+					}
 
-				//chat.WriteMessage({ username, message });
-				std::cout << "Received message from" << username << ": " << message;
-				return crow::response(200);
-			//}
-			/*else {
-				return crow::response(400);
-			}*/
+					if (json_data.has("username") && json_data.has("message")) {
+					std::string username = json_data["username"].s();
+					std::string message = json_data["message"].s();
+					Chat chat;
+					chat.WriteMessage({ username, message });
+					std::cout << "Received message from" << username << ": " << message;
+					return crow::response(200);
+					}
 				});
 
-	CROW_ROUTE(app, "/registerinfo")
-		.methods("POST"_method)
-		([](const crow::request& req)
-			{
-				crow::json::rvalue jsonData = crow::json::load(req.body);
-				if (!jsonData)
+		CROW_ROUTE(app, "/registerinfo")
+			.methods("POST"_method)
+			([](const crow::request& req)
 				{
-					return crow::response(400, "Invalid JSON format");
+					crow::json::rvalue jsonData = crow::json::load(req.body);
+					if (!jsonData)
+					{
+						return crow::response(400, "Invalid JSON format");
+					}
+					std::string username = jsonData["username"].s();
+					std::string password = jsonData["password"].s();
+					PlayerDB user;
+					user.SetUsername(username);
+					user.SetPassword(password);
+					std::cout << "Received username: " << username << std::endl;
+					std::cout << "Received password: " << password << std::endl;
+					//db.replace(user);
+					return crow::response(200);
 				}
-				std::string username = jsonData["username"].s();
-				std::string password = jsonData["password"].s();
-				PlayerDB user;
-				user.SetUsername(username);
-				user.SetPassword(password);
-				std::cout << "Received username: " << username << std::endl;
-				std::cout << "Received password: " << password << std::endl;
-				//std::cout << username << " " << password;
-				//db.replace(user);
-				return crow::response(200);
-			}
-	);
+		);
+		CROW_ROUTE(app, "/chat")([&chat]()
+			{
+				std::vector<crow::json::wvalue> chatMessagesJson;
+				auto chatMessages = chat.getChat();
+				for (const auto& message : chatMessages)
+				{
+					crow::json::wvalue m
+					{
+						{"Username", message.first},
+						{"Message", message.second},
+					};
+
+					chatMessagesJson.push_back(m);
+				}
+				return crow::json::wvalue{ chatMessagesJson };
+			});
+		
+	
 
 	app.port(18080).multithreaded().run();
 }

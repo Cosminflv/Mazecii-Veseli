@@ -27,19 +27,21 @@ void ChatWidget::SetClientUsername(const std::string& user)
 void ChatWidget::sendMessage()
 {
 	QString message = messageInput->text();
+	m_message = message.toUtf8().constData();
 	QString user = QString::fromUtf8(m_username.c_str());
 
 	if (!message.isEmpty()) {
+		messageDisplay->setFont(QFont("Arial", 13));
 		messageDisplay->append(user + ": " + message);
 		messageInput->clear();
 	}
-
+	qDebug() << m_username << " " << m_message << "\n";
 	/*crow::json::wvalue jsonChat;
 	jsonChat["username"] = m_username;
-	jsonChat["message"] = message.toUtf8().constData();
+	jsonChat["message"] = m_message;
 	std::string jsonString = jsonChat.dump();
 	cpr::Response r = cpr::Post(cpr::Url("http://localhost:18080/receive_message"), cpr::Body{ jsonString });
-	if (r.status_code = 200)
+	if (r.status_code == 200)
 	{
 		qDebug() << "message sent.";
 	}
