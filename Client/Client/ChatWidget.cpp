@@ -1,6 +1,6 @@
 #include "ChatWidget.h"
-//#include"crow.h"
-//#include<cpr/cpr.h>
+#include"crow.h"
+#include<cpr/cpr.h>
 
 ChatWidget::ChatWidget(QWidget* parent)
 {
@@ -36,19 +36,6 @@ void ChatWidget::sendMessage()
 		messageInput->clear();
 	}
 	qDebug() << m_username << " " << m_message << "\n";
-	/*crow::json::wvalue jsonChat;
-	jsonChat["username"] = m_username;
-	jsonChat["message"] = m_message;
-	std::string jsonString = jsonChat.dump();
-	cpr::Response r = cpr::Post(cpr::Url("http://localhost:18080/receive_message"), cpr::Body{ jsonString });
-	if (r.status_code == 200)
-	{
-		qDebug() << "message sent.";
-	}
-	else
-	{
-		qDebug() << "message send FAIL.";
-	}*/
 }
 
 void ChatWidget::keyPressEvent(QKeyEvent* e)
@@ -56,5 +43,18 @@ void ChatWidget::keyPressEvent(QKeyEvent* e)
 	if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)
 	{
 		sendMessage();
+		crow::json::wvalue jsonChat;
+		jsonChat["username"] = m_username;
+		jsonChat["message"] = m_message;
+		std::string jsonString = jsonChat.dump();
+		cpr::Response r = cpr::Post(cpr::Url("http://localhost:18080/receive_message"), cpr::Body{ jsonString });
+		if (r.status_code == 200)
+		{
+			qDebug() << "message sent.";
+		}
+		else
+		{
+			qDebug() << "message send FAIL.";
+		}
 	}
 }

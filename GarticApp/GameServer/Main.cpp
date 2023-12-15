@@ -147,7 +147,7 @@ int main()
 					std::string message = json_data["message"].s();
 					Chat chat;
 					chat.WriteMessage({ username, message });
-					std::cout << "Received message from" << username << ": " << message;
+					std::cout << "Received message from " << username << ": " << message;
 					return crow::response(200);
 					}
 				});

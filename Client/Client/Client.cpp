@@ -39,8 +39,8 @@ Client::Client(QWidget* parent)
     //m_wordWidget->updateWord(m_wordWidget->fetchWordFromServer());
    // m_wordWidget->displayWord(m_timerWidget);
 
-    m_wordWidget->UpdateWord(m_wordWidget->FetchWordFromServer());
-    //m_wordWidget->Display("test string");
+    //m_wordWidget->UpdateWord(m_wordWidget->FetchWordFromServer());
+    m_wordWidget->Display("test string");
 
     QWidget* centralWidget = new QWidget(this);
     centralWidget->setLayout(mainLayout);
@@ -62,7 +62,9 @@ Client::~Client()
     delete m_scribbleArea;
     delete m_chatWidget;
     delete m_timerWidget;
+    delete m_playerWidget;
     delete m_colorWidget;
+    delete m_wordWidget;
 }
 
 ChatWidget* Client::GetChat() const
