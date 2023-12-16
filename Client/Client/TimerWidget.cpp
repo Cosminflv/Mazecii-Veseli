@@ -1,7 +1,5 @@
 #include "TimerWidget.h"
 #include <QVBoxLayout>
-#include"crow.h"
-#include<cpr/cpr.h>
 
 
 

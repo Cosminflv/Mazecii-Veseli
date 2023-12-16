@@ -4,6 +4,8 @@
 #include <qlabel.h>
 #include <QTimer>
 #include <QPalette>
+#include"crow.h"
+#include<cpr/cpr.h>
 
 class TimerWidget : public QWidget
 {

@@ -135,7 +135,7 @@ int main()
 		
 		CROW_ROUTE(app, "/receive_message")
 			.methods("POST"_method)
-			([](const crow::request& req)
+			([&chat](const crow::request& req)
 				{
 
 					crow::json::rvalue json_data = crow::json::load(req.body);
@@ -146,7 +146,6 @@ int main()
 					if (json_data.has("username") && json_data.has("message")) {
 					std::string username = json_data["username"].s();
 					std::string message = json_data["message"].s();
-					Chat chat;
 					chat.WriteMessage({ username, message });
 					std::cout << "Received message from " << username << ": " << message;
 					return crow::response(200);
