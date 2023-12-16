@@ -193,7 +193,7 @@ int main()
 		CROW_ROUTE(app, "/timer")([&T]()
 			{
 				std::chrono::milliseconds milliseconds = T.GetRemainingTime();
-				int seconds = milliseconds.count() / 1000;
+				int seconds = static_cast<int>(milliseconds.count()) / 1000;
 	
 					crow::json::wvalue secondsJson
 					{
