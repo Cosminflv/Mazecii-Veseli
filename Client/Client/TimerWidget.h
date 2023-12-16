@@ -12,16 +12,19 @@ class TimerWidget : public QWidget
 public:
 	TimerWidget();
 	QLabel* GetTimeLabel() const;
-	int GetSeconds() const;
 
 signals:
 	void timerUpdate(const QString& timeString, const QPalette& textColor);
 
+public slots:
+	void startTimer();
+	void stopTimer();
+
 private slots:
-	void updateTimer();
+	void fetchAndUpdateTimer();
+	void updateUi(int remainingTime);
 
 private:
-	int m_seconds;
 
 	QTimer* m_timer;
 	QLabel* m_timeLabel;
