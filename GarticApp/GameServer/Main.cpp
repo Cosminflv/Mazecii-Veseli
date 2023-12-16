@@ -10,6 +10,7 @@
 #include "Chat.h"
 #include"PlayerDB.h"
 #include "Routing.h"
+#include <thread>
 
 
 namespace sql = sqlite_orm;
@@ -188,8 +189,21 @@ int main()
 				}
 				return crow::json::wvalue{ chatMessagesJson };
 			});
-		
+
+		CROW_ROUTE(app, "/timer")([&T]()
+			{
+				std::chrono::milliseconds milliseconds = T.GetRemainingTime();
+				int seconds = milliseconds.count() / 1000;
 	
+					crow::json::wvalue secondsJson
+					{
+						{"Seconds", seconds},
+					};
+
+					return  secondsJson;
+			});
+
+	T.StartTimer();
 
 	app.port(18080).multithreaded().run();
 }

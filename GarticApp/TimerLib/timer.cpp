@@ -8,6 +8,7 @@ static std::chrono::milliseconds TimeInMillis(const std::chrono::steady_clock::t
 
 Timer::Timer(int total_minutes)
 	: m_initialTime{ total_minutes * 60 }
+	, m_remainingTime{m_initialTime * 600 }
 	, m_running{false}
 	, m_timerResolution{1}
 	, m_toDecreaseTime{0}
@@ -86,8 +87,10 @@ void Timer::Run()
 		{
 			StopTimer();
 		}
-
-		m_notifyChange();
 	}
+}
+
+std::chrono::milliseconds Timer::GetRemainingTime() {
+	return m_remainingTime;
 }
 

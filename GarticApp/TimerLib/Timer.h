@@ -20,6 +20,9 @@ public:
 	//Destructor
 	~Timer();
 
+	//Getters
+	std::chrono::milliseconds GetRemainingTime();
+
 	//Setters
 	void SetNotifyChange(TimerCallback newFunc);
 	void SetTimerResolution(int ms);
