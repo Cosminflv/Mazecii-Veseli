@@ -4,7 +4,17 @@
 
 ChatWidget::ChatWidget(QWidget* parent)
 {
-	setupUI();
+	QVBoxLayout* layout = new QVBoxLayout;
+
+	messageDisplay = new QTextEdit(this);
+	messageDisplay->setReadOnly(true);
+	layout->addWidget(messageDisplay);
+
+	messageInput = new QLineEdit(this);
+	messageInput->setFixedHeight(35);
+	layout->addWidget(messageInput);
+
+	setLayout(layout);
 	messageInput->setFont(QFont("Arial", 13));
 }
 
