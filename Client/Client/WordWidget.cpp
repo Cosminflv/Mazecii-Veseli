@@ -34,14 +34,14 @@ QString WordWidget::FormWord(const QString& word)
 	return playerView;
 }
 
-void WordWidget::DisplayWord(TimerWidget* timer)
-{
-	std::string wordString = FetchWordFromServer();
-
-	QString wordToDisplay = QString::fromUtf8(wordString.c_str(), static_cast<int>(wordString.size()));
-
-	m_word->setText(FormWord(wordToDisplay));
-}
+//void WordWidget::DisplayWord(TimerWidget* timer)
+//{
+//	std::string wordString = FetchWordFromServer();
+//
+//	QString wordToDisplay = QString::fromUtf8(wordString.c_str(), static_cast<int>(wordString.size()));
+//
+//	m_word->setText(FormWord(wordToDisplay));
+//}
 
 void WordWidget::Display(const std::string& word)
 {
@@ -49,7 +49,7 @@ void WordWidget::Display(const std::string& word)
 	m_word->setText(str);
 }
 
-std::string WordWidget::FetchWordFromServer()
+QString WordWidget::fetchWordFromServer()
 {
 	cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:18080/word" });
 
@@ -68,10 +68,10 @@ std::string WordWidget::FetchWordFromServer()
 	QString word = jsonObject.value("word").toString();
 
 	qDebug() << "Word:" << word;
-	return word.toUtf8().constData();
+	return word;
 }
 
-void WordWidget::UpdateWord(const std::string& word)
+void WordWidget::UpdateWord(const QString& word)
 {
-	m_word->setText(QString::fromUtf8(word.c_str()));
+	m_word->setText(word);
 }

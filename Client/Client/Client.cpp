@@ -40,8 +40,8 @@ Client::Client(QWidget* parent)
    // m_wordWidget->displayWord(m_timerWidget);
 
     //m_wordWidget->UpdateWord(m_wordWidget->FetchWordFromServer());
-    m_wordWidget->Display("test string");
-
+  //  m_wordWidget->Display("test string");
+    m_wordWidget->UpdateWord(m_wordWidget->fetchWordFromServer());
     QWidget* centralWidget = new QWidget(this);
     centralWidget->setLayout(mainLayout);
     setCentralWidget(centralWidget);

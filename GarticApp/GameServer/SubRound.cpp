@@ -11,7 +11,7 @@ SubRound::SubRound() :
 	m_word(""),
 	m_duration(0),
 	m_hasTimeEnded(false),
-	m_storage(createStorage("Data.sqlite")) // initial e createEmptyStorage
+	m_storage(createStorage("Database.sqlite")) // initial e createEmptyStorage
 {
 }
 

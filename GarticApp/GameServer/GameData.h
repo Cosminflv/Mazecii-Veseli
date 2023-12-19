@@ -10,7 +10,7 @@ struct Word
 {
 	uint16_t id;
 	std::string description;
-	uint16_t difficulty;
+	uint16_t difficulty; // 0 pt cuvinte easy, 1 pt mediu, 2 pt hard
 };
 
 inline auto createStorage(const std::string& filename)
