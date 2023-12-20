@@ -26,30 +26,16 @@ std::pair<size_t, QChar> WordWidget::GetRandomLetter(const QString& word)
 
 QString WordWidget::FormWord(const QString& word)
 {
-	QString playerView = "";
+	QString hiddenWord = "";
 	for (int i = 0; i < word.length(); i++)
 	{
-		playerView = playerView + "_";
+		hiddenWord = hiddenWord + "_ ";
 	}
-	return playerView;
+	return hiddenWord;
 }
 
-//void WordWidget::DisplayWord(TimerWidget* timer)
-//{
-//	std::string wordString = FetchWordFromServer();
-//
-//	QString wordToDisplay = QString::fromUtf8(wordString.c_str(), static_cast<int>(wordString.size()));
-//
-//	m_word->setText(FormWord(wordToDisplay));
-//}
 
-void WordWidget::Display(const std::string& word)
-{
-	QString str = QString::fromUtf8(word.c_str());
-	m_word->setText(str);
-}
-
-QString WordWidget::fetchWordFromServer(int difficulty)
+QString WordWidget::FetchWordFromServer(int difficulty)
 {
 	std::string url = "http://localhost:18080/word/" + std::to_string(difficulty);
 	cpr::Response response = cpr::Get(cpr::Url{ url });

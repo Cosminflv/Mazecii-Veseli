@@ -15,12 +15,10 @@ public:
 	WordWidget(QWidget* parent = nullptr);
 	~WordWidget();
 
-	std::pair<size_t, QChar> GetRandomLetter(const QString& word);
+	QString FetchWordFromServer(int difficulty);
 	QString FormWord(const QString& word);
-	//void DisplayWord(TimerWidget* timer);
-	void Display(const std::string& word);
-	QString fetchWordFromServer(int difficulty);
 	void UpdateWord(const QString& word);
+	std::pair<size_t, QChar> GetRandomLetter(const QString& word);
 
 
 private:
