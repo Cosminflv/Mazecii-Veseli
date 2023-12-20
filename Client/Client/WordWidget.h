@@ -19,7 +19,7 @@ public:
 	QString FormWord(const QString& word);
 	//void DisplayWord(TimerWidget* timer);
 	void Display(const std::string& word);
-	QString fetchWordFromServer();
+	QString fetchWordFromServer(int difficulty);
 	void UpdateWord(const QString& word);
 
 

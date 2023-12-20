@@ -41,16 +41,16 @@ void SubRound::StartRound()
 }
 
 
-std::string SubRound::SelectRandomWord()
+std::string SubRound::SelectRandomWord(uint16_t difficulty)
 {
-	auto allWords = m_storage.select(&Word::description);
-	if (allWords.empty()) {
-		std::cerr << "Baza de date nu conține cuvinte.\n";
+	auto filteredWords = m_storage.select(&Word::description, sql::where(sql::c(&Word::difficulty) == difficulty));
+	if (filteredWords.empty()) {
+		std::cerr << "Nu există cuvinte cu dificultatea specificată.\n";
 		return "";
 	}
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
-	auto randomIndex = std::rand() % allWords.size();
-	return allWords[randomIndex];
+	auto randomIndex = std::rand() % filteredWords.size();
+	return filteredWords[randomIndex];
 }
 
 //aici trebuie sa ma folosesc codul lui Cosmin

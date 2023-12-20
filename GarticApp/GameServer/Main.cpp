@@ -99,11 +99,16 @@ int main()
 	//
 	//	);
 	//
-		CROW_ROUTE(app, "/word")([&subround]() {
-			std::string randomWord = subround.SelectRandomWord();
-			crow::json::wvalue wordJson;
-			wordJson["word"] = randomWord;
-			return wordJson;
+	
+	//functia care merge
+	CROW_ROUTE(app, "/word/<int>")
+		.methods("GET"_method)
+		([&subround](int difficulty)
+			{
+				std::string randomWord = subround.SelectRandomWord(static_cast<uint16_t>(difficulty));
+				crow::json::wvalue wordJson;
+				wordJson["word"] = randomWord;
+				return wordJson;
 			});
 	//
 	//CROW_ROUTE(app, "/words/<int>")

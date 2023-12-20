@@ -49,9 +49,10 @@ void WordWidget::Display(const std::string& word)
 	m_word->setText(str);
 }
 
-QString WordWidget::fetchWordFromServer()
+QString WordWidget::fetchWordFromServer(int difficulty)
 {
-	cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:18080/word" });
+	std::string url = "http://localhost:18080/word/" + std::to_string(difficulty);
+	cpr::Response response = cpr::Get(cpr::Url{ url });
 
 	if (response.error) {
 		throw(WordRequestException("Word request has failed"));

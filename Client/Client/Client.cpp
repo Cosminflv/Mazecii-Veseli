@@ -35,13 +35,10 @@ Client::Client(QWidget* parent)
     mainLayout->setRowStretch(0, 1);
     mainLayout->setRowStretch(1, 3);
     mainLayout->setRowStretch(2, 2);
-   
-    //m_wordWidget->updateWord(m_wordWidget->fetchWordFromServer());
-   // m_wordWidget->displayWord(m_timerWidget);
 
-    //m_wordWidget->UpdateWord(m_wordWidget->FetchWordFromServer());
-  //  m_wordWidget->Display("test string");
-    m_wordWidget->UpdateWord(m_wordWidget->fetchWordFromServer());
+    //preluare random a cuvantului din server in functie de dificultate
+    m_wordWidget->UpdateWord(m_wordWidget->fetchWordFromServer(1)); // 1 reprezinta dificultatea, modific ulterior cu ce se transmite prin butonul de dificultate din interfata grafica
+
     QWidget* centralWidget = new QWidget(this);
     centralWidget->setLayout(mainLayout);
     setCentralWidget(centralWidget);
