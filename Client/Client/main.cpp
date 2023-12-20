@@ -3,13 +3,12 @@
 #include "Login.h"
 #include "Client.h"
 #include <QtWidgets/QApplication>
-//#include <cpr/cpr.h>
 #include <iostream>
 #include <numeric>
 #include <sstream>
 #include <regex>
 #include <string>
-//#include <crow.h>
+#include "Difficulty.h"
 
 int main(int argc, char* argv[])
 {
@@ -18,5 +17,7 @@ int main(int argc, char* argv[])
 	l.show();
 	//Client c;
 	//c.show();
+	//Difficulty d;
+	//d.show();
 	return a.exec();
 }

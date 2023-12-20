@@ -103,6 +103,7 @@
   <ItemGroup>
     <ClCompile Include="ClientException.cpp" />
     <ClCompile Include="ColorWidget.cpp" />
+    <ClCompile Include="Difficulty.cpp" />
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="PasswordException.cpp" />
     <ClCompile Include="PlayerRequestException.cpp" />
@@ -119,6 +120,7 @@
     <ClCompile Include="ChatWidget.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="Main.cpp" />
+    <QtUic Include="Difficulty.ui" />
     <QtUic Include="Login.ui" />
     <QtUic Include="Register.ui" />
   </ItemGroup>
@@ -127,6 +129,7 @@
     <ClInclude Include="ClientException.h" />
     <ClInclude Include="ClientExceptions.h" />
     <QtMoc Include="Login.h" />
+    <QtMoc Include="Difficulty.h" />
     <ClInclude Include="PasswordException.h" />
     <ClInclude Include="PlayerRequestException.h" />
     <QtMoc Include="Register.h" />

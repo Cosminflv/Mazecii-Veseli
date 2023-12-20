@@ -38,9 +38,9 @@ Client::Client(QWidget* parent)
     mainLayout->setRowStretch(2, 2);
 
     //preluare random a cuvantului din server in functie de dificultate
-    //m_wordWidget->UpdateWord(m_wordWidget->fetchWordFromServer(1)); // 1 reprezinta dificultatea, modific ulterior cu ce se transmite prin butonul de dificultate din interfata grafica
+    m_wordWidget->UpdateWord(m_wordWidget->FetchWordFromServer(m_wordWidget->GetDifficulty())); // 1 reprezinta dificultatea, modific ulterior cu ce se transmite prin butonul de dificultate din interfata grafica
     //functia de FormWord inlocuieste literele cuvantului cu "_ ". Pentru a se testa cum se transmit cuvintele, a se decomenta linia de mai sus si a se comenta linia de mai jos
-    m_wordWidget->UpdateWord(m_wordWidget->HiddenWord(m_wordWidget->FetchWordFromServer(1)));
+    //m_wordWidget->UpdateWord(m_wordWidget->HiddenWord(m_wordWidget->FetchWordFromServer(1)));
 
     QWidget* centralWidget = new QWidget(this);
     centralWidget->setLayout(mainLayout);
@@ -70,4 +70,9 @@ Client::~Client()
 ChatWidget* Client::GetChat() const
 {
     return m_chatWidget;
+}
+
+WordWidget* Client::GetWordWidget() const
+{
+    return m_wordWidget;
 }

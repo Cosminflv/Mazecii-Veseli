@@ -44,8 +44,9 @@ void SubRound::StartRound()
 std::string SubRound::SelectRandomWord(uint16_t difficulty)
 {
 	auto filteredWords = m_storage.select(&Word::description, sql::where(sql::c(&Word::difficulty) == difficulty));
-	if (filteredWords.empty()) {
-		std::cerr << "Nu există cuvinte cu dificultatea specificată.\n";
+	if (filteredWords.empty())
+	{
+		std::cerr << "There are no words with the selected difficulty.\n";
 		return "";
 	}
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));

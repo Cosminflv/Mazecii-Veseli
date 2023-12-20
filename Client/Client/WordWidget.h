@@ -15,6 +15,9 @@ public:
 	WordWidget(QWidget* parent = nullptr);
 	~WordWidget();
 
+	void SetDifficulty(const int& d);
+	int GetDifficulty() const;
+
 	QString FetchWordFromServer(int difficulty);
 	QString HiddenWord(const QString& word);
 	void UpdateWord(const QString& word);
@@ -25,4 +28,5 @@ public slots:
 private:
 	QLabel* m_word;
 	QString m_displayedWord;
+	int m_difficulty;
 };

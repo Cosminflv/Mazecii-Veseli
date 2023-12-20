@@ -48,7 +48,7 @@ Login::~Login()
 void Login::LogintoAccount()
 {
 	m_username = m_userText->text().toUtf8().constData();
-	m_password = m_passwordText->text().toUtf8().constData();
+	m_password = std::to_string(std::hash<std::string> {} (m_passwordText->text().toUtf8().constData()));
 
 	qDebug() << m_username << " " << m_password;
 }

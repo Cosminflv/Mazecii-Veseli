@@ -2,6 +2,7 @@
 #include"crow.h"
 #include<cpr/cpr.h>
 #include "Client.h"
+#include "Difficulty.h"
 
 Register::Register(QWidget *parent)
 	: QMainWindow(parent)
@@ -139,6 +140,7 @@ void Register::CreateAccount()
 
 	if (PasswordValidation() && m_passwordText->text() == m_confirmPassword->text())
 	{
+		m_password = std::to_string(std::hash<std::string> {} (m_passwordText->text().toUtf8().constData()));
 		qDebug() << m_username << " " << m_password;
 		//impachetez campuri
 		crow::json::wvalue jsonPayload;
@@ -150,9 +152,23 @@ void Register::CreateAccount()
 		if (r.status_code == 200)
 		{
 			qDebug() << "register data sent.\n";
-			Client* w = new Client();
-			w->show();
-			w->GetChat()->SetClientUsername(m_username);
+			Difficulty* d = new Difficulty();
+			d->show();
+
+			while (!d->DifficultyIsSet())
+			{
+				QCoreApplication::processEvents();
+			}
+
+			if (d->DifficultyIsSet() == true)
+			{
+				Client* w = new Client();
+				w->show();
+				w->GetWordWidget()->SetDifficulty(d->GetDifficulty());
+				w->GetChat()->SetClientUsername(m_username);
+				d->hide();
+				hide();
+			}
 		}
 		else
 		{

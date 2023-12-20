@@ -20,6 +20,7 @@ public:
     ~Client();
 
     ChatWidget* GetChat() const;
+    WordWidget* GetWordWidget() const;
 
 private:
     Ui::ClientClass ui;
