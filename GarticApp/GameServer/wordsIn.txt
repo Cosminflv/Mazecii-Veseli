@@ -10,7 +10,7 @@ book
 0
 bucket
 0
-butterfly
+butterflyc
 0
 camera
 1

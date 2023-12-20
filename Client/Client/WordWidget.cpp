@@ -24,7 +24,7 @@ std::pair<size_t, QChar> WordWidget::GetRandomLetter(const QString& word)
 	return pair;
 }
 
-QString WordWidget::FormWord(const QString& word)
+QString WordWidget::HiddenWord(const QString& word)
 {
 	QString hiddenWord = "";
 	for (int i = 0; i < word.length(); i++)

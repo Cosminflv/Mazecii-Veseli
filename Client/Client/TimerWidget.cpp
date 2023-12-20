@@ -1,10 +1,11 @@
-#include "TimerWidget.h"
+﻿#include "TimerWidget.h"
 #include <QVBoxLayout>
 
 
 
 TimerWidget::TimerWidget()
 {
+	m_halfTimeReached = false;
 	m_timeLabel = new QLabel("01:00", this);
 	m_timeLabel->setFont(QFont("Arial", 20));
 	m_timeLabel->setAlignment(Qt::AlignTop);
@@ -25,6 +26,7 @@ QLabel* TimerWidget::GetTimeLabel() const
 	return m_timeLabel;
 }
 
+
 void TimerWidget::fetchAndUpdateTimer() {
 	// Fetch the timer value in a separate thread
 	std::thread([this]() {
@@ -35,9 +37,17 @@ void TimerWidget::fetchAndUpdateTimer() {
 		// Update UI in the main thread using a queued connection
 		QMetaObject::invokeMethod(this, [this, remainingTime]() {
 			updateUi(remainingTime);
+
+			// Verifică dacă au trecut 30 de secunde și semnalul nu a fost emis încă
+			if (remainingTime == 30 && !m_halfTimeReached) {
+				m_halfTimeReached = true; // Marchează că semnalul a fost emis
+				emit halfTimeReachedSignal();    // Emite semnalul
+			}
 			}, Qt::QueuedConnection);
 		}).detach();
 }
+
+
 
 void TimerWidget::stopTimer()
 {

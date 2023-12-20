@@ -9,7 +9,6 @@ class SubRound
 {
 public:
     std::string SelectRandomWord(uint16_t difficulty); 
-	//cuvantul returnat din SelectRandowWord va fi transmis prin parametru in restul functiilor de mai jos
 	SubRound();
 	SubRound(const std::string& word, int numberOfPlayers, Storage storage);
 	void SeeWord(const std::string& word) const;

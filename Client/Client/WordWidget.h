@@ -16,11 +16,12 @@ public:
 	~WordWidget();
 
 	QString FetchWordFromServer(int difficulty);
-	QString FormWord(const QString& word);
+	QString HiddenWord(const QString& word);
 	void UpdateWord(const QString& word);
 	std::pair<size_t, QChar> GetRandomLetter(const QString& word);
 
-
+public slots:
+	void revealRandomLetter();
 private:
 	QLabel* m_word;
 	QString m_displayedWord;
