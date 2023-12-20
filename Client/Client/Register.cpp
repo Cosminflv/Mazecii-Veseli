@@ -152,6 +152,10 @@ void Register::CreateAccount()
 		if (r.status_code == 200)
 		{
 			qDebug() << "register data sent.\n";
+			/*Client* w = new Client();
+			w->show();
+			w->GetChat()->SetClientUsername(m_username);
+			hide();*/
 			Difficulty* d = new Difficulty();
 			d->show();
 

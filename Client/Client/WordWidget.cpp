@@ -52,6 +52,7 @@ QString WordWidget::HiddenWord(const QString& word)
 
 QString WordWidget::FetchWordFromServer(int difficulty)
 {
+	m_difficulty = difficulty;
 	std::string url = "http://localhost:18080/word/" + std::to_string(m_difficulty);
 	cpr::Response response = cpr::Get(cpr::Url{ url });
 
