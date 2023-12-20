@@ -12,18 +12,18 @@ ScribbleArea::ScribbleArea(QWidget* parent)
 	int up = 0;
 
 	m_clearButton = new QPushButton("Clear Screen", this);
-	m_clearButton->setGeometry(10, 10, 100, 30);
+	m_clearButton->setGeometry(10, 10, 130, 30);
 	connect(m_clearButton, &QPushButton::clicked, this, &ScribbleArea::onClearButtonClicked);
 
 	m_selectColor = new QPushButton("More Colors", this);
-	m_selectColor->setGeometry(440, 460, 100, 30);
+	m_selectColor->setGeometry(420, 460, 120, 30);
 	connect(m_selectColor, &QPushButton::clicked, this, &ScribbleArea::onColorButtonClicked);
 
 	for (const int& size : m_sizes)
 	{
 		QPushButton* sizeButton = new QPushButton("\u2022", this);
 		sizeButton->setFont(QFont("Arial", 23 + up));
-		sizeButton->setGeometry(offset + 70, 10, 30, 30);
+		sizeButton->setGeometry(offset + 100, 10, 30, 30);
 		connect(sizeButton, &QPushButton::clicked, [this, size]()
 			{
 				setPenWidth(size);

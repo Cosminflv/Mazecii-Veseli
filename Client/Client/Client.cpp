@@ -4,6 +4,7 @@ Client::Client(QWidget* parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
+    setFont(QFont("8514oem", 13));
 
     m_scribbleArea = new ScribbleArea;
     m_chatWidget = new ChatWidget;
@@ -16,7 +17,7 @@ Client::Client(QWidget* parent)
     m_chatWidget->setFixedHeight(500);
     m_playerWidget->setFixedHeight(400);
     m_colorWidget->setFixedHeight(100);
-    m_wordWidget->setFixedSize(200, 50);
+    m_wordWidget->setFixedSize(300, 50);
 
     QGridLayout* mainLayout = new QGridLayout(this);
 

@@ -5,9 +5,9 @@
 WordWidget::WordWidget(QWidget* parent)
 	:QWidget(parent)
 {
+	setFont(QFont("8514oem", 17));
 	QVBoxLayout* layout = new QVBoxLayout(this);
 	m_word = new QLabel(this);
-	m_word->setFont(QFont("Arial Bold", 17));
 	layout->addWidget(m_word);
 }
 

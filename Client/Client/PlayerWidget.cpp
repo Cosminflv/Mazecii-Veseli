@@ -39,7 +39,7 @@ void PlayerWidget::setUpPlayerUI()
 	{
 		QString playerInfo = player.first + " - Score: " + QString::number(player.second);
 		QListWidgetItem* user = new QListWidgetItem(playerInfo);
-		user->setFont(QFont("Arial", 13));
+		user->setFont(QFont("8514oem", 13));
 		m_playerList->addItem(user);
 	}
 }

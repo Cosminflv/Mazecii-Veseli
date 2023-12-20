@@ -4,6 +4,8 @@ ChatWidget::ChatWidget(QWidget* parent)
 {
 	QVBoxLayout* layout = new QVBoxLayout;
 
+	setFont(QFont("8514oem", 13));
+
 	messageDisplay = new QTextEdit(this);
 	messageDisplay->setReadOnly(true);
 	layout->addWidget(messageDisplay);
@@ -13,7 +15,6 @@ ChatWidget::ChatWidget(QWidget* parent)
 	layout->addWidget(messageInput);
 
 	setLayout(layout);
-	messageInput->setFont(QFont("Arial", 13));
 
 	m_requestsTimer = new QTimer(this);
 	m_requestsTimer->setInterval(1000); // Set interval to 1 second
@@ -44,7 +45,7 @@ void ChatWidget::sendMessage()
 	QString user = QString::fromUtf8(m_username.c_str());
 
 	if (!message.isEmpty()) {
-		messageDisplay->setFont(QFont("Arial", 13));
+		messageDisplay->setFont(QFont("8514oem", 13));
 		messageDisplay->append(user + ": " + message);
 		messageInput->clear();
 	}
@@ -102,7 +103,7 @@ void ChatWidget::updateUi(std::vector<std::pair<QString, QString>> messages)
 		auto user = message.first;
 		auto messageText = message.second;
 
-		messageDisplay->setFont(QFont("Arial", 13));
+		messageDisplay->setFont(QFont("8514oem", 13));
 		messageDisplay->append(user + ": " + messageText);
 	}
 }

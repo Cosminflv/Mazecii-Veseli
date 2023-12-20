@@ -5,9 +5,9 @@
 
 TimerWidget::TimerWidget()
 {
+	
 	m_halfTimeReached = false;
 	m_timeLabel = new QLabel("01:00", this);
-	m_timeLabel->setFont(QFont("Arial", 20));
 	m_timeLabel->setAlignment(Qt::AlignTop);
 
 	QVBoxLayout* layout = new QVBoxLayout(this);
@@ -19,6 +19,8 @@ TimerWidget::TimerWidget()
 	m_timer->setInterval(1000); // Set interval to 1 second
 	m_timer->start();
 	connect(m_timer, &QTimer::timeout, this, &TimerWidget::fetchAndUpdateTimer);
+
+	setFont(QFont("8514oem", 13));
 }
 
 QLabel* TimerWidget::GetTimeLabel() const
@@ -65,11 +67,13 @@ void TimerWidget::updateUi(int remainingTime)
 		int minutes = remainingTime / 60;
 		int seconds = remainingTime % 60;
 
+		m_timeLabel->setFont(QFont("8514oem", 20));
+
 		QString timeString = QString("%1:%2")
 			.arg(minutes, 2, 10, QChar('0'))
 			.arg(seconds, 2, 10, QChar('0'));
-
-		m_timeLabel->setText(timeString);
+		
+		m_timeLabel->setText(timeString);	
 
 		QPalette textColor = m_timeLabel->palette();
 		if (remainingTime <= 60 && remainingTime > 10) {
@@ -83,5 +87,6 @@ void TimerWidget::updateUi(int remainingTime)
 	else {
 		stopTimer();
 		m_timeLabel->setText("00:00");
+		m_timeLabel->setFont(QFont("8514oem", 20));
 	}
 }

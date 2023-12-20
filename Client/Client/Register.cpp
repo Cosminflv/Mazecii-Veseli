@@ -7,26 +7,44 @@ Register::Register(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
+	setFont(QFont("8514oem", 13));
 	setWindowTitle("Create Account");
 	setFixedSize(450, 300);
 
-	QLabel* welcome = new QLabel("\t\tSign up", this);
-	welcome->setGeometry(60, 30, 400, 50);
+	QLabel* welcome = new QLabel("Sign up", this);
+	welcome->setGeometry(160, 25, 340, 50);
+	welcome->setFont(QFont("", 30));
 
-	QLabel* username = new QLabel("Create Username: ", this);
-	username->setGeometry(30, 100, 130, 30);
 	m_userText = new QLineEdit(this);
-	m_userText->setGeometry(170, 100, 210, 25);
+	m_userText->setGeometry(30, 90, 270, 25);
+	m_userText->setPlaceholderText("Create Username");
 
-	QLabel* password = new QLabel("Create Password: ", this);
-	password->setGeometry(30, 140, 130, 30);
 	m_passwordText = new QLineEdit(this);
-	m_passwordText->setGeometry(170, 140, 210, 25);
+	m_passwordText->setGeometry(30, 130, 270, 25);
+	m_passwordText->setPlaceholderText("Create Password");
+	m_passwordText->setEchoMode(QLineEdit::Password);
+	
+	m_showPassword = new QPushButton("s",this);
+	m_showPassword->setGeometry(310, 130, 25, 25);
+	connect(m_showPassword, &QPushButton::clicked, this, &Register::ShowPasswordText);
+	QLabel* password = new QLabel("(must contain at least 6 letters and 1 number)", this);
+	password->setGeometry(30, 155, 340, 25);
+	password->setStyleSheet("color: gray;");
+	password->setFont(QFont("", 9));
+
+	m_confirmPassword = new QLineEdit(this);
+	m_confirmPassword->setGeometry(30, 180, 270, 25);
+	m_confirmPassword->setPlaceholderText("Confirm Password");
+	m_confirmPassword->setEchoMode(QLineEdit::Password);
+	m_showConfirm = new QPushButton("s", this);
+	m_showConfirm->setGeometry(310, 180, 25, 25);
+	connect(m_showConfirm, &QPushButton::clicked, this, &Register::ShowPasswordText);
 
 	m_create = new QPushButton("Create account", this);
-	m_create->setGeometry(130, 220, 210, 30);
+	m_create->setGeometry(210, 240, 210, 30);
 
 	connect(m_create, &QPushButton::clicked, this, &Register::CreateAccount);
+	setStyleSheet("background-color:#f0efff"); 
 }
 
 Register::~Register()
@@ -68,12 +86,58 @@ bool Register::AccountCreated()
 	return m_accountCreated;
 }
 
+void Register::ShowPasswordText()
+{
+	QPushButton* senderButton = qobject_cast<QPushButton*>(sender());
+
+	if (senderButton)
+	{
+		if (senderButton == m_showPassword)
+		{
+			m_passwordText->setEchoMode(m_passwordText->echoMode() == QLineEdit::Password ? QLineEdit::Normal : QLineEdit::Password);
+		}
+		else if (senderButton == m_showConfirm)
+		{
+			m_confirmPassword->setEchoMode(m_confirmPassword->echoMode() == QLineEdit::Password ? QLineEdit::Normal : QLineEdit::Password);
+		}
+	}
+}
+
+void Register::keyPressEvent(QKeyEvent* e)
+{
+	if (e->key() == Qt::Key_Up || e->key() == Qt::Key_Down)
+	{
+		QWidget* currentWidget = focusWidget();
+
+		// if the current widget is one of the QLineEdit widgets
+		if (currentWidget == m_userText || currentWidget == m_passwordText || currentWidget == m_confirmPassword)
+		{
+			if (currentWidget == m_userText) // switch focus to the other QLineEdit
+			{
+				m_passwordText->setFocus();
+			}
+			else if (currentWidget == m_passwordText)
+			{
+				m_confirmPassword->setFocus();
+			}
+			else
+			{
+				m_userText->setFocus();
+			}
+		}
+	}
+	else if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)
+	{
+		CreateAccount();
+	}
+}
+
 void Register::CreateAccount()
 {
 	m_username = m_userText->text().toUtf8().constData();
 	m_password = m_passwordText->text().toUtf8().constData();
 
-	if (PasswordValidation())
+	if (PasswordValidation() && m_passwordText->text() == m_confirmPassword->text())
 	{
 		qDebug() << m_username << " " << m_password;
 		//impachetez campuri
@@ -97,7 +161,7 @@ void Register::CreateAccount()
 	}
 	else
 	{
-		throw(PasswordException("Invalid password."));
+ 		throw(PasswordException("Invalid password."));
 	}
 }
 

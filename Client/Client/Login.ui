@@ -12,13 +12,17 @@
   </property>
   <property name="font">
    <font>
-    <family>Arial</family>
-    <pointsize>11</pointsize>
-    <bold>true</bold>
+    <family>8514oem</family>
+    <pointsize>9</pointsize>
+    <italic>false</italic>
+    <bold>false</bold>
    </font>
   </property>
   <property name="windowTitle">
    <string>Login</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralWidget"/>
   <widget class="QMenuBar" name="menuBar">
@@ -27,7 +31,7 @@
      <x>0</x>
      <y>0</y>
      <width>600</width>
-     <height>23</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

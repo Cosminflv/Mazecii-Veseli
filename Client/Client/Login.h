@@ -8,6 +8,8 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <string>
+#include <QFontDatabase>
+#include <QKeyEvent>
 
 class Login : public QMainWindow
 {
@@ -20,12 +22,18 @@ public:
 private slots:
 	void CreateNewAccount();
 	void LogintoAccount();
+	void ShowPassword();
+
+protected:
+	void keyPressEvent(QKeyEvent* e) override;
 
 private:
 	Ui::LoginClass ui;
 
 	QPushButton* m_login;
 	QPushButton* m_createAccount;
+	QPushButton* m_showPassword;
+
 	QLineEdit* m_userText;
 	QLineEdit* m_passwordText;
 

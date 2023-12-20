@@ -25,14 +25,21 @@ public:
 
 private slots:
 	void CreateAccount();
+	void ShowPasswordText();
 
+protected:
+	void keyPressEvent(QKeyEvent* e) override;
 
 private:
 	Ui::RegisterClass ui;
 
 	QPushButton* m_create;
+	QPushButton* m_showPassword;
+	QPushButton* m_showConfirm;
+
 	QLineEdit* m_userText;
 	QLineEdit* m_passwordText;
+	QLineEdit* m_confirmPassword;
 
 	std::string m_username;
 	std::string m_password;
