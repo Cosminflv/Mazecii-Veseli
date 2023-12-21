@@ -1,4 +1,5 @@
 #include "Difficulty.h"
+#include "Client.h"
 
 Difficulty::Difficulty(QWidget *parent)
 	: QMainWindow(parent)
@@ -33,19 +34,24 @@ Difficulty::Difficulty(QWidget *parent)
 Difficulty::~Difficulty()
 {}
 
-void Difficulty::SetSendDifficulty(const int& d)
+void Difficulty::SetSendDifficulty(const uint16_t& d)
 {
 	m_difficulty = d;
 }
 
-int Difficulty::GetDifficulty() const
+uint16_t Difficulty::GetDifficultyFromWindow() const
 {
 	return m_difficulty;
 }
 
-bool Difficulty::DifficultyIsSet() const
+void Difficulty::SendUsername(const std::string& u)
 {
-	return m_isSet;
+	m_username = u;
+}
+
+std::string Difficulty::GetUsername() const
+{
+	return m_username;
 }
 
 void Difficulty::SelectDifficulty()
@@ -55,17 +61,23 @@ void Difficulty::SelectDifficulty()
 	if (clickedButton == m_easy)
 	{
 		m_difficulty = 0;
-		m_isSet = true;
 	}
 	else if (clickedButton == m_medium)
 	{
 		m_difficulty = 1;
-		m_isSet = true;
 	}
 	else if (clickedButton == m_hard)
 	{
 		m_difficulty = 2;
-		m_isSet = true;
 	}
+
 	qDebug() << m_difficulty;
+
+	Client* w = new Client();
+	w->SetDifficulty(m_difficulty);
+	w->GetWordWidget()->UpdateWord(w->GetWordWidget()->FetchWordFromServer(m_difficulty));
+	qDebug() << "client difficulty set:" << w->GetDifficulty();
+	w->GetChat()->SetClientUsername(m_username);
+	w->show();
+	hide();	
 }

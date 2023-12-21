@@ -152,27 +152,9 @@ void Register::CreateAccount()
 		if (r.status_code == 200)
 		{
 			qDebug() << "register data sent.\n";
-			/*Client* w = new Client();
-			w->show();
-			w->GetChat()->SetClientUsername(m_username);
-			hide();*/
 			Difficulty* d = new Difficulty();
 			d->show();
-
-			while (!d->DifficultyIsSet())
-			{
-				QCoreApplication::processEvents();
-			}
-
-			if (d->DifficultyIsSet() == true)
-			{
-				Client* w = new Client();
-				w->show();
-				w->GetWordWidget()->SetDifficulty(d->GetDifficulty());
-				w->GetChat()->SetClientUsername(m_username);
-				d->hide();
-				hide();
-			}
+			d->SendUsername(m_username);
 		}
 		else
 		{

@@ -22,6 +22,9 @@ public:
     ChatWidget* GetChat() const;
     WordWidget* GetWordWidget() const;
 
+    uint16_t GetDifficulty() const;
+    void SetDifficulty(const uint16_t& difficulty);
+
 private:
     Ui::ClientClass ui;
     ScribbleArea* m_scribbleArea;
@@ -30,4 +33,6 @@ private:
     PlayerWidget* m_playerWidget;
     ColorWidget* m_colorWidget;
     WordWidget* m_wordWidget;
+
+    uint16_t m_difficulty;
 };

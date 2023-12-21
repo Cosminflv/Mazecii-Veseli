@@ -17,12 +17,12 @@ WordWidget::~WordWidget()
 	delete m_word;
 }
 
-void WordWidget::SetDifficulty(const int& d)
+void WordWidget::SetDifficulty(const uint16_t& d)
 {
 	this->m_difficulty = d;
 }
 
-int WordWidget::GetDifficulty() const
+uint16_t WordWidget::GetDifficulty() const
 {
 	return m_difficulty;
 }
@@ -49,11 +49,9 @@ QString WordWidget::HiddenWord(const QString& word)
 	return hiddenWord;
 }
 
-
-QString WordWidget::FetchWordFromServer(int difficulty)
+QString WordWidget::FetchWordFromServer(uint16_t difficulty)
 {
-	m_difficulty = difficulty;
-	std::string url = "http://localhost:18080/word/" + std::to_string(m_difficulty);
+	std::string url = "http://localhost:18080/word/" + std::to_string(difficulty);
 	cpr::Response response = cpr::Get(cpr::Url{ url });
 
 	if (response.error) {

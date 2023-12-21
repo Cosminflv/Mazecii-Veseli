@@ -13,9 +13,11 @@ class Difficulty : public QMainWindow
 public:
 	Difficulty(QWidget *parent = nullptr);
 	~Difficulty();
-	void SetSendDifficulty(const int& d);
-	int GetDifficulty() const;
-	bool DifficultyIsSet() const;
+
+	void SetSendDifficulty(const uint16_t& d);
+	uint16_t GetDifficultyFromWindow() const;
+	void SendUsername(const std::string& u);
+	std::string GetUsername() const;
 
 private slots:
 	void SelectDifficulty();
@@ -27,6 +29,6 @@ private:
 	QPushButton* m_medium;
 	QPushButton* m_hard;
 
-	int m_difficulty;
-	bool m_isSet;
+	uint16_t m_difficulty;
+	std::string m_username;
 };

@@ -15,10 +15,10 @@ public:
 	WordWidget(QWidget* parent = nullptr);
 	~WordWidget();
 
-	void SetDifficulty(const int& d);
-	int GetDifficulty() const;
+	void SetDifficulty(const uint16_t& d);
+	uint16_t GetDifficulty() const;
 
-	QString FetchWordFromServer(int difficulty);
+	QString FetchWordFromServer(uint16_t difficulty);
 	QString HiddenWord(const QString& word);
 	void UpdateWord(const QString& word);
 	std::pair<size_t, QChar> GetRandomLetter(const QString& word);
@@ -28,5 +28,5 @@ public slots:
 private:
 	QLabel* m_word;
 	QString m_displayedWord;
-	int m_difficulty;
+	uint16_t m_difficulty;
 };
