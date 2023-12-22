@@ -48,6 +48,11 @@ bool GameStorage::InsertUser(const std::string& username, const std::string& pas
 	}
 }
 
+std::vector<PlayerDB> GameStorage::GetUsers()
+{
+	return m_db.get_all<PlayerDB>();
+}
+
 void GameStorage::PopulateStorage()
 {
 	std::ifstream inputFile("wordsIn.txt");
