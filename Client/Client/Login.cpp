@@ -1,4 +1,8 @@
 #include "Login.h"
+#include "crow.h"
+#include<cpr/cpr.h>
+#include "Difficulty.h"
+
 
 Login::Login(QWidget *parent)
 	: QMainWindow(parent)
@@ -54,6 +58,22 @@ void Login::LogintoAccount()
 	m_password = std::to_string(std::hash<std::string> {} (m_passwordText->text().toUtf8().constData()));
 
 	qDebug() << m_username << " " << m_password;
+	crow::json::wvalue jsonPayload;
+	jsonPayload["username"] = m_username;
+	jsonPayload["password"] = m_password;
+	std::string jsonString = jsonPayload.dump();
+	cpr::Response r = cpr::Post(cpr::Url("http://localhost:18080/logininfo"), cpr::Body{ jsonString });
+	if (r.status_code == 200)
+	{
+		qDebug() << "login data sent.\n";
+		Difficulty* d = new Difficulty();
+		d->show();
+		d->SendUsername(m_username);
+	}
+	else
+	{
+		qDebug() << "login FAIL\n";
+	}
 }
 
 void Login::ShowPassword()
