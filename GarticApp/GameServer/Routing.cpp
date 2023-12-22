@@ -27,6 +27,25 @@ void Routing::Run(GameStorage& storage)
 			return crow::json::wvalue{ wordsJson };
 		}
 	);
+	CROW_ROUTE(m_app, "/users")([&storage]()
+		{
+
+			std::vector<crow::json::wvalue>usersJson;
+			auto users = storage.GetUsers();
+			for (const auto& user : users)
+			{
+				crow::json::wvalue w{
+					{"id",user.GetId()},
+					{"username",user.GetUsername()},
+					{"password",user.GetPassword()}
+
+				};
+
+				usersJson.push_back(w);
+			};
+			return crow::json::wvalue{ usersJson };
+		}
+	);
 
 	CROW_ROUTE(m_app, "/words/<int>")
 		.methods("GET"_method)
