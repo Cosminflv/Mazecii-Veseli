@@ -91,26 +91,25 @@ void Routing::Run(GameStorage& storage)
 			return crow::json::wvalue{ chatMessagesJson };
 		});
 
-	//405 Method Not Allowed
-//CROW_ROUTE(m_app, "/receive_message")
-//	.methods("POST"_method)
-//	([&chat](const crow::request& req) {
-//	// Access the transmitted JSON data from the client
-//	auto json_data = crow::json::load(req.body);
-//	if (!json_data) {
-//		return crow::response(400);
-//	}
+	CROW_ROUTE(m_app, "/receive_message")
+		.methods("POST"_method)
+		([&chat](const crow::request& req) {
+		// Access the transmitted JSON data from the client
+		auto json_data = crow::json::load(req.body);
+		if (!json_data) {
+			return crow::response(400);
+		}
 
-//	if (json_data.has("username") && json_data.has("message")) {
-//		std::string username = json_data["username"].s();
-//		std::string password = json_data["message"].s();
+		if (json_data.has("username") && json_data.has("message")) {
+			std::string username = json_data["username"].s();
+			std::string password = json_data["message"].s();
 
-//		chat.WriteMessage({ username, password });
-//	}
-//	else {
-//		return crow::response(400);
-//	}
-//		});
+			chat.WriteMessage({ username, password });
+		}
+		else {
+			return crow::response(400);
+		}
+			});
 
 	/*CROW_ROUTE(m_app, "/registerinfo")
 		.methods("POST"_method)

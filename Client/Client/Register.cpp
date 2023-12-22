@@ -154,7 +154,13 @@ void Register::keyPressEvent(QKeyEvent* e)
 	}
 	else if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)
 	{
-		CreateAccount();
+		try {
+			CreateAccount();
+		}
+		catch (ClientException e)
+		{
+			qDebug() << e.what() << "\n";
+		}
 	}
 }
 
