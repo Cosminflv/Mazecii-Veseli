@@ -29,6 +29,25 @@ std::vector<Word> GameStorage::GetWords()
 	return m_db.get_all<Word>();
 }
 
+bool GameStorage::InsertUser(const std::string& username, const std::string& password)
+{
+	{
+
+		try
+		{
+
+			PlayerDB user{ username, password };
+			m_db.insert(user);
+			return true;
+		}
+		catch (const std::exception& e)
+		{
+			std::cerr << "Database error: " << e.what() << std::endl;
+			return false;
+		}
+	}
+}
+
 void GameStorage::PopulateStorage()
 {
 	std::ifstream inputFile("wordsIn.txt");

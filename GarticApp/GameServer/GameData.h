@@ -44,6 +44,8 @@ class GameStorage
 public:
 	bool Initialize();
 	std::vector<Word> GetWords();
+	bool InsertUser(const std::string& username, const std::string& password);
+
 private:
 	void PopulateStorage();
 
