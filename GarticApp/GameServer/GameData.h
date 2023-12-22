@@ -46,6 +46,7 @@ public:
 	std::vector<Word> GetWords();
 	bool InsertUser(const std::string& username, const std::string& password);
 	std::vector<PlayerDB>GetUsers();
+	bool CheckUser(const std::string& username, const std::string &password);
 
 private:
 	void PopulateStorage();

@@ -59,6 +59,18 @@ std::vector<PlayerDB> GameStorage::GetUsers()
 	return m_db.get_all<PlayerDB>();
 }
 
+bool GameStorage::CheckUser(const std::string& username, const std::string& password)
+{
+	if (m_db.count<PlayerDB>(sql::where(sql::c(&PlayerDB::GetUsername) == username)) == 1)
+	{
+		if (m_db.count<PlayerDB>(sql::where(sql::c(&PlayerDB::GetPassword) == password)) == 1)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 void GameStorage::PopulateStorage()
 {
 	std::ifstream inputFile("wordsIn.txt");
