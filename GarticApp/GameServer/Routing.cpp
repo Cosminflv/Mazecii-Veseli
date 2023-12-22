@@ -253,5 +253,37 @@ void Routing::Run(GameStorage& storage)
 
 	T.StartTimer();
 
+
+
+	CROW_ROUTE(m_app, "/logininfo")
+		.methods("POST"_method)
+		([](const crow::request& req)
+			{
+				crow::json::rvalue jsonData = crow::json::load(req.body);
+				if (!jsonData)
+				{
+					return crow::response(400, "Invalid JSON format");
+				}
+				std::string username = jsonData["username"].s();
+				std::string password = jsonData["password"].s();
+				PlayerDB user;
+				user.SetUsername(username);
+				user.SetPassword(password);
+				GameStorage gameStorage;
+				if (gameStorage.CheckUser(username, password) == true)
+				{
+					std::cout << "Received username: " << username << std::endl;
+					std::cout << "Received password: " << password << std::endl;
+					//db.replace(user);
+					return crow::response(200);
+				}
+				else
+				{
+					return crow::response(101, "User doesn't exist");
+				}
+			}
+	);
+
+
 	m_app.port(18080).multithreaded().run();
 }
