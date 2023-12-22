@@ -1,4 +1,5 @@
 #include "GameData.h"
+
 //
 //void populateStorage(Storage& storage)
 //{
@@ -35,7 +36,12 @@ bool GameStorage::InsertUser(const std::string& username, const std::string& pas
 
 		try
 		{
-
+			// Check if the username already exists
+			if (m_db.count<PlayerDB>(sql::where(sql::c(&PlayerDB::GetUsername) == username)) > 0)
+			{
+				std::cerr << "Username already exists: " << username << std::endl;
+				return false;
+			}
 			PlayerDB user{ username, password };
 			m_db.insert(user);
 			return true;

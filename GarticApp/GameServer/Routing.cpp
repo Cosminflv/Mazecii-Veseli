@@ -136,7 +136,7 @@ void Routing::Run(GameStorage& storage)
 				}
 				else
 				{
-					return crow::response(500, "Internal Server Error");
+					return crow::response(100, "Username already exists");
 				}
 			}
 	);
