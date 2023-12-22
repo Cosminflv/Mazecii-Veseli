@@ -30,7 +30,8 @@ inline auto createStorage(const std::string& filename)
 		),
 		sql::make_table(
 			"Player_Password",
-			sql::make_column("username", &PlayerDB::SetUsername, &PlayerDB::GetUsername, sql::primary_key()),
+			sql::make_column("id", &PlayerDB::SetId, &PlayerDB::GetId, sql::primary_key().autoincrement()),
+			sql::make_column("username", &PlayerDB::SetUsername, &PlayerDB::GetUsername),
 			sql::make_column("password", &PlayerDB::SetPassword ,&PlayerDB::GetPassword)
 		)
 	);

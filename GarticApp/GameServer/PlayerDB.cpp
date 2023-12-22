@@ -24,3 +24,13 @@ void PlayerDB::SetPassword(const std::string& password)
 {
     m_password = password;
 }
+
+uint16_t PlayerDB::GetId() const
+{
+    return m_id;
+}
+
+void PlayerDB::SetId(uint16_t id)
+{
+    m_id = id;
+}
