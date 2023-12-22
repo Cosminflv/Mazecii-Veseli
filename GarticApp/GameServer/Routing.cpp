@@ -112,7 +112,7 @@ void Routing::Run(GameStorage& storage)
 //	}
 //		});
 
-	CROW_ROUTE(m_app, "/registerinfo")
+	/*CROW_ROUTE(m_app, "/registerinfo")
 		.methods("POST"_method)
 		([&](const crow::request& req)
 			{
@@ -139,6 +139,6 @@ void Routing::Run(GameStorage& storage)
 					return crow::response(100, "Username already exists");
 				}
 			}
-	);
+	);*/
 	m_app.port(18080).multithreaded().run();
 }
