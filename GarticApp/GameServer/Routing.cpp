@@ -93,6 +93,33 @@ void Routing::Run(GameStorage& storage)
 //	}
 //		});
 
+	CROW_ROUTE(m_app, "/registerinfo")
+		.methods("POST"_method)
+		([&](const crow::request& req)
+			{
+				crow::json::rvalue jsonData = crow::json::load(req.body);
+				if (!jsonData)
+				{
+					return crow::response(400, "Invalid JSON format");
+				}
+				std::string username = jsonData["username"].s();
+				std::string password = jsonData["password"].s();
+				PlayerDB user;
+				user.SetUsername(username);
+				user.SetPassword(password);
+				std::cout << "Received username: " << username << std::endl;
+				std::cout << "Received password: " << password << std::endl;
 
+				GameStorage gameStorage;
+				if (gameStorage.InsertUser(username, password))
+				{
+					return crow::response(200);
+				}
+				else
+				{
+					return crow::response(500, "Internal Server Error");
+				}
+			}
+	);
 	m_app.port(18080).multithreaded().run();
 }
