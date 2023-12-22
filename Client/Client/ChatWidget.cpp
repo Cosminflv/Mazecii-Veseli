@@ -1,4 +1,5 @@
 #include "ChatWidget.h"
+#include "ChatRequestException.h"
 
 ChatWidget::ChatWidget(QWidget* parent)
 {
@@ -73,28 +74,38 @@ void ChatWidget::keyPressEvent(QKeyEvent* e)
 	}
 }
 
-void ChatWidget::fetchAndUpdateChat()
-{
+void ChatWidget::fetchAndUpdateChat() {
 	std::thread([this]() {
-		std::vector<std::pair<QString, QString>> messages;
-		cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:18080/chat" });
-		auto messagesRvalue = crow::json::load(response.text);
+		try {
+			std::vector<std::pair<QString, QString>> messages;
+			cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:18080/chat" });
 
-		for (const auto& messageFromServer : messagesRvalue) {
-			//QString name = "Cosmin";
-			//QString message = "Heello";
-			QString name = fromJsonToQString(messageFromServer["Username"].s());
-			QString message = fromJsonToQString(messageFromServer["Message"].s());
+			if (response.status_code < 200 || response.status_code >= 300) {
+				throw ChatRequestException("Failed to update chat");
+			}
 
-			messages.push_back({ name, message });
+			auto messagesRvalue = crow::json::load(response.text);
+
+			for (const auto& messageFromServer : messagesRvalue) {
+				QString name = fromJsonToQString(messageFromServer["Username"].s());
+				QString message = fromJsonToQString(messageFromServer["Message"].s());
+				messages.push_back({ name, message });
+			}
+
+			// Update UI in the main thread using a queued connection
+			QMetaObject::invokeMethod(this, [this, messages]() {
+				updateUi(messages);
+				}, Qt::QueuedConnection);
+
 		}
-
-		// Update UI in the main thread using a queued connection
-		QMetaObject::invokeMethod(this, [this, messages]() {
-			updateUi(messages);
-			}, Qt::QueuedConnection);
+		catch (const ChatRequestException& e) {
+			// Handle the exception
+			// Log, show an error message, or take appropriate action
+			qDebug() << "Chat request exception: " << e.what();
+		}
 		}).detach();
 }
+
 
 void ChatWidget::updateUi(std::vector<std::pair<QString, QString>> messages)
 {
