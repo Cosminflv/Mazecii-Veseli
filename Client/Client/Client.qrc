@@ -1,4 +1,6 @@
 <RCC>
-    <qresource prefix="Client">
+    <qresource prefix="/Client">
+        <file>openeye.png</file>
+        <file>closedeye.png</file>
     </qresource>
 </RCC>

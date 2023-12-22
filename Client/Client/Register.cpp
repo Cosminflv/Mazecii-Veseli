@@ -25,7 +25,10 @@ Register::Register(QWidget *parent)
 	m_passwordText->setPlaceholderText("Create Password");
 	m_passwordText->setEchoMode(QLineEdit::Password);
 	
-	m_showPassword = new QPushButton("s",this);
+	QIcon closed("closedeye.png");
+	m_showPassword = new QPushButton(this);
+	m_showPassword->setIcon(closed);
+	m_showPassword->setIconSize(QSize(23, 23));
 	m_showPassword->setGeometry(310, 130, 25, 25);
 	connect(m_showPassword, &QPushButton::clicked, this, &Register::ShowPasswordText);
 	QLabel* password = new QLabel("(must contain at least 6 letters and 1 number)", this);
@@ -37,7 +40,9 @@ Register::Register(QWidget *parent)
 	m_confirmPassword->setGeometry(30, 180, 270, 25);
 	m_confirmPassword->setPlaceholderText("Confirm Password");
 	m_confirmPassword->setEchoMode(QLineEdit::Password);
-	m_showConfirm = new QPushButton("s", this);
+	m_showConfirm = new QPushButton(this);
+	m_showConfirm->setIcon(closed);
+	m_showConfirm->setIconSize(QSize(23, 23));
 	m_showConfirm->setGeometry(310, 180, 25, 25);
 	connect(m_showConfirm, &QPushButton::clicked, this, &Register::ShowPasswordText);
 
@@ -96,10 +101,30 @@ void Register::ShowPasswordText()
 		if (senderButton == m_showPassword)
 		{
 			m_passwordText->setEchoMode(m_passwordText->echoMode() == QLineEdit::Password ? QLineEdit::Normal : QLineEdit::Password);
+			QIcon newIcon;
+			if (m_passwordText->echoMode() == QLineEdit::Password)
+			{
+				newIcon = QIcon("closedeye.png");
+			}
+			else
+			{
+				newIcon = QIcon("openeye.png");
+			}
+			m_showPassword->setIcon(newIcon);
 		}
 		else if (senderButton == m_showConfirm)
 		{
 			m_confirmPassword->setEchoMode(m_confirmPassword->echoMode() == QLineEdit::Password ? QLineEdit::Normal : QLineEdit::Password);
+			QIcon newIcon;
+			if (m_confirmPassword->echoMode() == QLineEdit::Password)
+			{
+				newIcon = QIcon("closedeye.png");
+			}
+			else
+			{
+				newIcon = QIcon("openeye.png");
+			}
+			m_showConfirm->setIcon(newIcon);
 		}
 	}
 }

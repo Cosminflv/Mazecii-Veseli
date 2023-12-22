@@ -20,7 +20,10 @@ Login::Login(QWidget *parent)
 	m_passwordText->setGeometry(30, 140, 270, 25);
 	m_passwordText->setPlaceholderText("Password");
 	m_passwordText->setEchoMode(QLineEdit::Password);
-	m_showPassword = new QPushButton("s", this);
+	QIcon closed("closedeye.png");
+	m_showPassword = new QPushButton(this);
+	m_showPassword->setIcon(closed);
+	m_showPassword->setIconSize(QSize(23, 23));
 	m_showPassword->setGeometry(310, 140, 25, 25);
 	connect(m_showPassword, &QPushButton::clicked, this, &Login::ShowPassword);
 
@@ -63,6 +66,16 @@ void Login::ShowPassword()
 		if (senderButton == m_showPassword)
 		{
 			m_passwordText->setEchoMode(m_passwordText->echoMode() == QLineEdit::Password ? QLineEdit::Normal : QLineEdit::Password);
+			QIcon newIcon;
+			if (m_passwordText->echoMode() == QLineEdit::Password)
+			{
+				newIcon = QIcon("closedeye.png");
+			}
+			else
+			{
+				newIcon = QIcon("openeye.png");
+			}
+			m_showPassword->setIcon(newIcon);		
 		}
 	}
 }
