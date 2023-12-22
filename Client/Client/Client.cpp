@@ -78,6 +78,11 @@ WordWidget* Client::GetWordWidget() const
     return m_wordWidget;
 }
 
+PlayerWidget* Client::GetPlayerWidget() const
+{
+    return m_playerWidget;
+}
+
 uint16_t Client::GetDifficulty() const
 {
     return m_difficulty;

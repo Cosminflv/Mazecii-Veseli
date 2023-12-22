@@ -32,25 +32,22 @@ std::vector<Word> GameStorage::GetWords()
 
 bool GameStorage::InsertUser(const std::string& username, const std::string& password)
 {
+	try
 	{
-
-		try
+		// Check if the username already exists
+		if (m_db.count<PlayerDB>(sql::where(sql::c(&PlayerDB::GetUsername) == username)) > 0)
 		{
-			// Check if the username already exists
-			if (m_db.count<PlayerDB>(sql::where(sql::c(&PlayerDB::GetUsername) == username)) > 0)
-			{
-				std::cerr << "Username already exists: " << username << std::endl;
-				return false;
-			}
-			PlayerDB user{ username, password };
-			m_db.insert(user);
-			return true;
-		}
-		catch (const std::exception& e)
-		{
-			std::cerr << "Database error: " << e.what() << std::endl;
+			std::cerr << "Username already exists: " << username << std::endl;
 			return false;
 		}
+		PlayerDB user{ username, password };
+		m_db.insert(user);
+		return true;
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << "Database error: " << e.what() << std::endl;
+		return false;
 	}
 }
 

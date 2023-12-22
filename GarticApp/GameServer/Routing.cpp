@@ -46,6 +46,7 @@ void Routing::Run(GameStorage& storage)
 			}
 			return crow::json::wvalue{ playersJson };
 		});
+
 	CROW_ROUTE(m_app, "/")([]() {
 		return "Meow";
 		});
@@ -115,7 +116,7 @@ void Routing::Run(GameStorage& storage)
 
 
 	Chat chat;
-	chat.WriteMessage({ "Server", "Hello darkness, my old friend!" });
+	//chat.WriteMessage({ "Server", "Hello darkness, my old friend!" });
 	CROW_ROUTE(m_app, "/chat")([&chat]()
 		{
 			std::vector<crow::json::wvalue> chatMessagesJson;

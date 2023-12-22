@@ -21,6 +21,7 @@ public:
 
     ChatWidget* GetChat() const;
     WordWidget* GetWordWidget() const;
+    PlayerWidget* GetPlayerWidget() const;
 
     uint16_t GetDifficulty() const;
     void SetDifficulty(const uint16_t& difficulty);

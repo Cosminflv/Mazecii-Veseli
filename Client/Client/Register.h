@@ -41,6 +41,8 @@ private:
 	QLineEdit* m_passwordText;
 	QLineEdit* m_confirmPassword;
 
+	QLabel* m_passwordError;
+
 	std::string m_username;
 	std::string m_password;
 	bool m_accountCreated;

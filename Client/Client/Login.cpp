@@ -21,14 +21,14 @@ Login::Login(QWidget *parent)
 	m_userText->setPlaceholderText("Username");
 
 	m_passwordText = new QLineEdit(this);
-	m_passwordText->setGeometry(30, 140, 270, 25);
+	m_passwordText->setGeometry(30, 150, 270, 25);
 	m_passwordText->setPlaceholderText("Password");
 	m_passwordText->setEchoMode(QLineEdit::Password);
 	QIcon closed("closedeye.png");
 	m_showPassword = new QPushButton(this);
 	m_showPassword->setIcon(closed);
 	m_showPassword->setIconSize(QSize(23, 23));
-	m_showPassword->setGeometry(310, 140, 25, 25);
+	m_showPassword->setGeometry(310, 150, 25, 25);
 	connect(m_showPassword, &QPushButton::clicked, this, &Login::ShowPassword);
 
 
@@ -69,6 +69,15 @@ void Login::LogintoAccount()
 		Difficulty* d = new Difficulty();
 		d->show();
 		d->SendUsername(m_username);
+		hide();
+	}
+	else if (r.status_code == 101)
+	{
+		QLabel* loginError = new QLabel("invalid data", this);
+		loginError->setGeometry(30, 125, 340, 25);
+		loginError->setStyleSheet("color: #ab3036;");
+		loginError->setFont(QFont("", 9));
+		loginError->show();
 	}
 	else
 	{

@@ -21,7 +21,7 @@ Register::Register(QWidget *parent)
 	m_userText->setPlaceholderText("Create Username");
 
 	m_passwordText = new QLineEdit(this);
-	m_passwordText->setGeometry(30, 130, 270, 25);
+	m_passwordText->setGeometry(30, 135, 270, 25);
 	m_passwordText->setPlaceholderText("Create Password");
 	m_passwordText->setEchoMode(QLineEdit::Password);
 	
@@ -29,21 +29,21 @@ Register::Register(QWidget *parent)
 	m_showPassword = new QPushButton(this);
 	m_showPassword->setIcon(closed);
 	m_showPassword->setIconSize(QSize(23, 23));
-	m_showPassword->setGeometry(310, 130, 25, 25);
+	m_showPassword->setGeometry(310, 135, 25, 25);
 	connect(m_showPassword, &QPushButton::clicked, this, &Register::ShowPasswordText);
-	QLabel* password = new QLabel("(must contain at least 6 letters and 1 number)", this);
-	password->setGeometry(30, 155, 340, 25);
-	password->setStyleSheet("color: gray;");
-	password->setFont(QFont("", 9));
+	m_passwordError = new QLabel("(must contain at least 6 letters and 1 number)", this);
+	m_passwordError->setGeometry(30, 160, 340, 25);
+	m_passwordError->setStyleSheet("color: gray;");
+	m_passwordError->setFont(QFont("", 9));
 
 	m_confirmPassword = new QLineEdit(this);
-	m_confirmPassword->setGeometry(30, 180, 270, 25);
+	m_confirmPassword->setGeometry(30, 185, 270, 25);
 	m_confirmPassword->setPlaceholderText("Confirm Password");
 	m_confirmPassword->setEchoMode(QLineEdit::Password);
 	m_showConfirm = new QPushButton(this);
 	m_showConfirm->setIcon(closed);
 	m_showConfirm->setIconSize(QSize(23, 23));
-	m_showConfirm->setGeometry(310, 180, 25, 25);
+	m_showConfirm->setGeometry(310, 185, 25, 25);
 	connect(m_showConfirm, &QPushButton::clicked, this, &Register::ShowPasswordText);
 
 	m_create = new QPushButton("Create account", this);
@@ -183,9 +183,15 @@ void Register::CreateAccount()
 		if (r.status_code == 200)
 		{
 			qDebug() << "register data sent.\n";
-			Difficulty* d = new Difficulty();
-			d->show();
-			d->SendUsername(m_username);
+			hide();
+		}
+		else if (r.status_code == 100)
+		{
+			QLabel* registerError = new QLabel("username taken", this);
+			registerError->setGeometry(30, 115, 340, 25);
+			registerError->setStyleSheet("color: #ab3036;");
+			registerError->setFont(QFont("", 9));
+			registerError->show();
 		}
 		else
 		{
@@ -194,7 +200,9 @@ void Register::CreateAccount()
 	}
 	else
 	{
- 		throw(PasswordException("Invalid password."));
+		m_passwordError->setText("invalid password");
+		m_passwordError->setStyleSheet("color: #ab3036;");
+		m_passwordError->setFont(QFont("", 9));
 	}
 }
 

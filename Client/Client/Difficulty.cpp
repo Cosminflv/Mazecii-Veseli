@@ -78,6 +78,10 @@ void Difficulty::SelectDifficulty()
 	w->GetWordWidget()->UpdateWord(w->GetWordWidget()->FetchWordFromServer(m_difficulty));
 	qDebug() << "client difficulty set:" << w->GetDifficulty();
 	w->GetChat()->SetClientUsername(m_username);
+	QString qUsername = QString::fromUtf8(m_username.c_str());
+	qDebug() << qUsername;
+	w->GetPlayerWidget()->InsertPlayer(qUsername, 0);	
 	w->show();
+	w->GetPlayerWidget()->DisplayPlayers();
 	hide();	
 }
