@@ -11,6 +11,7 @@ SubRound::SubRound() :
 	m_word(""),
 	m_duration(0),
 	m_hasTimeEnded(false),
+	m_timer(1),
 	m_storage(createStorage("Database.sqlite")) // initial e createEmptyStorage
 {
 }
@@ -18,7 +19,8 @@ SubRound::SubRound() :
 SubRound::SubRound(const std::string& word, const int numberOfPlayers, Storage storage)
 	: m_word{ word },
 	m_numberOfPlayers{ numberOfPlayers },
-	m_storage(storage)
+	m_storage(storage),
+	m_timer(1)
 {
 	m_duration = 60;
 }
@@ -37,7 +39,12 @@ bool SubRound::GuessWord(const std::string& word) const
 
 void SubRound::StartRound()
 {
-	m_startTime = std::chrono::steady_clock::now();
+	m_timer.StartTimer();
+}
+
+void SubRound::StopRound()
+{
+	m_timer.StopTimer();
 }
 
 
@@ -55,11 +62,11 @@ std::string SubRound::SelectRandomWord(uint16_t difficulty)
 }
 
 //aici trebuie sa ma folosesc codul lui Cosmin
-int SubRound::GetSecond() const
+int SubRound::GetSecond()
 {
-	auto currentTime = std::chrono::steady_clock::now();
-	auto elapsedTime = std::chrono::duration_cast<std::chrono::seconds>(currentTime - m_startTime);
-	return static_cast<int>(elapsedTime.count());
+	auto milliseconds = m_timer.GetRemainingTime();
+	int seconds = static_cast<int>(milliseconds.count()) / 1000;
+	return seconds;
 }
 
 void SubRound::ChoosePainter(std::vector<Player*>& players)
@@ -77,7 +84,7 @@ void SubRound::ChoosePainter(std::vector<Player*>& players)
 }
 
 
-void SubRound::CalculateScore(const PlayerPtr& player, const std::string& word, const std::vector<PlayerPtr>& opponents) const
+void SubRound::CalculateScore(const PlayerPtr& player, const std::string& word, const std::vector<PlayerPtr>& opponents)
 {
 	player->GetRole();
 	if (player->GetRole() == PlayerRole::Guesser)
@@ -85,17 +92,17 @@ void SubRound::CalculateScore(const PlayerPtr& player, const std::string& word, 
 		bool hasGuessedCorrectly = false; 
 		if (player->GetRole() == PlayerRole::Guesser)
 		{
-			while (SubRound::GetSecond() < m_duration && !hasGuessedCorrectly)
+			while (GetSecond() < m_duration && !hasGuessedCorrectly)
 			{
 				if (SubRound::GuessWord(word))
 				{
 					hasGuessedCorrectly = true;
-					std::cout << "Guessed at second: " << SubRound::GetSecond() << std::endl; //de modificat cu timer-ul din DLL
-					if (SubRound::GetSecond() < m_duration / 2)
+					std::cout << "Guessed at second: " << GetSecond() << std::endl; //de modificat cu timer-ul din DLL
+					if (GetSecond() < m_duration / 2)
 						player->SetScore(100);
 					else
 					{
-						int score = static_cast<int>(std::round(((60.0 - SubRound::GetSecond()) * 100) / 30));
+						int score = static_cast<int>(std::round(((60.0 - GetSecond()) * 100) / 30));
 						player->SetScore(score);
 					}
 					break;

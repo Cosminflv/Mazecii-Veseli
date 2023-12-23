@@ -116,7 +116,6 @@ void Routing::Run(GameStorage& storage)
 
 
 	Chat chat;
-	//chat.WriteMessage({ "Server", "Hello darkness, my old friend!" });
 	CROW_ROUTE(m_app, "/chat")([&chat]()
 		{
 			std::vector<crow::json::wvalue> chatMessagesJson;
@@ -133,26 +132,6 @@ void Routing::Run(GameStorage& storage)
 			}
 			return crow::json::wvalue{ chatMessagesJson };
 		});
-	//Cosmin trebuie sa verifice
-	//CROW_ROUTE(m_app, "/receive_message")
-	//	.methods("POST"_method)
-	//	([&chat](const crow::request& req) {
-	//	// Access the transmitted JSON data from the client
-	//	auto json_data = crow::json::load(req.body);
-	//	if (!json_data) {
-	//		return crow::response(400);
-	//	}
-
-	//	if (json_data.has("username") && json_data.has("message")) {
-	//		std::string username = json_data["username"].s();
-	//		std::string password = json_data["message"].s();
-
-	//		chat.WriteMessage({ username, password });
-	//	}
-	//	else {
-	//		return crow::response(400);
-	//	}
-	//		});
 
 	CROW_ROUTE(m_app, "/receive_message")
 		.methods("POST"_method)

@@ -15,9 +15,10 @@ public:
 	bool GuessWord(const std::string& word) const;
 	void ShowLetters(std::string& word) const;
 	void StartRound();
-	int GetSecond() const;
+	void StopRound();
+	int GetSecond();
 	void ChoosePainter(std::vector<Player*>& players);
-	void CalculateScore(const PlayerPtr& player, const std::string& word, const std::vector<PlayerPtr>& opponents) const;
+	void CalculateScore(const PlayerPtr& player, const std::string& word, const std::vector<PlayerPtr>& opponents);
 	bool HaveAllPlayersGuessed() const;
 	bool HasSubRoundEnded() const;
 	int getNumberOfPlayers() const;
@@ -29,6 +30,6 @@ private:
 	std::string m_word;
 	int m_duration;
 	bool m_hasTimeEnded;
-	std::chrono::time_point<std::chrono::steady_clock> m_startTime;
+	Timer m_timer;
 };
 
