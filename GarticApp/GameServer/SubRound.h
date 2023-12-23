@@ -10,7 +10,18 @@ class SubRound
 public:
     std::string SelectRandomWord(uint16_t difficulty); 
 	SubRound();
+	SubRound(const SubRound& r);
 	SubRound(const std::string& word, int numberOfPlayers, Storage storage);
+
+	//Getters
+	Storage getStorage() const;
+	int getCounterGuessingPlayers() const;
+	int getNumberOfPlayers() const;
+	std::string getWord() const;
+	int getDuration() const;
+	bool getHasTimeEnded() const;
+
+
 	void SeeWord(const std::string& word) const;
 	bool GuessWord(const std::string& word) const;
 	void ShowLetters(std::string& word) const;
@@ -21,7 +32,6 @@ public:
 	void CalculateScore(const PlayerPtr& player, const std::string& word, const std::vector<PlayerPtr>& opponents);
 	bool HaveAllPlayersGuessed() const;
 	bool HasSubRoundEnded() const;
-	int getNumberOfPlayers() const;
 
 private:
     Storage m_storage;

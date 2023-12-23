@@ -16,9 +16,9 @@
 #include <thread>
 
 
-void Routing::Run(GameStorage& storage)
+void Routing::Run()
 {
-
+	GameStorage storage = m_storage;
 	std::string username;
 	std::string role;
 	int16_t score;
@@ -266,4 +266,8 @@ void Routing::Run(GameStorage& storage)
 
 
 	m_app.port(18080).multithreaded().run();
+}
+
+Routing::Routing(GameStorage& storage) : m_storage{storage}
+{
 }

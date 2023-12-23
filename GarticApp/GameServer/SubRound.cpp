@@ -16,6 +16,17 @@ SubRound::SubRound() :
 {
 }
 
+SubRound::SubRound(const SubRound& r) : 
+	m_storage {r.getStorage()},
+	m_counterGuessingPlayers {r.getCounterGuessingPlayers()},
+	m_duration {r.getDuration()},
+	m_hasTimeEnded {r.getHasTimeEnded()},
+	m_numberOfPlayers {r.getNumberOfPlayers()},
+	m_timer { 1 },
+	m_word {r.getWord()}
+{
+}
+
 SubRound::SubRound(const std::string& word, const int numberOfPlayers, Storage storage)
 	: m_word{ word },
 	m_numberOfPlayers{ numberOfPlayers },
@@ -31,10 +42,7 @@ void SubRound::SeeWord(const std::string& word) const
 
 bool SubRound::GuessWord(const std::string& word) const
 {
-	std::cout << "Enter your word: ";
-	std::string enterWord;
-	std::getline(std::cin, enterWord);
-	return enterWord == word;
+	return m_word == word;
 }
 
 void SubRound::StartRound()
@@ -175,7 +183,32 @@ bool SubRound::HasSubRoundEnded() const
 	return false;
 }
 
+Storage SubRound::getStorage() const
+{
+	return m_storage;
+}
+
+int SubRound::getCounterGuessingPlayers() const
+{
+	return m_counterGuessingPlayers;
+}
+
 int SubRound::getNumberOfPlayers() const
 {
 	return m_numberOfPlayers;
+}
+
+std::string SubRound::getWord() const
+{
+	return m_word;
+}
+
+int SubRound::getDuration() const
+{
+	return m_duration;
+}
+
+bool SubRound::getHasTimeEnded() const
+{
+	return m_hasTimeEnded;
 }
