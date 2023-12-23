@@ -16,6 +16,9 @@
     <Filter Include="Header Files\Routing">
       <UniqueIdentifier>{aa5c2138-81b7-465e-831c-ed74eca6d894}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Routing">
+      <UniqueIdentifier>{dea45505-2078-46c0-8533-637809796f72}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -46,10 +49,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Routing.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Routing</Filter>
     </ClCompile>
     <ClCompile Include="RouteHandler.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Routing</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -19,10 +19,13 @@
 void Routing::Run()
 {
 	GameStorage storage = m_storage;
+	RouteHandler handler = m_routeHandler;
 	std::string username;
 	std::string role;
 	int16_t score;
 	std::vector<Player*> players;
+	SubRound subround;
+
 	for (std::ifstream input("PlayerData.txt"); !input.eof();)
 	{
 		input >> username >> role >> score;
@@ -135,7 +138,7 @@ void Routing::Run()
 
 	CROW_ROUTE(m_app, "/receive_message")
 		.methods("POST"_method)
-		([&chat](const crow::request& req)
+		([&chat, &handler](const crow::request& req)
 			{
 
 				crow::json::rvalue json_data = crow::json::load(req.body);
@@ -143,13 +146,22 @@ void Routing::Run()
 					return crow::response(400, "Invalid JSON format");
 				}
 
-				if (json_data.has("username") && json_data.has("message")) {
-					std::string username = json_data["username"].s();
-					std::string message = json_data["message"].s();
-					chat.WriteMessage({ username, message });
-					std::cout << "Received message from " << username << ": " << message;
-					return crow::response(200);
+				if (!json_data.has("username") || !json_data.has("message"))
+					return crow::response(400, "Invalid JSON format");
+
+				std::string username = json_data["username"].s();
+				std::string message = json_data["message"].s();
+				chat.WriteMessage({ username, message });
+				std::cout << "Received message from " << username << ": " << message;
+
+				if (handler.checkEnteredMessage(message)) {
+					//wonScore = subround.calculateScore(
+					//totalScore = m_game.GetLeaderBoard()[username] + wonScore
+					//update leaderboard m_game.UpdateLeaderBoard(username, totalScore)
+					int x = 0;
 				}
+
+				return crow::response(200);
 			});
 
 
@@ -182,7 +194,6 @@ void Routing::Run()
 			}
 	);
 
-	SubRound subround;
 	CROW_ROUTE(m_app, "/word/<int>")
 		.methods("GET"_method)
 		([&subround](int difficulty)
@@ -193,7 +204,7 @@ void Routing::Run()
 				return wordJson;
 			});
 
-	
+
 	//idk
 		//CROW_ROUTE(m_app, "/registerinfo")
 		//	.methods("POST"_method)
@@ -219,17 +230,17 @@ void Routing::Run()
 
 	Timer T{ 1 };
 	CROW_ROUTE(m_app, "/timer")([&T]()
+		{
+			std::chrono::milliseconds milliseconds = T.GetRemainingTime();
+			int seconds = static_cast<int>(milliseconds.count()) / 1000;
+
+			crow::json::wvalue secondsJson
 			{
-				std::chrono::milliseconds milliseconds = T.GetRemainingTime();
-				int seconds = static_cast<int>(milliseconds.count()) / 1000;
+				{"Seconds", seconds},
+			};
 
-					crow::json::wvalue secondsJson
-					{
-						{"Seconds", seconds},
-					};
-
-					return  secondsJson;
-			});
+			return  secondsJson;
+		});
 
 	T.StartTimer();
 
@@ -268,6 +279,6 @@ void Routing::Run()
 	m_app.port(18080).multithreaded().run();
 }
 
-Routing::Routing(GameStorage& storage) : m_storage{storage}
+Routing::Routing(GameStorage& storage) : m_storage{ storage }
 {
 }
