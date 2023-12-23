@@ -50,6 +50,14 @@ std::map<PlayerPtr, int>Game::GetLeaderboard() const
 {
 	return m_leaderboard;
 }
+
+void Game::CreateRound(const std::vector<PlayerPtr>& players)
+{
+	RoundPtr newRound = std::make_shared<Round>(players);
+
+	m_currRound = newRound;
+}
+
 void Game::PlayRound()
 {
 

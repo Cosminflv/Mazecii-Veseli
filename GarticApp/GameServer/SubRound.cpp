@@ -16,6 +16,16 @@ SubRound::SubRound() :
 {
 }
 
+SubRound::SubRound(const std::vector<PlayerPtr>& players):
+	m_counterGuessingPlayers(0),
+	m_numberOfPlayers(players.size()),
+	m_duration(0),
+	m_hasTimeEnded(false),
+	m_timer{1},
+	m_storage(createStorage("Database.sqlite"))
+{
+}
+
 SubRound::SubRound(const SubRound& r) : 
 	m_storage {r.getStorage()},
 	m_counterGuessingPlayers {r.getCounterGuessingPlayers()},

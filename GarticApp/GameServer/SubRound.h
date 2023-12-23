@@ -8,8 +8,8 @@ using PlayerPtr = std::shared_ptr<class Player>;
 class SubRound
 {
 public:
-    std::string SelectRandomWord(uint16_t difficulty); 
 	SubRound();
+	SubRound(const std::vector<PlayerPtr>& players);
 	SubRound(const SubRound& r);
 	SubRound(const std::string& word, int numberOfPlayers, Storage storage);
 
@@ -22,6 +22,7 @@ public:
 	bool getHasTimeEnded() const;
 
 
+    std::string SelectRandomWord(uint16_t difficulty); 
 	void SeeWord(const std::string& word) const;
 	bool GuessWord(const std::string& word) const;
 	void ShowLetters(std::string& word) const;

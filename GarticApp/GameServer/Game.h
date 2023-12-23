@@ -18,9 +18,13 @@ public:
 	std::vector<PlayerPtr> GetPlayers() const;
 	RoundPtr GetRound() const;
 	Chat GetChat() const;
+
 	bool CheckUniquePlayerUsername(PlayerPtr player) const;
 	void AddPlayer(PlayerPtr player);
 	std::map<PlayerPtr, int>GetLeaderboard() const;
+
+	void CreateRound(const std::vector<PlayerPtr>& players);
+
 	void PlayRound();
 	void StartGame();
 	void EndGame();
