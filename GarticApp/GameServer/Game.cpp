@@ -30,7 +30,7 @@ RoundPtr Game::GetRound() const
 	return nullptr;
 }
 
-Chat Game::GetChat() const
+Chat& Game::GetChat() const
 {
 	return m_gameChat;
 }

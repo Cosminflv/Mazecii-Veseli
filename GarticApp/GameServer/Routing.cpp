@@ -121,10 +121,10 @@ void Routing::Run(Game& game)
 			});
 
 
-	CROW_ROUTE(m_app, "/chat")([&chat]()
+	CROW_ROUTE(m_app, "/chat")([&game]()
 		{
 			std::vector<crow::json::wvalue> chatMessagesJson;
-			auto chatMessages = chat.getChat();
+			auto chatMessages = game.GetChat().getChat();
 			for (const auto& message : chatMessages)
 			{
 				crow::json::wvalue m
@@ -140,7 +140,7 @@ void Routing::Run(Game& game)
 
 	CROW_ROUTE(m_app, "/receive_message")
 		.methods("POST"_method)
-		([&chat, &handler](const crow::request& req)
+		([&game, &handler](const crow::request& req)
 			{
 
 				crow::json::rvalue json_data = crow::json::load(req.body);
@@ -153,7 +153,7 @@ void Routing::Run(Game& game)
 
 				std::string username = json_data["username"].s();
 				std::string message = json_data["message"].s();
-				chat.WriteMessage({ username, message });
+				game.GetChat().WriteMessage({username, message});
 				std::cout << "Received message from " << username << ": " << message;
 
 				if (handler.checkEnteredMessage(message)) {

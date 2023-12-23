@@ -17,7 +17,7 @@ public:
 	Game();
 	std::vector<PlayerPtr> GetPlayers() const;
 	RoundPtr GetRound() const;
-	Chat GetChat() const;
+	Chat& GetChat() const;
 
 	bool CheckUniquePlayerUsername(PlayerPtr player) const;
 	void AddPlayer(PlayerPtr player);
@@ -36,6 +36,6 @@ private:
 	std::vector<PlayerPtr>m_players;
 	std::map<PlayerPtr, int>m_leaderboard;
 	RoundPtr m_currRound;
-	Chat m_gameChat;
+	mutable Chat m_gameChat;
 };
 
