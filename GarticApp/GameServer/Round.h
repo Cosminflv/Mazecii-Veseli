@@ -14,6 +14,7 @@ public:
 	
 	void CreateSubRound(const std::vector<PlayerPtr>& players);
 
+	SubRoundPtr GetSubround() const;
 	int GetSizeOfRound() const;
 	void ResetStatus(std::vector<PlayerPtr>& players) const;
 	bool RoundIsOver(std::vector<PlayerPtr>& players) const;

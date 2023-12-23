@@ -4,11 +4,18 @@ RouteHandler::RouteHandler()
 {
 }
 
-RouteHandler::RouteHandler(const SubRound& subRound) : m_subRound{ subRound }
+RouteHandler::RouteHandler(const Game& game) : m_game{ game }
 {
 }
 
 bool RouteHandler::checkEnteredMessage(const std::string& message)
 {
-    return m_subRound.GuessWord(message);
+    RoundPtr round = m_game.GetRound();
+    SubRoundPtr subround = round.get()->GetSubround();
+    return subround->GuessWord(message);
+}
+
+void RouteHandler::addPlayer(PlayerPtr newPlayer)
+{
+    m_game.AddPlayer(newPlayer);
 }

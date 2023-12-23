@@ -21,10 +21,12 @@ void Routing::Run(Game& game)
 	GameStorage storage = m_storage;
 	RouteHandler handler = m_routeHandler;
 	Chat chat = game.GetChat();
+	std::vector<Player*> players;
+	std::vector<PlayerPtr> gamePlayers = game.GetPlayers();
+
 	std::string username;
 	std::string role;
 	int16_t score;
-	std::vector<Player*> players;
 	SubRound subround;
 
 	for (std::ifstream input("PlayerData.txt"); !input.eof();)
@@ -166,7 +168,7 @@ void Routing::Run(Game& game)
 
 	CROW_ROUTE(m_app, "/registerinfo")
 		.methods("POST"_method)
-		([&](const crow::request& req)
+		([&game](const crow::request& req)
 			{
 				crow::json::rvalue jsonData = crow::json::load(req.body);
 				if (!jsonData)
@@ -181,10 +183,14 @@ void Routing::Run(Game& game)
 				std::cout << "Received username: " << username << std::endl;
 				std::cout << "Received password: " << password << std::endl;
 
+
+
 				GameStorage gameStorage;
 				if (gameStorage.InsertUser(username, password))
 				{
 					return crow::response(200);
+					PlayerPtr newPlayer = std::make_shared<Player>(username, PlayerRole::Painter, 0);
+					game.AddPlayer(newPlayer);
 				}
 				else
 				{
@@ -247,7 +253,7 @@ void Routing::Run(Game& game)
 
 	CROW_ROUTE(m_app, "/logininfo")
 		.methods("POST"_method)
-		([](const crow::request& req)
+		([&game](const crow::request& req)
 			{
 				crow::json::rvalue jsonData = crow::json::load(req.body);
 				if (!jsonData)
@@ -259,12 +265,15 @@ void Routing::Run(Game& game)
 				PlayerDB user;
 				user.SetUsername(username);
 				user.SetPassword(password);
+
 				GameStorage gameStorage;
 				if (gameStorage.CheckUser(username, password) == true)
 				{
 					std::cout << "Received username: " << username << std::endl;
 					std::cout << "Received password: " << password << std::endl;
 					//db.replace(user);
+					PlayerPtr newPlayer = std::make_shared<Player>(username, PlayerRole::Painter, 0);
+					game.AddPlayer(newPlayer);
 					return crow::response(200);
 				}
 				else

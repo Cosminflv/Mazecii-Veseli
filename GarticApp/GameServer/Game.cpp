@@ -13,7 +13,8 @@ Game::Game(std::vector<PlayerPtr> players, std::map<PlayerPtr, int> leaderboard)
 
 Game::Game()
 {
-
+	RoundPtr newRound = std::make_shared<Round>();
+	m_currRound = newRound;
 }
 
 

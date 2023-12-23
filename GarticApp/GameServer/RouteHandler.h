@@ -1,17 +1,19 @@
 #pragma once
-#include "SubRound.h"
+#include "Game.h"
 #include "Game.h"
 
 class RouteHandler
 {
 public:
 	RouteHandler();
-	RouteHandler(const SubRound& subRound);
+	RouteHandler(const Game& game);
 
 
 	bool checkEnteredMessage(const std::string& message);
+	void addPlayer(PlayerPtr newPlayer);
+
 private:
-	SubRound m_subRound;
+	Game m_game;
 
 };
 

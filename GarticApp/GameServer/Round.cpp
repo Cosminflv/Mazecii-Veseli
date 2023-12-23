@@ -2,6 +2,8 @@
 
 Round::Round()
 {
+	SubRoundPtr newSubRound = std::make_shared<SubRound>();
+	m_subRound = newSubRound;
 }
 
 Round::Round(const std::vector<PlayerPtr>& players)
@@ -19,6 +21,11 @@ void Round::CreateSubRound(const std::vector<PlayerPtr>& players)
 {
 	SubRoundPtr newSubRound = std::make_shared<SubRound>(players);
 	m_subRound = newSubRound;
+}
+
+SubRoundPtr Round::GetSubround() const
+{
+	return m_subRound;
 }
 
 int Round::GetSizeOfRound() const
