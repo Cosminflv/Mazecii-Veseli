@@ -16,10 +16,11 @@
 #include <thread>
 
 
-void Routing::Run(Game game)
+void Routing::Run(Game& game)
 {
 	GameStorage storage = m_storage;
 	RouteHandler handler = m_routeHandler;
+	Chat chat = game.GetChat();
 	std::string username;
 	std::string role;
 	int16_t score;
@@ -118,7 +119,6 @@ void Routing::Run(Game game)
 			});
 
 
-	Chat chat;
 	CROW_ROUTE(m_app, "/chat")([&chat]()
 		{
 			std::vector<crow::json::wvalue> chatMessagesJson;
