@@ -17,7 +17,8 @@ namespace sql = sqlite_orm;
 
 int main()
 {
+	Game g;
 	GameStorage storage;
 	Routing r(storage);
-	r.Run();
+	r.Run(g);
 }

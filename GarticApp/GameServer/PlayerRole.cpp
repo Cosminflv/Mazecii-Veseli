@@ -16,5 +16,12 @@ std::ostream& operator<<(std::ostream& os, PlayerRole role)
 
 PlayerRole ConvertToRole(const std::string& role)
 {
-	return role == "Guesser" ? PlayerRole::Guesser : PlayerRole::Painter;
+	if (role == "Guesser")
+		return PlayerRole::Guesser;
+
+	if (role == "Guessed")
+		return PlayerRole::Guessed;
+
+	if (role == "Painter")
+		return PlayerRole::Painter;
 }

@@ -16,7 +16,7 @@
 #include <thread>
 
 
-void Routing::Run()
+void Routing::Run(Game game)
 {
 	GameStorage storage = m_storage;
 	RouteHandler handler = m_routeHandler;
@@ -158,7 +158,6 @@ void Routing::Run()
 					//wonScore = subround.calculateScore(
 					//totalScore = m_game.GetLeaderBoard()[username] + wonScore
 					//update leaderboard m_game.UpdateLeaderBoard(username, totalScore)
-					int x = 0;
 				}
 
 				return crow::response(200);

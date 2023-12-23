@@ -13,15 +13,13 @@ using RoundPtr = std::shared_ptr<class Round>;
 class Game
 {
 public:
-	Game(std::vector<PlayerPtr>players, std::map<PlayerPtr, int> leaderboard, std::vector<RoundPtr> rounds);
+	Game(std::vector<PlayerPtr>players, std::map<PlayerPtr, int> leaderboard);
 	Game();
 	std::vector<PlayerPtr> GetPlayers() const;
-	std::vector<RoundPtr>GetRounds() const;
+	RoundPtr GetRound() const;
+	Chat GetChat() const;
 	bool CheckUniquePlayerUsername(PlayerPtr player) const;
 	void AddPlayer(PlayerPtr player);
-	//no need to add rounds during a game,
-	//the number of rounds is given by the number of players
-	void AddRound(RoundPtr round);
 	std::map<PlayerPtr, int>GetLeaderboard()const;
 	void PlayRound();
 	void StartGame();
@@ -33,7 +31,7 @@ public:
 private:
 	std::vector<PlayerPtr>m_players;
 	std::map<PlayerPtr, int>m_leaderboard;
-	std::vector<RoundPtr>m_rounds;
+	RoundPtr m_currRound;
 	Chat m_gameChat;
 };
 

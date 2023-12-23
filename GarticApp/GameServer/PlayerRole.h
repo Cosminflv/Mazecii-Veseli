@@ -3,6 +3,7 @@
 
 enum class PlayerRole {
 	Guesser,
+	Guessed,
 	Painter
 };
 

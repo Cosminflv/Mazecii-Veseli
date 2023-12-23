@@ -4,15 +4,14 @@
 #include <map>
 #include <set>
 
-Game::Game(std::vector<PlayerPtr> players, std::map<PlayerPtr, int> leaderboard, std::vector<RoundPtr> rounds) :
+Game::Game(std::vector<PlayerPtr> players, std::map<PlayerPtr, int> leaderboard) :
 	m_players{ players },
 	m_leaderboard{ leaderboard }
 {
-	m_rounds.resize(4);
-	m_gameChat.WriteMessage({"Server", "Hello"});
+	m_gameChat.WriteMessage({ "Server", "Hello" });
 }
 
-Game::Game() 
+Game::Game()
 {
 
 }
@@ -23,9 +22,14 @@ std::vector<PlayerPtr> Game::GetPlayers() const
 	return m_players;
 }
 
-std::vector<RoundPtr> Game::GetRounds() const
+RoundPtr Game::GetRound() const
 {
-	return m_rounds;
+	return m_currRound;
+}
+
+Chat Game::GetChat() const
+{
+	return m_gameChat;
 }
 
 bool Game::CheckUniquePlayerUsername(PlayerPtr player) const
@@ -51,7 +55,7 @@ void Game::PlayRound()
 
 void Game::StartGame()
 {
-	
+
 }
 
 void Game::EndGame()
@@ -75,17 +79,15 @@ void Game::ResetGame()
 {
 	for (PlayerPtr player : m_players)
 		player->SetScore(0);
-	m_rounds.clear();
+	m_currRound = RoundPtr();
 }
 
 void Game::UpdateLeaderboard()
 {
 	m_leaderboard.clear();
-	for (RoundPtr round : m_rounds) {
-		for (PlayerPtr player : m_players) {
-			int roundScore = player->GetScore();
-			m_leaderboard[player] += roundScore;
-		}
+	for (PlayerPtr player : m_players) {
+		int roundScore = player->GetScore();
+		m_leaderboard[player] += roundScore;
 	}
 }
 void Game::AddPlayer(PlayerPtr player)
@@ -93,14 +95,8 @@ void Game::AddPlayer(PlayerPtr player)
 	m_players.push_back(player);
 }
 
-void Game::AddRound(RoundPtr round)
-{
-	m_rounds.push_back(round);
-}
-
 Game::~Game()
 {
 	m_players.clear();
-	m_rounds.clear();
 	m_leaderboard.clear();
 }
