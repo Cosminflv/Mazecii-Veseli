@@ -24,7 +24,9 @@ std::vector<PlayerPtr> Game::GetPlayers() const
 
 RoundPtr Game::GetRound() const
 {
-	return m_currRound;
+	if (m_currRound != nullptr)
+		return m_currRound;
+	return nullptr;
 }
 
 Chat Game::GetChat() const

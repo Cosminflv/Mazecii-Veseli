@@ -3,16 +3,18 @@
 #include "SubRound.h"
 #include <vector>
 
+using SubRoundPtr = std::shared_ptr<class SubRound>;
+
 class Round
 {
 public:
-	Round(std::vector<SubRound*>subRounds, const int numberOfPlayers);
+	Round(SubRoundPtr subRound, const int numberOfPlayers);
 	int GetSizeOfRound() const;
 	void ResetStatus(std::vector<PlayerPtr>& players) const;
 	bool RoundIsOver(std::vector<PlayerPtr>& players) const;
 
 private:
-	std::vector<SubRound*>m_subRounds;
+	SubRoundPtr m_subRound;
 	int m_numberOfPlayers;
 };
 

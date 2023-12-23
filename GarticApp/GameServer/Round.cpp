@@ -1,12 +1,12 @@
 #include "Round.h"
 
-Round::Round(std::vector<SubRound*> subRounds, int numberOfPlayers) : m_subRounds{ subRounds }, m_numberOfPlayers{ numberOfPlayers }
+Round::Round(SubRoundPtr subRound, int numberOfPlayers) : m_subRound{ subRound }, m_numberOfPlayers{ numberOfPlayers }
 {
 }
 
 int Round::GetSizeOfRound() const
 {
-	return m_subRounds[0]->getNumberOfPlayers();
+	return m_subRound->getNumberOfPlayers();
 }
 
 void Round::ResetStatus(std::vector<PlayerPtr>& players) const

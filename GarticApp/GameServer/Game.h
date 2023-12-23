@@ -20,7 +20,7 @@ public:
 	Chat GetChat() const;
 	bool CheckUniquePlayerUsername(PlayerPtr player) const;
 	void AddPlayer(PlayerPtr player);
-	std::map<PlayerPtr, int>GetLeaderboard()const;
+	std::map<PlayerPtr, int>GetLeaderboard() const;
 	void PlayRound();
 	void StartGame();
 	void EndGame();

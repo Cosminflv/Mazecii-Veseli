@@ -69,7 +69,6 @@ std::string SubRound::SelectRandomWord(uint16_t difficulty)
 	return filteredWords[randomIndex];
 }
 
-//aici trebuie sa ma folosesc codul lui Cosmin
 int SubRound::GetSecond()
 {
 	auto milliseconds = m_timer.GetRemainingTime();
