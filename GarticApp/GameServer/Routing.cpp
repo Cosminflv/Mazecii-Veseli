@@ -20,61 +20,9 @@ void Routing::Run(Game& game)
 {
 	GameStorage storage = m_storage;
 	RouteHandler handler = m_routeHandler;
-	std::vector<Player*> players;
-	std::vector<PlayerPtr> gamePlayers = game.GetPlayers();
 
-	std::string username;
-	std::string role;
-	int16_t score;
 	SubRound subround;
 
-	for (std::ifstream input("PlayerData.txt"); !input.eof();)
-	{
-		input >> username >> role >> score;
-		PlayerRole Role = ConvertToRole(role);
-		Player* player = new Player(username, Role, score);
-		players.push_back(player);
-	}
-
-	CROW_ROUTE(m_app, "/playerinfo")([&players]()
-		{
-			std::vector<crow::json::wvalue> playersJson;
-			for (const auto& player : players)
-			{
-				crow::json::wvalue p
-				{
-					{"Username", player->GetUsername()}, {"Role", player->GetRoleAsString()},
-					{"Score", player->GetScore()}, {"Status", player->GetPlayerStatus()}
-				};
-
-				playersJson.push_back(p);
-			}
-			return crow::json::wvalue{ playersJson };
-		});
-
-	CROW_ROUTE(m_app, "/")([]() {
-		return "Meow";
-		});
-
-	CROW_ROUTE(m_app, "/words")([&storage]()
-		{
-
-			std::vector<crow::json::wvalue>wordsJson;
-			auto words = storage.GetWords();
-			for (const auto& word : words)
-			{
-				crow::json::wvalue w{
-					{"id",word.id},
-					{"description",word.description},
-					{"difficulty",word.difficulty}
-
-				};
-
-				wordsJson.push_back(w);
-			};
-			return crow::json::wvalue{ wordsJson };
-		}
-	);
 	CROW_ROUTE(m_app, "/users")([&storage]()
 		{
 
