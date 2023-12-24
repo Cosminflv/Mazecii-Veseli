@@ -9,8 +9,9 @@ public:
 	RouteHandler(const Game& game);
 
 
-	bool checkEnteredMessage(const std::string& message);
-	void addPlayer(PlayerPtr newPlayer);
+	bool CheckEnteredMessage(const std::string& message);
+	void AddPlayer(PlayerPtr newPlayer);
+	void WriteMessage(const std::string& username, const std::string& message);
 
 private:
 	Game m_game;

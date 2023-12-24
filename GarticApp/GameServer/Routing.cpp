@@ -20,7 +20,6 @@ void Routing::Run(Game& game)
 {
 	GameStorage storage = m_storage;
 	RouteHandler handler = m_routeHandler;
-	Chat chat = game.GetChat();
 	std::vector<Player*> players;
 	std::vector<PlayerPtr> gamePlayers = game.GetPlayers();
 
@@ -116,6 +115,7 @@ void Routing::Run(Game& game)
 						wordsJson.push_back(w);
 					}
 				}
+				
 
 				return crow::json::wvalue{ wordsJson };
 			});
@@ -153,13 +153,15 @@ void Routing::Run(Game& game)
 
 				std::string username = json_data["username"].s();
 				std::string message = json_data["message"].s();
+				handler.WriteMessage(username, message);
 				game.GetChat().WriteMessage({username, message});
 				std::cout << "Received message from " << username << ": " << message;
 
-				if (handler.checkEnteredMessage(message)) {
+				if (handler.CheckEnteredMessage(message)) {
 					//wonScore = subround.calculateScore(
 					//totalScore = m_game.GetLeaderBoard()[username] + wonScore
 					//update leaderboard m_game.UpdateLeaderBoard(username, totalScore)
+					//toate wrappuite intr-o metoda din handler
 				}
 
 				return crow::response(200);
@@ -168,7 +170,7 @@ void Routing::Run(Game& game)
 
 	CROW_ROUTE(m_app, "/registerinfo")
 		.methods("POST"_method)
-		([&game](const crow::request& req)
+		([&handler](const crow::request& req)
 			{
 				crow::json::rvalue jsonData = crow::json::load(req.body);
 				if (!jsonData)
@@ -190,7 +192,8 @@ void Routing::Run(Game& game)
 				{
 					return crow::response(200);
 					PlayerPtr newPlayer = std::make_shared<Player>(username, PlayerRole::Painter, 0);
-					game.AddPlayer(newPlayer);
+					//game.AddPlayer(newPlayer);
+					handler.AddPlayer(newPlayer);
 				}
 				else
 				{
@@ -233,7 +236,7 @@ void Routing::Run(Game& game)
 		//);
 
 
-	Timer T{ 1 };
+	Timer T{ 3 };
 	CROW_ROUTE(m_app, "/timer")([&T]()
 		{
 			std::chrono::milliseconds milliseconds = T.GetRemainingTime();
