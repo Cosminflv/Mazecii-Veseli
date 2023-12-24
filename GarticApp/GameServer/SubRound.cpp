@@ -76,6 +76,7 @@ std::string SubRound::SelectRandomWord(uint16_t difficulty)
 	}
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 	auto randomIndex = std::rand() % filteredWords.size();
+	m_word = filteredWords[randomIndex];
 	return filteredWords[randomIndex];
 }
 

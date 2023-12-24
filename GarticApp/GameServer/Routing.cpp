@@ -150,9 +150,9 @@ void Routing::Run(Game& game)
 
 	CROW_ROUTE(m_app, "/word/<int>")
 		.methods("GET"_method)
-		([&subround](int difficulty)
+		([&handler](int difficulty)
 			{
-				std::string randomWord = subround.SelectRandomWord(static_cast<uint16_t>(difficulty));
+				std::string randomWord = handler.PickWord(static_cast<uint16_t>(difficulty));
 				crow::json::wvalue wordJson;
 				wordJson["word"] = randomWord;
 				return wordJson;

@@ -25,3 +25,8 @@ void RouteHandler::WriteMessage(const std::string& username, const std::string& 
 {
     m_game.GetChat().WriteMessage({ username, message});
 }
+
+std::string RouteHandler::PickWord(uint16_t difficulty)
+{
+    return m_game.GetRound().get()->GetSubround().get()->SelectRandomWord(difficulty);
+}
