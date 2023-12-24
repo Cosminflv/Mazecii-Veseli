@@ -15,8 +15,9 @@ bool RouteHandler::CheckEnteredMessage(const std::string& message)
     return subround->GuessWord(message);
 }
 
-void RouteHandler::AddPlayer(PlayerPtr newPlayer)
+void RouteHandler::AddPlayer(const std::string& username)
 {
+    PlayerPtr newPlayer = std::make_shared<Player>(username, PlayerRole::Painter, 0);
     m_game.AddPlayer(newPlayer);
 }
 
