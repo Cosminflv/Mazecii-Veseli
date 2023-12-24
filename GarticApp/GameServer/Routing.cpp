@@ -21,11 +21,8 @@ void Routing::Run(Game& game)
 	GameStorage storage = m_storage;
 	RouteHandler handler = m_routeHandler;
 
-	SubRound subround;
-
 	CROW_ROUTE(m_app, "/users")([&storage]()
 		{
-
 			std::vector<crow::json::wvalue>usersJson;
 			auto users = storage.GetUsers();
 			for (const auto& user : users)
@@ -63,11 +60,8 @@ void Routing::Run(Game& game)
 						wordsJson.push_back(w);
 					}
 				}
-				
-
 				return crow::json::wvalue{ wordsJson };
 			});
-
 
 	CROW_ROUTE(m_app, "/chat")([&game]()
 		{
@@ -118,7 +112,7 @@ void Routing::Run(Game& game)
 
 	CROW_ROUTE(m_app, "/registerinfo")
 		.methods("POST"_method)
-		([&handler](const crow::request& req)
+		([&handler, &storage](const crow::request& req)
 			{
 				crow::json::rvalue jsonData = crow::json::load(req.body);
 				if (!jsonData)
@@ -133,10 +127,7 @@ void Routing::Run(Game& game)
 				std::cout << "Received username: " << username << std::endl;
 				std::cout << "Received password: " << password << std::endl;
 
-
-
-				GameStorage gameStorage;
-				if (gameStorage.InsertUser(username, password))
+				if (storage.InsertUser(username, password))
 				{
 					return crow::response(200);
 					handler.AddPlayer(username);
@@ -158,30 +149,6 @@ void Routing::Run(Game& game)
 				return wordJson;
 			});
 
-
-	//idk
-		//CROW_ROUTE(m_app, "/registerinfo")
-		//	.methods("POST"_method)
-		//	([](const crow::request& req)
-		//		{
-		//			crow::json::rvalue jsonData = crow::json::load(req.body);
-		//			if (!jsonData)
-		//			{
-		//				return crow::response(400, "Invalid JSON format");
-		//			}
-		//			std::string username = jsonData["username"].s();
-		//			std::string password = jsonData["password"].s();
-		//			PlayerDB user;
-		//			user.SetUsername(username);
-		//			user.SetPassword(password);
-		//			std::cout << "Received username: " << username << std::endl;
-		//			std::cout << "Received password: " << password << std::endl;
-		//			//db.replace(user);
-		//			return crow::response(200);
-		//		}
-		//);
-
-
 	Timer T{ 3 };
 	CROW_ROUTE(m_app, "/timer")([&T]()
 		{
@@ -198,11 +165,9 @@ void Routing::Run(Game& game)
 
 	T.StartTimer();
 
-
-
 	CROW_ROUTE(m_app, "/logininfo")
 		.methods("POST"_method)
-		([&handler](const crow::request& req)
+		([&handler, &storage](const crow::request& req)
 			{
 				crow::json::rvalue jsonData = crow::json::load(req.body);
 				if (!jsonData)
@@ -215,8 +180,7 @@ void Routing::Run(Game& game)
 				user.SetUsername(username);
 				user.SetPassword(password);
 
-				GameStorage gameStorage;
-				if (gameStorage.CheckUser(username, password) == true)
+				if (storage.CheckUser(username, password) == true)
 				{
 					std::cout << "Received username: " << username << std::endl;
 					std::cout << "Received password: " << password << std::endl;
@@ -230,7 +194,6 @@ void Routing::Run(Game& game)
 				}
 			}
 	);
-
 
 	m_app.port(18080).multithreaded().run();
 }
