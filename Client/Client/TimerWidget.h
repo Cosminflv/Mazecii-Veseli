@@ -15,6 +15,7 @@ class TimerWidget : public QWidget
 public:
 	TimerWidget();
 	QLabel* GetTimeLabel() const;
+
 signals:
 	void timerUpdate(const QString& timeString, const QPalette& textColor);
 	void halfTimeReachedSignal();
@@ -27,7 +28,6 @@ private slots:
 	void updateUi(int remainingTime);
 
 private:
-
 	bool m_halfTimeReached;
 	QTimer* m_timer;
 	QLabel* m_timeLabel;

@@ -13,11 +13,10 @@ Client::Client(QWidget* parent)
     m_wordWidget = new WordWidget;
 
     m_scribbleArea->setFixedHeight(500);
-    m_chatWidget->setFixedHeight(500);
+    m_chatWidget->setFixedHeight(510);
     m_playerWidget->setFixedHeight(400);
     m_colorWidget->setFixedHeight(100);
     m_wordWidget->setFixedSize(300, 50);
-    m_timerWidget->GetTimeLabel()->setFont(QFont("Digital-7", 40));
 
     QGridLayout* mainLayout = new QGridLayout(this);
 

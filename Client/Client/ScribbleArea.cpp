@@ -32,8 +32,11 @@ ScribbleArea::ScribbleArea(QWidget* parent)
 		up += 7;
 	}
 
-	m_drawing = std::vector < std::vector<std::pair<int, int>>>(
-		height(), std::vector<std::pair<int, int>>(width(), std::make_pair(-1, -1)));
+	m_drawing = std::vector<std::pair<int, int>>();
+
+	m_getDrawing = new QPushButton("see drawing", this);
+	m_getDrawing->setGeometry(300, 10, 130, 30);
+	connect(m_getDrawing, &QPushButton::clicked, this, &ScribbleArea::onGetDrawing);
 }
 
 void ScribbleArea::SetPenColor(const QColor& newColor)
@@ -57,7 +60,7 @@ int ScribbleArea::GetPenWidth() const
 	return m_penWidth;
 }
 
-std::vector<std::vector<std::pair<int, int>>> ScribbleArea::GetDrawing() const
+std::vector<std::pair<int, int>> ScribbleArea::GetDrawing() const
 {
 	return m_drawing;
 }
@@ -69,39 +72,28 @@ void ScribbleArea::DrawInMatrix(int xStart, int yStart, int xEnd, int yEnd)
 	int yMin = std::min(yStart, yEnd);
 	int yMax = std::max(yStart, yEnd);
 
-	for(int y = yMin; y < yMax; y++)
+	for (int y = yMin; y <= yMax; y++)
 	{
-		for (int x = xMin; x < xMax; x++)
+		for (int x = xMin; x <= xMax; x++)
 		{
 			if (x >= 0 && x < width() && y >= 0 && y < height())
 			{
-				m_drawing[y][x] == std::make_pair(x, y);
+				m_drawing.push_back(std::make_pair(x, y));
 			}
 		}
 	}
 }
 
-void ScribbleArea::ClearDrawingMatrix()
-{
-	m_drawing = std::vector<std::vector<std::pair<int, int>>>(
-		height(), std::vector<std::pair<int, int>>(width(), std::make_pair(-1, -1))
-	);
-}
-
-void ScribbleArea::PrintMatrix(const QString& output)
+void ScribbleArea::PrintCoordinates(const QString& output)
 {
 	QFile file(output);
 	if (file.open(QIODevice::WriteOnly | QIODevice::Text))
 	{
 		QTextStream out(&file);
 		out << m_drawing.size() << "\n";
-		for (int i = 0; i < m_drawing.size(); i++)
+		for (auto pair : m_drawing)
 		{
-			for (int j = 0; j < m_drawing.size(); j++)
-			{
-				out << m_drawing[i][j].first << "," << m_drawing[i][j].second << " | ";
-			}
-			out << "\n";
+			out << pair.first << ", " << pair.second << "\n";
 		}
 	}
 	file.close();
@@ -124,6 +116,12 @@ void ScribbleArea::mouseMoveEvent(QMouseEvent* event)
 {
 	if ((event->buttons() & Qt::LeftButton) && m_isScribbling) {
 		DrawLineTo(event->pos());
+		int xStart = m_lastPoint.x();
+		int xEnd = event->pos().x();
+		int yStart = m_lastPoint.y();
+		int yEnd = event->pos().y();
+
+		DrawInMatrix(xStart, yStart, xEnd, yEnd);
 	}
 }
 
@@ -156,19 +154,13 @@ void ScribbleArea::resizeEvent(QResizeEvent* event)
 
 void ScribbleArea::DrawLineTo(const QPoint& endPoint)
 {
-	int xStart = m_lastPoint.x();
-	int xEnd = endPoint.x();
-	int yStart = m_lastPoint.y();
-	int yEnd = endPoint.y();
-
-	//DrawInMatrix(xStart, yStart, xEnd, yEnd);
-	//PrintMatrix("coordinates.txt");
-
 	QPainter painter(&m_image);
 	painter.setPen(QPen(m_penColor, m_penWidth, Qt::SolidLine, Qt::RoundCap,
 		Qt::RoundJoin));
 	painter.drawLine(m_lastPoint, endPoint);
 	m_modified = true;
+
+	DrawInMatrix(m_lastPoint.x(), m_lastPoint.y(), endPoint.x(), endPoint.y());
 
 	int rad = (m_penWidth / 2) + 2;
 	update(QRect(m_lastPoint, endPoint).normalized()
@@ -190,7 +182,8 @@ void ScribbleArea::ResizeImage(QImage* image, const QSize& newSize)
 
 void ScribbleArea::onClearButtonClicked() {
 	m_image.fill(qRgb(255, 255, 255));
-	ClearDrawingMatrix();
+	PrintCoordinates("0_coordinates.txt");
+	m_drawing.clear();
 	m_modified = true;
 	update();
 }
@@ -207,4 +200,34 @@ void ScribbleArea::onColorButtonClicked()
 void ScribbleArea::onSelectColor(const QColor& color)
 {
 	SetPenColor(color);
+}
+
+void ScribbleArea::onGetDrawing()
+{
+	QDialog* drawingDialog = new QDialog(this);
+	drawingDialog->setWindowTitle("Drawing Viewer");
+
+	QLabel* label = new QLabel(drawingDialog);
+	label->setGeometry(0, 0, this->width(), this->height());
+
+	QPixmap canvas(this->size());
+	canvas.fill(Qt::white);
+	QPainter painter(&canvas);
+	painter.setRenderHint(QPainter::Antialiasing, true);
+
+	for (const auto& point : m_drawing)
+	{
+		int x = point.first;
+		int y = point.second;
+		painter.drawPoint(x, y);
+	}
+
+	label->setPixmap(canvas);
+	label->setAlignment(Qt::AlignCenter);
+
+	QVBoxLayout* layout = new QVBoxLayout(drawingDialog);
+	layout->addWidget(label);
+
+	drawingDialog->setLayout(layout);
+	drawingDialog->exec();
 }

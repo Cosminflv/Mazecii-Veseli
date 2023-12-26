@@ -19,17 +19,17 @@ public:
 
 	QColor GetPenColor() const;
 	int GetPenWidth() const;
-	std::vector <std::vector<std::pair<int, int>>> GetDrawing() const;
+	std::vector<std::pair<int, int>> GetDrawing() const;
 
 	void DrawInMatrix(int xStart, int yStart, int xEnd, int yEnd);
-	void ClearDrawingMatrix();
-	void PrintMatrix(const QString& output);
+	void PrintCoordinates(const QString& output);
 
 	~ScribbleArea();
 private slots:
 	void onClearButtonClicked();
 	void onColorButtonClicked();
 	void onSelectColor(const QColor& color);
+	void onGetDrawing();
 
 protected:
 	void mousePressEvent(QMouseEvent* event) override;
@@ -53,8 +53,9 @@ private:
 
 	QPushButton* m_clearButton;
 	QPushButton* m_selectColor;
+	QPushButton* m_getDrawing;
 
-	std::vector <std::vector<std::pair<int, int>>> m_drawing;
+	std::vector<std::pair<int, int>> m_drawing;
 
 	const QList<int> m_sizes = { 7, 14, 21 };
 };

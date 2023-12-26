@@ -49,7 +49,14 @@ QString WordWidget::HiddenWord(const QString& word)
 	QString hiddenWord = "";
 	for (int i = 0; i < word.length(); i++)
 	{
-		hiddenWord = hiddenWord + "_ ";
+		if (word[i] == ' ')
+		{
+			hiddenWord = hiddenWord + " ";
+		}
+		else
+		{
+			hiddenWord = hiddenWord + "_ ";
+		}
 	}
 	return hiddenWord;
 }
@@ -74,7 +81,8 @@ QString WordWidget::FetchWordFromServer(uint16_t difficulty)
 	QString word = jsonObject.value("word").toString();
 
 	qDebug() << "Word:" << word;
-	return word;
+
+	return word.replace("_", " ");
 }
 
 void WordWidget::UpdateWord(const QString& word)

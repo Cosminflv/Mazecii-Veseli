@@ -1,13 +1,21 @@
 ﻿#include "TimerWidget.h"
+#include "qfontdatabase.h"
 #include <QVBoxLayout>
 
 TimerWidget::TimerWidget()
 {	
-	setFont(QFont("Digital-7", 40));
+	int id = QFontDatabase::addApplicationFont(":/fonts/digital-7.ttf");
+	// adds the font from the resource path to the app's font database, returns the id used to retrieve info abt the newly inserted font
+	QString family = QFontDatabase::applicationFontFamilies(id).at(0);
+	//retrieves the first font family* associated (assumes there is at least one so it gets the first which is usually the regular one)
+	// * a family refers to variations of the same font (bold, italic variations)
+	QFont Digital(family);
+	Digital.setPointSize(40);
+	setFont(Digital);
 	m_halfTimeReached = false;
 	m_timeLabel = new QLabel("01:00", this);
 	m_timeLabel->setAlignment(Qt::AlignTop);
-
+	m_timeLabel->setFont(Digital);
 	QVBoxLayout* layout = new QVBoxLayout(this);
 	layout->addWidget(m_timeLabel);
 	setLayout(layout);
@@ -63,8 +71,6 @@ void TimerWidget::updateUi(int remainingTime)
 		int minutes = remainingTime / 60;
 		int seconds = remainingTime % 60;
 
-		m_timeLabel->setFont(QFont("Digital-7", 40));
-
 		QString timeString = QString("%1:%2")
 			.arg(minutes, 2, 10, QChar('0'))
 			.arg(seconds, 2, 10, QChar('0'));
@@ -83,6 +89,5 @@ void TimerWidget::updateUi(int remainingTime)
 	else {
 		stopTimer();
 		m_timeLabel->setText("00:00");
-		m_timeLabel->setFont(QFont("Digital-7", 40));
 	}
 }

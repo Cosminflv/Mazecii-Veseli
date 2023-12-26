@@ -6,6 +6,7 @@ ChatWidget::ChatWidget(QWidget* parent)
 	QVBoxLayout* layout = new QVBoxLayout;
 
 	setFont(QFont("8514oem", 13));
+	setFixedHeight(510);
 
 	messageDisplay = new QTextEdit(this);
 	messageDisplay->setReadOnly(true);
