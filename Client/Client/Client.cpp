@@ -4,7 +4,6 @@ Client::Client(QWidget* parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
-    setFont(QFont("8514oem", 13));
 
     m_scribbleArea = new ScribbleArea;
     m_chatWidget = new ChatWidget;
@@ -18,6 +17,7 @@ Client::Client(QWidget* parent)
     m_playerWidget->setFixedHeight(400);
     m_colorWidget->setFixedHeight(100);
     m_wordWidget->setFixedSize(300, 50);
+    m_timerWidget->GetTimeLabel()->setFont(QFont("Digital-7", 40));
 
     QGridLayout* mainLayout = new QGridLayout(this);
 
@@ -27,7 +27,6 @@ Client::Client(QWidget* parent)
     mainLayout->addWidget(m_scribbleArea, 1, 1, 2, 1); // Row 1, Column 1, Row Span 2, Column Span 1
     mainLayout->addWidget(m_chatWidget, 1, 2, 3, 1); // Row 0, Column 2, Row Span 3, Column Span 1
     mainLayout->addWidget(m_wordWidget, 0, 1, 1, 3);
-
     mainLayout->setAlignment(m_wordWidget, Qt::AlignCenter);
 
     mainLayout->setColumnStretch(0, 4);
@@ -55,7 +54,9 @@ Client::Client(QWidget* parent)
             m_timerWidget->GetTimeLabel()->setPalette(textColor);
         });
 
-    connect(m_colorWidget, &ColorWidget::selectColor, m_scribbleArea, &ScribbleArea::setPenColor);
+    connect(m_colorWidget, &ColorWidget::selectColor, m_scribbleArea, &ScribbleArea::SetPenColor);
+
+    setFont(QFont("8514oem", 13));
 }
 
 Client::~Client()

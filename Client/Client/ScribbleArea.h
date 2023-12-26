@@ -7,17 +7,23 @@
 #include <qpainterpath.h>
 #include <QPushButton>
 #include <QColorDialog>
+#include <vector>
 
 class ScribbleArea : public QWidget
 {
 public:
 	ScribbleArea(QWidget* parent = 0);
 
-	void setPenColor(const QColor& newColor);
-	void setPenWidth(int newWidth);
+	void SetPenColor(const QColor& newColor);
+	void SetPenWidth(int newWidth);
 
-	QColor getPenColor() const;
-	int getPenWidth() const;
+	QColor GetPenColor() const;
+	int GetPenWidth() const;
+	std::vector <std::vector<std::pair<int, int>>> GetDrawing() const;
+
+	void DrawInMatrix(int xStart, int yStart, int xEnd, int yEnd);
+	void ClearDrawingMatrix();
+	void PrintMatrix(const QString& output);
 
 	~ScribbleArea();
 private slots:
@@ -33,8 +39,8 @@ protected:
 	void resizeEvent(QResizeEvent* event) override;
 
 private:
-	void drawLineTo(const QPoint& endPoint);
-	void resizeImage(QImage* image, const QSize& newSize);
+	void DrawLineTo(const QPoint& endPoint);
+	void ResizeImage(QImage* image, const QSize& newSize);
 
 	bool m_modified;
 	bool m_isScribbling;
@@ -47,6 +53,8 @@ private:
 
 	QPushButton* m_clearButton;
 	QPushButton* m_selectColor;
+
+	std::vector <std::vector<std::pair<int, int>>> m_drawing;
 
 	const QList<int> m_sizes = { 7, 14, 21 };
 };

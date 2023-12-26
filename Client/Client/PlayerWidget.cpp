@@ -67,6 +67,6 @@ void PlayerWidget::DisplayPlayers()
 		QListWidgetItem* user = new QListWidgetItem(playerInfo);
 		user->setFont(QFont("8514oem", 13));
 		m_playerList->addItem(user);
-		m_playerList->show();
 	}
+	m_playerList->show();
 }

@@ -17,6 +17,7 @@ public:
 
 	void SetDifficulty(const uint16_t& d);
 	uint16_t GetDifficulty() const;
+	QLabel* GetWordLabel() const;
 
 	QString FetchWordFromServer(uint16_t difficulty);
 	QString HiddenWord(const QString& word);

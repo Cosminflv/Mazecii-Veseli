@@ -76,6 +76,7 @@ void Difficulty::SelectDifficulty()
 	Client* w = new Client();
 	w->SetDifficulty(m_difficulty);
 	w->GetWordWidget()->UpdateWord(w->GetWordWidget()->FetchWordFromServer(m_difficulty));
+	w->GetWordWidget()->GetWordLabel()->setFont(QFont("Rockwell", 20));
 	qDebug() << "client difficulty set:" << w->GetDifficulty();
 	w->GetChat()->SetClientUsername(m_username);
 	QString qUsername = QString::fromUtf8(m_username.c_str());

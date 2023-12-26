@@ -6,7 +6,7 @@
 WordWidget::WordWidget(QWidget* parent)
 	:QWidget(parent)
 {
-	setFont(QFont("8514oem", 17));
+	setFont(QFont("Rockwell", 20));
 	QVBoxLayout* layout = new QVBoxLayout(this);
 	m_word = new QLabel(this);
 	layout->addWidget(m_word);
@@ -25,6 +25,11 @@ void WordWidget::SetDifficulty(const uint16_t& d)
 uint16_t WordWidget::GetDifficulty() const
 {
 	return m_difficulty;
+}
+
+QLabel* WordWidget::GetWordLabel() const
+{
+	return m_word;
 }
 
 std::pair<size_t, QChar> WordWidget::GetRandomLetter(const QString& word)

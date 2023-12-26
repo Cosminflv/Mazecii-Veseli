@@ -18,14 +18,18 @@ Lobby::Lobby(QWidget *parent)
 
 	m_userDisplay = new QListWidget(this);
 	m_userDisplay->setSpacing(3.6);
-	m_userDisplay->setGeometry(100, 140, 200, 300);
+	m_userDisplay->setGeometry(80, 140, 230, 290);
 
 	m_startGame = new QPushButton("Start Game", this);
 	m_startGame->setGeometry(125, 450, 150, 40);
 	m_startGame->setFont(QFont("", 17));
 	connect(m_startGame, &QPushButton::clicked, this, &Lobby::StartGame);
 
-	setStyleSheet("background-color:#f0f5f2");
+	// if player is not admin -> "waiting for game to start.."
+	// -> can see the player list
+	// -> can't see start game button
+
+	setStyleSheet("background-color:#e0ebe4");
 	m_userDisplay->setStyleSheet("background-color:");
 	m_startGame->setStyleSheet("background-color:#ffe6cc; color:#5c8a74");
 }
@@ -40,13 +44,13 @@ void Lobby::InsertUser(const QString& username)
 
 void Lobby::DisplayUsers()
 {
+	m_userDisplay->setFont(QFont("8514oem", 13));
 	for (const auto& u : m_users)
 	{
 		QListWidgetItem* newUser = new QListWidgetItem(u);
-		newUser->setFont(QFont("8514oem", 13));
 		m_userDisplay->addItem(newUser);
-		m_userDisplay->show();
 	}
+	m_userDisplay->show();
 }
 
 std::deque<QString> Lobby::GetPlayerQueue() const

@@ -32,7 +32,7 @@ Login::Login(QWidget *parent)
 	m_showPassword = new QPushButton(this);
 	m_showPassword->setIcon(closed);
 	m_showPassword->setIconSize(QSize(23, 23));
-	m_showPassword->setGeometry(310, 175, 25, 25);
+	m_showPassword->setGeometry(310, 167, 25, 25);
 	connect(m_showPassword, &QPushButton::clicked, this, &Login::ShowPassword);
 
 

@@ -2,5 +2,6 @@
     <qresource prefix="/Client">
         <file>openeye.png</file>
         <file>closedeye.png</file>
+        <file>digital-7.ttf</file>
     </qresource>
 </RCC>
