@@ -6,7 +6,6 @@
 #include <QPushButton>
 #include <QLineEdit>
 #include <QVBoxLayout>
-#include <QLabel>
 #include <string>
 #include <QFontDatabase>
 #include <QKeyEvent>

@@ -91,6 +91,9 @@
     <ClCompile Include="ChatRequestException.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Lobby.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChatWidget.h">
@@ -143,6 +146,9 @@
     <QtMoc Include="Difficulty.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="Lobby.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Input.txt">
@@ -160,6 +166,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="Difficulty.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="Lobby.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

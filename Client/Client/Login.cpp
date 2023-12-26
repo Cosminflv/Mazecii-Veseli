@@ -1,8 +1,9 @@
 #include "Login.h"
 #include "crow.h"
 #include<cpr/cpr.h>
+#include <QLabel>
 #include "Difficulty.h"
-
+#include "Lobby.h"
 
 Login::Login(QWidget *parent)
 	: QMainWindow(parent)
@@ -15,33 +16,37 @@ Login::Login(QWidget *parent)
 	QLabel* welcome = new QLabel("Welcome to Gartic", this);
 	welcome->setGeometry(70, 30, 340, 50);
 	welcome->setFont(QFont("",30));
+	QLabel* info = new QLabel("login or create an account to continue", this);
+	info->setGeometry(90, 75, 300, 30);
+	info->setFont(QFont("", 13));
 
 	m_userText = new QLineEdit(this);
-	m_userText->setGeometry(30, 100, 270, 25);
+	m_userText->setGeometry(30, 120, 270, 25);
 	m_userText->setPlaceholderText("Username");
 
 	m_passwordText = new QLineEdit(this);
-	m_passwordText->setGeometry(30, 150, 270, 25);
+	m_passwordText->setGeometry(30, 167, 270, 25);
 	m_passwordText->setPlaceholderText("Password");
 	m_passwordText->setEchoMode(QLineEdit::Password);
 	QIcon closed("closedeye.png");
 	m_showPassword = new QPushButton(this);
 	m_showPassword->setIcon(closed);
 	m_showPassword->setIconSize(QSize(23, 23));
-	m_showPassword->setGeometry(310, 150, 25, 25);
+	m_showPassword->setGeometry(310, 175, 25, 25);
 	connect(m_showPassword, &QPushButton::clicked, this, &Login::ShowPassword);
 
 
 	m_login = new QPushButton("Login", this);
-	m_login->setGeometry(320, 190, 100, 30);
+	m_login->setGeometry(320, 210, 100, 30);
 
 	m_createAccount = new QPushButton("Create new account", this);
-	m_createAccount->setGeometry(210, 230, 210, 30);
+	m_createAccount->setGeometry(210, 245, 210, 30);
 
 	connect(m_createAccount, &QPushButton::clicked, this, &Login::CreateNewAccount);
 	connect(m_login, &QPushButton::clicked, this, &Login::LogintoAccount);
 
 	setStyleSheet("background-color:#edf1ff");
+	info->setStyleSheet("color: gray;");
 }
 
 Login::~Login()
@@ -66,15 +71,20 @@ void Login::LogintoAccount()
 	if (r.status_code == 200)
 	{
 		qDebug() << "login data sent.\n";
-		Difficulty* d = new Difficulty();
-		d->show();
-		d->SendUsername(m_username);
+		//Difficulty* d = new Difficulty();
+		//d->show();
+		//d->SendUsername(m_username);
+
+		Lobby* lobby = new Lobby();
+		lobby->InsertUser(QString::fromUtf8(m_username.c_str()));		
+		lobby->show();
+		lobby->DisplayUsers();
 		hide();
 	}
 	else if (r.status_code == 101)
 	{
 		QLabel* loginError = new QLabel("invalid data", this);
-		loginError->setGeometry(30, 125, 340, 25);
+		loginError->setGeometry(30, 145, 340, 25);
 		loginError->setStyleSheet("color: #ab3036;");
 		loginError->setFont(QFont("", 9));
 		loginError->show();

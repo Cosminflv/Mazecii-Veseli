@@ -9,6 +9,7 @@
 #include <regex>
 #include <string>
 #include "Difficulty.h"
+#include "Lobby.h"
 
 int main(int argc, char* argv[])
 {
@@ -19,5 +20,7 @@ int main(int argc, char* argv[])
 	//c.show();
 	//Difficulty d;
 	//d.show();
+	//Lobby lo;
+	//lo.show();
 	return a.exec();
 }
