@@ -21,7 +21,7 @@ public:
 	int GetPenWidth() const;
 	std::vector<std::pair<int, int>> GetDrawing() const;
 
-	void DrawInMatrix(int xStart, int yStart, int xEnd, int yEnd);
+	void DrawInMatrix(int x, int y);
 	void PrintCoordinates(const QString& output);
 
 	~ScribbleArea();

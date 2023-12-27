@@ -65,22 +65,11 @@ std::vector<std::pair<int, int>> ScribbleArea::GetDrawing() const
 	return m_drawing;
 }
 
-void ScribbleArea::DrawInMatrix(int xStart, int yStart, int xEnd, int yEnd)
+void ScribbleArea::DrawInMatrix(int x, int y)
 {
-	int xMin = std::min(xStart, xEnd);
-	int xMax = std::max(xStart, xEnd);
-	int yMin = std::min(yStart, yEnd);
-	int yMax = std::max(yStart, yEnd);
-
-	for (int y = yMin; y <= yMax; y++)
+	if (x >= 0 && x < width() && y >= 0 && y < height())
 	{
-		for (int x = xMin; x <= xMax; x++)
-		{
-			if (x >= 0 && x < width() && y >= 0 && y < height())
-			{
-				m_drawing.push_back(std::make_pair(x, y));
-			}
-		}
+		m_drawing.push_back(std::make_pair(x, y));
 	}
 }
 
@@ -116,12 +105,8 @@ void ScribbleArea::mouseMoveEvent(QMouseEvent* event)
 {
 	if ((event->buttons() & Qt::LeftButton) && m_isScribbling) {
 		DrawLineTo(event->pos());
-		int xStart = m_lastPoint.x();
-		int xEnd = event->pos().x();
-		int yStart = m_lastPoint.y();
-		int yEnd = event->pos().y();
 
-		DrawInMatrix(xStart, yStart, xEnd, yEnd);
+		DrawInMatrix(event->pos().x(), event->pos().y());
 	}
 }
 
@@ -157,14 +142,19 @@ void ScribbleArea::DrawLineTo(const QPoint& endPoint)
 	QPainter painter(&m_image);
 	painter.setPen(QPen(m_penColor, m_penWidth, Qt::SolidLine, Qt::RoundCap,
 		Qt::RoundJoin));
+
 	painter.drawLine(m_lastPoint, endPoint);
 	m_modified = true;
 
-	DrawInMatrix(m_lastPoint.x(), m_lastPoint.y(), endPoint.x(), endPoint.y());
+	// Draw the line points into the matrix
+	DrawInMatrix(m_lastPoint.x(), m_lastPoint.y());
+	DrawInMatrix(endPoint.x(), endPoint.y());
 
 	int rad = (m_penWidth / 2) + 2;
-	update(QRect(m_lastPoint, endPoint).normalized()
-		.adjusted(-rad, -rad, +rad, +rad));
+	QRect boundingRect = QRect(m_lastPoint, endPoint).normalized().adjusted(-rad, -rad, +rad, +rad);
+
+	update(boundingRect);
+
 	m_lastPoint = endPoint;
 }
 
@@ -180,7 +170,8 @@ void ScribbleArea::ResizeImage(QImage* image, const QSize& newSize)
 	*image = newImage;
 }
 
-void ScribbleArea::onClearButtonClicked() {
+void ScribbleArea::onClearButtonClicked()
+{
 	m_image.fill(qRgb(255, 255, 255));
 	PrintCoordinates("0_coordinates.txt");
 	m_drawing.clear();
@@ -206,6 +197,7 @@ void ScribbleArea::onGetDrawing()
 {
 	QDialog* drawingDialog = new QDialog(this);
 	drawingDialog->setWindowTitle("Drawing Viewer");
+	drawingDialog->setAttribute(Qt::WA_StaticContents);
 
 	QLabel* label = new QLabel(drawingDialog);
 	label->setGeometry(0, 0, this->width(), this->height());
@@ -214,13 +206,25 @@ void ScribbleArea::onGetDrawing()
 	canvas.fill(Qt::white);
 	QPainter painter(&canvas);
 	painter.setRenderHint(QPainter::Antialiasing, true);
+	painter.setPen(QPen(m_penColor, m_penWidth, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
 
 	for (const auto& point : m_drawing)
 	{
 		int x = point.first;
 		int y = point.second;
+
 		painter.drawPoint(x, y);
 	}
+
+	/*
+	for (int i = 1; i < m_drawing.size(); ++i) {
+		int x1 = m_drawing[i - 1].first;
+		int y1 = m_drawing[i - 1].second;
+		int x2 = m_drawing[i].first;
+		int y2 = m_drawing[i].second;
+		painter.drawLine(x1, y1, x2, y2);
+	}
+	*/
 
 	label->setPixmap(canvas);
 	label->setAlignment(Qt::AlignCenter);
