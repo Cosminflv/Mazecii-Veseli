@@ -124,7 +124,6 @@ void Routing::Run(Game& game)
 				std::string username = json_data["username"].s();
 				std::string message = json_data["message"].s();
 				handler.WriteMessage(username, message);
-				game.GetChat().WriteMessage({username, message});
 				std::cout << "Received message from " << username << ": " << message;
 
 				if (handler.CheckEnteredMessage(message)) {

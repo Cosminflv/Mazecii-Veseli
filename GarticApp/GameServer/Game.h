@@ -18,6 +18,9 @@ public:
 	std::vector<PlayerPtr> GetPlayers() const;
 	RoundPtr GetRound() const;
 	Chat& GetChat() const;
+	EGameStatus GetGameStatus() const;
+	std::string GetGameStatusAsString() const;
+
 
 	bool CheckUniquePlayerUsername(PlayerPtr player) const;
 	void AddPlayer(PlayerPtr player);
