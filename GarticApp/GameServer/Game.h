@@ -2,7 +2,7 @@
 #include "Player.h"
 #include "Round.h"
 #include "Chat.h"
-
+#include "EGameStatus.h"
 
 #include <vector>
 #include <map>
@@ -37,5 +37,7 @@ private:
 	std::map<PlayerPtr, int>m_leaderboard;
 	RoundPtr m_currRound;
 	mutable Chat m_gameChat;
+	EGameStatus m_gameStatus;
+
 };
 

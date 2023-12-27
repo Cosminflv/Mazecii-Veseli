@@ -19,6 +19,9 @@
     <Filter Include="Source Files\Routing">
       <UniqueIdentifier>{dea45505-2078-46c0-8533-637809796f72}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Enums">
+      <UniqueIdentifier>{8bd1da8b-416d-492b-8540-9b2eca4c984a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -57,6 +60,9 @@
     <ClCompile Include="AdminRole.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EGameStatus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="PlayerData.txt">
@@ -79,9 +85,6 @@
     <ClInclude Include="SubRound.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerRole.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -97,8 +100,14 @@
     <ClInclude Include="RouteHandler.h">
       <Filter>Header Files\Routing</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerRole.h">
+      <Filter>Header Files\Enums</Filter>
+    </ClInclude>
     <ClInclude Include="AdminRole.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Enums</Filter>
+    </ClInclude>
+    <ClInclude Include="EGameStatus.h">
+      <Filter>Header Files\Enums</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
