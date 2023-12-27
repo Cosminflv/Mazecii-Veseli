@@ -21,6 +21,23 @@ void Routing::Run(Game& game)
 	GameStorage storage = m_storage;
 	RouteHandler handler = m_routeHandler;
 
+	CROW_ROUTE(m_app, "/playerinfo")([&game]()
+		{
+			std::vector<crow::json::wvalue> playersJson;
+			for (const auto& player : game.GetPlayers())
+			{
+				crow::json::wvalue p
+				{
+					{"Username", player->GetUsername()}, {"PlayerRole", player->GetPlayerRoleAsString()},
+					{"Score", player->GetScore()}, {"Status", player->GetPlayerStatus()},
+					{"AdminRole", player->GetAdminRoleAsString()}
+				};
+
+				playersJson.push_back(p);
+			}
+			return crow::json::wvalue{ playersJson };
+		});
+
 	CROW_ROUTE(m_app, "/users")([&storage]()
 		{
 			std::vector<crow::json::wvalue>usersJson;

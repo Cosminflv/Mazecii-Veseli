@@ -54,6 +54,9 @@
     <ClCompile Include="RouteHandler.cpp">
       <Filter>Source Files\Routing</Filter>
     </ClCompile>
+    <ClCompile Include="AdminRole.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="PlayerData.txt">
@@ -93,6 +96,9 @@
     </ClInclude>
     <ClInclude Include="RouteHandler.h">
       <Filter>Header Files\Routing</Filter>
+    </ClInclude>
+    <ClInclude Include="AdminRole.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -104,11 +104,11 @@ void SubRound::ChoosePainter(std::vector<Player*>& players)
 
 void SubRound::CalculateScore(const PlayerPtr& player, const std::string& word, const std::vector<PlayerPtr>& opponents)
 {
-	player->GetRole();
-	if (player->GetRole() == PlayerRole::Guesser)
+	player->GetPlayerRole();
+	if (player->GetPlayerRole() == PlayerRole::Guesser)
 	{
 		bool hasGuessedCorrectly = false; 
-		if (player->GetRole() == PlayerRole::Guesser)
+		if (player->GetPlayerRole() == PlayerRole::Guesser)
 		{
 			while (GetSecond() < m_duration && !hasGuessedCorrectly)
 			{
@@ -132,7 +132,7 @@ void SubRound::CalculateScore(const PlayerPtr& player, const std::string& word, 
 			player->SetScore(-50);
 		}
 	}
-	if (player->GetRole() == PlayerRole::Painter)
+	if (player->GetPlayerRole() == PlayerRole::Painter)
 	{
 		SeeWord(word);
 		double opponentsAverageTime = 0.0;
@@ -140,7 +140,7 @@ void SubRound::CalculateScore(const PlayerPtr& player, const std::string& word, 
 
 		for (const PlayerPtr opponent : opponents)
 		{
-			if (opponent->GetRole() == PlayerRole::Guesser && opponent->GetScore() == 100)
+			if (opponent->GetPlayerRole() == PlayerRole::Guesser && opponent->GetScore() == 100)
 			{
 			//	opponentsAverageTime += opponent.GetSecond();
 				numOpponents++;

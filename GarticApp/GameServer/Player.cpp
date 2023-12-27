@@ -2,7 +2,7 @@
 #include <iostream>
 
 Player::Player(const std::string& username, PlayerRole role, int16_t score)
-	:m_username{ username }, m_role{ role }, m_score{ score }, m_hasPainted{ false }
+	:m_username{ username }, m_playerRole{ role }, m_score{ score }, m_hasPainted{ false }
 { }
 
 std::string Player::GetUsername() const
@@ -25,14 +25,32 @@ bool Player::GetPlayerStatus() const
 	return m_hasPainted;
 }
 
-PlayerRole Player::GetRole() const
+PlayerRole Player::GetPlayerRole() const
 {
-	return m_role;
+	return m_playerRole;
 }
 
-std::string Player::GetRoleAsString() const
+AdminRole Player::GetAdminRole() const
 {
-	return (m_role == PlayerRole::Guesser) ? "Guesser" : "Painter";
+	return m_adminRole;
+}
+
+std::string Player::GetAdminRoleAsString() const
+{
+	if (m_adminRole == AdminRole::Admin)
+		return "Admin";
+	if (m_adminRole == AdminRole::NonAdmin)
+		return "NonAdmin";
+}
+
+std::string Player::GetPlayerRoleAsString() const
+{
+	if (m_playerRole == PlayerRole::Guessed)
+		return "Guessed";
+	if (m_playerRole == PlayerRole::Guesser)
+		return "Guesser";
+	if (m_playerRole == PlayerRole::Painter)
+		return "Painter";
 }
 void  Player::SetScore(int16_t points)
 {
@@ -44,13 +62,18 @@ void Player::SetPlayerStatus(const bool &status)
 	m_hasPainted = status;
 }
 
-void Player::SetPlayerRole(const PlayerRole &role)
+void Player::SetPlayerRole(PlayerRole role)
 {
-	this->m_role = role;
+	this->m_playerRole = role;
+}
+
+void Player::SetAdminRole(AdminRole adminRole)
+{
+	this->m_adminRole = adminRole;
 }
 
 std::ostream& operator<<(std::ostream& os, const Player& player)
 {
-	return os << "Username: "<<player.GetUsername() << "\nRole: " << player.GetRole() << "\nScore: " <<
+	return os << "Username: "<<player.GetUsername() << "\nRole: " << player.GetPlayerRole() << "\nScore: " <<
 		player.GetScore() << "\nStatus: " << player.GetPlayerStatus() << "\n";
 }

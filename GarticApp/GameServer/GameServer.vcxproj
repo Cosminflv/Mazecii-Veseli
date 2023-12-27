@@ -163,6 +163,7 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AdminRole.cpp" />
     <ClCompile Include="Chat.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameData.cpp" />
@@ -180,6 +181,7 @@
     <Text Include="wordsIn.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AdminRole.h" />
     <ClInclude Include="Chat.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameData.h" />

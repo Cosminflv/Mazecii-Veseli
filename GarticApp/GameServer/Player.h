@@ -1,5 +1,6 @@
 #pragma once
 #include "PlayerRole.h"
+#include "AdminRole.h"
 class Player
 {
 public:
@@ -16,14 +17,19 @@ public:
 	bool GetPlayerStatus() const;
 	void SetPlayerStatus(const bool &status);
 
-	PlayerRole GetRole() const;
-	std::string GetRoleAsString() const;
-	void SetPlayerRole(const PlayerRole &role);
+	PlayerRole GetPlayerRole() const;
+	std::string GetPlayerRoleAsString() const;
+	AdminRole GetAdminRole() const;
+	std::string GetAdminRoleAsString() const;
+
+	void SetPlayerRole(PlayerRole playerRole);
+	void SetAdminRole(AdminRole adminRole);
 
 private:
 	std::string m_username;
 	int16_t m_score;
-	PlayerRole m_role;
+	PlayerRole m_playerRole;
+	AdminRole m_adminRole;
 	bool m_hasPainted;
 };
 
