@@ -83,7 +83,7 @@ void Routing::Run(Game& game)
 	CROW_ROUTE(m_app, "/chat")([&game]()
 		{
 			std::vector<crow::json::wvalue> chatMessagesJson;
-			auto chatMessages = game.GetChat().getChat();
+			auto chatMessages = game.GetChat().getChatVector();
 			for (const auto& message : chatMessages)
 			{
 				crow::json::wvalue m

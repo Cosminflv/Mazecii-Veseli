@@ -1,6 +1,6 @@
 #include "Chat.h"
 
-std::vector<std::pair<std::string, std::string>> Chat::getChat()
+std::vector<std::pair<std::string, std::string>> Chat::getChatVector()
 {
 	return m_messages;
 }
