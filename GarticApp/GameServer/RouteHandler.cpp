@@ -30,3 +30,9 @@ std::string RouteHandler::PickWord(uint16_t difficulty)
 {
     return m_game.GetRound()->GetSubround()->SelectRandomWord(difficulty);
 }
+
+std::string RouteHandler::HideTheWord(std::string word)
+{
+    return m_game.GetRound()->GetSubround()->HideWord(word);
+}
+

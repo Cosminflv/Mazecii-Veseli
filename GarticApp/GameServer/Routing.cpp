@@ -1,4 +1,4 @@
-#include "Routing.h"
+﻿#include "Routing.h"
 #include "Chat.h"
 #include "PlayerDB.h"
 #include "SubRound.h"
@@ -171,8 +171,15 @@ void Routing::Run(Game& game)
 		([&handler](int difficulty)
 			{
 				std::string randomWord = handler.PickWord(static_cast<uint16_t>(difficulty));
+
+				// Creează cuvântul ascuns
+				std::string hiddenWord = handler.HideTheWord(randomWord);
+
+				// Construiește obiectul JSON care conține ambele variante ale cuvântului
 				crow::json::wvalue wordJson;
-				wordJson["word"] = randomWord;
+				wordJson["visibleWord"] = randomWord;
+				wordJson["hiddenWord"] = hiddenWord;
+
 				return wordJson;
 			});
 

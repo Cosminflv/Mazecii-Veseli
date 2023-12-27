@@ -8,6 +8,7 @@
 #include <QJsonObject>
 #include <cpr/cpr.h>
 #include <crow.h>
+#include <QRandomGenerator>
 
 class WordWidget : public QWidget
 {
@@ -18,16 +19,14 @@ public:
 	void SetDifficulty(const uint16_t& d);
 	uint16_t GetDifficulty() const;
 	QLabel* GetWordLabel() const;
-
-	QString FetchWordFromServer(uint16_t difficulty);
-	QString HiddenWord(const QString& word);
+	//QString FetchWordFromServer(uint16_t difficulty);
+	QString FetchSeenWordFromServer(uint16_t difficulty);
+	QString FetchHiddenWordFromServer(uint16_t difficulty);
 	void UpdateWord(const QString& word);
-	std::pair<size_t, QChar> GetRandomLetter(const QString& word);
 
 public slots:
 	void revealRandomLetter();
 private:
 	QLabel* m_word;
-	QString m_displayedWord;
 	uint16_t m_difficulty;
 };

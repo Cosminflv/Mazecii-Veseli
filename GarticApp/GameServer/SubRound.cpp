@@ -80,6 +80,23 @@ std::string SubRound::SelectRandomWord(uint16_t difficulty)
 	return filteredWords[randomIndex];
 }
 
+std::string SubRound::HideWord(const std::string& word)
+{
+	std::string hiddenWord = "";
+	for (int i = 0; i < word.length(); i++)
+	{
+		if (word[i] == ' ')
+		{
+			hiddenWord = hiddenWord + " ";
+		}
+		else
+		{
+			hiddenWord = hiddenWord + "_ ";
+		}
+	}
+	return hiddenWord;
+}
+
 int SubRound::GetSecond()
 {
 	auto milliseconds = m_timer.GetRemainingTime();

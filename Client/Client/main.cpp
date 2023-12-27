@@ -14,10 +14,10 @@
 int main(int argc, char* argv[])
 {
 	QApplication a(argc, argv);
-	Login l;
-	l.show();
-	//Client c;
-	//c.show();
+	//Login l;
+	//l.show();
+	Client c;
+	c.show();
 	//Difficulty d;
 	//d.show();
 	//Lobby lo;

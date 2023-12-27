@@ -32,58 +32,57 @@ QLabel* WordWidget::GetWordLabel() const
 	return m_word;
 }
 
-std::pair<size_t, QChar> WordWidget::GetRandomLetter(const QString& word)
+QString WordWidget::FetchSeenWordFromServer(uint16_t difficulty)
 {
-	// recommendation : use a std::random_device with std::mt19937, std::uniform_int_distribution
-	/*srand(time(0));
-	std::pair<size_t, QChar> pair = std::make_pair(rand() % word.size(), word[rand() % word.size()]);
-	return pair;*/
+    std::string url = "http://localhost:18080/word/" + std::to_string(difficulty);
+    cpr::Response response = cpr::Get(cpr::Url{ url });
 
-	std::mt19937 gen(time(0));
-	std::uniform_int_distribution<size_t> dist(0, word.size() - 1);
-	return std::make_pair(dist(gen), word[dist(gen)]);
+    if (response.error) {
+        throw(WordRequestException("Word request has failed"));
+    }
+
+    QJsonDocument jsonResponse = QJsonDocument::fromJson(response.text.c_str());
+
+    if (!jsonResponse.isObject()) {
+        qDebug() << "Invalid JSON format.";
+        return "";
+    }
+
+    QJsonObject jsonObject = jsonResponse.object();
+    QString visibleWord = jsonObject.value("visibleWord").toString();
+
+    qDebug() << "Visible Word:" << visibleWord;
+
+    // Întoarce cuvântul afișat
+    return visibleWord;
 }
 
-QString WordWidget::HiddenWord(const QString& word)
+QString WordWidget::FetchHiddenWordFromServer(uint16_t difficulty)
 {
-	QString hiddenWord = "";
-	for (int i = 0; i < word.length(); i++)
-	{
-		if (word[i] == ' ')
-		{
-			hiddenWord = hiddenWord + " ";
-		}
-		else
-		{
-			hiddenWord = hiddenWord + "_ ";
-		}
-	}
-	return hiddenWord;
+    std::string url = "http://localhost:18080/word/" + std::to_string(difficulty);
+    cpr::Response response = cpr::Get(cpr::Url{ url });
+
+    if (response.error) {
+        throw(WordRequestException("Word request has failed"));
+    }
+
+    QJsonDocument jsonResponse = QJsonDocument::fromJson(response.text.c_str());
+
+    if (!jsonResponse.isObject()) {
+        qDebug() << "Invalid JSON format.";
+        return "";
+    }
+
+    QJsonObject jsonObject = jsonResponse.object();
+    QString hiddenWord = jsonObject.value("hiddenWord").toString();
+
+    qDebug() << "Hidden Word:" << hiddenWord;
+
+    // Întoarce cuvântul ascuns
+    return hiddenWord;
 }
 
-QString WordWidget::FetchWordFromServer(uint16_t difficulty)
-{
-	std::string url = "http://localhost:18080/word/" + std::to_string(difficulty);
-	cpr::Response response = cpr::Get(cpr::Url{ url });
 
-	if (response.error) {
-		throw(WordRequestException("Word request has failed"));
-	}
-
-	QJsonDocument jsonResponse = QJsonDocument::fromJson(response.text.c_str());
-
-	if (!jsonResponse.isObject()) {
-		qDebug() << "Invalid JSON format.";
-		return "";
-	}
-
-	QJsonObject jsonObject = jsonResponse.object();
-	QString word = jsonObject.value("word").toString();
-
-	qDebug() << "Word:" << word;
-
-	return word.replace("_", " ");
-}
 
 void WordWidget::UpdateWord(const QString& word)
 {

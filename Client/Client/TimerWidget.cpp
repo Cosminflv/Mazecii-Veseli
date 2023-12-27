@@ -27,6 +27,7 @@ TimerWidget::TimerWidget()
 	connect(m_timer, &QTimer::timeout, this, &TimerWidget::fetchAndUpdateTimer);
 }
 
+
 QLabel* TimerWidget::GetTimeLabel() const
 {
 	return m_timeLabel;
@@ -45,7 +46,7 @@ void TimerWidget::fetchAndUpdateTimer() {
 			updateUi(remainingTime);
 
 			// Verifică dacă au trecut 30 de secunde și semnalul nu a fost emis încă
-			if (remainingTime == 30 && !m_halfTimeReached) {
+			if (remainingTime == 120 && !m_halfTimeReached) {
 				m_halfTimeReached = true; // Marchează că semnalul a fost emis
 				emit halfTimeReachedSignal();    // Emite semnalul
 			}

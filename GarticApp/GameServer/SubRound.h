@@ -23,6 +23,7 @@ public:
 
 
     std::string SelectRandomWord(uint16_t difficulty); 
+	std::string HideWord(const std::string& word);
 	void SeeWord(const std::string& word) const;
 	bool GuessWord(const std::string& word) const;
 	void ShowLetters(std::string& word) const;
