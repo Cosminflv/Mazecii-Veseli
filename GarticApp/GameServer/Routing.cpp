@@ -165,7 +165,6 @@ void Routing::Run(Game& game)
 				}
 			}
 	);
-
 	CROW_ROUTE(m_app, "/word/<int>")
 		.methods("GET"_method)
 		([&handler](int difficulty)

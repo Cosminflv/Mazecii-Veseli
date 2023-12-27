@@ -14,9 +14,7 @@ public:
 	void WriteMessage(const std::string& username, const std::string& message);
 	std::string PickWord(uint16_t difficulty);
 	std::string HideTheWord(std::string word);
-	int GetRandomIndex(int length);
-	std::string UpdateWordWithLetters(std::string currentWord);
-	std::string RevealLetter(std::string currentWord, int index, char letter);
+	std::string UpdateWord(std::string word);
 private:
 	Game m_game;
 
