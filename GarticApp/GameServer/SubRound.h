@@ -24,6 +24,9 @@ public:
 
     std::string SelectRandomWord(uint16_t difficulty); 
 	std::string HideWord(const std::string& word);
+	int GetRandomIndex(int size);
+	std::string UpdateWordWithLetters(std::string currentWord);
+	std::string RevealLetter(std::string currentWord, int index, char letter);
 	void SeeWord(const std::string& word) const;
 	bool GuessWord(const std::string& word) const;
 	void ShowLetters(std::string& word) const;

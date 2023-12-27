@@ -83,7 +83,6 @@ QString WordWidget::FetchHiddenWordFromServer(uint16_t difficulty)
 }
 
 
-
 void WordWidget::UpdateWord(const QString& word)
 {
 	m_word->setText(word);

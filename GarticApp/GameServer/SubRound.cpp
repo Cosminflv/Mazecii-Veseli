@@ -97,6 +97,35 @@ std::string SubRound::HideWord(const std::string& word)
 	return hiddenWord;
 }
 
+int SubRound::GetRandomIndex(int size)
+{
+	static bool initialized = false;
+	if (!initialized) {
+		std::srand(static_cast<unsigned>(std::time(nullptr)));
+		initialized = true;
+	}
+	return std::rand() % size;
+
+}
+
+std::string SubRound::UpdateWordWithLetters(std::string currentWord)
+{
+	int randomIndex = GetRandomIndex(currentWord.length());
+	char randomLetter = currentWord.at(randomIndex);
+
+	// Actualizați cuvântul cu litera aleatoare la poziția generată
+	std::string updatedWord = RevealLetter(currentWord, randomIndex, randomLetter);
+	return updatedWord;
+
+}
+
+std::string SubRound::RevealLetter(std::string currentWord, int index, char letter)
+{
+	currentWord[index] = letter;
+	return currentWord;
+
+}
+
 int SubRound::GetSecond()
 {
 	auto milliseconds = m_timer.GetRemainingTime();
