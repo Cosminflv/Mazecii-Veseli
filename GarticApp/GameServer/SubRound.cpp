@@ -8,7 +8,7 @@
 SubRound::SubRound() :
 	m_counterGuessingPlayers(0),
 	m_numberOfPlayers(0),
-	m_word(""),
+	m_seenWord(""),
 	m_duration(0),
 	m_hasTimeEnded(false),
 	m_timer(1),
@@ -27,18 +27,18 @@ SubRound::SubRound(const std::vector<PlayerPtr>& players):
 }
 
 SubRound::SubRound(const SubRound& r) : 
-	m_storage {r.getStorage()},
-	m_counterGuessingPlayers {r.getCounterGuessingPlayers()},
-	m_duration {r.getDuration()},
-	m_hasTimeEnded {r.getHasTimeEnded()},
-	m_numberOfPlayers {r.getNumberOfPlayers()},
+	m_storage {r.GetStorage()},
+	m_counterGuessingPlayers {r.GetCounterGuessingPlayers()},
+	m_duration {r.GetDuration()},
+	m_hasTimeEnded {r.GetHasTimeEnded()},
+	m_numberOfPlayers {r.GetNumberOfPlayers()},
 	m_timer { 1 },
-	m_word {r.getWord()}
+	m_seenWord {r.GetWord()}
 {
 }
 
 SubRound::SubRound(const std::string& word, const int numberOfPlayers, Storage storage)
-	: m_word{ word },
+	: m_seenWord{ word },
 	m_numberOfPlayers{ numberOfPlayers },
 	m_storage(storage),
 	m_timer(1)
@@ -52,7 +52,7 @@ void SubRound::SeeWord(const std::string& word) const
 
 bool SubRound::GuessWord(const std::string& word) const
 {
-	return m_word == word;
+	return m_seenWord == word;
 }
 
 void SubRound::StartRound()
@@ -76,7 +76,7 @@ std::string SubRound::SelectRandomWord(uint16_t difficulty)
 	}
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 	auto randomIndex = std::rand() % filteredWords.size();
-	m_word = filteredWords[randomIndex];
+	m_seenWord = filteredWords[randomIndex];
 	return filteredWords[randomIndex];
 }
 
@@ -97,30 +97,38 @@ std::string SubRound::HideWord(const std::string& word)
 	return hiddenWord;
 }
 
-int SubRound::GetRandomIndex(int size)
-{
-	static bool initialized = false;
-	if (!initialized) {
-		std::srand(static_cast<unsigned>(std::time(nullptr)));
-		initialized = true;
-	}
-	return std::rand() % size;
-
-}
-
-std::string SubRound::RevealLetter(std::string currentWord, int index, char letter)
-{
-	currentWord[index] = letter;
-	return currentWord;
-}
-
 std::string SubRound::UpdateWordWithLetters(std::string currentWord)
 {
-	int randomIndex = GetRandomIndex(currentWord.length());
-	char randomLetter = currentWord.at(randomIndex);
-	std::string updatedWord = RevealLetter(currentWord, randomIndex, randomLetter);
-	return updatedWord;
+	int sizeOfWord = currentWord.size();
+	int maxLettersToShow = sizeOfWord / 2;
+	std::string displayWord(sizeOfWord, '_');
+	std::cout << "Ghiceste cuvantul: " << displayWord << std::endl;
+	for (int i = 0; i < maxLettersToShow; ++i) {
+		int randomIndex = rand() % sizeOfWord;
+		displayWord[randomIndex] = currentWord[randomIndex];
+		std::cout << "Litera " << i + 1 << ": " << displayWord << std::endl;
+	}
+	return displayWord;
+}
 
+void SubRound::SetHiddenWord(std::string& word)
+{
+	m_hiddenWord = word;
+}
+
+std::string SubRound::GetHiddentWord()
+{
+	return m_hiddenWord;
+}
+
+void SubRound::SetSeenWord(std::string& word)
+{
+	m_seenWord = word;
+}
+
+std::string SubRound::GetSeenWord()
+{
+	return m_seenWord;
 }
 
 
@@ -237,32 +245,32 @@ bool SubRound::HasSubRoundEnded() const
 	return false;
 }
 
-Storage SubRound::getStorage() const
+Storage SubRound::GetStorage() const
 {
 	return m_storage;
 }
 
-int SubRound::getCounterGuessingPlayers() const
+int SubRound::GetCounterGuessingPlayers() const
 {
 	return m_counterGuessingPlayers;
 }
 
-int SubRound::getNumberOfPlayers() const
+int SubRound::GetNumberOfPlayers() const
 {
 	return m_numberOfPlayers;
 }
 
-std::string SubRound::getWord() const
+std::string SubRound::GetWord() const
 {
-	return m_word;
+	return m_seenWord;
 }
 
-int SubRound::getDuration() const
+int SubRound::GetDuration() const
 {
 	return m_duration;
 }
 
-bool SubRound::getHasTimeEnded() const
+bool SubRound::GetHasTimeEnded() const
 {
 	return m_hasTimeEnded;
 }

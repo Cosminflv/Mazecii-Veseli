@@ -30,7 +30,7 @@ SubRoundPtr Round::GetSubround() const
 
 int Round::GetSizeOfRound() const
 {
-	return m_subRound->getNumberOfPlayers();
+	return m_subRound->GetNumberOfPlayers();
 }
 
 void Round::ResetStatus(std::vector<PlayerPtr>& players) const
