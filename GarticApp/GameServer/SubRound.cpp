@@ -93,31 +93,28 @@ std::string SubRound::HideWord(const std::string& word)
 		}
 		else
 		{
-			hiddenWord = hiddenWord + "_ ";
+			hiddenWord = hiddenWord + "*";
 		}
 	}
 	MakeAllLettersFalse(word);
 	return hiddenWord;
 }
 
-std::string SubRound::UpdateWordWithLetters(std::string& currentWord)
+std::string SubRound::UpdateWordWithLetters(std::string& seenWord, std::string&currentWord)
 {
-	int sizeOfWord = currentWord.size();
-	if (sizeOfWord == 0) {
+	if (currentWord.size() == 0) {
 		std::cerr << "Cuvantul nu poate fi gol." << std::endl;
 		return "";
 	}
 	
 	int randomIndex;
 	do {
-		randomIndex = rand() % sizeOfWord;
+		randomIndex = rand() % currentWord.size();
 	} while (m_letterShown[randomIndex]);
 
 	m_letterShown[randomIndex] = true;
-
-	std::string displayWord(sizeOfWord, '_');
-	displayWord[randomIndex] = currentWord[randomIndex];
-	return displayWord;
+	currentWord[randomIndex] = seenWord[randomIndex];
+	return currentWord;
 
 }
 

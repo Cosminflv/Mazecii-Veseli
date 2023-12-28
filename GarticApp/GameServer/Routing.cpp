@@ -189,7 +189,7 @@ void Routing::Run(Game& game)
 		.methods("GET"_method)
 		([&handler, this]()
 			{
-				std::string updateWord = handler.UpdateWord(m_seenWord);
+				std::string updateWord = handler.UpdateWord(m_seenWord,m_hiddenWord);
 				m_hiddenWord = updateWord;
 				return m_hiddenWord;
 			});

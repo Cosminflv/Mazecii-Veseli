@@ -36,8 +36,8 @@ std::string RouteHandler::HideTheWord(std::string word)
     return m_game.GetRound()->GetSubround()->HideWord(word);
 }
 
-std::string RouteHandler::UpdateWord(std::string& word)
+std::string RouteHandler::UpdateWord(std::string& seenWord, std::string &currentWord)
 {
-    return m_game.GetRound()->GetSubround()->UpdateWordWithLetters(word);
+    return m_game.GetRound()->GetSubround()->UpdateWordWithLetters(seenWord, currentWord);
 }
 

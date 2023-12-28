@@ -14,7 +14,7 @@ public:
 	void WriteMessage(const std::string& username, const std::string& message);
 	std::string PickWord(uint16_t difficulty);
 	std::string HideTheWord(std::string word);
-	std::string UpdateWord(std::string& word);
+	std::string UpdateWord(std::string& word, std::string &currentWord);
 private:
 	Game m_game;
 

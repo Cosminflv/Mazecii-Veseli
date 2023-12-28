@@ -23,7 +23,7 @@ public:
 
     std::string SelectRandomWord(uint16_t difficulty); 
 	std::string HideWord(const std::string& word);
-	std::string UpdateWordWithLetters(std::string& currentWord);
+	std::string UpdateWordWithLetters(std::string& seenWord, std::string& currentWord);
 	void SetHiddenWord(std::string& word);
 	std::string GetHiddentWord();
 	void SetSeenWord(std::string& word);
