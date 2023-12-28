@@ -115,7 +115,6 @@ std::string SubRound::UpdateWordWithLetters(std::string& seenWord, std::string&c
 	m_letterShown[randomIndex] = true;
 	currentWord[randomIndex] = seenWord[randomIndex];
 	return currentWord;
-
 }
 
 void SubRound::SetHiddenWord(std::string& word)

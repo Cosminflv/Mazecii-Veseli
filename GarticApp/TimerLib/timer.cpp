@@ -35,6 +35,11 @@ void Timer::SetTimerResolution(int ms)
 	m_timerResolution = static_cast<std::chrono::milliseconds>(ms);
 }
 
+void Timer::SetUpdateWordCallback(TimerCallback updateWordCallback)
+{
+	m_updateWord = updateWordCallback;
+}
+
 bool Timer::IsTimeExpired()
 {
 	return m_remainingTime <= std::chrono::milliseconds(0);
@@ -82,6 +87,13 @@ void Timer::Run()
 		initial_time = std::chrono::steady_clock::now();
 
 		m_remainingTime = elapsedTime < m_remainingTime ? m_remainingTime - elapsedTime : std::chrono::milliseconds{ 0 };
+		if (m_toDecreaseTime >= std::chrono::milliseconds(10000)) {
+			m_toDecreaseTime -= std::chrono::milliseconds(10000);
+
+			if (m_updateWord) {
+				m_updateWord();  // Apela?i callback-ul pentru actualizarea cuvântului
+			}
+		}
 
 		if (IsTimeExpired())
 		{

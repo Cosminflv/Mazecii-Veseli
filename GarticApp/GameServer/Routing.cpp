@@ -185,15 +185,6 @@ void Routing::Run(Game& game)
 			});
 
 
-	CROW_ROUTE(m_app, "/updateWord/")
-		.methods("GET"_method)
-		([&handler, this]()
-			{
-				std::string updateWord = handler.UpdateWord(m_seenWord,m_hiddenWord);
-				m_hiddenWord = updateWord;
-				return m_hiddenWord;
-			});
-
 
 	Timer T{ 3 };
 	CROW_ROUTE(m_app, "/timer")([&T]()
@@ -209,7 +200,23 @@ void Routing::Run(Game& game)
 			return  secondsJson;
 		});
 
+	T.SetUpdateWordCallback([&handler, this]() {
+		std::string updateWord = handler.UpdateWord(m_seenWord, m_hiddenWord);
+		m_hiddenWord = updateWord;
+		crow::response response;
+		response.body = m_hiddenWord;
+		return response;
+		});
+
 	T.StartTimer();
+	CROW_ROUTE(m_app, "/updateWord/")
+		.methods("GET"_method)
+		([&handler, this]()
+			{
+				//std::string updateWord = handler.UpdateWord(m_seenWord,m_hiddenWord);
+				//m_hiddenWord = updateWord;
+				return m_hiddenWord;
+			});
 
 	CROW_ROUTE(m_app, "/logininfo")
 		.methods("POST"_method)
