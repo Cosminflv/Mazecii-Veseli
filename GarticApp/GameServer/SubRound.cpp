@@ -100,14 +100,15 @@ std::string SubRound::HideWord(const std::string& word)
 std::string SubRound::UpdateWordWithLetters(std::string& currentWord)
 {
 	int sizeOfWord = currentWord.size();
-	int maxLettersToShow = sizeOfWord / 2;
-	std::string displayWord(sizeOfWord, '_');
-	std::cout << "Ghiceste cuvantul: " << displayWord << std::endl;
-	for (int i = 0; i < maxLettersToShow; ++i) {
-		int randomIndex = rand() % sizeOfWord;
-		displayWord[randomIndex] = currentWord[randomIndex];
-		std::cout << "Litera " << i + 1 << ": " << displayWord << std::endl;
+	if (sizeOfWord == 0) {
+		std::cerr << "Cuvantul nu poate fi gol." << std::endl;
+		return "";
 	}
+	int randomIndex = rand() % sizeOfWord;
+	std::string displayWord(sizeOfWord, '_');
+	displayWord[randomIndex] = currentWord[randomIndex];
+	std::cout << "Ghiceste cuvantul: " << displayWord << std::endl;
+
 	return displayWord;
 }
 
