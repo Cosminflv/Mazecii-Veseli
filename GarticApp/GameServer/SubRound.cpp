@@ -45,6 +45,8 @@ SubRound::SubRound(const std::string& word, const int numberOfPlayers, Storage s
 {
 	m_duration = 60;
 }
+
+
 void SubRound::SeeWord(const std::string& word) const
 {
 	std::cout << "Your word is: " << word;
@@ -94,6 +96,7 @@ std::string SubRound::HideWord(const std::string& word)
 			hiddenWord = hiddenWord + "_ ";
 		}
 	}
+	MakeAllLettersFalse(word);
 	return hiddenWord;
 }
 
@@ -104,12 +107,18 @@ std::string SubRound::UpdateWordWithLetters(std::string& currentWord)
 		std::cerr << "Cuvantul nu poate fi gol." << std::endl;
 		return "";
 	}
-	int randomIndex = rand() % sizeOfWord;
+	
+	int randomIndex;
+	do {
+		randomIndex = rand() % sizeOfWord;
+	} while (m_letterShown[randomIndex]);
+
+	m_letterShown[randomIndex] = true;
+
 	std::string displayWord(sizeOfWord, '_');
 	displayWord[randomIndex] = currentWord[randomIndex];
-	std::cout << "Ghiceste cuvantul: " << displayWord << std::endl;
-
 	return displayWord;
+
 }
 
 void SubRound::SetHiddenWord(std::string& word)
@@ -244,6 +253,11 @@ bool SubRound::HasSubRoundEnded() const
 	else if (m_hasTimeEnded == true)
 		return true;
 	return false;
+}
+
+void SubRound::MakeAllLettersFalse(const std::string& sizeWord)
+{
+	m_letterShown.resize(sizeWord.size(),false);
 }
 
 Storage SubRound::GetStorage() const

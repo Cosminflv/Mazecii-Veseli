@@ -184,6 +184,7 @@ void Routing::Run(Game& game)
 				return wordJson;
 			});
 
+
 	CROW_ROUTE(m_app, "/updateWord/")
 		.methods("GET"_method)
 		([&handler, this]()

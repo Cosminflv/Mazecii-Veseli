@@ -21,11 +21,9 @@ public:
 	int GetDuration() const;
 	bool GetHasTimeEnded() const;
 
-
     std::string SelectRandomWord(uint16_t difficulty); 
 	std::string HideWord(const std::string& word);
 	std::string UpdateWordWithLetters(std::string& currentWord);
-
 	void SetHiddenWord(std::string& word);
 	std::string GetHiddentWord();
 	void SetSeenWord(std::string& word);
@@ -41,6 +39,7 @@ public:
 	void CalculateScore(const PlayerPtr& player, const std::string& word, const std::vector<PlayerPtr>& opponents);
 	bool HaveAllPlayersGuessed() const;
 	bool HasSubRoundEnded() const;
+	void MakeAllLettersFalse(const std::string& sizeWord);
 
 private:
     Storage m_storage;
@@ -48,6 +47,7 @@ private:
 	int m_numberOfPlayers;
 	std::string m_seenWord;
 	std::string m_hiddenWord;
+	std::vector<bool>m_letterShown;
 	int m_duration;
 	bool m_hasTimeEnded;
 	Timer m_timer;
