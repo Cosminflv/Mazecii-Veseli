@@ -185,7 +185,6 @@ void Routing::Run(Game& game)
 			});
 
 
-
 	Timer T{ 3 };
 	CROW_ROUTE(m_app, "/timer")([&T]()
 		{

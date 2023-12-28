@@ -32,6 +32,7 @@ QLabel* WordWidget::GetWordLabel() const
 	return m_word;
 }
 
+//a se utiliza pentru preluarea cuvantului vazut
 QString WordWidget::FetchSeenWordFromServer(uint16_t difficulty)
 {
     std::string url = "http://localhost:18080/word/" + std::to_string(difficulty);
@@ -57,6 +58,7 @@ QString WordWidget::FetchSeenWordFromServer(uint16_t difficulty)
     return visibleWord;
 }
 
+//a se utiliza pentru preluarea cuvantului ascuns
 QString WordWidget::FetchHiddenWordFromServer(uint16_t difficulty)
 {
     std::string url = "http://localhost:18080/word/" + std::to_string(difficulty);
@@ -80,6 +82,13 @@ QString WordWidget::FetchHiddenWordFromServer(uint16_t difficulty)
 
     // Întoarce cuvântul ascuns
     return hiddenWord;
+}
+
+
+void WordWidget::FetchTheWord(uint16_t difficulty)
+{
+    std::string url = "http://localhost:18080/word/" + std::to_string(difficulty);
+    cpr::Response firstResponse = cpr::Get(cpr::Url{});
 }
 
 QString WordWidget::FetchUpdatedWordFromServer()

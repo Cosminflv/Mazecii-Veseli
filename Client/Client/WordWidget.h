@@ -22,6 +22,7 @@ public:
 	//QString FetchWordFromServer(uint16_t difficulty);
 	QString FetchSeenWordFromServer(uint16_t difficulty);
 	QString FetchHiddenWordFromServer(uint16_t difficulty);
+	void FetchTheWord(uint16_t difficulty);
 	QString FetchUpdatedWordFromServer();
 	void UpdateWord(const QString& word);
 
