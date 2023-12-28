@@ -97,7 +97,7 @@ std::string SubRound::HideWord(const std::string& word)
 	return hiddenWord;
 }
 
-std::string SubRound::UpdateWordWithLetters(std::string currentWord)
+std::string SubRound::UpdateWordWithLetters(std::string& currentWord)
 {
 	int sizeOfWord = currentWord.size();
 	int maxLettersToShow = sizeOfWord / 2;

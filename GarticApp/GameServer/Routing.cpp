@@ -15,6 +15,8 @@
 #include"PlayerDB.h"
 #include <thread>
 
+std::string m_hiddenWord="";
+std::string m_seenWord="";
 
 void Routing::Run(Game& game)
 {
@@ -170,7 +172,6 @@ void Routing::Run(Game& game)
 		([&handler](int difficulty)
 			{
 				std::string randomWord = handler.PickWord(static_cast<uint16_t>(difficulty));
-
 				// Creează cuvântul ascuns
 				std::string hiddenWord = handler.HideTheWord(randomWord);
 
@@ -178,9 +179,20 @@ void Routing::Run(Game& game)
 				crow::json::wvalue wordJson;
 				wordJson["visibleWord"] = randomWord;
 				wordJson["hiddenWord"] = hiddenWord;
-
+				m_hiddenWord = hiddenWord;
+				m_seenWord = randomWord;
 				return wordJson;
 			});
+
+	CROW_ROUTE(m_app, "/updateWord/")
+		.methods("GET"_method)
+		([&handler, this]()
+			{
+				std::string updateWord = handler.UpdateWord(m_seenWord);
+				m_hiddenWord = updateWord;
+				return m_hiddenWord;
+			});
+
 
 	Timer T{ 3 };
 	CROW_ROUTE(m_app, "/timer")([&T]()
