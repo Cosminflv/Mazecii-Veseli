@@ -37,7 +37,8 @@ Client::Client(QWidget* parent)
 
     //preluare random a cuvantului din server in functie de dificultate
     //m_wordWidget->UpdateWord(m_wordWidget->FetchHiddenWordFromServer(m_difficulty)); // 1 reprezinta dificultatea, modific ulterior cu ce se transmite prin butonul de dificultate din interfata grafica
-    m_wordWidget->UpdateWord(m_wordWidget->FetchHiddenWordFromServer(1));
+  //  m_wordWidget->UpdateWord(m_wordWidget->FetchHiddenWordFromServer(1));
+  
 
     QWidget* centralWidget = new QWidget(this);
     centralWidget->setLayout(mainLayout);
@@ -52,7 +53,8 @@ Client::Client(QWidget* parent)
         });
 
     connect(m_colorWidget, &ColorWidget::selectColor, m_scribbleArea, &ScribbleArea::SetPenColor);
-
+    connect(m_timerWidget, &TimerWidget::wordUpdated, m_wordWidget, &WordWidget::UpdateWordFromServer);
+    m_wordWidget->UpdateWord(m_wordWidget->FetchUpdatedWordFromServer());
     setFont(QFont("8514oem", 13));
 
 }

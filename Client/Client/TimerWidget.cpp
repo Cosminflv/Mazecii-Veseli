@@ -42,6 +42,7 @@ void TimerWidget::fetchAndUpdateTimer() {
 		auto remainingTime = static_cast<int>(remainingTimeRvalue["Seconds"].u());
 
 		// Update UI in the main thread using a queued connection
+		emit wordUpdated(response.text.c_str());
 		QMetaObject::invokeMethod(this, [this, remainingTime]() {
 			updateUi(remainingTime);
 
@@ -92,3 +93,4 @@ void TimerWidget::updateUi(int remainingTime)
 		m_timeLabel->setText("00:00");
 	}
 }
+

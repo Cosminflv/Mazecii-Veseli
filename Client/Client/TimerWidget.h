@@ -18,6 +18,7 @@ public:
 
 signals:
 	void timerUpdate(const QString& timeString, const QPalette& textColor);
+	void wordUpdated(const QString& updatedWord);
 	void halfTimeReachedSignal();
 public slots:
 	void startTimer();

@@ -82,6 +82,28 @@ QString WordWidget::FetchHiddenWordFromServer(uint16_t difficulty)
     return hiddenWord;
 }
 
+QString WordWidget::FetchUpdatedWordFromServer()
+{
+    std::string url = "http://localhost:18080/updateWord/";
+    cpr::Response response = cpr::Get(cpr::Url{ url });
+
+    if (response.error) {
+        throw(WordRequestException("Word request has failed"));
+    }
+    return response.text.c_str();
+}
+
+void WordWidget::UpdateWordFromServer()
+{
+    try {
+        QString updatedWord = FetchUpdatedWordFromServer();
+        UpdateWord(updatedWord);
+    }
+    catch (const WordRequestException& ex) {
+        qDebug() << "Error updating word from server ";
+    }
+}
+
 
 void WordWidget::UpdateWord(const QString& word)
 {
