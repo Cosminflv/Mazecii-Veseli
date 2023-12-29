@@ -12,7 +12,14 @@ struct Word
 	std::string description;
 	uint16_t difficulty; // 0 pt cuvinte easy, 1 pt mediu, 2 pt hard
 };
+struct PlayerScore
+{
+	uint16_t id;
+	std::string username;
+	uint16_t score;
+	uint16_t id_pp;
 
+};
 inline auto createStorage(const std::string& filename)
 {
 	return sql::make_storage(
@@ -23,10 +30,17 @@ inline auto createStorage(const std::string& filename)
 			sql::make_column("description", &Word::description),
 			sql::make_column("difficulty",&Word::difficulty)
 		),
-		sql::make_table(
+	/*	sql::make_table(
 			"Player_Score",
 			sql::make_column("username", &Player::SetUsername, &Player::GetUsername, sql::primary_key()),
 			sql::make_column("score", &Player::SetScore, &Player::GetScore)
+		),*/
+		sql::make_table(
+			"Player_Score",
+			sql::make_column("id", &PlayerScore::id, sql::primary_key()),
+			sql::make_column("username", &PlayerScore::username),
+			sql::make_column("score", &PlayerScore::score),
+			sql::make_column("id_pp", &PlayerScore::id_pp, sql::foreign_key(&PlayerDB::SetId).references(&PlayerDB::GetId))
 		),
 		sql::make_table(
 			"Player_Password",
