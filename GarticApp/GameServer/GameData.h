@@ -60,6 +60,7 @@ public:
 	std::vector<Word> GetWords();
 	bool InsertUser(const std::string& username, const std::string& password);
 	std::vector<PlayerDB>GetUsers();
+	std::vector<PlayerScore>GetPlayers();
 	bool CheckUser(const std::string& username, const std::string &password);
 
 private:

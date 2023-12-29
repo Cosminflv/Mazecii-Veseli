@@ -56,6 +56,11 @@ std::vector<PlayerDB> GameStorage::GetUsers()
 	return m_db.get_all<PlayerDB>();
 }
 
+std::vector<PlayerScore> GameStorage::GetPlayers()
+{
+	return m_db.get_all<PlayerScore>();
+}
+
 bool GameStorage::CheckUser(const std::string& username, const std::string& password)
 {
 	if (m_db.count<PlayerDB>(sql::where(sql::c(&PlayerDB::GetUsername) == username)) == 1)
