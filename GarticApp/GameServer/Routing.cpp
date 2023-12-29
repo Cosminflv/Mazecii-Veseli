@@ -160,6 +160,7 @@ void Routing::Run(Game& game)
 				{
 					return crow::response(200);
 					handler.AddPlayer(username);
+					storage.InsertPlayerScore(username);
 				}
 				else
 				{

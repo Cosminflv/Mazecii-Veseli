@@ -61,6 +61,11 @@ std::vector<PlayerScore> GameStorage::GetPlayers()
 	return m_db.get_all<PlayerScore>();
 }
 
+void GameStorage::InsertPlayerScore(const std::string& username)
+{
+	m_db.insert(PlayerScore{ 0, username,0 });
+}
+
 bool GameStorage::CheckUser(const std::string& username, const std::string& password)
 {
 	if (m_db.count<PlayerDB>(sql::where(sql::c(&PlayerDB::GetUsername) == username)) == 1)
