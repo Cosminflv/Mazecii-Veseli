@@ -92,7 +92,23 @@ void Routing::Run(Game& game)
 				}
 				return crow::json::wvalue{ wordsJson };
 			});
+	//500 Internal Server Error  
+	CROW_ROUTE(m_app, "/users_score")([&storage]()
+		{
+			std::vector<crow::json::wvalue> usersJson;
+			auto players = storage.GetPlayers();
+			for (const auto& player : players)
+			{
+				crow::json::wvalue w{
+					{"id", player.id},
+					{"username", player.username},
+					{"score", player.score}
+				};
 
+				usersJson.push_back(w);
+			};
+			return crow::json::wvalue{ usersJson };
+		});
 	CROW_ROUTE(m_app, "/chat")([&game]()
 		{
 			std::vector<crow::json::wvalue> chatMessagesJson;
@@ -160,6 +176,7 @@ void Routing::Run(Game& game)
 				{
 					return crow::response(200);
 					handler.AddPlayer(username);
+					//adaugata de mine~AndBuz
 					storage.InsertPlayerScore(username);
 				}
 				else
