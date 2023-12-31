@@ -87,14 +87,15 @@ void Timer::Run()
 		initial_time = std::chrono::steady_clock::now();
 
 		m_remainingTime = elapsedTime < m_remainingTime ? m_remainingTime - elapsedTime : std::chrono::milliseconds{ 0 };
-		if (m_toDecreaseTime >= std::chrono::milliseconds(7000)) {
-			m_toDecreaseTime -= std::chrono::milliseconds(7000);
+		if (GetRemainingTime() <= std::chrono::milliseconds(165000)) {
+			if (m_toDecreaseTime >= std::chrono::milliseconds(7000)) {
+				m_toDecreaseTime -= std::chrono::milliseconds(7000);
 
-			if (m_updateWord) {
-				m_updateWord();  // se apelează callback-ul pentru actualizarea cuvântului
+				if (m_updateWord) {
+					m_updateWord();  // se apelează callback-ul pentru actualizarea cuvântului
+				}
 			}
 		}
-
 		if (IsTimeExpired())
 		{
 			StopTimer();

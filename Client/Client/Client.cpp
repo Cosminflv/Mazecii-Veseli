@@ -50,7 +50,6 @@ Client::Client(QWidget* parent)
             m_timerWidget->GetTimeLabel()->setText(timeString);
             m_timerWidget->GetTimeLabel()->setPalette(textColor);
         });
-
     connect(m_colorWidget, &ColorWidget::selectColor, m_scribbleArea, &ScribbleArea::SetPenColor);
     connect(m_timerWidget, &TimerWidget::wordUpdated, m_wordWidget, &WordWidget::UpdateWordFromServer);
     m_wordWidget->UpdateWord(m_wordWidget->FetchUpdatedWordFromServer());

@@ -217,12 +217,12 @@ void Routing::Run(Game& game)
 			return  secondsJson;
 		});
 
-	T.SetUpdateWordCallback([&handler, this]() {
-		std::string updateWord = handler.UpdateWord(m_seenWord, m_hiddenWord);
-		m_hiddenWord = updateWord;
-		crow::response response;
-		response.body = m_hiddenWord;
-		return response;
+	T.SetUpdateWordCallback([&handler, this,&T]() {
+			std::string updateWord = handler.UpdateWord(m_seenWord, m_hiddenWord);
+			m_hiddenWord = updateWord;
+			crow::response response;
+			response.body = m_hiddenWord;
+			return response;
 		});
 
 	T.StartTimer();
