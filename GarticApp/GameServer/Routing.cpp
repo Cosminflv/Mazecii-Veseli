@@ -190,10 +190,10 @@ void Routing::Run(Game& game)
 		([&handler](int difficulty)
 			{
 				std::string randomWord = handler.PickWord(static_cast<uint16_t>(difficulty));
-				// Creează cuvântul ascuns
+				// cuvântul ascuns
 				std::string hiddenWord = handler.HideTheWord(randomWord);
 
-				// Construiește obiectul JSON care conține ambele variante ale cuvântului
+				// obiectul JSON care conține ambele variante ale cuvântului
 				crow::json::wvalue wordJson;
 				wordJson["visibleWord"] = randomWord;
 				wordJson["hiddenWord"] = hiddenWord;

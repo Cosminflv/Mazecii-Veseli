@@ -1,4 +1,4 @@
-#include "Timer.h"
+﻿#include "Timer.h"
 
 static std::chrono::milliseconds TimeInMillis(const std::chrono::steady_clock::time_point& initial_time)
 {
@@ -87,11 +87,11 @@ void Timer::Run()
 		initial_time = std::chrono::steady_clock::now();
 
 		m_remainingTime = elapsedTime < m_remainingTime ? m_remainingTime - elapsedTime : std::chrono::milliseconds{ 0 };
-		if (m_toDecreaseTime >= std::chrono::milliseconds(10000)) {
-			m_toDecreaseTime -= std::chrono::milliseconds(10000);
+		if (m_toDecreaseTime >= std::chrono::milliseconds(7000)) {
+			m_toDecreaseTime -= std::chrono::milliseconds(7000);
 
 			if (m_updateWord) {
-				m_updateWord();  // Apela?i callback-ul pentru actualizarea cuv�ntului
+				m_updateWord();  // se apelează callback-ul pentru actualizarea cuvântului
 			}
 		}
 

@@ -84,21 +84,28 @@ std::string SubRound::SelectRandomWord(uint16_t difficulty)
 
 std::string SubRound::HideWord(const std::string& word)
 {
+	bool ok = true; // pentru a tine cont de spatii. nu consideram spatiul o litera.
 	std::string hiddenWord = "";
 	for (int i = 0; i < word.length(); i++)
 	{
-		if (word[i] == ' ')
+		if (word[i] == ' ' || word[i] == '_')
 		{
 			hiddenWord = hiddenWord + " ";
+			ok = false;
 		}
 		else
 		{
-			hiddenWord = hiddenWord + "*";
+			hiddenWord = hiddenWord + "-";
 		}
 	}
 	MakeAllLettersFalse(word);
+	if (ok)
+		m_counterLetters = 0;
+	else
+		m_counterLetters = 1;
 	return hiddenWord;
 }
+
 
 std::string SubRound::UpdateWordWithLetters(std::string& seenWord, std::string&currentWord)
 {
@@ -106,14 +113,17 @@ std::string SubRound::UpdateWordWithLetters(std::string& seenWord, std::string&c
 		std::cerr << "Cuvantul nu poate fi gol." << std::endl;
 		return "";
 	}
-	
-	int randomIndex;
-	do {
-		randomIndex = rand() % currentWord.size();
-	} while (m_letterShown[randomIndex]);
+	int randomIndex=0;
+	if (m_counterLetters<seenWord.size()/2)
+	{
+		do {
+			randomIndex = rand() % currentWord.size();
+		} while (m_letterShown[randomIndex]);
 
 	m_letterShown[randomIndex] = true;
 	currentWord[randomIndex] = seenWord[randomIndex];
+	}
+	m_counterLetters++;
 	return currentWord;
 }
 

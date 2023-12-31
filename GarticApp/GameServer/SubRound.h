@@ -48,6 +48,7 @@ private:
 	std::string m_seenWord;
 	std::string m_hiddenWord;
 	std::vector<bool>m_letterShown;
+	int m_counterLetters;
 	int m_duration;
 	bool m_hasTimeEnded;
 	Timer m_timer;
