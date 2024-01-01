@@ -43,7 +43,7 @@ Client::Client(QWidget* parent)
     QWidget* centralWidget = new QWidget(this);
     centralWidget->setLayout(mainLayout);
     setCentralWidget(centralWidget);
-
+    m_wordWidget->FetchTheWord(1);
     setWindowTitle(tr("Scribble"));
     connect(m_timerWidget, &TimerWidget::timerUpdate, [this](const QString& timeString, const QPalette& textColor)
         {
