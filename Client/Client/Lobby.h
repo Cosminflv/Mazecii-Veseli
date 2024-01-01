@@ -1,6 +1,8 @@
 #pragma once
 
 #include <QMainWindow>
+#include "crow.h"
+#include <cpr/cpr.h>
 #include "ui_Lobby.h"
 #include <QtWidgets>
 #include <QPushButton>

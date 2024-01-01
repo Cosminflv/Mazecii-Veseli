@@ -1,6 +1,8 @@
 #include "Lobby.h"
 #include <QLabel>
 #include "Difficulty.h"
+#include "crow.h"
+#include <cpr/cpr.h>
 
 Lobby::Lobby(QWidget *parent)
 	: QMainWindow(parent)
@@ -62,7 +64,17 @@ void Lobby::StartGame()
 {
 	//difficulty window will show only for admin
 	//rest of the players will go into the game
+
 	Difficulty* d = new Difficulty();
 	d->SendUsername(m_users.front().toUtf8().constData());
-	d->show();
+
+	crow::json::wvalue json;
+	json["Gamestatus"] = "Playing";
+	std::string jsString = json.dump();
+	cpr::Response statusResponse = cpr::Post(cpr::Url("http://localhost:18080/gamestatus"), cpr::Body{ jsString });
+	if (statusResponse.status_code == 200)
+	{
+		d->show();
+		hide();
+	}
 }

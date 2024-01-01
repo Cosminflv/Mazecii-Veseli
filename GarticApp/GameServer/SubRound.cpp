@@ -110,7 +110,7 @@ std::string SubRound::HideWord(const std::string& word)
 std::string SubRound::UpdateWordWithLetters(std::string& seenWord, std::string&currentWord)
 {
 	if (currentWord.size() == 0) {
-		std::cerr << "Cuvantul nu poate fi gol." << std::endl;
+		std::cerr << "Word string empty." << std::endl;
 		return "";
 	}
 	int randomIndex=0;
@@ -158,7 +158,7 @@ int SubRound::GetSecond()
 void SubRound::ChoosePainter(std::vector<Player*>& players)
 {
 	if (players.empty()) {
-		std::cout << "Vectorul de jucatori este gol.\n";
+		std::cout << "Empty player vector.\n";
 		return;
 	}
 	std::random_device rd;
@@ -166,7 +166,7 @@ void SubRound::ChoosePainter(std::vector<Player*>& players)
 	std::uniform_int_distribution<std::size_t> dis(0, players.size() - 1);
 	std::size_t index = dis(gen);
 	players[index]->SetPlayerStatus(true);
-	std::cout << players[index] << " deseneaza!";
+	std::cout << players[index] << " is drawing!";
 }
 
 
@@ -236,12 +236,12 @@ void SubRound::ShowLetters(std::string& word) const
 	int sizeOfWord = word.size();
 	int maxLettersToShow = sizeOfWord / 2;
 	std::string displayWord(sizeOfWord, '_');
-	std::cout << "Ghiceste cuvantul: " << displayWord << std::endl;
+	std::cout << "Guess the word: " << displayWord << std::endl;
 	for (int i = 0; i < maxLettersToShow; ++i) {
 		std::this_thread::sleep_for(std::chrono::seconds(30)); //de modificat pentru a fi pus timer-ul general.
 		int randomIndex = rand() % sizeOfWord;
 		displayWord[randomIndex] = word[randomIndex];
-		std::cout << "Litera " << i + 1 << ": " << displayWord << std::endl;
+		std::cout << "Letter " << i + 1 << ": " << displayWord << std::endl;
 	}
 }
 

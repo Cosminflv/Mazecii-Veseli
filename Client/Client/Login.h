@@ -9,6 +9,9 @@
 #include <string>
 #include <QFontDatabase>
 #include <QKeyEvent>
+#include "crow.h"
+#include <cpr/cpr.h>
+
 
 class Login : public QMainWindow
 {

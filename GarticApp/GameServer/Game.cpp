@@ -8,7 +8,7 @@ Game::Game(std::vector<PlayerPtr> players, std::map<PlayerPtr, int> leaderboard)
 	m_players{ players },
 	m_leaderboard{ leaderboard }
 {
-	m_gameChat.WriteMessage({ "Server", "Hello" });
+	//m_gameChat.WriteMessage({ "Server", "Hello" });
 	m_gameStatus = EGameStatus::Lobby;
 }
 
@@ -16,7 +16,7 @@ Game::Game()
 {
 	RoundPtr newRound = std::make_shared<Round>();
 	m_currRound = newRound;
-	m_gameChat.WriteMessage({ "Server", "Hello" });
+	//m_gameChat.WriteMessage({ "Server", "Hello" });
 	m_gameStatus = EGameStatus::Lobby;
 }
 
@@ -45,8 +45,20 @@ EGameStatus Game::GetGameStatus() const
 
 std::string Game::GetGameStatusAsString() const
 {
-
 	return m_gameStatus == EGameStatus::Lobby ? "Lobby" : "Playing";
+}
+
+EGameStatus Game::EGameStatusFromString(const std::string& status)
+{
+	if (status == "Lobby")
+		return EGameStatus::Lobby;
+	else if (status == "Playing")
+		return EGameStatus::Playing;
+}
+
+void Game::SetGameStatus(const std::string& status)
+{
+	m_gameStatus = EGameStatusFromString(status);
 }
 
 bool Game::CheckUniquePlayerUsername(PlayerPtr player) const

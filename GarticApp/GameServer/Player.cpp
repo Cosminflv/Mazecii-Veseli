@@ -5,6 +5,9 @@ Player::Player(const std::string& username, PlayerRole role, int16_t score)
 	:m_username{ username }, m_playerRole{ role }, m_score{ score }, m_hasPainted{ false }
 { }
 
+Player::Player(const std::string& username) : m_username{ username }
+{ }
+
 std::string Player::GetUsername() const
 {
 	return m_username;

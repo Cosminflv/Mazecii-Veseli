@@ -34,6 +34,20 @@ void Routing::Run(Game& game)
 			return crow::json::wvalue{ p };
 		});
 
+	CROW_ROUTE(m_app, "/gamestatus").methods("POST"_method)
+		([&game](const crow::request& req)
+		{
+				crow::json::rvalue data = crow::json::load(req.body);
+				if (!data)
+				{
+					return crow::response(400, "Invalid JSON format.\n");
+				}
+				std::string status = data["Gamestatus"].s();
+				game.SetGameStatus(status);
+				std::cout << "RECEIVED GAME STATUS: " << game.GetGameStatusAsString() << std::endl;
+				return crow::response(200);
+		});
+
 	CROW_ROUTE(m_app, "/playerinfo")([&game]()
 		{
 			std::vector<crow::json::wvalue> playersJson;
@@ -235,7 +249,7 @@ void Routing::Run(Game& game)
 
 	CROW_ROUTE(m_app, "/logininfo")
 		.methods("POST"_method)
-		([&handler, &storage](const crow::request& req)
+		([&game, &handler, &storage](const crow::request& req)
 			{
 				crow::json::rvalue jsonData = crow::json::load(req.body);
 				if (!jsonData)
@@ -247,10 +261,12 @@ void Routing::Run(Game& game)
 				PlayerDB user;
 				user.SetUsername(username);
 				user.SetPassword(password);
+				PlayerPtr player = std::make_shared<Player>(username);
+				game.AddPlayer(player);
 
 				if (storage.CheckUser(username, password) == true)
 				{
-					std::cout << "Received username: " << username << std::endl;
+					std::cout << "Received username: " << player.get()->GetUsername() << std::endl;
 					std::cout << "Received password: " << password << std::endl;
 					//db.replace(user);
 					handler.AddPlayer(username);

@@ -3,5 +3,6 @@
 enum class EGameStatus
 {
 	Lobby,
-	Playing
+	Playing,
+	Waiting
 };
