@@ -261,9 +261,11 @@ void Routing::Run(Game& game)
 				PlayerDB user;
 				user.SetUsername(username);
 				user.SetPassword(password);
+
 				PlayerPtr player = std::make_shared<Player>(username);
 				game.AddPlayer(player);
-
+				game.GetPlayers()[0].get()->SetAdminRoleAsString("Admin");
+				
 				if (storage.CheckUser(username, password) == true)
 				{
 					std::cout << "Received username: " << player.get()->GetUsername() << std::endl;

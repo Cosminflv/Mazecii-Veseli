@@ -2,7 +2,7 @@
 #include <QLabel>
 #include "Difficulty.h"
 #include "Lobby.h"
-
+#include "PlayerClient.h"
 
 Login::Login(QWidget *parent)
 	: QMainWindow(parent)
@@ -70,18 +70,20 @@ void Login::LogintoAccount()
 	if (r.status_code == 200)
 	{
 		qDebug() << "login data sent.\n";
-		//Difficulty* d = new Difficulty();
-		//d->show();
-		//d->SendUsername(m_username);
 		
-		Lobby* lobby = new Lobby();
-		lobby->InsertUser(QString::fromUtf8(m_username.c_str()));				
+		Lobby* lobby = new Lobby();			
 		crow::json::wvalue json;
 		json["Gamestatus"] = "Lobby";
 		std::string jsString = json.dump();
 		cpr::Response statusResponse = cpr::Post(cpr::Url("http://localhost:18080/gamestatus"), cpr::Body{ jsString });
 		if (statusResponse.status_code == 200)
 		{
+			lobby->InsertUser(PlayerClient{ m_username });
+			for (const auto& c : lobby->GetClients())
+			{
+				qDebug() << "INSERTED USER: " << c.GetUsername();
+			}
+			lobby->SetUi();
 			lobby->show();
 			lobby->DisplayUsers();
 			hide();

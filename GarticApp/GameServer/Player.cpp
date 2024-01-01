@@ -2,7 +2,7 @@
 #include <iostream>
 
 Player::Player(const std::string& username, PlayerRole role, int16_t score)
-	:m_username{ username }, m_playerRole{ role }, m_score{ score }, m_hasPainted{ false }
+	:m_username{ username }, m_playerRole{ role }, m_score{ score }, m_hasPainted{ false }, m_adminRole{ AdminRole::NonAdmin }
 { }
 
 Player::Player(const std::string& username) : m_username{ username }
@@ -73,6 +73,19 @@ void Player::SetPlayerRole(PlayerRole role)
 void Player::SetAdminRole(AdminRole adminRole)
 {
 	this->m_adminRole = adminRole;
+}
+
+AdminRole Player::RoleStatusFromString(const std::string& adrole)
+{
+	if (adrole == "Admin")
+		return AdminRole::Admin;
+	else if (adrole == "NonAdmin")
+		return AdminRole::NonAdmin;
+}
+
+void Player::SetAdminRoleAsString(const std::string& adrole)
+{
+	m_adminRole = RoleStatusFromString(adrole);
 }
 
 std::ostream& operator<<(std::ostream& os, const Player& player)

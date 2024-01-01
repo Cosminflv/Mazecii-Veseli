@@ -24,7 +24,6 @@ public:
 	static EGameStatus EGameStatusFromString(const std::string& status);
 	void SetGameStatus(const std::string& status);
 
-
 	bool CheckUniquePlayerUsername(PlayerPtr player) const;
 	void AddPlayer(PlayerPtr player);
 	std::map<PlayerPtr, int>GetLeaderboard() const;

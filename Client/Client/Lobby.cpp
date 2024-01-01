@@ -1,6 +1,7 @@
 #include "Lobby.h"
 #include <QLabel>
 #include "Difficulty.h"
+#include "ClientExceptions.h"
 #include "crow.h"
 #include <cpr/cpr.h>
 
@@ -12,36 +13,19 @@ Lobby::Lobby(QWidget *parent)
 	setFont(QFont("8514oem", 20));
 	setWindowTitle("Lobby");
 	setFixedSize(400, 510);
-
-	QLabel* infotext = new QLabel("Waiting for players\nto join...", this);
-	infotext->setGeometry(30, 30, 340, 100);
-	infotext->setFont(QFont("", 30));
-	infotext->setAlignment(Qt::AlignCenter);
-
+	
 	m_userDisplay = new QListWidget(this);
 	m_userDisplay->setSpacing(3.6);
 	m_userDisplay->setGeometry(80, 140, 230, 290);
-
-	m_startGame = new QPushButton("Start Game", this);
-	m_startGame->setGeometry(125, 450, 150, 40);
-	m_startGame->setFont(QFont("", 17));
-	connect(m_startGame, &QPushButton::clicked, this, &Lobby::StartGame);
-
-	// if player is not admin -> "waiting for game to start.."
-	// -> can see the player list
-	// -> can't see start game button
-
-	setStyleSheet("background-color:#e0ebe4");
-	m_userDisplay->setStyleSheet("background-color:");
-	m_startGame->setStyleSheet("background-color:#ffe6cc; color:#5c8a74");
+	m_userDisplay->setFont(QFont("8514oem", 13));
 }
 
 Lobby::~Lobby()
 {}
 
-void Lobby::InsertUser(const QString& username)
+void Lobby::InsertUser(const PlayerClient& client)
 {
-	m_users.push_back(username);
+	m_users.push_back(client);
 }
 
 void Lobby::DisplayUsers()
@@ -49,15 +33,66 @@ void Lobby::DisplayUsers()
 	m_userDisplay->setFont(QFont("8514oem", 13));
 	for (const auto& u : m_users)
 	{
-		QListWidgetItem* newUser = new QListWidgetItem(u);
+		QListWidgetItem* newUser = new QListWidgetItem(QString::fromUtf8(u.GetUsername().c_str()));
 		m_userDisplay->addItem(newUser);
 	}
 	m_userDisplay->show();
 }
 
-std::deque<QString> Lobby::GetPlayerQueue() const
+std::vector<PlayerClient> Lobby::GetClients() const
 {
 	return m_users;
+}
+
+QString Lobby::FromJsonToQString(const crow::json::detail::r_string value)
+{
+	std::string stringValue = std::string(value);
+	return QString::fromUtf8(stringValue.c_str(), static_cast<int>(stringValue.size()));
+}
+
+void Lobby::SetUi()
+{
+	/*for (size_t i = 0; i < m_users.size(); i++)
+	{
+		if (i == 0)
+		{
+			QLabel* infotext = new QLabel("Waiting for players\nto join...", this);
+			infotext->setGeometry(30, 30, 340, 100);
+			infotext->setFont(QFont("", 30));
+			infotext->setAlignment(Qt::AlignCenter);
+		}
+		else
+		{
+			QLabel* infotext = new QLabel("Waiting for game\nto start...", this);
+			infotext->setGeometry(30, 30, 340, 100);
+			infotext->setFont(QFont("", 30));
+			infotext->setAlignment(Qt::AlignCenter);
+		}
+	}*/
+	m_users[0].SetAdminRole("Admin");
+	if (m_users[0].GetAdminRole() == "NonAdmin")
+	{
+		QLabel* infotext = new QLabel("Waiting for game\nto start...", this);
+		infotext->setGeometry(30, 30, 340, 100);
+		infotext->setFont(QFont("", 30));
+		infotext->setAlignment(Qt::AlignCenter);
+		setStyleSheet("background-color:#e0ebe4");
+		m_userDisplay->setStyleSheet("background-color:");
+	}
+	else
+	{
+		QLabel* infotext = new QLabel("Waiting for players\nto join...", this);
+		infotext->setGeometry(30, 30, 340, 100);
+		infotext->setFont(QFont("", 30));
+		infotext->setAlignment(Qt::AlignCenter);
+		m_startGame = new QPushButton("Start Game", this);
+		m_startGame->setGeometry(125, 450, 150, 40);
+		m_startGame->setFont(QFont("", 17));
+		connect(m_startGame, &QPushButton::clicked, this, &Lobby::StartGame);
+		setStyleSheet("background-color:#e0ebe4");
+		m_userDisplay->setStyleSheet("background-color:");
+		m_startGame->setStyleSheet("background-color:#ffe6cc; color:#5c8a74");
+	}
 }
 
 void Lobby::StartGame()
@@ -66,7 +101,7 @@ void Lobby::StartGame()
 	//rest of the players will go into the game
 
 	Difficulty* d = new Difficulty();
-	d->SendUsername(m_users.front().toUtf8().constData());
+	d->SendUsername(m_users[0].GetUsername());
 
 	crow::json::wvalue json;
 	json["Gamestatus"] = "Playing";

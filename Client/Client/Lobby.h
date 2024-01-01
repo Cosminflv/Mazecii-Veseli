@@ -6,7 +6,8 @@
 #include "ui_Lobby.h"
 #include <QtWidgets>
 #include <QPushButton>
-#include <deque> // of logged in users; .front() will start game
+#include <vector>
+#include "PlayerClient.h"
 
 class Lobby : public QMainWindow
 {
@@ -16,9 +17,11 @@ public:
 	Lobby(QWidget *parent = nullptr);
 	~Lobby();
 
-	void InsertUser(const QString& username);
+	void InsertUser(const PlayerClient& client);
 	void DisplayUsers();
-	std::deque<QString> GetPlayerQueue() const;
+	std::vector<PlayerClient> GetClients() const;
+	QString FromJsonToQString(const crow::json::detail::r_string value);
+	void SetUi();
 
 private slots:
 	void StartGame();
@@ -26,7 +29,7 @@ private slots:
 private:
 	Ui::LobbyClass ui;
 
-	std::deque<QString> m_users;
+	std::vector<PlayerClient> m_users;
 	QPushButton* m_startGame;
 	QListWidget* m_userDisplay;
 };

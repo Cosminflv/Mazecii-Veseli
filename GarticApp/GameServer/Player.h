@@ -25,6 +25,8 @@ public:
 
 	void SetPlayerRole(PlayerRole playerRole);
 	void SetAdminRole(AdminRole adminRole);
+	static AdminRole RoleStatusFromString(const std::string& adrole);
+	void SetAdminRoleAsString(const std::string& adrole);
 
 private:
 	std::string m_username;
