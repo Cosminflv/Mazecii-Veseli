@@ -22,12 +22,12 @@
     <Filter Include="Header Files\Enums">
       <UniqueIdentifier>{8bd1da8b-416d-492b-8540-9b2eca4c984a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Enums">
+      <UniqueIdentifier>{79e4eaf1-6467-4bea-b1de-4c0f6abf1b55}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerRole.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
@@ -58,10 +58,13 @@
       <Filter>Source Files\Routing</Filter>
     </ClCompile>
     <ClCompile Include="AdminRole.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Enums</Filter>
     </ClCompile>
     <ClCompile Include="EGameStatus.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Enums</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerRole.cpp">
+      <Filter>Source Files\Enums</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

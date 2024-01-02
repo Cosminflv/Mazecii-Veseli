@@ -16,11 +16,5 @@ int main(int argc, char* argv[])
 	QApplication a(argc, argv);
 	Login l;
 	l.show();
-	//Client c;
-	//c.show();
-	//Difficulty d;
-	//d.show();
-	//Lobby lo;
-	//lo.show();
 	return a.exec();
 }

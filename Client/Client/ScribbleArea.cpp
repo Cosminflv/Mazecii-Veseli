@@ -2,6 +2,7 @@
 #include <QtWidgets>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <future>
 
 ScribbleArea::ScribbleArea(QWidget* parent)
 {
@@ -94,40 +95,48 @@ void ScribbleArea::PrintCoordinates(const QString& output)
 
 void ScribbleArea::SendToSever()
 {
-	crow::json::wvalue jsonVectors;
-	crow::json::wvalue::list coordinatesVect;
-	crow::json::wvalue::list infoVect;
+	std::thread([this]() {
+		try {
+			crow::json::wvalue jsonVectors;
+			crow::json::wvalue::list coordinatesVect;
+			crow::json::wvalue::list infoVect;
 
-	for (const auto& coordinate : m_drawing)
-	{
-		crow::json::wvalue obj;
-		obj["first"] = coordinate.first;
-		obj["second"] = coordinate.second;
-		coordinatesVect.push_back(obj);
-	}
+			for (const auto& coordinate : m_drawing)
+			{
+				crow::json::wvalue obj;
+				obj["first"] = coordinate.first;
+				obj["second"] = coordinate.second;
+				coordinatesVect.push_back(obj);
+			}
 
-	jsonVectors["Coordinates"] = std::move(coordinatesVect);
+			jsonVectors["Coordinates"] = std::move(coordinatesVect);
 
-	for (const auto& info : m_info)
-	{
-		crow::json::wvalue obj;
-		obj["first"] = info.first;
-		obj["second"] = info.second;
-		infoVect.push_back(obj);
-	}
+			for (const auto& info : m_info)
+			{
+				crow::json::wvalue obj;
+				obj["first"] = info.first;
+				obj["second"] = info.second;
+				infoVect.push_back(obj);
+			}
 
-	jsonVectors["DrawingInfo"] = std::move(infoVect);
-	std::string jsonString = jsonVectors.dump();
-	cpr::Response response = cpr::Post(cpr::Url("http://localhost:18080/drawing"), cpr::Body{ jsonString });
+			jsonVectors["DrawingInfo"] = std::move(infoVect);
+			std::string jsonString = jsonVectors.dump();
+			cpr::Response response = cpr::Post(cpr::Url("http://localhost:18080/drawing"), cpr::Body{ jsonString });
 
-	if (response.status_code == 200)
-	{
-		qDebug() << "DRAWING SENT.";
-	}
-	else
-	{
-		qDebug() << "FAIL - DRAWING.";
-	}
+			if (response.status_code == 200)
+			{
+				qDebug() << "DRAWING SENT.";
+			}
+			else
+			{
+				qDebug() << "FAIL - DRAWING.";
+			}
+		}
+		catch (const std::exception& e) 		{
+
+			qDebug() << "Exception in SendToServer: " << e.what();
+		}
+		}).detach();
 }
 
 ScribbleArea::~ScribbleArea()
@@ -145,26 +154,11 @@ void ScribbleArea::mousePressEvent(QMouseEvent* event)
 
 void ScribbleArea::mouseMoveEvent(QMouseEvent* event)
 {
-	if ((event->buttons() & Qt::LeftButton) && m_isScribbling) {
+	if ((event->buttons() & Qt::LeftButton) && m_isScribbling)
+	{
 		DrawLineTo(event->pos());
-
 		DrawInMatrix(event->pos().x(), event->pos().y());
 	}
-
-	//if ((event->buttons() & Qt::LeftButton) && m_isScribbling) {
-	//	QPoint newPoint = event->pos();
-	//	DrawLineTo(newPoint);
-
-	//	// Interpolate between current and previous points
-	//	int steps = 5; // You can adjust this value for smoother interpolation
-	//	for (int i = 1; i <= steps; ++i) {
-	//		int x = m_lastPoint.x() + i * (newPoint.x() - m_lastPoint.x()) / steps;
-	//		int y = m_lastPoint.y() + i * (newPoint.y() - m_lastPoint.y()) / steps;
-
-	//		DrawLineTo(QPoint(x, y));
-	//		DrawInMatrix(x, y);
-	//	}
-	//}
 }
 
 void ScribbleArea::mouseReleaseEvent(QMouseEvent* event)
@@ -178,6 +172,9 @@ void ScribbleArea::mouseReleaseEvent(QMouseEvent* event)
 void ScribbleArea::paintEvent(QPaintEvent* event)
 {
 	QPainter painter(this);
+	painter.setRenderHint(QPainter::Antialiasing, true);
+	painter.setRenderHint(QPainter::TextAntialiasing, true);
+	painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
 	QRect dirtyRect = event->rect();
 
 	painter.drawImage(dirtyRect, m_image, dirtyRect);
@@ -197,6 +194,9 @@ void ScribbleArea::resizeEvent(QResizeEvent* event)
 void ScribbleArea::DrawLineTo(const QPoint& endPoint)
 {
 	QPainter painter(&m_image);
+	painter.setRenderHint(QPainter::Antialiasing, true);
+	painter.setRenderHint(QPainter::TextAntialiasing, true);
+	painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
 	painter.setPen(QPen(m_penColor, m_penWidth, Qt::SolidLine, Qt::RoundCap,
 		Qt::RoundJoin));
 
@@ -267,6 +267,8 @@ void ScribbleArea::onGetDrawing()
 	canvas.fill(Qt::white);
 	QPainter painter(&canvas);
 	painter.setRenderHint(QPainter::Antialiasing, true);
+	painter.setRenderHint(QPainter::TextAntialiasing, true);
+	painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
 	
 	for (size_t i = 0; i < m_drawing.size(); i++)
 	{
