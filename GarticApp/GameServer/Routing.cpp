@@ -154,6 +154,39 @@ void Routing::Run(Game& game)
 			return crow::json::wvalue{ chatMessagesJson };
 		});
 
+	CROW_ROUTE(m_app, "/drawing")
+		.methods("POST"_method)
+		([](const crow::request& req) 
+			{
+				crow::json::rvalue jsonData = crow::json::load(req.body);
+				if(!jsonData)
+				{
+					return crow::response(400, "Invalid JSON format");
+				}
+
+				if (!jsonData.has("Coordinates") || !jsonData.has("DrawingInfo"))
+				{
+					return crow::response(400, "Invalid JSON format");
+				}
+				
+				const auto& coordinatesJSON = jsonData["Coordinates"];
+				const auto& drawingInfoJSON = jsonData["DrawingInfo"];
+
+				std::vector<std::pair<int, int>> coordinates;
+				std::vector<std::pair<std::string, int>> drawingInfo;
+
+				for (size_t i = 0; i < coordinates.size(); i++)
+				{
+					const auto& coord = coordinatesJSON[i];
+					const auto& info = drawingInfoJSON[i];
+
+					coordinates.emplace_back(coord[0].i(), coord[1].i());
+					drawingInfo.emplace_back(info[0].s(), info[1].i());
+				}
+			
+				return crow::response(200);
+			});
+
 	CROW_ROUTE(m_app, "/receive_message")
 		.methods("POST"_method)
 		([&game, &handler](const crow::request& req)
@@ -162,7 +195,7 @@ void Routing::Run(Game& game)
 				crow::json::rvalue json_data = crow::json::load(req.body);
 				if (!json_data) {
 					return crow::response(400, "Invalid JSON format");
-				}
+				}				
 
 				if (!json_data.has("username") || !json_data.has("message"))
 					return crow::response(400, "Invalid JSON format");

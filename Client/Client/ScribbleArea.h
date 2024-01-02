@@ -8,6 +8,8 @@
 #include <QPushButton>
 #include <QColorDialog>
 #include <vector>
+#include"crow.h"
+#include<cpr/cpr.h>
 
 using Coordinate = std::pair<int, int>;
 using DrawingInfo = std::pair<std::string, int>;
@@ -26,6 +28,8 @@ public:
 
 	void DrawInMatrix(int x, int y);
 	void PrintCoordinates(const QString& output);
+
+	void SendToSever();
 
 	~ScribbleArea();
 private slots:

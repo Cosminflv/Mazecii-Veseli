@@ -1,6 +1,7 @@
 #include "ScribbleArea.h"
 #include <QtWidgets>
-
+#include <QJsonDocument>
+#include <QJsonObject>
 
 ScribbleArea::ScribbleArea(QWidget* parent)
 {
@@ -91,6 +92,44 @@ void ScribbleArea::PrintCoordinates(const QString& output)
 	file.close();
 }
 
+void ScribbleArea::SendToSever()
+{
+	crow::json::wvalue jsonVectors;
+	crow::json::wvalue::list coordinatesVect;
+	crow::json::wvalue::list infoVect;
+
+	for (const auto& coordinate : m_drawing)
+	{
+		crow::json::wvalue obj;
+		obj["first"] = coordinate.first;
+		obj["second"] = coordinate.second;
+		coordinatesVect.push_back(obj);
+	}
+
+	jsonVectors["Coordinates"] = std::move(coordinatesVect);
+
+	for (const auto& info : m_info)
+	{
+		crow::json::wvalue obj;
+		obj["first"] = info.first;
+		obj["second"] = info.second;
+		infoVect.push_back(obj);
+	}
+
+	jsonVectors["DrawingInfo"] = std::move(infoVect);
+	std::string jsonString = jsonVectors.dump();
+	cpr::Response response = cpr::Post(cpr::Url("http://localhost:18080/drawing"), cpr::Body{ jsonString });
+
+	if (response.status_code == 200)
+	{
+		qDebug() << "DRAWING SENT.";
+	}
+	else
+	{
+		qDebug() << "FAIL - DRAWING.";
+	}
+}
+
 ScribbleArea::~ScribbleArea()
 {
 	delete m_clearButton;
@@ -174,6 +213,8 @@ void ScribbleArea::DrawLineTo(const QPoint& endPoint)
 	update(boundingRect);
 
 	m_lastPoint = endPoint;
+
+	SendToSever();
 }
 
 void ScribbleArea::ResizeImage(QImage* image, const QSize& newSize)
