@@ -9,6 +9,9 @@
 #include <QColorDialog>
 #include <vector>
 
+using Coordinate = std::pair<int, int>;
+using DrawingInfo = std::pair<std::string, int>;
+
 class ScribbleArea : public QWidget
 {
 public:
@@ -19,7 +22,7 @@ public:
 
 	QColor GetPenColor() const;
 	int GetPenWidth() const;
-	std::vector<std::pair<int, int>> GetDrawing() const;
+	std::vector<Coordinate> GetDrawing() const;
 
 	void DrawInMatrix(int x, int y);
 	void PrintCoordinates(const QString& output);
@@ -46,16 +49,18 @@ private:
 	bool m_isScribbling;
 	int m_penWidth;
 
+	std::string m_colorCode;
 	QColor m_penColor;
 	QImage m_image;
 	QPoint m_lastPoint;
-	QPainterPath mPath;
+	QPainterPath m_path;
 
 	QPushButton* m_clearButton;
 	QPushButton* m_selectColor;
 	QPushButton* m_getDrawing;
 
-	std::vector<std::pair<int, int>> m_drawing;
+	std::vector<Coordinate> m_drawing;
+	std::vector<DrawingInfo> m_info;
 
 	const QList<int> m_sizes = { 7, 14, 21 };
 };

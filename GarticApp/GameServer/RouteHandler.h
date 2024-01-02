@@ -17,6 +17,5 @@ public:
 	std::string UpdateWord(std::string& word, std::string &currentWord);
 private:
 	Game m_game;
-
 };
 

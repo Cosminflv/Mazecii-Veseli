@@ -17,14 +17,14 @@ public:
 	Lobby(QWidget *parent = nullptr);
 	~Lobby();
 
-	void InsertUser(const PlayerClient& client);
-	void DisplayUsers();
+	void InsertUser(const PlayerClient& client);	
 	std::vector<PlayerClient> GetClients() const;
-	QString FromJsonToQString(const crow::json::detail::r_string value);
 	void SetUi();
+	QString FromJsonToQString(const crow::json::detail::r_string value);	
 
 private slots:
 	void StartGame();
+	void DisplayUsers();
 
 private:
 	Ui::LobbyClass ui;

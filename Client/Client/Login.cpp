@@ -1,8 +1,8 @@
 #include "Login.h"
 #include <QLabel>
 #include "Difficulty.h"
-#include "Lobby.h"
 #include "PlayerClient.h"
+#include "Lobby.h"
 
 Login::Login(QWidget *parent)
 	: QMainWindow(parent)
@@ -71,13 +71,13 @@ void Login::LogintoAccount()
 	{
 		qDebug() << "login data sent.\n";
 		
-		Lobby* lobby = new Lobby();			
 		crow::json::wvalue json;
 		json["Gamestatus"] = "Lobby";
 		std::string jsString = json.dump();
 		cpr::Response statusResponse = cpr::Post(cpr::Url("http://localhost:18080/gamestatus"), cpr::Body{ jsString });
 		if (statusResponse.status_code == 200)
 		{
+			Lobby* lobby = new Lobby();
 			lobby->InsertUser(PlayerClient{ m_username });
 			for (const auto& c : lobby->GetClients())
 			{
@@ -85,7 +85,6 @@ void Login::LogintoAccount()
 			}
 			lobby->SetUi();
 			lobby->show();
-			lobby->DisplayUsers();
 			hide();
 		}		
 	}

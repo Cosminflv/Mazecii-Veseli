@@ -27,6 +27,18 @@
     <Filter Include="Source Files\Exceptions">
       <UniqueIdentifier>{73f094bf-6e52-483a-83de-ade90825a500}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Windows">
+      <UniqueIdentifier>{01d93350-f707-4a8e-9597-bb51d7585d75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Widgets">
+      <UniqueIdentifier>{1637a6e2-e78e-4f12-94ac-d5ae9872753c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Windows">
+      <UniqueIdentifier>{7e52548e-4bfe-466e-ab2e-1e3b6c8b458c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Widgets">
+      <UniqueIdentifier>{7a65e184-c203-480f-812b-72846c8f6521}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="Client.qrc">
@@ -35,33 +47,9 @@
     <QtUic Include="Client.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtMoc Include="Client.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <ClCompile Include="Client.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ChatWidget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ScribbleArea.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TimerWidget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerWidget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ColorWidget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WordWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ClientException.cpp">
@@ -76,41 +64,50 @@
     <ClCompile Include="WordRequestException.cpp">
       <Filter>Source Files\Exceptions</Filter>
     </ClCompile>
-    <ClCompile Include="Register.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Login.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PasswordException.cpp">
       <Filter>Source Files\Exceptions</Filter>
-    </ClCompile>
-    <ClCompile Include="Difficulty.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ChatRequestException.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Lobby.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PlayerClient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ChatRequestException.cpp">
+      <Filter>Source Files\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="ChatWidget.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="Client.cpp">
+      <Filter>Source Files\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorWidget.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="Difficulty.cpp">
+      <Filter>Source Files\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Lobby.cpp">
+      <Filter>Source Files\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Login.cpp">
+      <Filter>Source Files\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerWidget.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="Register.cpp">
+      <Filter>Source Files\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="ScribbleArea.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="TimerWidget.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="WordWidget.cpp">
+      <Filter>Source Files\Widgets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ChatWidget.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ScribbleArea.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerWidget.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WordWidget.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ClientException.h">
       <Filter>Header Files\Exceptions</Filter>
     </ClInclude>
@@ -129,40 +126,47 @@
     <ClInclude Include="PasswordException.h">
       <Filter>Header Files\Exceptions</Filter>
     </ClInclude>
-    <ClInclude Include="ChatRequestException.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerClient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ChatRequestException.h">
+      <Filter>Header Files\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="ChatWidget.h">
+      <Filter>Header Files\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerWidget.h">
+      <Filter>Header Files\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="ScribbleArea.h">
+      <Filter>Header Files\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="WordWidget.h">
+      <Filter>Header Files\Widgets</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="TimerWidget.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="ColorWidget.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="Register.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="Login.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="Difficulty.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Windows</Filter>
+    </QtMoc>
+    <QtMoc Include="Client.h">
+      <Filter>Header Files\Windows</Filter>
     </QtMoc>
     <QtMoc Include="Lobby.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Windows</Filter>
     </QtMoc>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Input.txt">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="Players.txt">
-      <Filter>Source Files</Filter>
-    </Text>
+    <QtMoc Include="Login.h">
+      <Filter>Header Files\Windows</Filter>
+    </QtMoc>
+    <QtMoc Include="Register.h">
+      <Filter>Header Files\Windows</Filter>
+    </QtMoc>
+    <QtMoc Include="ColorWidget.h">
+      <Filter>Header Files\Widgets</Filter>
+    </QtMoc>
+    <QtMoc Include="TimerWidget.h">
+      <Filter>Header Files\Widgets</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Register.ui">

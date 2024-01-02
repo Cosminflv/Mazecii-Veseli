@@ -12,7 +12,6 @@
 #include "crow.h"
 #include <cpr/cpr.h>
 
-
 class Login : public QMainWindow
 {
 	Q_OBJECT

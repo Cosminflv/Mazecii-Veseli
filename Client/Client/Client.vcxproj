@@ -148,10 +148,6 @@
     <ClInclude Include="ScribbleArea.h" />
     <QtMoc Include="TimerWidget.h" />
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="Input.txt" />
-    <Text Include="Players.txt" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
     <Import Project="$(QtMsBuild)\qt.targets" />

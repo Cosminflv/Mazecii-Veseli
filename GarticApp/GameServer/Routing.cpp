@@ -6,7 +6,6 @@
 #include "Timer.h"
 #include <filesystem>
 #include <memory>
-
 #include "Timer.h"
 #include <crow.h>
 #include <sqlite_orm/sqlite_orm.h>
@@ -15,8 +14,8 @@
 #include"PlayerDB.h"
 #include <thread>
 
-std::string m_hiddenWord="";
-std::string m_seenWord="";
+std::string m_hiddenWord = "";
+std::string m_seenWord = "";
 
 void Routing::Run(Game& game)
 {
@@ -48,22 +47,37 @@ void Routing::Run(Game& game)
 				return crow::response(200);
 		});
 
-	CROW_ROUTE(m_app, "/playerinfo")([&game]()
-		{
-			std::vector<crow::json::wvalue> playersJson;
-			for (const auto& player : game.GetPlayers())
+	CROW_ROUTE(m_app, "/playerinfo")
+		.methods("GET"_method)
+		([&game]()
 			{
-				crow::json::wvalue p
+				std::vector<crow::json::wvalue> playersJson;
+				if (!game.GetPlayers().empty())
 				{
-					{"Username", player->GetUsername()}, {"PlayerRole", player->GetPlayerRoleAsString()},
-					{"Score", player->GetScore()}, {"Status", player->GetPlayerStatus()},
-					{"AdminRole", player->GetAdminRoleAsString()}
-				};
+					for (size_t i = 0; i < game.GetPlayers().size(); i++)
+					{
+						/*if (i == 0)
+						{
+							game.GetPlayers()[i].get()->SetAdminRole(AdminRole::Admin);
+						}*/
+						game.GetPlayers()[i].get()->SetAdminRole(AdminRole::NonAdmin);
+						std::cout << game.GetPlayers()[i].get()->GetAdminRoleAsString() << "\n";
+					}
 
-				playersJson.push_back(p);
-			}
-			return crow::json::wvalue{ playersJson };
-		});
+					for (const auto& player : game.GetPlayers())
+					{
+						crow::json::wvalue p
+						{
+							{"Username", player->GetUsername()}, {"PlayerRole", player->GetPlayerRoleAsString()},
+							{"Score", player->GetScore()}, {"Status", player->GetPlayerStatus()},
+							{"AdminRole", player->GetAdminRoleAsString()}
+						};
+
+						playersJson.push_back(p);
+					}
+				}
+				return crow::json::wvalue{ playersJson };
+			});
 
 	CROW_ROUTE(m_app, "/users")([&storage]()
 		{
@@ -261,13 +275,14 @@ void Routing::Run(Game& game)
 				PlayerDB user;
 				user.SetUsername(username);
 				user.SetPassword(password);
-
-				PlayerPtr player = std::make_shared<Player>(username);
-				game.AddPlayer(player);
-				game.GetPlayers()[0].get()->SetAdminRoleAsString("Admin");
 				
+
 				if (storage.CheckUser(username, password) == true)
 				{
+					PlayerPtr player = std::make_shared<Player>(username);
+					game.AddPlayer(player);
+					std::cout << "ADDED PLAYER: " << player.get()->GetUsername() << "\n";
+
 					std::cout << "Received username: " << player.get()->GetUsername() << std::endl;
 					std::cout << "Received password: " << password << std::endl;
 					//db.replace(user);
