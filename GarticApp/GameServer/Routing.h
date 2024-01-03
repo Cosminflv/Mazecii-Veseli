@@ -6,7 +6,7 @@
 class Routing
 {
 public:
-	Routing(GameStorage& storage);
+	Routing(GameStorage& storage, Game& game);
 	void Run(Game& game);
 private:
 	crow::SimpleApp m_app;

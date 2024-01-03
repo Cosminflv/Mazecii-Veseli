@@ -17,7 +17,7 @@ void PlayerWidget::setUpPlayerUI()
 	m_playerList->setSpacing(3.6);
 	m_playerList->setFixedHeight(400);
 
-	/*cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:18080/playerinfo" });
+	cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:18080/playerinfo" });
 
 	if (response.error) {
 		throw(PlayerRequestException("Player Request has failed"));
@@ -30,16 +30,16 @@ void PlayerWidget::setUpPlayerUI()
 		QString name = fromJsonToQString(playerFromServer["Username"].s());
 		auto score = playerFromServer["Score"].u();
 		m_players.push_back({ name, score });
-	}*/
+	}
 
-	/*for (const auto& player : m_players)
+	for (const auto& player : m_players)
 	{
 		QString playerInfo = player.first + " - Score: " + QString::number(player.second);
 		QListWidgetItem* user = new QListWidgetItem(playerInfo);
 		user->setFont(QFont("8514oem", 13));
 		m_playerList->addItem(user);
 		m_playerList->show();
-	}*/
+	}
 }
 
 QString PlayerWidget::fromJsonToQString(const crow::json::detail::r_string value)

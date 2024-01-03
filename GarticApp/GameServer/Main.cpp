@@ -19,6 +19,6 @@ int main()
 {
 	Game g;
 	GameStorage storage;
-	Routing r(storage);
+	Routing r(storage, g);
 	r.Run(g);
 }

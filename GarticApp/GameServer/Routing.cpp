@@ -54,16 +54,6 @@ void Routing::Run(Game& game)
 				std::vector<crow::json::wvalue> playersJson;
 				if (!game.GetPlayers().empty())
 				{
-					for (size_t i = 0; i < game.GetPlayers().size(); i++)
-					{
-						/*if (i == 0)
-						{
-							game.GetPlayers()[i].get()->SetAdminRole(AdminRole::Admin);
-						}*/
-						game.GetPlayers()[i].get()->SetAdminRole(AdminRole::NonAdmin);
-						std::cout << game.GetPlayers()[i].get()->GetAdminRoleAsString() << "\n";
-					}
-
 					for (const auto& player : game.GetPlayers())
 					{
 						crow::json::wvalue p
@@ -72,7 +62,6 @@ void Routing::Run(Game& game)
 							{"Score", player->GetScore()}, {"Status", player->GetPlayerStatus()},
 							{"AdminRole", player->GetAdminRoleAsString()}
 						};
-
 						playersJson.push_back(p);
 					}
 				}
@@ -311,11 +300,9 @@ void Routing::Run(Game& game)
 
 				if (storage.CheckUser(username, password) == true)
 				{
-					PlayerPtr player = std::make_shared<Player>(username);
-					game.AddPlayer(player);
-					std::cout << "ADDED PLAYER: " << player.get()->GetUsername() << "\n";
+					std::cout << "ADDED PLAYER: " << username << "\n";
 
-					std::cout << "Received username: " << player.get()->GetUsername() << std::endl;
+					std::cout << "Received username: " << username << std::endl;
 					std::cout << "Received password: " << password << std::endl;
 					//db.replace(user);
 					handler.AddPlayer(username);
@@ -331,6 +318,7 @@ void Routing::Run(Game& game)
 	m_app.port(18080).multithreaded().run();
 }
 
-Routing::Routing(GameStorage& storage) : m_storage{ storage }
+Routing::Routing(GameStorage& storage, Game& game) : m_storage{ storage }
 {
+	m_routeHandler = RouteHandler(game);
 }
