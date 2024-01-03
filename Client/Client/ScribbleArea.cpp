@@ -40,6 +40,11 @@ ScribbleArea::ScribbleArea(QWidget* parent)
 	m_getDrawing = new QPushButton("see drawing", this);
 	m_getDrawing->setGeometry(300, 10, 130, 30);
 	connect(m_getDrawing, &QPushButton::clicked, this, &ScribbleArea::onGetDrawing);
+
+	m_timer = new QTimer(this);
+	m_timer->setInterval(1000);
+	m_timer->start();
+	connect(m_timer, &QTimer::timeout, this, &ScribbleArea::SendToSever);
 }
 
 void ScribbleArea::SetPenColor(const QColor& newColor)
@@ -214,7 +219,7 @@ void ScribbleArea::DrawLineTo(const QPoint& endPoint)
 
 	m_lastPoint = endPoint;
 
-	SendToSever();
+	//SendToSever();
 }
 
 void ScribbleArea::ResizeImage(QImage* image, const QSize& newSize)

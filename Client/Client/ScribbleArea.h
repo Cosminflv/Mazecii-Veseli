@@ -4,6 +4,7 @@
 #include <QImage>
 #include <QPoint>
 #include <QWidget>
+#include <QTimer>
 #include <qpainterpath.h>
 #include <QPushButton>
 #include <QColorDialog>
@@ -62,6 +63,8 @@ private:
 	QPushButton* m_clearButton;
 	QPushButton* m_selectColor;
 	QPushButton* m_getDrawing;
+
+	QTimer* m_timer;
 
 	std::vector<Coordinate> m_drawing;
 	std::vector<DrawingInfo> m_info;
