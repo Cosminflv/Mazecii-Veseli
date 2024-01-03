@@ -95,7 +95,7 @@ void ScribbleArea::PrintCoordinates(const QString& output)
 
 void ScribbleArea::SendToSever()
 {
-	std::thread([this]() {
+	//std::thread([this]() {
 		try {
 			crow::json::wvalue jsonVectors;
 			crow::json::wvalue::list coordinatesVect;
@@ -136,7 +136,7 @@ void ScribbleArea::SendToSever()
 
 			qDebug() << "Exception in SendToServer: " << e.what();
 		}
-		}).detach();
+		//}).detach();
 }
 
 ScribbleArea::~ScribbleArea()
