@@ -78,6 +78,8 @@ void Login::LogintoAccount()
 		if (statusResponse.status_code == 200)
 		{
 			Lobby* lobby = new Lobby();
+
+			//only using InserUser since /playerinfo doesn't work
 			lobby->InsertUser(PlayerClient{ m_username });
 			for (const auto& c : lobby->GetClients())
 			{

@@ -307,8 +307,7 @@ void Routing::Run(Game& game)
 				std::string password = jsonData["password"].s();
 				PlayerDB user;
 				user.SetUsername(username);
-				user.SetPassword(password);
-				
+				user.SetPassword(password);				
 
 				if (storage.CheckUser(username, password) == true)
 				{

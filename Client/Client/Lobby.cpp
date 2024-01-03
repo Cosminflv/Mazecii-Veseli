@@ -52,47 +52,37 @@ QString Lobby::FromJsonToQString(const crow::json::detail::r_string value)
 
 void Lobby::SetUi()
 {
-	//m_users[0].SetAdminRole("Admin");
+		//m_users[0].SetAdminRole("Admin");
+		
+//	!!!! THROWS SERVER ERROR !!!!!!!!!
+		
+		/*cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:18080/playerinfo" });
 
-		//cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:18080/playerinfo" });
-
-		/*if (response.error)
+		if (response.error)
 		{
 			qDebug() << "Player Request failed with error: " << response.error.message;
 			qDebug() << "HTTP status code: " << response.status_code;
 			throw(PlayerRequestException("FAIL - Player Request"));
-		}*/
+		}
 
-		//auto serverUsers = crow::json::load(response.text);
+		auto serverUsers = crow::json::load(response.text);
 
-
-		//cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:18080/playerinfo" });
-
-		//auto serverUsers = crow::json::load(response.text);
-
-		//for (const auto& user : serverUsers)
-		//{
-		//	PlayerClient client{ user["Username"].s(), user["Status"].s() };
-		//	std::cout << user["Username"].s() << user["Status"].s() << "\n";
-		//	m_users.push_back(client);
-		//}
-
-		//// Emit the signal to trigger the slot
-		//emit DisplayUsersSignal();
-
-		//m_userDisplay->setFont(QFont("8514oem", 13));
-		//for (const auto& u : m_users)
-		//{
-		//	QListWidgetItem* newUser = new QListWidgetItem(QString::fromUtf8(u.GetUsername().c_str()));
-		//	m_userDisplay->addItem(newUser);
-		//}
-		m_userDisplay->show();
-
-		/*for (const auto& user : serverUsers)
+		for (const auto& user : serverUsers)
 		{
 			PlayerClient client{ user["Username"].s(), user["Status"].s() };
+			std::cout << user["Username"].s() << user["Status"].s() << "\n";
 			m_users.push_back(client);
 		}*/
+
+		/*for (const auto& u : m_users)
+			{
+				QListWidgetItem* newUser = new QListWidgetItem(QString::fromUtf8(u.GetUsername().c_str()));
+				m_userDisplay->addItem(newUser);
+			}*/
+
+		m_userDisplay->setFont(QFont("8514oem", 13));		
+		m_userDisplay->show();
+
 		if (m_users[0].GetAdminRole() == "NonAdmin")
 		{
 			QLabel* infotext = new QLabel("Waiting for game\nto start...", this);
