@@ -1,5 +1,6 @@
-﻿#include "Timer.h"
-
+﻿#define _CRT_SECURE_NO_WARNINGS
+#include "Timer.h"
+#include <iostream>
 static std::chrono::milliseconds TimeInMillis(const std::chrono::steady_clock::time_point& initial_time)
 {
 	auto current_time = std::chrono::steady_clock::now();
@@ -28,6 +29,11 @@ Timer::~Timer()
 void Timer::SetNotifyChange(TimerCallback newFunc)
 {
 	m_notifyChange = newFunc;
+}
+
+void Timer::SetSecond(std::chrono::seconds second)
+{
+	m_messageSentSecond = second;
 }
 
 void Timer::SetTimerResolution(int ms)
@@ -87,7 +93,7 @@ void Timer::Run()
 		initial_time = std::chrono::steady_clock::now();
 
 		m_remainingTime = elapsedTime < m_remainingTime ? m_remainingTime - elapsedTime : std::chrono::milliseconds{ 0 };
-		if (GetRemainingTime() <= std::chrono::milliseconds(165000)) {
+		if (GetRemainingTime() <= std::chrono::milliseconds(30000)) {
 			if (m_toDecreaseTime >= std::chrono::milliseconds(7000)) {
 				m_toDecreaseTime -= std::chrono::milliseconds(7000);
 
@@ -95,6 +101,16 @@ void Timer::Run()
 					m_updateWord();  // se apelează callback-ul pentru actualizarea cuvântului
 				}
 			}
+		}
+
+		auto currentSecond = std::chrono::duration_cast<std::chrono::seconds>(
+			std::chrono::system_clock::now().time_since_epoch());
+
+		if (currentSecond == m_messageSentSecond)
+		{
+			std::chrono::milliseconds second = GetRemainingTime();
+			// Afișează minutul și secundele rămase în qDebug
+			std::cout << "----------------SECOND:" << second;
 		}
 		if (IsTimeExpired())
 		{

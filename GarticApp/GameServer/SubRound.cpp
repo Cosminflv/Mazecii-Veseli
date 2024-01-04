@@ -231,20 +231,6 @@ void SubRound::CalculateScore(const PlayerPtr& player, const std::string& word, 
 }
 
 
-void SubRound::ShowLetters(std::string& word) const
-{
-	int sizeOfWord = word.size();
-	int maxLettersToShow = sizeOfWord / 2;
-	std::string displayWord(sizeOfWord, '_');
-	std::cout << "Guess the word: " << displayWord << std::endl;
-	for (int i = 0; i < maxLettersToShow; ++i) {
-		std::this_thread::sleep_for(std::chrono::seconds(30)); //de modificat pentru a fi pus timer-ul general.
-		int randomIndex = rand() % sizeOfWord;
-		displayWord[randomIndex] = word[randomIndex];
-		std::cout << "Letter " << i + 1 << ": " << displayWord << std::endl;
-	}
-}
-
 bool SubRound::HaveAllPlayersGuessed() const
 {
 	if (m_counterGuessingPlayers == m_numberOfPlayers - 1)

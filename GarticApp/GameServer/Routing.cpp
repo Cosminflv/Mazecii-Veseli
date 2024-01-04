@@ -122,7 +122,6 @@ void Routing::Run()
 					{"username", player.username},
 					{"score", player.score}
 				};
-
 				usersJson.push_back(w);
 			};
 			return crow::json::wvalue{ usersJson };
@@ -177,34 +176,6 @@ void Routing::Run()
 				return crow::response(200);
 			});
 
-	CROW_ROUTE(m_app, "/receive_message")
-		.methods("POST"_method)
-		([&game, &handler](const crow::request& req)
-			{
-
-				crow::json::rvalue json_data = crow::json::load(req.body);
-				if (!json_data) {
-					return crow::response(400, "Invalid JSON format");
-				}
-
-				if (!json_data.has("username") || !json_data.has("message"))
-					return crow::response(400, "Invalid JSON format");
-
-				std::string username = json_data["username"].s();
-				std::string message = json_data["message"].s();
-				handler.WriteMessage(username, message);
-				std::cout << "Received message from " << username << ": " << message;
-
-				if (handler.CheckEnteredMessage(message)) {
-					//wonScore = subround.calculateScore(
-					//totalScore = m_game.GetLeaderBoard()[username] + wonScore
-					//update leaderboard m_game.UpdateLeaderBoard(username, totalScore)
-					//toate wrappuite intr-o metoda din handler
-				}
-
-				return crow::response(200);
-			});
-
 
 	CROW_ROUTE(m_app, "/registerinfo")
 		.methods("POST"_method)
@@ -254,7 +225,7 @@ void Routing::Run()
 			});
 
 
-	Timer T{ 3 };
+	Timer T{ 1 };
 	CROW_ROUTE(m_app, "/timer")([&T]()
 		{
 			std::chrono::milliseconds milliseconds = T.GetRemainingTime();
@@ -282,6 +253,51 @@ void Routing::Run()
 		([&handler, this]()
 			{
 				return m_hiddenWord;
+			});
+	CROW_ROUTE(m_app, "/receive_message")
+		.methods("POST"_method)
+		([&game, &handler, &T](const crow::request& req)
+			{
+
+				crow::json::rvalue json_data = crow::json::load(req.body);
+				if (!json_data) {
+					return crow::response(400, "Invalid JSON format");
+				}
+
+				if (!json_data.has("username") || !json_data.has("message"))
+					return crow::response(400, "Invalid JSON format");
+
+				std::string username = json_data["username"].s();
+				std::string message = json_data["message"].s();
+				handler.WriteMessage(username, message);
+				std::cout << "Received message from " << username << ": " << message;
+
+				if (handler.CheckEnteredMessage(message)) {
+
+					//wonScore = subround.calculateScore(
+					//totalScore = m_game.GetLeaderBoard()[username] + wonScore
+					//update leaderboard m_game.UpdateLeaderBoard(username, totalScore)
+					//toate wrappuite intr-o metoda din handler
+
+					T.SetSecond(std::chrono::duration_cast<std::chrono::seconds>(
+						std::chrono::system_clock::now().time_since_epoch()));
+				}
+				return crow::response(200);
+			});
+
+	//verificare secunda
+	CROW_ROUTE(m_app, "/send_second")
+		.methods("GET"_method)
+		([&T]() {
+		auto currentSecond = std::chrono::duration_cast<std::chrono::seconds>(
+			std::chrono::system_clock::now().time_since_epoch());
+
+		crow::json::wvalue secondJson
+		{
+			{"Second", static_cast<int>(currentSecond.count())},
+		};
+
+		return secondJson;
 			});
 
 	CROW_ROUTE(m_app, "/logininfo")

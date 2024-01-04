@@ -17,7 +17,6 @@ class __declspec(dllexport) Timer {
 public:
 	//Constructors
 	Timer(int total_minutes);
-
 	//Destructor
 	~Timer();
 
@@ -35,6 +34,8 @@ public:
 	void StartTimer();
 	void StopTimer();
 	void ResetTimer();
+
+	void SetSecond(std::chrono::seconds second);
 
 private:
 	void Run();
@@ -54,8 +55,10 @@ private:
 	std::chrono::milliseconds m_remainingTime;
 	std::chrono::milliseconds m_toDecreaseTime;
 	std::chrono::milliseconds m_timerResolution;
+	std::chrono::milliseconds m_messageSentSecond; //retine secunda la care mesajul este egal cu cuvantul
 
 	TimerCallback m_notifyChange;
 
 	TimerCallback m_updateWord;
+
 };

@@ -31,7 +31,6 @@ public:
 
 	void SeeWord(const std::string& word) const;
 	bool GuessWord(const std::string& word) const;
-	void ShowLetters(std::string& word) const;
 	void StartRound();
 	void StopRound();
 	int GetSecond();

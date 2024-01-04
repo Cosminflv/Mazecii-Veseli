@@ -35,15 +35,13 @@ Client::Client(QWidget* parent)
     mainLayout->setRowStretch(1, 3);
     mainLayout->setRowStretch(2, 2);
 
-    //preluare random a cuvantului din server in functie de dificultate
-    //m_wordWidget->UpdateWord(m_wordWidget->FetchHiddenWordFromServer(m_difficulty)); // 1 reprezinta dificultatea, modific ulterior cu ce se transmite prin butonul de dificultate din interfata grafica
-  //  m_wordWidget->UpdateWord(m_wordWidget->FetchHiddenWordFromServer(1));
-  
-
     QWidget* centralWidget = new QWidget(this);
     centralWidget->setLayout(mainLayout);
     setCentralWidget(centralWidget);
-    m_wordWidget->FetchTheWord(1);
+
+    //preia cuvantul din ruta
+    m_wordWidget->FetchTheWord(m_difficulty);
+
     setWindowTitle(tr("Scribble"));
     connect(m_timerWidget, &TimerWidget::timerUpdate, [this](const QString& timeString, const QPalette& textColor)
         {
@@ -51,8 +49,11 @@ Client::Client(QWidget* parent)
             m_timerWidget->GetTimeLabel()->setPalette(textColor);
         });
     connect(m_colorWidget, &ColorWidget::selectColor, m_scribbleArea, &ScribbleArea::SetPenColor);
+
+    //preia cuvantul updatat cu litere din ruta
     connect(m_timerWidget, &TimerWidget::wordUpdated, m_wordWidget, &WordWidget::UpdateWordFromServer);
     m_wordWidget->UpdateWord(m_wordWidget->FetchUpdatedWordFromServer());
+
     setFont(QFont("8514oem", 13));
 
 }
