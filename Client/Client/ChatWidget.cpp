@@ -110,7 +110,7 @@ void ChatWidget::fetchAndUpdateChat() {
 
 void ChatWidget::updateUi(std::vector<std::pair<QString, QString>> messages)
 {
-	//messageDisplay->clear();
+	messageDisplay->clear();
 	for (auto message : messages) {
 		auto user = message.first;
 		auto messageText = message.second;
