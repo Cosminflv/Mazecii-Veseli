@@ -19,12 +19,13 @@ public:
 
 	void InsertUser(const PlayerClient& client);	
 	std::vector<PlayerClient> GetClients() const;
-	void SetUi();
 	QString FromJsonToQString(const crow::json::detail::r_string value);	
+
+private:
+	void SetUi();
 
 private slots:
 	void StartGame();
-	void DisplayUsers();
 
 private:
 	Ui::LobbyClass ui;

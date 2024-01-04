@@ -18,6 +18,8 @@ Lobby::Lobby(QWidget* parent)
 	m_userDisplay->setSpacing(3.6);
 	m_userDisplay->setGeometry(80, 140, 230, 290);
 	m_userDisplay->setFont(QFont("8514oem", 13));
+
+	SetUi();
 }
 
 Lobby::~Lobby()
@@ -26,17 +28,6 @@ Lobby::~Lobby()
 void Lobby::InsertUser(const PlayerClient& client)
 {
 	m_users.push_back(client);
-}
-
-void Lobby::DisplayUsers()
-{
-	m_userDisplay->setFont(QFont("8514oem", 13));
-	for (const auto& u : m_users)
-	{
-		QListWidgetItem* newUser = new QListWidgetItem(QString::fromUtf8(u.GetUsername().c_str()));
-		m_userDisplay->addItem(newUser);
-	}
-	m_userDisplay->show();
 }
 
 std::vector<PlayerClient> Lobby::GetClients() const
@@ -53,8 +44,6 @@ QString Lobby::FromJsonToQString(const crow::json::detail::r_string value)
 void Lobby::SetUi()
 {
 	//m_users[0].SetAdminRole("NonAdmin");
-
-	//!!!! THROWS SERVER ERROR !!!!!!!!!
 
 	cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:18080/playerinfo" });
 
@@ -103,7 +92,6 @@ void Lobby::SetUi()
 		infotext->setGeometry(30, 30, 340, 100);
 		infotext->setFont(QFont("", 30));
 		infotext->setAlignment(Qt::AlignCenter);
-		DisplayUsers();
 		setStyleSheet("background-color:#e0ebe4");
 		m_userDisplay->setStyleSheet("background-color:");
 	}
@@ -117,7 +105,6 @@ void Lobby::SetUi()
 		m_startGame->setGeometry(125, 450, 150, 40);
 		m_startGame->setFont(QFont("", 17));
 		connect(m_startGame, &QPushButton::clicked, this, &Lobby::StartGame);
-		DisplayUsers();
 		setStyleSheet("background-color:#e0ebe4");
 		m_userDisplay->setStyleSheet("background-color:");
 		m_startGame->setStyleSheet("background-color:#ffe6cc; color:#5c8a74");
@@ -126,9 +113,6 @@ void Lobby::SetUi()
 
 void Lobby::StartGame()
 {
-	//difficulty window will show only for admin
-	//rest of the players will go into the game
-
 	Difficulty* d = new Difficulty();
 	d->SendUsername(m_users[0].GetUsername());
 
