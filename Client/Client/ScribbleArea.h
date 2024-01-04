@@ -8,6 +8,9 @@
 #include <qpainterpath.h>
 #include <QPushButton>
 #include <QColorDialog>
+#include <QGraphicsScene>
+#include <QGraphicsView>
+#include <QGraphicsLineItem>
 #include <vector>
 #include"crow.h"
 #include<cpr/cpr.h>
@@ -15,7 +18,7 @@
 using Coordinate = std::pair<int, int>;
 using DrawingInfo = std::pair<std::string, int>;
 
-class ScribbleArea : public QWidget
+class ScribbleArea : public QGraphicsView 
 {
 public:
 	ScribbleArea(QWidget* parent = 0);
@@ -33,6 +36,7 @@ public:
 	void SendToSever();
 
 	~ScribbleArea();
+
 private slots:
 	void onClearButtonClicked();
 	void onColorButtonClicked();
@@ -43,12 +47,9 @@ protected:
 	void mousePressEvent(QMouseEvent* event) override;
 	void mouseMoveEvent(QMouseEvent* event) override;
 	void mouseReleaseEvent(QMouseEvent* event) override;
-	void paintEvent(QPaintEvent* event) override;
-	void resizeEvent(QResizeEvent* event) override;
 
 private:
-	void DrawLineTo(const QPoint& endPoint);
-	void ResizeImage(QImage* image, const QSize& newSize);
+	void DrawLineTo(const QPointF& endPoint);
 
 	bool m_modified;
 	bool m_isScribbling;
@@ -56,19 +57,21 @@ private:
 
 	std::string m_colorCode;
 	QColor m_penColor;
-	QImage m_image;
-	QPoint m_lastPoint;
-	QPainterPath m_path;
+
+	QPointF m_lastPoint;
 
 	QPushButton* m_clearButton;
 	QPushButton* m_selectColor;
 	QPushButton* m_getDrawing;
+
+	QGraphicsScene* m_scene;
+	QGraphicsLineItem* m_currentLine;
 
 	QTimer* m_timer;
 
 	std::vector<Coordinate> m_drawing;
 	std::vector<DrawingInfo> m_info;
 
-	const QList<int> m_sizes = { 7, 14, 21 };
+	const QList<int> m_sizes = { 6, 14, 21 };
 };
 

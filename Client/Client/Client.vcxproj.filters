@@ -30,13 +30,13 @@
     <Filter Include="Header Files\Windows">
       <UniqueIdentifier>{01d93350-f707-4a8e-9597-bb51d7585d75}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Widgets">
-      <UniqueIdentifier>{1637a6e2-e78e-4f12-94ac-d5ae9872753c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Windows">
       <UniqueIdentifier>{7e52548e-4bfe-466e-ab2e-1e3b6c8b458c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Widgets">
+    <Filter Include="Header Files\Widgets &amp; View">
+      <UniqueIdentifier>{1637a6e2-e78e-4f12-94ac-d5ae9872753c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Widgets &amp;  View">
       <UniqueIdentifier>{7a65e184-c203-480f-812b-72846c8f6521}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -74,13 +74,13 @@
       <Filter>Source Files\Exceptions</Filter>
     </ClCompile>
     <ClCompile Include="ChatWidget.cpp">
-      <Filter>Source Files\Widgets</Filter>
+      <Filter>Source Files\Widgets &amp;  View</Filter>
     </ClCompile>
     <ClCompile Include="Client.cpp">
       <Filter>Source Files\Windows</Filter>
     </ClCompile>
     <ClCompile Include="ColorWidget.cpp">
-      <Filter>Source Files\Widgets</Filter>
+      <Filter>Source Files\Widgets &amp;  View</Filter>
     </ClCompile>
     <ClCompile Include="Difficulty.cpp">
       <Filter>Source Files\Windows</Filter>
@@ -92,19 +92,19 @@
       <Filter>Source Files\Windows</Filter>
     </ClCompile>
     <ClCompile Include="PlayerWidget.cpp">
-      <Filter>Source Files\Widgets</Filter>
+      <Filter>Source Files\Widgets &amp;  View</Filter>
     </ClCompile>
     <ClCompile Include="Register.cpp">
       <Filter>Source Files\Windows</Filter>
     </ClCompile>
     <ClCompile Include="ScribbleArea.cpp">
-      <Filter>Source Files\Widgets</Filter>
+      <Filter>Source Files\Widgets &amp;  View</Filter>
     </ClCompile>
     <ClCompile Include="TimerWidget.cpp">
-      <Filter>Source Files\Widgets</Filter>
+      <Filter>Source Files\Widgets &amp;  View</Filter>
     </ClCompile>
     <ClCompile Include="WordWidget.cpp">
-      <Filter>Source Files\Widgets</Filter>
+      <Filter>Source Files\Widgets &amp;  View</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -133,16 +133,16 @@
       <Filter>Header Files\Exceptions</Filter>
     </ClInclude>
     <ClInclude Include="ChatWidget.h">
-      <Filter>Header Files\Widgets</Filter>
+      <Filter>Header Files\Widgets &amp; View</Filter>
     </ClInclude>
     <ClInclude Include="PlayerWidget.h">
-      <Filter>Header Files\Widgets</Filter>
+      <Filter>Header Files\Widgets &amp; View</Filter>
     </ClInclude>
     <ClInclude Include="ScribbleArea.h">
-      <Filter>Header Files\Widgets</Filter>
+      <Filter>Header Files\Widgets &amp; View</Filter>
     </ClInclude>
     <ClInclude Include="WordWidget.h">
-      <Filter>Header Files\Widgets</Filter>
+      <Filter>Header Files\Widgets &amp; View</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -162,10 +162,10 @@
       <Filter>Header Files\Windows</Filter>
     </QtMoc>
     <QtMoc Include="ColorWidget.h">
-      <Filter>Header Files\Widgets</Filter>
+      <Filter>Header Files\Widgets &amp; View</Filter>
     </QtMoc>
     <QtMoc Include="TimerWidget.h">
-      <Filter>Header Files\Widgets</Filter>
+      <Filter>Header Files\Widgets &amp; View</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>

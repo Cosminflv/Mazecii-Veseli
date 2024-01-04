@@ -5,12 +5,15 @@
 #include <future>
 
 ScribbleArea::ScribbleArea(QWidget* parent)
+	: QGraphicsView(parent), m_scene(new QGraphicsScene(this)), m_currentLine(nullptr),
+	m_isScribbling(false), m_colorCode("#000000"), m_penWidth(6),
+	m_penColor(QString::fromUtf8(m_colorCode.c_str()))
 {
 	setAttribute(Qt::WA_StaticContents);
-	m_isScribbling = false;
-	m_colorCode = "#000000";
-	m_penColor = QColor(QString::fromUtf8(m_colorCode.c_str()));
-	m_penWidth = 7;
+	setRenderHint(QPainter::Antialiasing, true);
+	m_scene->setSceneRect(0, 0, width(), height());
+	setScene(m_scene);
+
 	int offset = 50;
 	int up = 0;
 
@@ -19,7 +22,7 @@ ScribbleArea::ScribbleArea(QWidget* parent)
 	connect(m_clearButton, &QPushButton::clicked, this, &ScribbleArea::onClearButtonClicked);
 
 	m_selectColor = new QPushButton("More Colors", this);
-	m_selectColor->setGeometry(420, 460, 120, 30);
+	m_selectColor->setGeometry(420, 440, 120, 30);
 	connect(m_selectColor, &QPushButton::clicked, this, &ScribbleArea::onColorButtonClicked);
 
 	for (const int& size : m_sizes)
@@ -42,7 +45,7 @@ ScribbleArea::ScribbleArea(QWidget* parent)
 	connect(m_getDrawing, &QPushButton::clicked, this, &ScribbleArea::onGetDrawing);
 
 	m_timer = new QTimer(this);
-	m_timer->setInterval(1000);
+	m_timer->setInterval(300);
 	m_timer->start();
 	connect(m_timer, &QTimer::timeout, this, &ScribbleArea::SendToSever);
 }
@@ -100,7 +103,7 @@ void ScribbleArea::PrintCoordinates(const QString& output)
 
 void ScribbleArea::SendToSever()
 {
-	//std::thread([this]() {
+	std::thread([this]() {
 		try {
 			crow::json::wvalue jsonVectors;
 			crow::json::wvalue::list coordinatesVect;
@@ -137,16 +140,17 @@ void ScribbleArea::SendToSever()
 				qDebug() << "FAIL - DRAWING.";
 			}
 		}
-		catch (const std::exception& e) 		{
+		catch (const std::exception& e) {
 
 			qDebug() << "Exception in SendToServer: " << e.what();
 		}
-		//}).detach();
+		}).detach();
 }
 
 ScribbleArea::~ScribbleArea()
 {
 	delete m_clearButton;
+	delete m_currentLine;
 }
 
 void ScribbleArea::mousePressEvent(QMouseEvent* event)
@@ -174,74 +178,27 @@ void ScribbleArea::mouseReleaseEvent(QMouseEvent* event)
 	}
 }
 
-void ScribbleArea::paintEvent(QPaintEvent* event)
+void ScribbleArea::DrawLineTo(const QPointF& endPoint)
 {
-	QPainter painter(this);
-	painter.setRenderHint(QPainter::Antialiasing, true);
-	painter.setRenderHint(QPainter::TextAntialiasing, true);
-	painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
-	QRect dirtyRect = event->rect();
 
-	painter.drawImage(dirtyRect, m_image, dirtyRect);
-}
+	QGraphicsLineItem* newLine = new QGraphicsLineItem();
+	newLine->setPen(QPen(m_penColor, m_penWidth, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+	newLine->setLine(QLineF(m_lastPoint, endPoint));
+	m_scene->addItem(newLine);
 
-void ScribbleArea::resizeEvent(QResizeEvent* event)
-{
-	if (width() > m_image.width() || height() > m_image.height()) {
-		int newWidth = qMax(width() + 128, m_image.width());
-		int newHeight = qMax(height() + 128, m_image.height());
-		ResizeImage(&m_image, QSize(newWidth, newHeight));
-		update();
-	}
-	QWidget::resizeEvent(event);
-}
-
-void ScribbleArea::DrawLineTo(const QPoint& endPoint)
-{
-	QPainter painter(&m_image);
-	painter.setRenderHint(QPainter::Antialiasing, true);
-	painter.setRenderHint(QPainter::TextAntialiasing, true);
-	painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
-	painter.setPen(QPen(m_penColor, m_penWidth, Qt::SolidLine, Qt::RoundCap,
-		Qt::RoundJoin));
-
-	painter.drawLine(m_lastPoint, endPoint);
-	m_modified = true;
-
-	// Draw the line points into the matrix
 	DrawInMatrix(m_lastPoint.x(), m_lastPoint.y());
 	DrawInMatrix(endPoint.x(), endPoint.y());
 
-	int rad = (m_penWidth / 2) + 2;
-	QRect boundingRect = QRect(m_lastPoint, endPoint).normalized().adjusted(-rad, -rad, +rad, +rad);
-
-	update(boundingRect);
-
 	m_lastPoint = endPoint;
-
-	//SendToSever();
 }
 
-void ScribbleArea::ResizeImage(QImage* image, const QSize& newSize)
-{
-	if (image->size() == newSize)
-		return;
-
-	QImage newImage(newSize, QImage::Format_RGB32);
-	newImage.fill(qRgb(255, 255, 255));
-	QPainter painter(&newImage);
-	painter.drawImage(QPoint(0, 0), *image);
-	*image = newImage;
-}
 
 void ScribbleArea::onClearButtonClicked()
 {
-	m_path = QPainterPath();
-	m_image.fill(qRgb(255, 255, 255));
-	PrintCoordinates("0_coordinates.txt");
+	m_scene->clear();
 	m_drawing.clear();
 	m_info.clear();
-	m_modified = true;
+	m_currentLine = nullptr; 
 	update();
 }
 
@@ -261,6 +218,7 @@ void ScribbleArea::onSelectColor(const QColor& color)
 
 void ScribbleArea::onGetDrawing()
 {
+	// checking to see how well the image is reproduced 
 	QDialog* drawingDialog = new QDialog(this);
 	drawingDialog->setWindowTitle("Drawing Viewer");
 	drawingDialog->setAttribute(Qt::WA_StaticContents);
@@ -274,7 +232,7 @@ void ScribbleArea::onGetDrawing()
 	painter.setRenderHint(QPainter::Antialiasing, true);
 	painter.setRenderHint(QPainter::TextAntialiasing, true);
 	painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
-	
+
 	for (size_t i = 0; i < m_drawing.size(); i++)
 	{
 		QColor color(QString::fromUtf8(m_info[i].first.c_str()));

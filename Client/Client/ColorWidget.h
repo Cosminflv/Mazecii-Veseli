@@ -29,7 +29,7 @@ private:
         "#006600", // dark green       
         "#0047b3", // dark blue       
         "#ff9933", // orange        
-        "#9966ff", // purple       
+        "#aa80ff", // purple       
         "#4d4d4d"  // gray
     };
 };

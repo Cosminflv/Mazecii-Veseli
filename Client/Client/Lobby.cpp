@@ -52,7 +52,7 @@ QString Lobby::FromJsonToQString(const crow::json::detail::r_string value)
 
 void Lobby::SetUi()
 {
-	m_users[0].SetAdminRole("Admin");
+	//m_users[0].SetAdminRole("NonAdmin");
 
 	//!!!! THROWS SERVER ERROR !!!!!!!!!
 
