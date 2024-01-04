@@ -17,8 +17,8 @@ namespace sql = sqlite_orm;
 
 int main()
 {
-	Game g;
+	std::unique_ptr<Game> g = std::make_unique<Game>();
 	GameStorage storage;
-	Routing r(storage, g);
-	r.Run(g);
+	Routing r(storage, std::move(g));
+	r.Run();
 }

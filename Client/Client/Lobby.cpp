@@ -69,9 +69,23 @@ void Lobby::SetUi()
 
 	for (const auto& user : serverUsers)
 	{
-		PlayerClient client{ user["Username"].s(), user["Status"].s() };
-		std::cout << user["Username"].s() << user["Status"].s() << "\n";
-		m_users.push_back(client);
+		if (user.has("Username") && user.has("Status")) {
+			if (user["Username"].t() == crow::json::type::String &&
+				user["Status"].t() == crow::json::type::String) {
+
+				PlayerClient client{ user["Username"].s(), user["Status"].s() };
+				std::cout << user["Username"].s() << user["Status"].s() << "\n";
+				m_users.push_back(client);
+			}
+			else {
+				// Handle incorrect data types
+				std::cerr << "Invalid data types for Username or Status\n";
+			}
+		}
+		else {
+			// Handle missing keys
+			std::cerr << "Missing keys Username or Status\n";
+		}
 	}
 
 	for (const auto& u : m_users)

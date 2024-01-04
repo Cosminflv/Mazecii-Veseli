@@ -6,8 +6,8 @@
 class Routing
 {
 public:
-	Routing(GameStorage& storage, Game& game);
-	void Run(Game& game);
+	Routing(GameStorage& storage, std::unique_ptr<Game> game);
+	void Run();
 private:
 	crow::SimpleApp m_app;
 	RouteHandler m_routeHandler;

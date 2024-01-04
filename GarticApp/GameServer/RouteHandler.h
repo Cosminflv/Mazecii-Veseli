@@ -6,7 +6,10 @@ class RouteHandler
 {
 public:
 	RouteHandler();
-	RouteHandler(const Game& game);
+	RouteHandler(std::shared_ptr<Game> m_game);
+
+	//Getters
+	std::shared_ptr<Game> GetGame();
 
 
 	bool CheckEnteredMessage(const std::string& message);
@@ -16,6 +19,6 @@ public:
 	std::string HideTheWord(std::string word);
 	std::string UpdateWord(std::string& word, std::string &currentWord);
 private:
-	Game m_game;
+	std::shared_ptr<Game> m_game;
 };
 
