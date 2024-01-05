@@ -8,9 +8,6 @@
 #include <qpainterpath.h>
 #include <QPushButton>
 #include <QColorDialog>
-#include <QGraphicsScene>
-#include <QGraphicsView>
-#include <QGraphicsLineItem>
 #include "PlayerClient.h"
 #include <vector>
 #include"crow.h"
@@ -19,13 +16,13 @@
 using Coordinate = std::pair<int, int>;
 using DrawingInfo = std::pair<std::string, int>;
 
-class ScribbleArea : public QGraphicsView 
+class ScribbleArea : public QWidget
 {
 public:
 	ScribbleArea(QWidget* parent = 0);
 
 	void SetUpUi();
-
+	void ResizeImage(QImage* image, const QSize& newSize);
 	PlayerClient GetClient() const;
 	void UpdatePlayerRole(const std::string& role);
 	void UpdateClient(const PlayerClient& you);
@@ -41,6 +38,8 @@ public:
 	void PrintCoordinates(const QString& output);
 
 	void SendToSever();
+	void UpdateDrawingUI();
+	void DrawFromServer();
 
 	~ScribbleArea();
 
@@ -54,9 +53,11 @@ protected:
 	void mousePressEvent(QMouseEvent* event) override;
 	void mouseMoveEvent(QMouseEvent* event) override;
 	void mouseReleaseEvent(QMouseEvent* event) override;
+	void paintEvent(QPaintEvent* event) override;
+	void resizeEvent(QResizeEvent* event) override;
 
 private:
-	void DrawLineTo(const QPointF& endPoint);
+	void DrawLineTo(const QPoint& endPoint);
 
 	PlayerClient m_you;
 
@@ -66,15 +67,14 @@ private:
 
 	std::string m_colorCode;
 	QColor m_penColor;
+	QImage m_image;
+	QPainterPath m_path;
 
-	QPointF m_lastPoint;
+	QPoint m_lastPoint;
 
 	QPushButton* m_clearButton;
 	QPushButton* m_selectColor;
 	QPushButton* m_getDrawing;
-
-	QGraphicsScene* m_scene;
-	QGraphicsLineItem* m_currentLine;
 
 	QTimer* m_timer;
 

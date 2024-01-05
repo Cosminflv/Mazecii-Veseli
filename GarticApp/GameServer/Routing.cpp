@@ -144,36 +144,67 @@ void Routing::Run()
 		});
 
 	CROW_ROUTE(m_app, "/drawing")
-		.methods("POST"_method)
-		([](const crow::request& req)
+		.methods("POST"_method, "GET"_method)
+		([this](const crow::request& req)
 			{
-				crow::json::rvalue jsonData = crow::json::load(req.body);
-				if (!jsonData)
+				if (req.method == crow::HTTPMethod::Post)
 				{
-					return crow::response(400, "Invalid JSON format");
-				}
+					crow::json::rvalue jsonData = crow::json::load(req.body);
+					if (!jsonData)
+					{
+						return crow::response(400, "Invalid JSON format");
+					}
 
-				if (!jsonData.has("Coordinates") || !jsonData.has("DrawingInfo"))
+					if (!jsonData.has("Coordinates") || !jsonData.has("DrawingInfo"))
+					{
+						return crow::response(400, "Invalid JSON format");
+					}
+
+					const auto& coordinatesJSON = jsonData["Coordinates"];
+					const auto& drawingInfoJSON = jsonData["DrawingInfo"];
+
+					std::vector<std::pair<int, int>> coordinates;
+					std::vector<std::pair<std::string, int>> drawingInfo;
+
+					for (size_t i = 0; i < coordinatesJSON.size(); i++)
+					{
+						const auto& coord = coordinatesJSON[i];
+						const auto& info = drawingInfoJSON[i];
+
+						coordinates.emplace_back(coord["x"].i(), coord["y"].i());
+						drawingInfo.emplace_back(info["color"].s(), info["width"].i());
+					}
+
+					m_receivedCoordinates = coordinates;
+					m_receivedInfo = drawingInfo;
+
+					return crow::response(200);
+				}
+				/*else if (req.method == crow::HTTPMethod::Get)
 				{
-					return crow::response(400, "Invalid JSON format");
-				}
+					crow::json::wvalue json;
+					crow::json::wvalue::list coordinates;
+					crow::json::wvalue::list info;
 
-				const auto& coordinatesJSON = jsonData["Coordinates"];
-				const auto& drawingInfoJSON = jsonData["DrawingInfo"];
+					for (size_t i = 0; i < m_receivedCoordinates.size(); i++)
+					{
+						crow::json::wvalue objC;
+						objC["x"] = m_receivedCoordinates[i].first;
+						objC["y"] = m_receivedCoordinates[i].second;
+						coordinates.push_back(objC);
 
-				std::vector<std::pair<int, int>> coordinates;
-				std::vector<std::pair<std::string, int>> drawingInfo;
+						crow::json::wvalue objI;
+						objI["color"] = m_receivedInfo[i].first;
+						objI["width"] = m_receivedInfo[i].second;
+						info.push_back(objI);
+					}
 
-				for (size_t i = 0; i < coordinates.size(); i++)
-				{
-					const auto& coord = coordinatesJSON[i];
-					const auto& info = drawingInfoJSON[i];
+					json["Coordinates"] = std::move(coordinates);
+					json["DrawingInfo"] = std::move(info);
 
-					coordinates.emplace_back(coord[0].i(), coord[1].i());
-					drawingInfo.emplace_back(info[0].s(), info[1].i());
-				}
-
-				return crow::response(200);
+					return crow::response(json);
+				}*/
+				return crow::response(444, "Method Not Allowed");
 			});
 
 

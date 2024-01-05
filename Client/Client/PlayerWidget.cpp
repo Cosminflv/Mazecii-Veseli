@@ -44,7 +44,7 @@ void PlayerWidget::DisplayPlayers()
 {
 	for (const auto& player : m_players)
 	{
-		QString playerInfo = QString::fromUtf8(player.GetUsername().c_str()) + " - Score: " + QString::number(player.GetScore());
+		QString playerInfo = QString::fromUtf8(player.GetUsername().c_str()) + "\n[" + QString::number(player.GetScore()) + " points]";
 		QListWidgetItem* user = new QListWidgetItem(playerInfo);
 		user->setFont(QFont("8514oem", 13));
 		m_playerList->addItem(user);
@@ -55,4 +55,26 @@ void PlayerWidget::DisplayPlayers()
 void PlayerWidget::UpdateList(const std::vector<PlayerClient>& clients)
 {
 	m_players = clients;
+}
+
+void PlayerWidget::UpdateScoreUI(const PlayerClient& client, const int16_t& newScore)
+{
+	for (int i = 0; i < m_players.size(); i++)
+	{
+		if (m_players[i].GetUsername() == client.GetUsername())
+		{
+			m_players[i].UpdateScore(newScore);
+
+			if (i < m_playerList->count())
+			{
+				QListWidgetItem* item = m_playerList->item(i);
+				if (item)
+				{
+					QString playerInfo = QString::fromUtf8(m_players[i].GetUsername().c_str()) + "\n[" + QString::number(m_players[i].GetScore()) + " points]";
+					item->setText(playerInfo);
+				}
+			}
+			break; 
+		}
+	}
 }

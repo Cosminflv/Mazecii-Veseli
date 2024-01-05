@@ -12,5 +12,7 @@ private:
 	crow::SimpleApp m_app;
 	RouteHandler m_routeHandler;
 	GameStorage m_storage;
+	std::vector<std::pair<int, int>> m_receivedCoordinates;
+	std::vector<std::pair<std::string, int>> m_receivedInfo;
 };
 

@@ -5,14 +5,10 @@
 #include <future>
 
 ScribbleArea::ScribbleArea(QWidget* parent)
-	: QGraphicsView(parent), m_scene(new QGraphicsScene(this)), m_currentLine(nullptr),
-	m_isScribbling(false), m_colorCode("#000000"), m_penWidth(6),
+	: m_isScribbling(false), m_colorCode("#000000"), m_penWidth(6),
 	m_penColor(QString::fromUtf8(m_colorCode.c_str()))
 {
 	setAttribute(Qt::WA_StaticContents);
-	setRenderHint(QPainter::Antialiasing, true);
-	m_scene->setSceneRect(0, 0, width(), height());
-	setScene(m_scene);
 }
 
 void ScribbleArea::SetUpUi()
@@ -21,7 +17,6 @@ void ScribbleArea::SetUpUi()
 	{
 		int offset = 50;
 		int up = 0;
-
 		m_clearButton = new QPushButton("Clear Screen", this);
 		m_clearButton->setGeometry(10, 10, 130, 30);
 		connect(m_clearButton, &QPushButton::clicked, this, &ScribbleArea::onClearButtonClicked);
@@ -49,14 +44,32 @@ void ScribbleArea::SetUpUi()
 		m_getDrawing->setGeometry(300, 10, 130, 30);
 		connect(m_getDrawing, &QPushButton::clicked, this, &ScribbleArea::onGetDrawing);
 
-		m_timer = new QTimer(this);
+		m_timer = new QTimer(this);		
+		connect(m_timer, &QTimer::timeout, this, &ScribbleArea::SendToSever);
 		m_timer->setInterval(300);
 		m_timer->start();
-		connect(m_timer, &QTimer::timeout, this, &ScribbleArea::SendToSever);
 	}
-	// else --> UpdateUi function :-{
+	/*else
+	{
+		m_timer = new QTimer(this);		
+		connect(m_timer, &QTimer::timeout, this, &ScribbleArea::UpdateDrawingUI);
+		connect(m_timer, &QTimer::timeout, this, &ScribbleArea::DrawFromServer);
+		m_timer->setInterval(300);
+		m_timer->start();
+	}*/
 }
 
+void ScribbleArea::ResizeImage(QImage* image, const QSize& newSize)
+{
+	if (image->size() == newSize)
+		return;
+
+	QImage newImage(newSize, QImage::Format_RGB32);
+	newImage.fill(qRgb(255, 255, 255));
+	QPainter painter(&newImage);
+	painter.drawImage(QPoint(0, 0), *image);
+	*image = newImage;
+}
 
 PlayerClient ScribbleArea::GetClient() const
 {
@@ -142,8 +155,8 @@ void ScribbleArea::SendToSever()
 			for (const auto& coordinate : m_drawing)
 			{
 				crow::json::wvalue obj;
-				obj["first"] = coordinate.first;
-				obj["second"] = coordinate.second;
+				obj["x"] = coordinate.first;
+				obj["y"] = coordinate.second;
 				coordinatesVect.push_back(obj);
 			}
 
@@ -152,8 +165,8 @@ void ScribbleArea::SendToSever()
 			for (const auto& info : m_info)
 			{
 				crow::json::wvalue obj;
-				obj["first"] = info.first;
-				obj["second"] = info.second;
+				obj["color"] = info.first;
+				obj["width"] = info.second;
 				infoVect.push_back(obj);
 			}
 
@@ -177,10 +190,76 @@ void ScribbleArea::SendToSever()
 		}).detach();
 }
 
+void ScribbleArea::UpdateDrawingUI()
+{
+	std::thread([this]() {		
+		try {
+
+			cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:18080/drawing" });
+			
+
+			if (response.status_code == 200)
+			{
+				auto drawing = crow::json::load(response.text);
+				if (drawing.has("Coordinates") && drawing.has("DrawingInfo"))
+				{
+					const auto& coordJSON = drawing["Coordinates"];
+					const auto& infoJSON = drawing["DrawingInfo"];
+
+					for (size_t i = 0; i < coordJSON.size(); i++)
+					{
+						const auto& coord = coordJSON[i];
+						const auto& info = infoJSON[i];
+
+						m_drawing.emplace_back(coord[i].i(), coord[i].i());
+						m_info.emplace_back(info[i].s(), info[i].i());
+					}
+					
+				}
+			}
+			else
+			{
+				qDebug() << "FAIL - Status code: " << response.status_code;
+			}
+			
+		}
+		catch (const std::exception& e)
+		{
+			qDebug() << "Drawing request exception: " << e.what();
+		}
+		
+	}).detach();
+}
+
+void ScribbleArea::DrawFromServer()
+{
+	QPainter painter(this);
+	painter.setRenderHint(QPainter::Antialiasing, true);
+	painter.setRenderHint(QPainter::TextAntialiasing, true);
+	painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
+
+	for (size_t i = 0; i < m_drawing.size(); i++)
+	{
+		QColor color(QString::fromUtf8(m_info[i].first.c_str()));
+		painter.setPen(QPen(color, m_info[i].second, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+		
+		int x1 = m_drawing[i - 1].first;
+		int y1 = m_drawing[i - 1].second;
+		int x2 = m_drawing[i].first;
+		int y2 = m_drawing[i].second;
+
+		painter.drawLine(x1, y1, x2, y2);
+
+		/*int x = m_drawing[i].first;
+		int y = m_drawing[i].second;
+
+		painter.drawPoint(x, y);*/
+	}
+}
+
 ScribbleArea::~ScribbleArea()
 {
 	delete m_clearButton;
-	delete m_currentLine;
 }
 
 void ScribbleArea::mousePressEvent(QMouseEvent* event)
@@ -218,25 +297,60 @@ void ScribbleArea::mouseReleaseEvent(QMouseEvent* event)
 	}
 }
 
-void ScribbleArea::DrawLineTo(const QPointF& endPoint)
+void ScribbleArea::paintEvent(QPaintEvent* event)
 {
-	QGraphicsLineItem* newLine = new QGraphicsLineItem();
-	newLine->setPen(QPen(m_penColor, m_penWidth, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-	newLine->setLine(QLineF(m_lastPoint, endPoint));
-	m_scene->addItem(newLine);
+	QPainter painter(this);
+	painter.setRenderHint(QPainter::Antialiasing, true);
+	painter.setRenderHint(QPainter::TextAntialiasing, true);
+	painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
+	QRect dirtyRect = event->rect();
 
+	painter.drawImage(dirtyRect, m_image, dirtyRect);
+}
+
+void ScribbleArea::resizeEvent(QResizeEvent* event)
+{
+	if (width() > m_image.width() || height() > m_image.height()) {
+		int newWidth = qMax(width() + 128, m_image.width());
+		int newHeight = qMax(height() + 128, m_image.height());
+		ResizeImage(&m_image, QSize(newWidth, newHeight));
+		update();
+	}
+	QWidget::resizeEvent(event);
+}
+
+void ScribbleArea::DrawLineTo(const QPoint& endPoint)
+{
+	QPainter painter(&m_image);
+	painter.setRenderHint(QPainter::Antialiasing, true);
+	painter.setRenderHint(QPainter::TextAntialiasing, true);
+	painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
+	painter.setPen(QPen(m_penColor, m_penWidth, Qt::SolidLine, Qt::RoundCap,
+		Qt::RoundJoin));
+
+	painter.drawLine(m_lastPoint, endPoint);
+	m_modified = true;
+
+	// draw line points into the matrix
 	DrawInMatrix(m_lastPoint.x(), m_lastPoint.y());
 	DrawInMatrix(endPoint.x(), endPoint.y());
+
+	int rad = (m_penWidth / 2) + 2;
+	QRect boundingRect = QRect(m_lastPoint, endPoint).normalized().adjusted(-rad, -rad, +rad, +rad);
+
+	update(boundingRect);
 
 	m_lastPoint = endPoint;
 }
 
 void ScribbleArea::onClearButtonClicked()
 {
-	m_scene->clear();
+	m_path = QPainterPath();
+	m_image.fill(qRgb(255, 255, 255));
+	PrintCoordinates("0_coordinates.txt");
 	m_drawing.clear();
 	m_info.clear();
-	m_currentLine = nullptr; 
+	m_modified = true;
 	update();
 }
 
@@ -275,10 +389,17 @@ void ScribbleArea::onGetDrawing()
 	{
 		QColor color(QString::fromUtf8(m_info[i].first.c_str()));
 		painter.setPen(QPen(color, m_info[i].second, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-		int x = m_drawing[i].first;
+		/*int x = m_drawing[i].first;
 		int y = m_drawing[i].second;
 
-		painter.drawPoint(x, y);
+		painter.drawPoint(x, y);*/
+
+		int x1 = m_drawing[i - 1].first;
+		int y1 = m_drawing[i - 1].second;
+		int x2 = m_drawing[i].first;
+		int y2 = m_drawing[i].second;
+
+		painter.drawLine(x1, y1, x2, y2);
 	}
 
 	label->setPixmap(canvas);
