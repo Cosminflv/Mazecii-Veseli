@@ -88,12 +88,13 @@ void Timer::Run()
 		}
 
 		auto elapsedTime = TimeInMillis(initial_time);
-		m_toDecreaseTime += elapsedTime;
-
 		initial_time = std::chrono::steady_clock::now();
 
+	//	std::cout << " decrease time: " << m_toDecreaseTime << "\n";
 		m_remainingTime = elapsedTime < m_remainingTime ? m_remainingTime - elapsedTime : std::chrono::milliseconds{ 0 };
-		if (GetRemainingTime() <= std::chrono::milliseconds(30000)) {
+		if (GetRemainingTime() <= std::chrono::milliseconds(37000))
+		{
+			m_toDecreaseTime += elapsedTime;
 			if (m_toDecreaseTime >= std::chrono::milliseconds(7000)) {
 				m_toDecreaseTime -= std::chrono::milliseconds(7000);
 
