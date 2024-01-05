@@ -151,11 +151,14 @@ std::string SubRound::GetSeenWord()
 }
 
 
-int SubRound::GetSecond()
+void SubRound::SetSecond(std::chrono::seconds second)
 {
-	auto milliseconds = m_timer.GetRemainingTime();
-	int seconds = static_cast<int>(milliseconds.count()) / 1000;
-	return seconds;
+	m_second = second;
+}
+
+std::chrono::seconds SubRound::GetSecond()
+{
+	return m_second;
 }
 
 void SubRound::ChoosePainter(std::vector<Player*>& players)
@@ -173,7 +176,7 @@ void SubRound::ChoosePainter(std::vector<Player*>& players)
 }
 
 
-void SubRound::CalculateScore(const PlayerPtr& player, const std::string& word, const std::vector<PlayerPtr>& opponents)
+void SubRound::CalculateScore(const PlayerPtr& player, const std::string& word, const std::vector<PlayerPtr>& opponents, Timer& T)
 {
 	player->GetPlayerRole();
 	if (player->GetPlayerRole() == PlayerRole::Guesser)
@@ -181,17 +184,17 @@ void SubRound::CalculateScore(const PlayerPtr& player, const std::string& word, 
 		bool hasGuessedCorrectly = false; 
 		if (player->GetPlayerRole() == PlayerRole::Guesser)
 		{
-			while (GetSecond() < m_duration && !hasGuessedCorrectly)
+			while (!hasGuessedCorrectly)
 			{
 				if (SubRound::GuessWord(word))
 				{
 					hasGuessedCorrectly = true;
-					std::cout << "Guessed at second: " << GetSecond() << std::endl; //de modificat cu timer-ul din DLL
-					if (GetSecond() < m_duration / 2)
+					std::cout << "Guessed at second: " << GetSecond() << std::endl; 
+					if (GetSecond() < std::chrono::seconds(30))
 						player->SetScore(100);
 					else
 					{
-						int score = static_cast<int>(std::round(((60.0 - GetSecond()) * 100) / 30));
+						int score = static_cast<int>(std::round(((60 - std::chrono::duration_cast<std::chrono::seconds>(GetSecond()).count()) * 100) / 30));
 						player->SetScore(score);
 					}
 					break;
@@ -227,7 +230,6 @@ void SubRound::CalculateScore(const PlayerPtr& player, const std::string& word, 
 		}
 		else
 		{
-			// Nu există adversari care au ghicit corect
 			player->SetScore(-100);
 		}
 	}

@@ -36,6 +36,11 @@ void Timer::SetSecond(std::chrono::seconds second)
 	m_messageSentSecond = second;
 }
 
+std::chrono::seconds Timer::GetSecond()
+{
+	return m_messageSentSecond;
+}
+
 void Timer::SetTimerResolution(int ms)
 {
 	m_timerResolution = static_cast<std::chrono::milliseconds>(ms);
@@ -90,7 +95,6 @@ void Timer::Run()
 		auto elapsedTime = TimeInMillis(initial_time);
 		initial_time = std::chrono::steady_clock::now();
 
-	//	std::cout << " decrease time: " << m_toDecreaseTime << "\n";
 		m_remainingTime = elapsedTime < m_remainingTime ? m_remainingTime - elapsedTime : std::chrono::milliseconds{ 0 };
 		if (GetRemainingTime() <= std::chrono::milliseconds(37000))
 		{
@@ -109,9 +113,10 @@ void Timer::Run()
 
 		if (currentSecond == m_messageSentSecond)
 		{
-			std::chrono::milliseconds second = GetRemainingTime();
-			// Afișează minutul și secundele rămase în qDebug
-			std::cout << "----------------SECOND:" << second;
+			std::chrono::milliseconds milliseconds = GetRemainingTime();
+			auto seconds = std::chrono::duration_cast<std::chrono::seconds>(milliseconds);
+			SetSecond(seconds);
+			std::cout << "----------------SECOND:" << GetSecond();
 		}
 		if (IsTimeExpired())
 		{

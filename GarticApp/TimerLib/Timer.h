@@ -36,6 +36,8 @@ public:
 	void ResetTimer();
 
 	void SetSecond(std::chrono::seconds second);
+	std::chrono::seconds GetSecond();
+	
 
 private:
 	void Run();
@@ -55,10 +57,11 @@ private:
 	std::chrono::milliseconds m_remainingTime;
 	std::chrono::milliseconds m_toDecreaseTime;
 	std::chrono::milliseconds m_timerResolution;
-	std::chrono::milliseconds m_messageSentSecond; //retine secunda la care mesajul este egal cu cuvantul
+	std::chrono::seconds m_messageSentSecond; //retine secunda la care s-a ghicit cuvantul
 
 	TimerCallback m_notifyChange;
 
 	TimerCallback m_updateWord;
+
 
 };

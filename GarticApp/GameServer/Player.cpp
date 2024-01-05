@@ -60,7 +60,7 @@ std::string Player::GetPlayerRoleAsString() const
 	if (m_playerRole == PlayerRole::Painter)
 		return "Painter";
 }
-void  Player::SetScore(int16_t points)
+void Player::SetScore(int16_t points)
 {
 	m_score = points;
 }
