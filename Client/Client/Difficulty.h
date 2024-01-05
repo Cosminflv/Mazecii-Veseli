@@ -5,6 +5,7 @@
 #include <QPushButton>
 #include <Qlabel>
 #include <QFontDatabase>
+#include "PlayerClient.h"
 
 class Difficulty : public QMainWindow
 {
@@ -14,11 +15,16 @@ public:
 	Difficulty(QWidget *parent = nullptr);
 	~Difficulty();
 
-	void SetSendDifficulty(const uint16_t& d);
 	uint16_t GetDifficultyFromWindow() const;
-	void SendUsername(const std::string& u);
-	std::string GetUsername() const;
+	std::string GetLoginUsername() const;	
+	std::vector<PlayerClient> GetClients() const;
+	PlayerClient GetClient() const;
 
+	void SetLoginUsername(const std::string& username);
+	void SendAllClients(const std::vector<PlayerClient>& clients);
+	void SetSendDifficulty(const uint16_t& d);
+	void SetClient(const PlayerClient& client);
+	
 private slots:
 	void SelectDifficulty();
 
@@ -30,5 +36,8 @@ private:
 	QPushButton* m_hard;
 
 	uint16_t m_difficulty;
-	std::string m_username;
+
+	std::string m_loginUsername;
+	PlayerClient m_you;
+	std::vector<PlayerClient> m_clientsToPass;
 };

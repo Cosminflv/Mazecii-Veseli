@@ -3,6 +3,7 @@
 PlayerDB::PlayerDB(const std::string& username, const std::string& password)
     :m_username{username},m_password{password}
 {
+    // Empty
 }
 
 std::string PlayerDB::GetUsername() const

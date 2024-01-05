@@ -11,6 +11,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QGraphicsLineItem>
+#include "PlayerClient.h"
 #include <vector>
 #include"crow.h"
 #include<cpr/cpr.h>
@@ -22,6 +23,12 @@ class ScribbleArea : public QGraphicsView
 {
 public:
 	ScribbleArea(QWidget* parent = 0);
+
+	void SetUpUi();
+
+	PlayerClient GetClient() const;
+	void UpdatePlayerRole(const std::string& role);
+	void UpdateClient(const PlayerClient& you);
 
 	void SetPenColor(const QColor& newColor);
 	void SetPenWidth(int newWidth);
@@ -50,6 +57,8 @@ protected:
 
 private:
 	void DrawLineTo(const QPointF& endPoint);
+
+	PlayerClient m_you;
 
 	bool m_modified;
 	bool m_isScribbling;

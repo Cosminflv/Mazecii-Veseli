@@ -4,6 +4,7 @@
 #include <QKeyEvent>
 #include <string>
 #include <QTimer>
+#include "PlayerClient.h"
 #include"crow.h"
 #include<cpr/cpr.h>
 

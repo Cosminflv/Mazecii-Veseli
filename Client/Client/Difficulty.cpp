@@ -34,24 +34,48 @@ Difficulty::Difficulty(QWidget *parent)
 Difficulty::~Difficulty()
 {}
 
+std::string Difficulty::GetLoginUsername() const
+{
+	return m_you.GetUsername();
+}
+
+void Difficulty::SetLoginUsername(const std::string& username)
+{
+	m_you.SetUsername(username);
+}
+
+std::vector<PlayerClient> Difficulty::GetClients() const
+{
+	return m_clientsToPass;
+}
+
+PlayerClient Difficulty::GetClient() const
+{
+	return m_you;
+}
+
+void Difficulty::SendAllClients(const std::vector<PlayerClient>& clients)
+{
+	m_clientsToPass = clients;
+}
+
 void Difficulty::SetSendDifficulty(const uint16_t& d)
 {
 	m_difficulty = d;
 }
 
+void Difficulty::SetClient(const PlayerClient& client)
+{
+	m_you.SetUsername(client.GetUsername());
+	m_you.SetAdminRole(client.GetAdminRole());
+	m_you.UpdatePlayerRole(client.GetPlayerRole());
+	m_you.UpdateScore(client.GetScore());
+	m_you.UpdateStatus(client.GetStatus());
+}
+
 uint16_t Difficulty::GetDifficultyFromWindow() const
 {
 	return m_difficulty;
-}
-
-void Difficulty::SendUsername(const std::string& u)
-{
-	m_username = u;
-}
-
-std::string Difficulty::GetUsername() const
-{
-	return m_username;
 }
 
 void Difficulty::SelectDifficulty()
@@ -72,18 +96,21 @@ void Difficulty::SelectDifficulty()
 	}
 
 	qDebug() << m_difficulty;
-
 	Client* w = new Client();
+	w->You(m_you);
+	qDebug() << "YOUR USERNAME: " << w->YourInstance().GetUsername();
+	qDebug() << "YOUR ROLE: " << w->YourInstance().GetPlayerRole();
+	w->SetUi();
+	w->GetScribbleArea()->UpdateClient(m_you);
+	w->GetScribbleArea()->SetUpUi();
 	w->SetDifficulty(m_difficulty);
 	w->GetWordWidget()->UpdateWord(w->GetWordWidget()->FetchHiddenWordFromServer(m_difficulty));
+	w->GetPlayerWidget()->UpdateList(m_clientsToPass);
+	w->GetPlayerWidget()->DisplayPlayers();	
 	//w->GetWordWidget()->UpdateWord(w->GetWordWidget()->HiddenWord(w->GetWordWidget()->FetchWordFromServer(m_difficulty)));
 	w->GetWordWidget()->GetWordLabel()->setFont(QFont("Rockwell", 20));
 	qDebug() << "client difficulty set:" << w->GetDifficulty();
-	w->GetChat()->SetClientUsername(m_username);
-	QString qUsername = QString::fromUtf8(m_username.c_str());
-	qDebug() << qUsername;
-	w->GetPlayerWidget()->InsertPlayer(qUsername, 0);	
+	w->GetChat()->SetClientUsername(m_you.GetUsername());
 	w->show();
-	w->GetPlayerWidget()->DisplayPlayers();
 	hide();	
 }

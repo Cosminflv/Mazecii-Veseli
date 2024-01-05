@@ -37,7 +37,7 @@ std::string ChatWidget::GetUsernameOfClient() const
 
 void ChatWidget::SetClientUsername(const std::string& user)
 {
-	this->m_username = user;
+	m_username = user;
 }
 
 void ChatWidget::sendMessage()
@@ -51,7 +51,7 @@ void ChatWidget::sendMessage()
 		messageDisplay->append(user + ": " + message);
 		messageInput->clear();
 	}
-	qDebug() << m_username << " " << m_message << "\n";
+	qDebug() << m_username << " - " << m_message << "\n";
 }
 
 void ChatWidget::keyPressEvent(QKeyEvent* e)

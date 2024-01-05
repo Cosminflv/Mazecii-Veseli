@@ -2,11 +2,16 @@
 #include <iostream>
 
 Player::Player(const std::string& username, PlayerRole role, int16_t score)
-	:m_username{ username }, m_playerRole{ role }, m_score{ score }, m_hasPainted{ false }, m_adminRole{ AdminRole::NonAdmin }
-{ }
+	:m_username{ username }, m_playerRole{ role },
+	m_score{ score }, m_hasPainted{ false }, m_adminRole{ AdminRole::NonAdmin }
+{
+	// Empty
+}
 
 Player::Player(const std::string& username) : m_username{ username }
-{ }
+{
+	// Empty
+}
 
 std::string Player::GetUsername() const
 {

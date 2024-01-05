@@ -18,16 +18,19 @@ Lobby::Lobby(QWidget* parent)
 	m_userDisplay->setSpacing(3.6);
 	m_userDisplay->setGeometry(80, 140, 230, 290);
 	m_userDisplay->setFont(QFont("8514oem", 13));
-
-	SetUi();
 }
 
 Lobby::~Lobby()
 {}
 
-void Lobby::InsertUser(const PlayerClient& client)
+std::string Lobby::GetLoginUsername() const
 {
-	m_users.push_back(client);
+	return m_loginUsername;
+}
+
+void Lobby::SetLoginUsername(const std::string& username)
+{
+	this->m_loginUsername = username;
 }
 
 std::vector<PlayerClient> Lobby::GetClients() const
@@ -43,8 +46,6 @@ QString Lobby::FromJsonToQString(const crow::json::detail::r_string value)
 
 void Lobby::SetUi()
 {
-	//m_users[0].SetAdminRole("NonAdmin");
-
 	cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:18080/playerinfo" });
 
 	if (response.error)
@@ -60,12 +61,26 @@ void Lobby::SetUi()
 	{
 		if (user.has("Username") && user.has("Status")) {
 			if (user["Username"].t() == crow::json::type::String &&
-				user["Status"].t() == crow::json::type::String) {
+				user["Status"].t() == crow::json::type::String)
+			{
+				int16_t score = static_cast<int16_t>(user["Score"].i());
+				PlayerClient client{ user["Username"].s(), user["Status"].s(), score, user["PlayerRole"].s(), user["AdminRole"].s()};
 
-				PlayerClient client{ user["Username"].s(), user["AdminRole"].s() };
-				qDebug() << "USERNAME: " <<  client.GetUsername() << " "
-					<< "STATUS: " << client.GetAdminRole() << "\n";
+				qDebug() << "\nUSERNAME: " << client.GetUsername() << "\nSTATUS: " << client.GetStatus() << "\nSCORE: " << client.GetScore()
+					<< "\nPLAYER ROLE: " << client.GetPlayerRole() << "\nADMIN ROLE: " << client.GetAdminRole() << "\n";
+
 				m_users.push_back(client);
+
+				if (m_loginUsername == user["Username"].s())
+				{
+					m_you.SetUsername(user["Username"].s());
+					m_you.UpdateStatus(user["Status"].s());
+					m_you.UpdateScore(static_cast<int16_t>(user["Score"].i()));
+					//m_you.UpdatePlayerRole(user["PlayerRole"].s());
+					m_you.UpdatePlayerRole("Painter");
+					m_you.SetAdminRole(user["AdminRole"].s());
+				}
+				
 			}
 			else {
 				// Handle incorrect data types
@@ -87,7 +102,7 @@ void Lobby::SetUi()
 	m_userDisplay->setFont(QFont("8514oem", 13));
 	m_userDisplay->show();
 
-	if (m_users[0].GetAdminRole() == "NonAdmin")
+	if (m_you.GetAdminRole() == "NonAdmin")
 	{
 		QLabel* infotext = new QLabel("Waiting for game\nto start...", this);
 		infotext->setGeometry(30, 30, 340, 100);
@@ -114,15 +129,17 @@ void Lobby::SetUi()
 
 void Lobby::StartGame()
 {
-	Difficulty* d = new Difficulty();
-	d->SendUsername(m_users[0].GetUsername());
-
+	Difficulty* d = new Difficulty();	
 	crow::json::wvalue json;
 	json["Gamestatus"] = "Playing";
 	std::string jsString = json.dump();
 	cpr::Response statusResponse = cpr::Post(cpr::Url("http://localhost:18080/gamestatus"), cpr::Body{ jsString });
 	if (statusResponse.status_code == 200)
 	{
+		qDebug() << "\nUSERNAME: " << m_you.GetUsername() << "\nSTATUS: " << m_you.GetStatus() << "\nSCORE: " << m_you.GetScore()
+			<< "\nPLAYER ROLE: " << m_you.GetPlayerRole() << "\nADMIN ROLE: " << m_you.GetAdminRole() << "\n";
+		d->SetClient(m_you);
+		d->SendAllClients(m_users);
 		d->show();
 		hide();
 	}

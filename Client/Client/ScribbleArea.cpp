@@ -13,41 +13,68 @@ ScribbleArea::ScribbleArea(QWidget* parent)
 	setRenderHint(QPainter::Antialiasing, true);
 	m_scene->setSceneRect(0, 0, width(), height());
 	setScene(m_scene);
+}
 
-	int offset = 50;
-	int up = 0;
-
-	m_clearButton = new QPushButton("Clear Screen", this);
-	m_clearButton->setGeometry(10, 10, 130, 30);
-	connect(m_clearButton, &QPushButton::clicked, this, &ScribbleArea::onClearButtonClicked);
-
-	m_selectColor = new QPushButton("More Colors", this);
-	m_selectColor->setGeometry(420, 440, 120, 30);
-	connect(m_selectColor, &QPushButton::clicked, this, &ScribbleArea::onColorButtonClicked);
-
-	for (const int& size : m_sizes)
+void ScribbleArea::SetUpUi()
+{
+	if (m_you.GetPlayerRole() == "Painter")
 	{
-		QPushButton* sizeButton = new QPushButton("\u2022", this);
-		sizeButton->setFont(QFont("Arial", 23 + up));
-		sizeButton->setGeometry(offset + 100, 10, 30, 30);
-		connect(sizeButton, &QPushButton::clicked, [this, size]()
-			{
-				SetPenWidth(size);
-			});
-		offset += 30 + 10;
-		up += 7;
+		int offset = 50;
+		int up = 0;
+
+		m_clearButton = new QPushButton("Clear Screen", this);
+		m_clearButton->setGeometry(10, 10, 130, 30);
+		connect(m_clearButton, &QPushButton::clicked, this, &ScribbleArea::onClearButtonClicked);
+
+		m_selectColor = new QPushButton("More Colors", this);
+		m_selectColor->setGeometry(420, 440, 120, 30);
+		connect(m_selectColor, &QPushButton::clicked, this, &ScribbleArea::onColorButtonClicked);
+
+		for (const int& size : m_sizes)
+		{
+			QPushButton* sizeButton = new QPushButton("\u2022", this);
+			sizeButton->setFont(QFont("Arial", 23 + up));
+			sizeButton->setGeometry(offset + 100, 10, 30, 30);
+			connect(sizeButton, &QPushButton::clicked, [this, size]()
+				{
+					SetPenWidth(size);
+				});
+			offset += 30 + 10;
+			up += 7;
+		}
+
+		m_drawing = std::vector<Coordinate>();
+
+		m_getDrawing = new QPushButton("see drawing", this);
+		m_getDrawing->setGeometry(300, 10, 130, 30);
+		connect(m_getDrawing, &QPushButton::clicked, this, &ScribbleArea::onGetDrawing);
+
+		m_timer = new QTimer(this);
+		m_timer->setInterval(300);
+		m_timer->start();
+		connect(m_timer, &QTimer::timeout, this, &ScribbleArea::SendToSever);
 	}
+	// else --> UpdateUi function :-{
+}
 
-	m_drawing = std::vector<Coordinate>();
 
-	m_getDrawing = new QPushButton("see drawing", this);
-	m_getDrawing->setGeometry(300, 10, 130, 30);
-	connect(m_getDrawing, &QPushButton::clicked, this, &ScribbleArea::onGetDrawing);
+PlayerClient ScribbleArea::GetClient() const
+{
+	return m_you;
+}
 
-	m_timer = new QTimer(this);
-	m_timer->setInterval(300);
-	m_timer->start();
-	connect(m_timer, &QTimer::timeout, this, &ScribbleArea::SendToSever);
+void ScribbleArea::UpdatePlayerRole(const std::string& role)
+{
+	m_you.UpdatePlayerRole(role);
+}
+
+void ScribbleArea::UpdateClient(const PlayerClient& you)
+{
+	m_you.SetUsername(you.GetUsername());
+	m_you.SetAdminRole(you.GetAdminRole());
+	m_you.UpdatePlayerRole(you.GetPlayerRole());
+	m_you.UpdateScore(you.GetScore());
+	m_you.UpdateStatus(you.GetStatus());
 }
 
 void ScribbleArea::SetPenColor(const QColor& newColor)
@@ -79,10 +106,13 @@ std::vector<Coordinate> ScribbleArea::GetDrawing() const
 
 void ScribbleArea::DrawInMatrix(int x, int y)
 {
-	if (x >= 0 && x < width() && y >= 0 && y < height())
+	if (m_you.GetPlayerRole() == "Painter")
 	{
-		m_drawing.push_back(std::make_pair(x, y));
-		m_info.push_back(std::make_pair(m_colorCode, m_penWidth));
+		if (x >= 0 && x < width() && y >= 0 && y < height())
+		{
+			m_drawing.push_back(std::make_pair(x, y));
+			m_info.push_back(std::make_pair(m_colorCode, m_penWidth));
+		}
 	}
 }
 
@@ -155,32 +185,41 @@ ScribbleArea::~ScribbleArea()
 
 void ScribbleArea::mousePressEvent(QMouseEvent* event)
 {
-	if (event->button() == Qt::LeftButton) {
-		m_lastPoint = event->pos();
-		m_isScribbling = true;
+	if (m_you.GetPlayerRole() == "Painter")
+	{
+		if (event->button() == Qt::LeftButton)
+		{
+			m_lastPoint = event->pos();
+			m_isScribbling = true;
+		}
 	}
 }
 
 void ScribbleArea::mouseMoveEvent(QMouseEvent* event)
 {
-	if ((event->buttons() & Qt::LeftButton) && m_isScribbling)
+	if (m_you.GetPlayerRole() == "Painter")
 	{
-		DrawLineTo(event->pos());
-		DrawInMatrix(event->pos().x(), event->pos().y());
+		if ((event->buttons() & Qt::LeftButton) && m_isScribbling)
+		{
+			DrawLineTo(event->pos());
+			DrawInMatrix(event->pos().x(), event->pos().y());
+		}
 	}
 }
 
 void ScribbleArea::mouseReleaseEvent(QMouseEvent* event)
 {
-	if (event->button() == Qt::LeftButton && m_isScribbling) {
-		DrawLineTo(event->pos());
-		m_isScribbling = false;
+	if (m_you.GetPlayerRole() == "Painter")
+	{
+		if (event->button() == Qt::LeftButton && m_isScribbling) {
+			DrawLineTo(event->pos());
+			m_isScribbling = false;
+		}
 	}
 }
 
 void ScribbleArea::DrawLineTo(const QPointF& endPoint)
 {
-
 	QGraphicsLineItem* newLine = new QGraphicsLineItem();
 	newLine->setPen(QPen(m_penColor, m_penWidth, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
 	newLine->setLine(QLineF(m_lastPoint, endPoint));
@@ -191,7 +230,6 @@ void ScribbleArea::DrawLineTo(const QPointF& endPoint)
 
 	m_lastPoint = endPoint;
 }
-
 
 void ScribbleArea::onClearButtonClicked()
 {

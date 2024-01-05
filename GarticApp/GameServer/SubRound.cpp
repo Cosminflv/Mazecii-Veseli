@@ -14,6 +14,7 @@ SubRound::SubRound() :
 	m_timer(1),
 	m_storage(createStorage("Database.sqlite")) // initial e createEmptyStorage
 {
+	// Empty
 }
 
 SubRound::SubRound(const std::vector<PlayerPtr>& players):
@@ -24,6 +25,7 @@ SubRound::SubRound(const std::vector<PlayerPtr>& players):
 	m_timer{1},
 	m_storage(createStorage("Database.sqlite"))
 {
+	// Empty
 }
 
 SubRound::SubRound(const SubRound& r) : 
@@ -35,6 +37,7 @@ SubRound::SubRound(const SubRound& r) :
 	m_timer { 1 },
 	m_seenWord {r.GetWord()}
 {
+	// Empty
 }
 
 SubRound::SubRound(const std::string& word, const int numberOfPlayers, Storage storage)

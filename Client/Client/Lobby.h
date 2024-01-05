@@ -17,11 +17,10 @@ public:
 	Lobby(QWidget *parent = nullptr);
 	~Lobby();
 
-	void InsertUser(const PlayerClient& client);	
+	std::string GetLoginUsername() const;
+	void SetLoginUsername(const std::string& username);
 	std::vector<PlayerClient> GetClients() const;
 	QString FromJsonToQString(const crow::json::detail::r_string value);	
-
-private:
 	void SetUi();
 
 private slots:
@@ -30,6 +29,8 @@ private slots:
 private:
 	Ui::LobbyClass ui;
 
+	std::string m_loginUsername;
+	PlayerClient m_you;
 	std::vector<PlayerClient> m_users;
 	QPushButton* m_startGame;
 	QListWidget* m_userDisplay;

@@ -9,6 +9,7 @@ PlayerWidget::PlayerWidget(QWidget* parent)
 
 PlayerWidget::~PlayerWidget()
 {
+	// Empty
 }
 
 void PlayerWidget::setUpPlayerUI()
@@ -16,57 +17,42 @@ void PlayerWidget::setUpPlayerUI()
 	m_playerList = new QListWidget(this);
 	m_playerList->setSpacing(3.6);
 	m_playerList->setFixedHeight(400);
-
-	cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:18080/playerinfo" });
-
-	if (response.error) {
-		throw(PlayerRequestException("Player Request has failed"));
-	}
-
-	auto playersFromServer = crow::json::load(response.text);
-
-	for (const auto& playerFromServer : playersFromServer) {
-
-		QString name = fromJsonToQString(playerFromServer["Username"].s());
-		auto score = playerFromServer["Score"].u();
-		m_players.push_back({ name, score });
-	}
-
-	for (const auto& player : m_players)
-	{
-		QString playerInfo = player.first + " - Score: " + QString::number(player.second);
-		QListWidgetItem* user = new QListWidgetItem(playerInfo);
-		user->setFont(QFont("8514oem", 13));
-		m_playerList->addItem(user);
-		m_playerList->show();
-	}
 }
 
 QString PlayerWidget::fromJsonToQString(const crow::json::detail::r_string value)
 {
 	std::string stringValue = std::string(value);
-
 	return QString::fromUtf8(stringValue.c_str(), static_cast<int>(stringValue.size()));
 }
 
-std::vector<std::pair<QString, u_int64>> PlayerWidget::GetPlayers() const
+std::vector<PlayerClient> PlayerWidget::GetPlayers() const
 {
 	return m_players;
 }
 
-void PlayerWidget::InsertPlayer(const QString& username, const u_int64& score)
+QListWidget* PlayerWidget::GetList() const
 {
-	m_players.push_back({ username,score });
+	return m_playerList;
+}
+
+void PlayerWidget::InsertPlayer(const PlayerClient& player)
+{
+	m_players.push_back(player);
 }
 
 void PlayerWidget::DisplayPlayers()
 {
 	for (const auto& player : m_players)
 	{
-		QString playerInfo = player.first + " - Score: " + QString::number(player.second);
+		QString playerInfo = QString::fromUtf8(player.GetUsername().c_str()) + " - Score: " + QString::number(player.GetScore());
 		QListWidgetItem* user = new QListWidgetItem(playerInfo);
 		user->setFont(QFont("8514oem", 13));
 		m_playerList->addItem(user);
 	}
 	m_playerList->show();
+}
+
+void PlayerWidget::UpdateList(const std::vector<PlayerClient>& clients)
+{
+	m_players = clients;
 }

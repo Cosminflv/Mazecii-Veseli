@@ -8,6 +8,7 @@
 #include "PlayerWidget.h"
 #include "ColorWidget.h"
 #include "WordWidget.h"
+#include "PlayerClient.h"
 #include <iostream>
 #include <numeric>
 
@@ -19,15 +20,24 @@ public:
     Client(QWidget *parent = nullptr);
     ~Client();
 
+    void SetUi();
+
     ChatWidget* GetChat() const;
     WordWidget* GetWordWidget() const;
     PlayerWidget* GetPlayerWidget() const;
-
+    PlayerClient YourInstance() const;
     uint16_t GetDifficulty() const;
+    ScribbleArea* GetScribbleArea() const;
+
     void SetDifficulty(const uint16_t& difficulty);
+    void SetYourUsername(const std::string& username);
+    void You(const PlayerClient& you);
 
 private:
     Ui::ClientClass ui;
+
+    PlayerClient m_you;
+
     ScribbleArea* m_scribbleArea;
     ChatWidget* m_chatWidget;
     TimerWidget* m_timerWidget;

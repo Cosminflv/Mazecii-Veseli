@@ -8,7 +8,6 @@ Game::Game(std::vector<PlayerPtr> players, std::map<PlayerPtr, int> leaderboard)
 	m_players{ players },
 	m_leaderboard{ leaderboard }
 {
-	//m_gameChat.WriteMessage({ "Server", "Hello" });
 	m_gameStatus = EGameStatus::Lobby;
 }
 
@@ -16,7 +15,6 @@ Game::Game()
 {
 	RoundPtr newRound = std::make_shared<Round>();
 	m_currRound = newRound;
-	//m_gameChat.WriteMessage({ "Server", "Hello" });
 	m_gameStatus = EGameStatus::Lobby;
 }
 

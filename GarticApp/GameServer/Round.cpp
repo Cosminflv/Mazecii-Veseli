@@ -15,6 +15,7 @@ Round::Round(const std::vector<PlayerPtr>& players)
 
 Round::Round(SubRoundPtr subRound, int numberOfPlayers) : m_subRound{ subRound }, m_numberOfPlayers{ numberOfPlayers }
 {
+	// Empty
 }
 
 void Round::CreateSubRound(const std::vector<PlayerPtr>& players)

@@ -78,6 +78,9 @@ void Login::LogintoAccount()
 		if (statusResponse.status_code == 200)
 		{
 			Lobby* lobby = new Lobby();
+			lobby->SetLoginUsername(m_username);
+			qDebug() << "SET LOGIN USERNAME TO LOBBY: " << lobby->GetLoginUsername();
+			lobby->SetUi();
 			lobby->show();
 			hide();
 		}		
