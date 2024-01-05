@@ -62,8 +62,9 @@ void Lobby::SetUi()
 			if (user["Username"].t() == crow::json::type::String &&
 				user["Status"].t() == crow::json::type::String) {
 
-				PlayerClient client{ user["Username"].s(), user["Status"].s() };
-				std::cout << user["Username"].s() << user["Status"].s() << "\n";
+				PlayerClient client{ user["Username"].s(), user["AdminRole"].s() };
+				qDebug() << "USERNAME: " <<  client.GetUsername() << " "
+					<< "STATUS: " << client.GetAdminRole() << "\n";
 				m_users.push_back(client);
 			}
 			else {

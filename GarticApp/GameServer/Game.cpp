@@ -130,7 +130,7 @@ void Game::UpdateLeaderboard()
 void Game::AddPlayer(PlayerPtr player)
 {
 	m_players.size() == 0 ? player.get()->SetAdminRole(AdminRole::Admin) : player.get()->SetAdminRole(AdminRole::NonAdmin);
-
+	//player.get()->SetAdminRole(AdminRole::NonAdmin);
 	m_players.push_back(player);
 }
 
