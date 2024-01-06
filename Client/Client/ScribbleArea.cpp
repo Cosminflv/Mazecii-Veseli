@@ -244,7 +244,7 @@ void ScribbleArea::DrawFromServer()
 	painter.setRenderHint(QPainter::TextAntialiasing, true);
 	painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
 
-	const int breakLineThreshold = 50;
+	const int breakLineThreshold = 100;
 
 	for (size_t i = 1; i < m_drawing.size(); i++)
 	{
@@ -302,6 +302,7 @@ void ScribbleArea::mouseReleaseEvent(QMouseEvent* event)
 	{
 		if (event->button() == Qt::LeftButton && m_isScribbling) {
 			DrawLineTo(event->pos());
+			DrawInMatrix(event->pos().x(), event->pos().y());
 			m_isScribbling = false;
 		}
 	}
@@ -395,7 +396,7 @@ void ScribbleArea::onGetDrawing()
 	painter.setRenderHint(QPainter::TextAntialiasing, true);
 	painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
 
-	const int breakLineThreshold = 40;
+	const int breakLineThreshold = 70;
 
 	for (size_t i = 1; i < m_drawing.size(); i++)
 	{
