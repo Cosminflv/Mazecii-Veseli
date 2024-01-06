@@ -19,10 +19,14 @@ Register::Register(QWidget *parent)
 	m_userText = new QLineEdit(this);
 	m_userText->setGeometry(30, 90, 270, 25);
 	m_userText->setPlaceholderText("Create Username");
+	m_userText->setFont(QFont("8514oem", 13));
+	m_userText->setStyleSheet("background-color: #ffffff");
 
 	m_passwordText = new QLineEdit(this);
 	m_passwordText->setGeometry(30, 135, 270, 25);
 	m_passwordText->setPlaceholderText("Create Password");
+	m_passwordText->setFont(QFont("8514oem", 13));
+	m_passwordText->setStyleSheet("background-color: #ffffff");
 	m_passwordText->setEchoMode(QLineEdit::Password);
 	
 	QIcon closed("closedeye.png");
@@ -30,6 +34,7 @@ Register::Register(QWidget *parent)
 	m_showPassword->setIcon(closed);
 	m_showPassword->setIconSize(QSize(23, 23));
 	m_showPassword->setGeometry(310, 135, 25, 25);
+	m_showPassword->setStyleSheet("background-color: #ffffff");
 	connect(m_showPassword, &QPushButton::clicked, this, &Register::ShowPasswordText);
 	m_passwordError = new QLabel("(must contain at least 6 letters and 1 number)", this);
 	m_passwordError->setGeometry(30, 160, 340, 25);
@@ -39,15 +44,20 @@ Register::Register(QWidget *parent)
 	m_confirmPassword = new QLineEdit(this);
 	m_confirmPassword->setGeometry(30, 185, 270, 25);
 	m_confirmPassword->setPlaceholderText("Confirm Password");
+	m_confirmPassword->setFont(QFont("8514oem", 13));
+	m_confirmPassword->setStyleSheet("background-color: #ffffff");
 	m_confirmPassword->setEchoMode(QLineEdit::Password);
 	m_showConfirm = new QPushButton(this);
 	m_showConfirm->setIcon(closed);
 	m_showConfirm->setIconSize(QSize(23, 23));
 	m_showConfirm->setGeometry(310, 185, 25, 25);
+	m_showConfirm->setStyleSheet("background-color: #ffffff");
 	connect(m_showConfirm, &QPushButton::clicked, this, &Register::ShowPasswordText);
 
 	m_create = new QPushButton("Create account", this);
 	m_create->setGeometry(210, 240, 210, 30);
+	m_create->setFont(QFont("8514oem", 13));
+	m_create->setStyleSheet("background-color: #b8b3ff"); 
 
 	connect(m_create, &QPushButton::clicked, this, &Register::CreateAccount);
 	setStyleSheet("background-color:#f0efff"); 

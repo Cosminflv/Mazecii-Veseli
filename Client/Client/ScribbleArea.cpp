@@ -19,10 +19,14 @@ void ScribbleArea::SetUpUi()
 		int up = 0;
 		m_clearButton = new QPushButton("Clear Screen", this);
 		m_clearButton->setGeometry(10, 10, 130, 30);
+		m_clearButton->setFont(QFont("8514oem", 13));
+		m_clearButton->setStyleSheet("background-color:#c6d2cc; color: #2d3932");
 		connect(m_clearButton, &QPushButton::clicked, this, &ScribbleArea::onClearButtonClicked);
 
 		m_selectColor = new QPushButton("More Colors", this);
-		m_selectColor->setGeometry(420, 440, 120, 30);
+		m_selectColor->setGeometry(420, 450, 120, 30);
+		m_selectColor->setFont(QFont("8514oem", 13));
+		m_selectColor->setStyleSheet("background-color:#c6d2cc; color: #2d3932");
 		connect(m_selectColor, &QPushButton::clicked, this, &ScribbleArea::onColorButtonClicked);
 
 		for (const int& size : m_sizes)
@@ -30,6 +34,7 @@ void ScribbleArea::SetUpUi()
 			QPushButton* sizeButton = new QPushButton("\u2022", this);
 			sizeButton->setFont(QFont("Arial", 23 + up));
 			sizeButton->setGeometry(offset + 100, 10, 30, 30);
+			sizeButton->setStyleSheet("background-color:#c6d2cc; color: #2d3932");
 			connect(sizeButton, &QPushButton::clicked, [this, size]()
 				{
 					SetPenWidth(size);
@@ -42,6 +47,7 @@ void ScribbleArea::SetUpUi()
 
 		m_getDrawing = new QPushButton("see drawing", this);
 		m_getDrawing->setGeometry(300, 10, 130, 30);
+		m_getDrawing->setFont(QFont("8514oem", 13));
 		connect(m_getDrawing, &QPushButton::clicked, this, &ScribbleArea::onGetDrawing);
 
 		m_timer = new QTimer(this);		
@@ -49,14 +55,14 @@ void ScribbleArea::SetUpUi()
 		m_timer->setInterval(300);
 		m_timer->start();
 	}
-	/*else
+	else if (m_you.GetPlayerRole()  == "Guesser")
 	{
 		m_timer = new QTimer(this);		
 		connect(m_timer, &QTimer::timeout, this, &ScribbleArea::UpdateDrawingUI);
 		connect(m_timer, &QTimer::timeout, this, &ScribbleArea::DrawFromServer);
 		m_timer->setInterval(300);
 		m_timer->start();
-	}*/
+	}
 }
 
 void ScribbleArea::ResizeImage(QImage* image, const QSize& newSize)

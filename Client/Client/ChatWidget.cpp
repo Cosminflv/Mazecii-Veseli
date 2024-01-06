@@ -7,13 +7,15 @@ ChatWidget::ChatWidget(QWidget* parent)
 
 	setFont(QFont("8514oem", 13));
 	setFixedHeight(510);
-
+	
 	messageDisplay = new QTextEdit(this);
 	messageDisplay->setReadOnly(true);
+	messageDisplay->setFont(QFont("8514oem", 13));
 	layout->addWidget(messageDisplay);
 
 	messageInput = new QLineEdit(this);
 	messageInput->setFixedHeight(35);
+	messageInput->setFont(QFont("8514oem", 13));
 	layout->addWidget(messageInput);
 
 	setLayout(layout);
@@ -22,6 +24,8 @@ ChatWidget::ChatWidget(QWidget* parent)
 	m_requestsTimer->setInterval(1000); // Set interval to 1 second
 	m_requestsTimer->start();
 	connect(m_requestsTimer, &QTimer::timeout, this, &ChatWidget::fetchAndUpdateChat);
+
+	setStyleSheet("background-color: #ffffff");
 }
 
 ChatWidget::~ChatWidget()

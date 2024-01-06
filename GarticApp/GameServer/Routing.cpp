@@ -180,7 +180,7 @@ void Routing::Run()
 
 					return crow::response(200);
 				}
-				/*else if (req.method == crow::HTTPMethod::Get)
+				else if (req.method == crow::HTTPMethod::Get)
 				{
 					crow::json::wvalue json;
 					crow::json::wvalue::list coordinates;
@@ -203,7 +203,7 @@ void Routing::Run()
 					json["DrawingInfo"] = std::move(info);
 
 					return crow::response(json);
-				}*/
+				}
 				return crow::response(444, "Method Not Allowed");
 			});
 

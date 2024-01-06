@@ -33,9 +33,6 @@ Client::Client(QWidget* parent)
     //preia cuvantul updatat cu litere din ruta
     connect(m_timerWidget, &TimerWidget::wordUpdated, m_wordWidget, &WordWidget::UpdateWordFromServer);
     m_wordWidget->UpdateWord(m_wordWidget->FetchUpdatedWordFromServer());
-
-    setFont(QFont("8514oem", 13));
-
 }
 
 void Client::SetUi()
@@ -44,6 +41,8 @@ void Client::SetUi()
 
     if (m_you.GetPlayerRole() == "Painter")
     {
+        setFont(QFont("8514oem", 13));
+        setStyleSheet("background-color: #eaeafa");
         m_scribbleArea->UpdatePlayerRole("Painter");
         mainLayout->addWidget(m_timerWidget, 0, 0, 1, 3); // Row 0, Column 0, Row Span 1, Column Span 3
         mainLayout->addWidget(m_playerWidget, 1, 0);
@@ -62,6 +61,8 @@ void Client::SetUi()
     }
     else if (m_you.GetPlayerRole() == "Guesser")
     {
+        setFont(QFont("8514oem", 13));
+        setStyleSheet("background-color: #eaeafa");
         m_scribbleArea->UpdatePlayerRole("Guesser");
         mainLayout->addWidget(m_timerWidget, 0, 0, 1, 3); // Row 0, Column 0, Row Span 1, Column Span 3
         mainLayout->addWidget(m_playerWidget, 1, 0);

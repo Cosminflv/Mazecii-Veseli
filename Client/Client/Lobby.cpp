@@ -107,9 +107,9 @@ void Lobby::SetUi()
 		QLabel* infotext = new QLabel("Waiting for game\nto start...", this);
 		infotext->setGeometry(30, 30, 340, 100);
 		infotext->setFont(QFont("", 30));
-		infotext->setAlignment(Qt::AlignCenter);
+		infotext->setAlignment(Qt::AlignCenter);		
+		m_userDisplay->setStyleSheet("background-color: #faf3ea");
 		setStyleSheet("background-color:#e0ebe4");
-		m_userDisplay->setStyleSheet("background-color:");
 	}
 	else
 	{
@@ -120,10 +120,10 @@ void Lobby::SetUi()
 		m_startGame = new QPushButton("Start Game", this);
 		m_startGame->setGeometry(125, 450, 150, 40);
 		m_startGame->setFont(QFont("", 17));
-		connect(m_startGame, &QPushButton::clicked, this, &Lobby::StartGame);
-		setStyleSheet("background-color:#e0ebe4");
-		m_userDisplay->setStyleSheet("background-color:");
+		connect(m_startGame, &QPushButton::clicked, this, &Lobby::StartGame);		
+		m_userDisplay->setStyleSheet("background-color: #faf3ea");
 		m_startGame->setStyleSheet("background-color:#ffe6cc; color:#5c8a74");
+		setStyleSheet("background-color:#e0ebe4");
 	}
 }
 

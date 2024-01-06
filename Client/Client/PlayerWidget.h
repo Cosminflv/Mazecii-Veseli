@@ -20,7 +20,6 @@ public:
 	void UpdateScoreUI(const PlayerClient& client, const int16_t& newScore);
 
 private:
-	void setUpPlayerUI();
 	QString fromJsonToQString(const crow::json::detail::r_string value);
 
 private:

@@ -4,19 +4,16 @@
 
 PlayerWidget::PlayerWidget(QWidget* parent)
 {
-	setUpPlayerUI();
+	m_playerList = new QListWidget(this);
+	m_playerList->setSpacing(3.6);
+	m_playerList->setFixedHeight(400);
+	setFont(QFont("8514oem", 13));
+	setStyleSheet("background-color: #ffffff");
 }
 
 PlayerWidget::~PlayerWidget()
 {
 	// Empty
-}
-
-void PlayerWidget::setUpPlayerUI()
-{
-	m_playerList = new QListWidget(this);
-	m_playerList->setSpacing(3.6);
-	m_playerList->setFixedHeight(400);
 }
 
 QString PlayerWidget::fromJsonToQString(const crow::json::detail::r_string value)

@@ -18,34 +18,43 @@ Login::Login(QWidget *parent)
 	QLabel* info = new QLabel("login or create an account to continue", this);
 	info->setGeometry(90, 75, 300, 30);
 	info->setFont(QFont("", 13));
+	info->setStyleSheet("color: gray;");
 
 	m_userText = new QLineEdit(this);
 	m_userText->setGeometry(30, 120, 270, 25);
 	m_userText->setPlaceholderText("Username");
+	m_userText->setFont(QFont("8514oem", 13));
+	m_userText->setStyleSheet("background-color: #ffffff");
 
 	m_passwordText = new QLineEdit(this);
 	m_passwordText->setGeometry(30, 167, 270, 25);
 	m_passwordText->setPlaceholderText("Password");
+	m_passwordText->setFont(QFont("8514oem", 13));
+	m_passwordText->setStyleSheet("background-color: #ffffff");
 	m_passwordText->setEchoMode(QLineEdit::Password);
 	QIcon closed("closedeye.png");
 	m_showPassword = new QPushButton(this);
 	m_showPassword->setIcon(closed);
 	m_showPassword->setIconSize(QSize(23, 23));
 	m_showPassword->setGeometry(310, 167, 25, 25);
+	m_showPassword->setStyleSheet("background-color: #ffffff");
 	connect(m_showPassword, &QPushButton::clicked, this, &Login::ShowPassword);
 
 
 	m_login = new QPushButton("Login", this);
-	m_login->setGeometry(320, 210, 100, 30);
+	m_login->setGeometry(330, 210, 100, 30);
+	m_login->setFont(QFont("8514oem", 13));
+	m_login->setStyleSheet("background-color: #ccd7ff");
 
 	m_createAccount = new QPushButton("Create new account", this);
-	m_createAccount->setGeometry(210, 245, 210, 30);
+	m_createAccount->setGeometry(220, 245, 210, 30);
+	m_createAccount->setFont(QFont("8514oem", 13));
+	m_createAccount->setStyleSheet("background-color: #ccd7ff");
 
 	connect(m_createAccount, &QPushButton::clicked, this, &Login::CreateNewAccount);
 	connect(m_login, &QPushButton::clicked, this, &Login::LogintoAccount);
 
-	setStyleSheet("background-color:#edf1ff");
-	info->setStyleSheet("color: gray;");
+	setStyleSheet("background-color:#edf1ff");	
 }
 
 Login::~Login()
