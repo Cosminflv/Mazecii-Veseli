@@ -244,22 +244,26 @@ void ScribbleArea::DrawFromServer()
 	painter.setRenderHint(QPainter::TextAntialiasing, true);
 	painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
 
-	for (size_t i = 0; i < m_drawing.size(); i++)
+	const int breakLineThreshold = 50;
+
+	for (size_t i = 1; i < m_drawing.size(); i++)
 	{
 		QColor color(QString::fromUtf8(m_info[i].first.c_str()));
 		painter.setPen(QPen(color, m_info[i].second, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-		
+
 		int x1 = m_drawing[i - 1].first;
 		int y1 = m_drawing[i - 1].second;
 		int x2 = m_drawing[i].first;
 		int y2 = m_drawing[i].second;
 
-		painter.drawLine(x1, y1, x2, y2);
-
-		/*int x = m_drawing[i].first;
-		int y = m_drawing[i].second;
-
-		painter.drawPoint(x, y);*/
+		if (std::abs(x2 - x1) > breakLineThreshold || std::abs(y2 - y1) > breakLineThreshold)
+		{
+			painter.drawLine(x1, y1, x1, y1); // exceeds threshold => start new line
+		}
+		else
+		{
+			painter.drawLine(x1, y1, x2, y2); // continue current line
+		}
 	}
 }
 
@@ -391,21 +395,26 @@ void ScribbleArea::onGetDrawing()
 	painter.setRenderHint(QPainter::TextAntialiasing, true);
 	painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
 
-	for (size_t i = 0; i < m_drawing.size(); i++)
+	const int breakLineThreshold = 40;
+
+	for (size_t i = 1; i < m_drawing.size(); i++)
 	{
 		QColor color(QString::fromUtf8(m_info[i].first.c_str()));
 		painter.setPen(QPen(color, m_info[i].second, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-		/*int x = m_drawing[i].first;
-		int y = m_drawing[i].second;
-
-		painter.drawPoint(x, y);*/
 
 		int x1 = m_drawing[i - 1].first;
 		int y1 = m_drawing[i - 1].second;
 		int x2 = m_drawing[i].first;
 		int y2 = m_drawing[i].second;
 
-		painter.drawLine(x1, y1, x2, y2);
+		if (std::abs(x2 - x1) > breakLineThreshold || std::abs(y2 - y1) > breakLineThreshold)
+		{
+			painter.drawLine(x2, y2, x2, y2); // exceeds threshold => start new line
+		}
+		else
+		{
+			painter.drawLine(x1, y1, x2, y2); // continue current line
+		}
 	}
 
 	label->setPixmap(canvas);

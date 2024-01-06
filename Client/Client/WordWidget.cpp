@@ -6,7 +6,7 @@
 WordWidget::WordWidget(QWidget* parent)
 	:QWidget(parent)
 {
-	setFont(QFont("Rockwell", 25));
+	setFont(QFont("Sitka Text Semibold", 25));
 	QVBoxLayout* layout = new QVBoxLayout(this);
 	m_word = new QLabel(this);
 	layout->addWidget(m_word);
