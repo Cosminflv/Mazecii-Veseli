@@ -26,20 +26,6 @@ Timer::~Timer()
 	}
 }
 
-void Timer::SetNotifyChange(TimerCallback newFunc)
-{
-	m_notifyChange = newFunc;
-}
-
-void Timer::SetSecond(std::chrono::seconds second)
-{
-	m_messageSentSecond = second;
-}
-
-std::chrono::seconds Timer::GetSecond()
-{
-	return m_messageSentSecond;
-}
 
 void Timer::SetTimerResolution(int ms)
 {
@@ -108,16 +94,6 @@ void Timer::Run()
 			}
 		}
 
-		auto currentSecond = std::chrono::duration_cast<std::chrono::seconds>(
-			std::chrono::system_clock::now().time_since_epoch());
-
-		if (currentSecond == m_messageSentSecond)
-		{
-			std::chrono::milliseconds milliseconds = GetRemainingTime();
-			auto seconds = std::chrono::duration_cast<std::chrono::seconds>(milliseconds);
-			SetSecond(seconds);
-			std::cout << "----------------SECOND:" << GetSecond();
-		}
 		if (IsTimeExpired())
 		{
 			StopTimer();

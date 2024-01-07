@@ -300,16 +300,16 @@ void Routing::Run()
 				std::string message = json_data["message"].s();
 				handler.WriteMessage(username, message);
 				std::cout << "Received message from " << username << ": " << message;
-
+				std::cout << "\nTime in receive_message handler: " << T.GetRemainingTime()<<"\n";
 				if (handler.CheckEnteredMessage(message)) {
 
+					std::chrono::seconds second = std::chrono::duration_cast<std::chrono::seconds>(T.GetRemainingTime());
+					std::cout  << username << " guessed at second: " << second << "\n";
 					//wonScore = subround.calculateScore(
 					//totalScore = m_game.GetLeaderBoard()[username] + wonScore
 					//update leaderboard m_game.UpdateLeaderBoard(username, totalScore)
 					//toate wrappuite intr-o metoda din handler
 
-					T.SetSecond(std::chrono::duration_cast<std::chrono::seconds>(
-						std::chrono::system_clock::now().time_since_epoch()));
 				}
 				return crow::response(200);
 			});

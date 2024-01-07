@@ -35,8 +35,6 @@ public:
 	void StopTimer();
 	void ResetTimer();
 
-	void SetSecond(std::chrono::seconds second);
-	std::chrono::seconds GetSecond();
 	
 
 private:
@@ -57,9 +55,6 @@ private:
 	std::chrono::milliseconds m_remainingTime;
 	std::chrono::milliseconds m_toDecreaseTime;
 	std::chrono::milliseconds m_timerResolution;
-	std::chrono::seconds m_messageSentSecond; //retine secunda la care s-a ghicit cuvantul
-
-	TimerCallback m_notifyChange;
 
 	TimerCallback m_updateWord;
 
