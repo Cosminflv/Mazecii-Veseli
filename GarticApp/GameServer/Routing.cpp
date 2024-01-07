@@ -305,9 +305,11 @@ void Routing::Run()
 				std::vector<PlayerPtr>players = game->GetPlayers();
 				if (handler.CheckEnteredMessage(message)) {
 					handler.CalculateScoreForGuesser(username, players, T);
+					game->UpdateLeaderboard();
 				}
 				if (T.IsTimeExpired())
 					std::cout << "true";
+
 				return crow::response(200);
 			});
 

@@ -70,6 +70,7 @@ void RouteHandler::CalculateScoreForGuesser(const std::string& username, std::ve
 			}
 		}
 	}
+
 }
 
 	//wonScore = subround.calculateScore(
