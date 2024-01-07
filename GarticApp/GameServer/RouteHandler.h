@@ -18,6 +18,7 @@ public:
 	std::string PickWord(uint16_t difficulty);
 	std::string HideTheWord(std::string word);
 	std::string UpdateWord(std::string& word, std::string &currentWord);
+	void CalculateScoreForGuesser(const std::string& username, std::vector<PlayerPtr>players, Timer& T);
 private:
 	std::shared_ptr<Game> m_game;
 };

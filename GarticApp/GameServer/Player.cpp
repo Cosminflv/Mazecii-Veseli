@@ -65,6 +65,26 @@ void Player::SetScore(int16_t points)
 	m_score = points;
 }
 
+void Player::CalcultateScore(std::chrono::seconds second)
+{
+	int intSecond = second.count();
+	std::cout << "\nIn metodata calculate score secunda e: " << intSecond << "\n";
+	if (intSecond > 30)
+	{
+		SetScore(100);
+	}
+	else if (intSecond<30 && intSecond!=0)
+	{
+		int score = static_cast<int>(std::round(((60 - (30+(30-intSecond))) * 100) / 30)); 
+		SetScore(score);
+	}
+	else if (intSecond <= 0)
+	{
+		std::cout << "Intra aici?";
+		SetScore(-50);
+	}
+}
+
 void Player::SetPlayerStatus(const bool &status)
 {
 	m_hasPainted = status;

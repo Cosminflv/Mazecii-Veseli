@@ -299,18 +299,15 @@ void Routing::Run()
 				std::string username = json_data["username"].s();
 				std::string message = json_data["message"].s();
 				handler.WriteMessage(username, message);
+
 				std::cout << "Received message from " << username << ": " << message;
-				std::cout << "\nTime in receive_message handler: " << T.GetRemainingTime()<<"\n";
+
+				std::vector<PlayerPtr>players = game->GetPlayers();
 				if (handler.CheckEnteredMessage(message)) {
-
-					std::chrono::seconds second = std::chrono::duration_cast<std::chrono::seconds>(T.GetRemainingTime());
-					std::cout  << username << " guessed at second: " << second << "\n";
-					//wonScore = subround.calculateScore(
-					//totalScore = m_game.GetLeaderBoard()[username] + wonScore
-					//update leaderboard m_game.UpdateLeaderBoard(username, totalScore)
-					//toate wrappuite intr-o metoda din handler
-
+					handler.CalculateScoreForGuesser(username, players, T);
 				}
+				if (T.IsTimeExpired())
+					std::cout << "true";
 				return crow::response(200);
 			});
 

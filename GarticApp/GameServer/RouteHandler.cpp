@@ -46,3 +46,34 @@ std::string RouteHandler::UpdateWord(std::string& seenWord, std::string &current
     return m_game->GetRound()->GetSubround()->UpdateWordWithLetters(seenWord, currentWord);
 }
 
+void RouteHandler::CalculateScoreForGuesser(const std::string& username, std::vector<PlayerPtr>players, Timer& T)
+{
+	std::chrono::seconds second = std::chrono::duration_cast<std::chrono::seconds>(T.GetRemainingTime());
+	std::cout << username << " guessed at second: " << second << "\n";
+	for (auto player : players)
+	{
+		if (username == player->GetUsername())
+		{
+			player->CalcultateScore(second);
+			std::cout << "Scorul player-ului " << player->GetUsername() << ": " << player->GetScore() << "\n";
+		}
+	}
+	if (T.IsTimeExpired())
+	{
+		std::cout << "true";
+		for (auto player : players)
+		{
+			if (username == player->GetUsername())
+			{
+				player->SetScore(-50);
+				std::cout << "Timp expirat. Scorulul player-ului " << player->GetUsername() << ": " << player->GetScore() << "\n";
+			}
+		}
+	}
+}
+
+	//wonScore = subround.calculateScore(
+	//totalScore = m_game.GetLeaderBoard()[username] + wonScore
+	//update leaderboard m_game.UpdateLeaderBoard(username, totalScore)
+	//toate wrappuite intr-o metoda din handler
+

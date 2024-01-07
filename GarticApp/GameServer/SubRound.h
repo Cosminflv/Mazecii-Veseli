@@ -36,10 +36,7 @@ public:
 	void StartRound();
 	void StopRound();
 
-	void SetSecond(std::chrono::seconds second);
-	std::chrono::seconds GetSecond();
 	void ChoosePainter(std::vector<Player*>& players);
-	void CalculateScore(const PlayerPtr& player, const std::string& word, const std::vector<PlayerPtr>& opponents, Timer& T);
 	bool HaveAllPlayersGuessed() const;
 	bool HasSubRoundEnded() const;
 	void MakeAllLettersFalse(const std::string& sizeWord);
@@ -55,7 +52,6 @@ private:
 	int m_duration;
 	bool m_hasTimeEnded;
 	Timer m_timer;
-	std::chrono::seconds m_second;
 	
 };
 

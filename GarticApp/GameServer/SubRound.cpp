@@ -150,17 +150,6 @@ std::string SubRound::GetSeenWord()
 	return m_seenWord;
 }
 
-
-void SubRound::SetSecond(std::chrono::seconds second)
-{
-	m_second = second;
-}
-
-std::chrono::seconds SubRound::GetSecond()
-{
-	return m_second;
-}
-
 void SubRound::ChoosePainter(std::vector<Player*>& players)
 {
 	if (players.empty()) {
@@ -173,66 +162,6 @@ void SubRound::ChoosePainter(std::vector<Player*>& players)
 	std::size_t index = dis(gen);
 	players[index]->SetPlayerStatus(true);
 	std::cout << players[index] << " is drawing!";
-}
-
-
-void SubRound::CalculateScore(const PlayerPtr& player, const std::string& word, const std::vector<PlayerPtr>& opponents, Timer& T)
-{
-	player->GetPlayerRole();
-	if (player->GetPlayerRole() == PlayerRole::Guesser)
-	{
-		bool hasGuessedCorrectly = false; 
-		if (player->GetPlayerRole() == PlayerRole::Guesser)
-		{
-			while (!hasGuessedCorrectly)
-			{
-				if (SubRound::GuessWord(word))
-				{
-					hasGuessedCorrectly = true;
-					std::cout << "Guessed at second: " << GetSecond() << std::endl; 
-					if (GetSecond() < std::chrono::seconds(30))
-						player->SetScore(100);
-					else
-					{
-						int score = static_cast<int>(std::round(((60 - std::chrono::duration_cast<std::chrono::seconds>(GetSecond()).count()) * 100) / 30));
-						player->SetScore(score);
-					}
-					break;
-				}
-			}
-		}
-		if (!hasGuessedCorrectly)
-		{
-			player->SetScore(-50);
-		}
-	}
-	if (player->GetPlayerRole() == PlayerRole::Painter)
-	{
-		SeeWord(word);
-		double opponentsAverageTime = 0.0;
-		int numOpponents = 0;
-
-		for (const PlayerPtr opponent : opponents)
-		{
-			if (opponent->GetPlayerRole() == PlayerRole::Guesser && opponent->GetScore() == 100)
-			{
-			//	opponentsAverageTime += opponent.GetSecond();
-				numOpponents++;
-				//DE GANDIT MAI BINE CUM POATE FI ACEASTA FUNCTIE IMPLEMENTATA
-			}
-		}
-		if (numOpponents > 0)
-		{
-			opponentsAverageTime /= numOpponents;
-
-			int painterScore = static_cast<int>(std::round(((60.0 - opponentsAverageTime) * 100) / 60));
-			player->SetScore(painterScore);
-		}
-		else
-		{
-			player->SetScore(-100);
-		}
-	}
 }
 
 

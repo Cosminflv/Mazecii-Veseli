@@ -79,8 +79,7 @@ void Lobby::SetUi()
 					//m_you.UpdatePlayerRole(user["PlayerRole"].s());
 					m_you.UpdatePlayerRole("Painter");
 					m_you.SetAdminRole(user["AdminRole"].s());
-				}
-				
+				}	
 			}
 			else {
 				// Handle incorrect data types
@@ -93,7 +92,7 @@ void Lobby::SetUi()
 		}
 	}
 
-	for (const auto& u : m_users)
+	for (const auto& u : m_users)	
 	{
 		QListWidgetItem* newUser = new QListWidgetItem(QString::fromUtf8(u.GetUsername().c_str()));
 		m_userDisplay->addItem(newUser);
