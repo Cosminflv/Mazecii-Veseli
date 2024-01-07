@@ -104,7 +104,6 @@ void Difficulty::SelectDifficulty()
 	w->GetScribbleArea()->UpdateClient(m_you);
 	w->GetScribbleArea()->SetUpUi();
 	w->SetDifficulty(m_difficulty);
-	w->GetWordWidget()->UpdateWord(w->GetWordWidget()->FetchHiddenWordFromServer(m_difficulty));
 	w->GetPlayerWidget()->UpdateList(m_clientsToPass);
 	w->GetPlayerWidget()->DisplayPlayers();	
 	//w->GetWordWidget()->UpdateWord(w->GetWordWidget()->HiddenWord(w->GetWordWidget()->FetchWordFromServer(m_difficulty)));

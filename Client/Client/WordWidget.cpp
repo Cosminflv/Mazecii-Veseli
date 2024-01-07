@@ -42,19 +42,12 @@ QString WordWidget::FetchSeenWordFromServer(uint16_t difficulty)
         throw(WordRequestException("Word request has failed"));
     }
 
-    QJsonDocument jsonResponse = QJsonDocument::fromJson(response.text.c_str());
-
-    if (!jsonResponse.isObject()) {
-        qDebug() << "Invalid JSON format.";
-        return "";
-    }
-
-    QJsonObject jsonObject = jsonResponse.object();
-    QString visibleWord = jsonObject.value("visibleWord").toString();
+    auto word = crow::json::load(response.text);
+    std::string visibleWordStr = word["visibleWord"].s();
+    QString visibleWord = QString::fromUtf8(visibleWordStr.c_str());
 
     qDebug() << "Visible Word:" << visibleWord;
 
-    // Întoarce cuvântul afișat
     return visibleWord;
 }
 

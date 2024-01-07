@@ -29,10 +29,6 @@ Client::Client(QWidget* parent)
             m_timerWidget->GetTimeLabel()->setText(timeString);
             m_timerWidget->GetTimeLabel()->setPalette(textColor);
         });
-
-    //preia cuvantul updatat cu litere din ruta
-    connect(m_timerWidget, &TimerWidget::wordUpdated, m_wordWidget, &WordWidget::UpdateWordFromServer);
-    m_wordWidget->UpdateWord(m_wordWidget->FetchUpdatedWordFromServer());
 }
 
 void Client::SetUi()
@@ -58,6 +54,7 @@ void Client::SetUi()
         mainLayout->setRowStretch(1, 3);
         mainLayout->setRowStretch(2, 2);
         connect(m_colorWidget, &ColorWidget::selectColor, m_scribbleArea, &ScribbleArea::SetPenColor);
+        m_wordWidget->UpdateWord(m_wordWidget->FetchSeenWordFromServer(m_difficulty));
     }
     else if (m_you.GetPlayerRole() == "Guesser")
     {
@@ -76,6 +73,9 @@ void Client::SetUi()
         mainLayout->setRowStretch(0, 1);
         mainLayout->setRowStretch(1, 3);
         mainLayout->setRowStretch(2, 2);
+        //preia cuvantul updatat cu litere din ruta
+        connect(m_timerWidget, &TimerWidget::wordUpdated, m_wordWidget, &WordWidget::UpdateWordFromServer);
+        m_wordWidget->UpdateWord(m_wordWidget->FetchUpdatedWordFromServer());
     }
 
     QWidget* centralWidget = new QWidget(this);

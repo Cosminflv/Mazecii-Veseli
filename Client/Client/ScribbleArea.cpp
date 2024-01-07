@@ -358,7 +358,7 @@ void ScribbleArea::onClearButtonClicked()
 {
 	m_path = QPainterPath();
 	m_image.fill(qRgb(255, 255, 255));
-	PrintCoordinates("0_coordinates.txt");
+//	PrintCoordinates("0_coordinates.txt");
 	m_drawing.clear();
 	m_info.clear();
 	m_modified = true;
