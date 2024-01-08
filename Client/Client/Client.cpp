@@ -1,4 +1,4 @@
-#include "Client.h"
+﻿#include "Client.h"
 #include "ClientExceptions.h"
 
 Client::Client(QWidget* parent)
@@ -28,6 +28,12 @@ Client::Client(QWidget* parent)
         {
             m_timerWidget->GetTimeLabel()->setText(timeString);
             m_timerWidget->GetTimeLabel()->setPalette(textColor);
+        });
+    connect(m_chatWidget, &ChatWidget::messageSent, [this]() {
+        // Așteaptă 1000 milisecunde (1 secundă) înainte de a apela UpdateScoreUI
+        QTimer::singleShot(1000, this, [this]() {
+            m_playerWidget->UpdateScoreUI(m_you.GetUsername());
+            });
         });
 }
 

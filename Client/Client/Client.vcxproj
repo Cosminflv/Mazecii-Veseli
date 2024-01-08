@@ -130,7 +130,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChatRequestException.h" />
-    <ClInclude Include="ChatWidget.h" />
+    <QtMoc Include="ChatWidget.h" />
     <ClInclude Include="ClientException.h" />
     <ClInclude Include="ClientExceptions.h" />
     <QtMoc Include="Login.h" />

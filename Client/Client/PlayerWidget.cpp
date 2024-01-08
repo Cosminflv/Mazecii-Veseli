@@ -39,6 +39,7 @@ void PlayerWidget::InsertPlayer(const PlayerClient& player)
 
 void PlayerWidget::DisplayPlayers()
 {
+	qDebug() << "Sunt in display Players";
 	for (const auto& player : m_players)
 	{
 		QString playerInfo = QString::fromUtf8(player.GetUsername().c_str()) + "\n[" + QString::number(player.GetScore()) + " points]";
@@ -54,24 +55,44 @@ void PlayerWidget::UpdateList(const std::vector<PlayerClient>& clients)
 	m_players = clients;
 }
 
-void PlayerWidget::UpdateScoreUI(const PlayerClient& client, const int16_t& newScore)
+void PlayerWidget::UpdateScoreUI(const PlayerClient& client)
 {
-	for (int i = 0; i < m_players.size(); i++)
+	qDebug() << "semnal emis! ";
+	qDebug() << "numele player-ului:" << client.GetUsername();
+	int16_t newScore = 0;
+	cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:18080/playerinfo" });
+	if (response.status_code == 200)
 	{
-		if (m_players[i].GetUsername() == client.GetUsername())
+		crow::json::rvalue json_data = crow::json::load(response.text);
+		if (json_data)
 		{
-			m_players[i].UpdateScore(newScore);
-
-			if (i < m_playerList->count())
+			for (const auto& playerJson : json_data)
 			{
-				QListWidgetItem* item = m_playerList->item(i);
-				if (item)
+				if (playerJson["Username"].s() == client.GetUsername())
 				{
-					QString playerInfo = QString::fromUtf8(m_players[i].GetUsername().c_str()) + "\n[" + QString::number(m_players[i].GetScore()) + " points]";
-					item->setText(playerInfo);
+					newScore = playerJson["Score"].i();
+					qDebug() << "score: " << newScore;
 				}
 			}
-			break; 
+		}
+
+		for (int i = 0; i < m_players.size(); i++)
+		{
+			if (m_players[i].GetUsername() == client.GetUsername())
+			{
+				m_players[i].UpdateScore(newScore);
+				qDebug() << m_players[i].GetUsername() << " are scorul : " << m_players[i].GetScore();
+				if (i < m_playerList->count())
+				{
+					QListWidgetItem* item = m_playerList->item(i);
+					if (item)
+					{
+						QString playerInfo = QString::fromUtf8(m_players[i].GetUsername().c_str()) + "\n[" + QString::number(m_players[i].GetScore()) + " points]";
+						item->setText(playerInfo);
+					}
+				}
+				break;
+			}
 		}
 	}
 }

@@ -10,6 +10,7 @@
 
 class ChatWidget : public QWidget
 {
+	Q_OBJECT
 public:
 	ChatWidget(QWidget* parent = nullptr);
 	~ChatWidget();
@@ -17,6 +18,9 @@ public:
 	std::string GetUsernameOfClient() const;
 	void SetClientUsername(const std::string& user);
 	QString fromJsonToQString(const crow::json::detail::r_string value);
+
+signals:
+	void messageSent(const QString& username, const QString& message); //emite semnal cand un mesaj a fost trimis
 
 private slots:
 	void sendMessage();

@@ -17,7 +17,7 @@ public:
 	void InsertPlayer(const PlayerClient& player);
 	void DisplayPlayers();
 	void UpdateList(const std::vector<PlayerClient>& clients);
-	void UpdateScoreUI(const PlayerClient& client, const int16_t& newScore);
+	void UpdateScoreUI(const PlayerClient& client);
 
 private:
 	QString fromJsonToQString(const crow::json::detail::r_string value);

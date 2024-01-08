@@ -75,7 +75,8 @@ void Lobby::SetUi()
 				{
 					m_you.SetUsername(user["Username"].s());
 					m_you.UpdateStatus(user["Status"].s());
-					m_you.UpdateScore(static_cast<int16_t>(user["Score"].i()));
+					m_you.UpdateScore(score);
+					qDebug() << "Scor after: " << score;
 					//m_you.UpdatePlayerRole(user["PlayerRole"].s());
 					m_you.UpdatePlayerRole("Painter");
 					m_you.SetAdminRole(user["AdminRole"].s());

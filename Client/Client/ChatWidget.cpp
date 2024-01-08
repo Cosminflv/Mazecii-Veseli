@@ -54,6 +54,7 @@ void ChatWidget::sendMessage()
 		messageDisplay->setFont(QFont("8514oem", 13));
 		messageDisplay->append(user + ": " + message);
 		messageInput->clear();
+		emit messageSent(user, message);
 	}
 	qDebug() << m_username << " - " << m_message << "\n";
 }

@@ -132,9 +132,6 @@
     <ClInclude Include="ChatRequestException.h">
       <Filter>Header Files\Exceptions</Filter>
     </ClInclude>
-    <ClInclude Include="ChatWidget.h">
-      <Filter>Header Files\Widgets</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerWidget.h">
       <Filter>Header Files\Widgets</Filter>
     </ClInclude>
@@ -165,6 +162,9 @@
       <Filter>Header Files\Widgets</Filter>
     </QtMoc>
     <QtMoc Include="TimerWidget.h">
+      <Filter>Header Files\Widgets</Filter>
+    </QtMoc>
+    <QtMoc Include="ChatWidget.h">
       <Filter>Header Files\Widgets</Filter>
     </QtMoc>
   </ItemGroup>
