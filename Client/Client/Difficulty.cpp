@@ -100,10 +100,10 @@ void Difficulty::SelectDifficulty()
 	w->You(m_you);
 	qDebug() << "YOUR USERNAME: " << w->YourInstance().GetUsername();
 	qDebug() << "YOUR ROLE: " << w->YourInstance().GetPlayerRole();
+	w->SetDifficulty(m_difficulty);
 	w->SetUi();
 	w->GetScribbleArea()->UpdateClient(m_you);
 	w->GetScribbleArea()->SetUpUi();
-	w->SetDifficulty(m_difficulty);
 	w->GetPlayerWidget()->UpdateList(m_clientsToPass);
 	w->GetPlayerWidget()->DisplayPlayers();	
 	//w->GetWordWidget()->UpdateWord(w->GetWordWidget()->HiddenWord(w->GetWordWidget()->FetchWordFromServer(m_difficulty)));

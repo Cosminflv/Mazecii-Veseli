@@ -43,6 +43,7 @@ void Client::SetUi()
 
     if (m_you.GetPlayerRole() == "Painter")
     {
+        setWindowTitle(tr("PAINT!"));
         setFont(QFont("8514oem", 13));
         setStyleSheet("background-color: #eaeafa");
         m_scribbleArea->UpdatePlayerRole("Painter");
@@ -64,6 +65,7 @@ void Client::SetUi()
     }
     else if (m_you.GetPlayerRole() == "Guesser")
     {
+        setWindowTitle(tr("GUESS!"));
         setFont(QFont("8514oem", 13));
         setStyleSheet("background-color: #eaeafa");
         m_scribbleArea->UpdatePlayerRole("Guesser");
