@@ -82,6 +82,7 @@ void Client::SetUi()
         mainLayout->setRowStretch(1, 3);
         mainLayout->setRowStretch(2, 2);
         //preia cuvantul updatat cu litere din ruta
+        m_wordWidget->FetchTheWord(m_difficulty);
         connect(m_timerWidget, &TimerWidget::wordUpdated, m_wordWidget, &WordWidget::UpdateWordFromServer);
         m_wordWidget->UpdateWord(m_wordWidget->FetchUpdatedWordFromServer());
     }
