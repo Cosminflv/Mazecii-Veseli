@@ -65,7 +65,7 @@ void Player::SetScore(int16_t points)
 	m_score = points;
 }
 
-void Player::CalcultateScore(std::chrono::seconds second)
+void Player::CalcultateGuesserScore(std::chrono::seconds second)
 {
 	int intSecond = second.count();
 	std::cout << "\nIn metodata calculate score secunda e: " << intSecond << "\n";

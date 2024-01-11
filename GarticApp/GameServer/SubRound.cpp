@@ -181,6 +181,11 @@ bool SubRound::HasSubRoundEnded() const
 	return false;
 }
 
+void SubRound::CalculatePainterScore(std::vector<Player*> players)
+{
+
+}
+
 void SubRound::MakeAllLettersFalse(const std::string& sizeWord)
 {
 	m_letterShown.resize(sizeWord.size(),false);

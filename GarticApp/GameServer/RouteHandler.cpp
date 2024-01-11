@@ -54,7 +54,7 @@ void RouteHandler::CalculateScoreForGuesser(const std::string& username, std::ve
 	{
 		if (username == player->GetUsername())
 		{
-			player->CalcultateScore(second);
+			player->CalcultateGuesserScore(second);
 			std::cout << "Scorul player-ului " << player->GetUsername() << ": " << player->GetScore() << "\n";
 		}
 	}

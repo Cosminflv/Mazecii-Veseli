@@ -13,7 +13,7 @@ public:
 	void SetUsername(const std::string& username);
 
 	void SetScore(int16_t points);
-	void CalcultateScore(std::chrono::seconds second);
+	void CalcultateGuesserScore(std::chrono::seconds second);
 	int16_t GetScore() const;
 
 	bool GetPlayerStatus() const;
