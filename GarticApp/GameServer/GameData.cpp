@@ -70,10 +70,11 @@ bool GameStorage::CheckUser(const std::string& username, const std::string& pass
 {
 	if (m_db.count<PlayerDB>(sql::where(sql::c(&PlayerDB::GetUsername) == username)) == 1)
 	{
-		if (m_db.count<PlayerDB>(sql::where(sql::c(&PlayerDB::GetPassword) == password)) == 1)
-		{
-			return true;
-		}
+		//if (m_db.count<PlayerDB>(sql::where(sql::c(&PlayerDB::GetPassword) == password)) == 1)
+		//{
+		//	return true;
+		//}
+		return true;
 	}
 	return false;
 }
