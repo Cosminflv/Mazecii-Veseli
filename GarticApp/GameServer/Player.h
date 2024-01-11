@@ -12,6 +12,8 @@ public:
 	std::string GetUsername() const;
 	void SetUsername(const std::string& username);
 
+	void SetSecond(int second);
+	int GetSecond();
 	void SetScore(int16_t points);
 	void CalcultateGuesserScore(std::chrono::seconds second);
 	int16_t GetScore() const;
@@ -32,9 +34,11 @@ public:
 private:
 	std::string m_username;
 	int16_t m_score;
+	int m_second;
 	PlayerRole m_playerRole;
 	AdminRole m_adminRole;
 	bool m_hasPainted;
+
 };
 
 std::ostream& operator <<(std::ostream& os, const Player& player);

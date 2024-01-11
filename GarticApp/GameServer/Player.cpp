@@ -23,6 +23,16 @@ void Player::SetUsername(const std::string& username)
 	m_username = username;
 }
 
+void Player::SetSecond(int second)
+{
+	m_second = second;
+}
+
+int Player::GetSecond()
+{
+	return m_second;
+}
+
 int16_t Player::GetScore() const
 {
 	return m_score;
@@ -80,7 +90,6 @@ void Player::CalcultateGuesserScore(std::chrono::seconds second)
 	}
 	else if (intSecond <= 0)
 	{
-		std::cout << "Intra aici?";
 		SetScore(-50);
 	}
 }

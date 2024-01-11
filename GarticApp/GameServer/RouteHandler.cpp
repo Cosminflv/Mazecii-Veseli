@@ -55,6 +55,7 @@ void RouteHandler::CalculateScoreForGuesser(const std::string& username, std::ve
 		if (username == player->GetUsername())
 		{
 			player->CalcultateGuesserScore(second);
+			player->SetSecond(30 + (30 - second.count())); // a ghicit la secunda 40 -> inseamna ca a ghicit in 20 de sec; second.count()=40; 30+(30-40)=30-10=20 secunde.
 			std::cout << "Scorul player-ului " << player->GetUsername() << ": " << player->GetScore() << "\n";
 		}
 	}
@@ -66,6 +67,7 @@ void RouteHandler::CalculateScoreForGuesser(const std::string& username, std::ve
 			if (username == player->GetUsername())
 			{
 				player->SetScore(-50);
+				player->SetSecond(60); // "60 va fi timpul alocat pentru jucatorii care nu au furnizat un raspuns corect" -> document Proiecte MC++, pentru a calcula scorul unui Painter
 				std::cout << "Timp expirat. Scorulul player-ului " << player->GetUsername() << ": " << player->GetScore() << "\n";
 			}
 		}
@@ -73,8 +75,4 @@ void RouteHandler::CalculateScoreForGuesser(const std::string& username, std::ve
 
 }
 
-	//wonScore = subround.calculateScore(
-	//totalScore = m_game.GetLeaderBoard()[username] + wonScore
-	//update leaderboard m_game.UpdateLeaderBoard(username, totalScore)
-	//toate wrappuite intr-o metoda din handler
 
