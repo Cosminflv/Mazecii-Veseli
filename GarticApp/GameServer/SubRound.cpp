@@ -82,6 +82,13 @@ std::string SubRound::SelectRandomWord(uint16_t difficulty)
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 	auto randomIndex = std::rand() % filteredWords.size();
 	m_seenWord = filteredWords[randomIndex];
+	size_t found = m_seenWord.find('_');
+	while (found != std::string::npos)
+	{
+		m_seenWord.replace(found, 1, " ");
+		found = m_seenWord.find('_', found + 1);
+	}
+	std::cout << "\nCuvantul filtrat fara _ si cu spatii este:\n" << m_seenWord;
 	return filteredWords[randomIndex];
 }
 
