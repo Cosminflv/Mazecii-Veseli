@@ -181,9 +181,28 @@ bool SubRound::HasSubRoundEnded() const
 	return false;
 }
 
-void SubRound::CalculatePainterScore(std::vector<Player*> players)
+bool SubRound::NoOneGuessed(std::vector<Player*>& players)
 {
+	for (auto player : players)
+	{
+		if (player->GetSecond() != 60)
+			return false;
+	}
+	return true;
+}
 
+int SubRound::AverageSeconds(std::vector<Player*>& players)
+{
+	int sum = 0;
+	for (auto player : players)
+		int sum = sum + player->GetSecond();
+	return (sum / players.size());
+}
+
+void SubRound::CalculatePainterScore(std::vector<Player*>& players)
+{
+	int score = 0;
+	score = ((60 - AverageSeconds(players)) * 100) / 60;
 }
 
 void SubRound::MakeAllLettersFalse(const std::string& sizeWord)
