@@ -1,5 +1,7 @@
 ﻿#include "Round.h"
 #include "SubRound.h"
+
+#include <algorithm>
 #include <iostream>
 #include <string>
 #include <random>
@@ -94,25 +96,19 @@ std::string SubRound::SelectRandomWord(uint16_t difficulty)
 
 std::string SubRound::HideWord(const std::string& word)
 {
-	bool ok = true; // pentru a tine cont de spatii. nu consideram spatiul o litera.
-	std::string hiddenWord = "";
-	for (int i = 0; i < word.length(); i++)
+	bool hasSpaces = std::any_of(word.begin(), word.end(), [](char c) { return c == ' ' || c == '_'; });
+	std::string hiddenWord(word.length(), hasSpaces ? ' ' : '-');
+
+	if (!hasSpaces)
 	{
-		if (word[i] == ' ' || word[i] == '_')
-		{
-			hiddenWord = hiddenWord + " ";
-			ok = false;
-		}
-		else
-		{
-			hiddenWord = hiddenWord + "-";
-		}
-	}
-	MakeAllLettersFalse(word);
-	if (ok)
-		m_counterLetters = 0;
-	else
+		MakeAllLettersFalse(word);
 		m_counterLetters = 1;
+	}
+	else
+	{
+		m_counterLetters = 0;
+	}
+
 	return hiddenWord;
 }
 

@@ -48,10 +48,7 @@ std::string Game::GetGameStatusAsString() const
 
 EGameStatus Game::EGameStatusFromString(const std::string& status)
 {
-	if (status == "Lobby")
-		return EGameStatus::Lobby;
-	else if (status == "Playing")
-		return EGameStatus::Playing;
+	return status == "Lobby" ? EGameStatus::Lobby : EGameStatus::Playing;
 }
 
 void Game::SetGameStatus(const std::string& status)
