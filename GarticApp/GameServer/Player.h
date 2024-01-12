@@ -13,7 +13,7 @@ public:
 	void SetUsername(const std::string& username);
 
 	void SetSecond(int second);
-	int GetSecond();
+	int GetSecond() const;
 	void SetScore(int16_t points);
 	void CalcultateGuesserScore(std::chrono::seconds second);
 	int16_t GetScore() const;

@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <random>
+#include <numeric>
 
 
 SubRound::SubRound() :
@@ -194,12 +195,16 @@ bool SubRound::NoOneGuessed(std::vector<Player*>& players)
 	return true;
 }
 
-int SubRound::AverageSeconds(std::vector<Player*>& players)
+int SubRound::AverageSeconds(const std::vector<Player*>& players)
 {
-	int sum = 0;
-	for (auto player : players)
-		 sum = sum + player->GetSecond();
-	return (sum / players.size());
+	if (players.empty()) return 0;
+
+	auto sum = std::accumulate(players.begin(), players.end(), 0,
+		[](int total, const Player* player) {
+			return total + player->GetSecond();
+		});
+
+	return static_cast<int>(sum / players.size());
 }
 
 void SubRound::CalculatePainterScore(std::vector<Player*>& players)

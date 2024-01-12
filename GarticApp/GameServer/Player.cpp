@@ -28,7 +28,7 @@ void Player::SetSecond(int second)
 	m_second = second;
 }
 
-int Player::GetSecond()
+int Player::GetSecond() const
 {
 	return m_second;
 }
