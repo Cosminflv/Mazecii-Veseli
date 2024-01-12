@@ -181,7 +181,6 @@ bool SubRound::HasSubRoundEnded() const
 
 bool SubRound::NoOneGuessed(const std::vector<Player*>& players)
 {
-	// Using std::all_of to check the condition for all players
 	return std::all_of(players.begin(), players.end(),
 		[](const Player* player) {
 			return player->GetSecond() == 60;

@@ -46,33 +46,36 @@ std::string RouteHandler::UpdateWord(std::string& seenWord, std::string &current
     return m_game->GetRound()->GetSubround()->UpdateWordWithLetters(seenWord, currentWord);
 }
 
-void RouteHandler::CalculateScoreForGuesser(const std::string& username, std::vector<PlayerPtr>players, Timer& T)
+void RouteHandler::CalculateScoreForGuesser(const std::string& username, std::vector<PlayerPtr>& players, Timer& T)
 {
-	std::chrono::seconds second = std::chrono::duration_cast<std::chrono::seconds>(T.GetRemainingTime());
-	std::cout << username << " guessed at second: " << second << "\n";
-	for (auto player : players)
-	{
-		if (username == player->GetUsername())
-		{
-			player->CalcultateGuesserScore(second);
-			player->SetSecond(30 + (30 - second.count())); // a ghicit la secunda 40 -> inseamna ca a ghicit in 20 de sec; second.count()=40; 30+(30-40)=30-10=20 secunde.
-			std::cout << "Scorul player-ului " << player->GetUsername() << ": " << player->GetScore() << "\n";
-		}
-	}
-	if (T.IsTimeExpired())
-	{
-		std::cout << "true";
-		for (auto player : players)
-		{
-			if (username == player->GetUsername())
-			{
-				player->SetScore(-50);
-				player->SetSecond(60); // "60 va fi timpul alocat pentru jucatorii care nu au furnizat un raspuns corect" -> document Proiecte MC++, pentru a calcula scorul unui Painter
-				std::cout << "Timp expirat. Scorulul player-ului " << player->GetUsername() << ": " << player->GetScore() << "\n";
-			}
-		}
-	}
+    std::chrono::seconds remainingSeconds = std::chrono::duration_cast<std::chrono::seconds>(T.GetRemainingTime());
+    std::cout << username << " guessed at second: " << remainingSeconds.count() << "\n";
 
+    for (const auto& player : players)
+    {
+        if (username == player->GetUsername())
+        {
+            player->CalcultateGuesserScore(remainingSeconds);
+            player->SetSecond(30 + (30 - remainingSeconds.count())); // a ghicit la secunda 40 -> inseamna ca a ghicit in 20 de sec; second.count()=40; 30+(30-40)=30-10=20 secunde.
+            std::cout << "Scorul player-ului " << player->GetUsername() << ": " << player->GetScore() << "\n";
+        }
+    }
+
+    if (T.IsTimeExpired())
+    {
+        std::cout << "true";
+
+        for (const auto& player : players)
+        {
+            if (username == player->GetUsername())
+            {
+                player->SetScore(-50);
+                player->SetSecond(60); // "60 va fi timpul alocat pentru jucatorii care nu au furnizat un raspuns corect" -> document Proiecte MC++, pentru a calcula scorul unui Painter
+                std::cout << "Timp expirat. Scorulul player-ului " << player->GetUsername() << ": " << player->GetScore() << "\n";
+            }
+        }
+    }
 }
+
 
 
