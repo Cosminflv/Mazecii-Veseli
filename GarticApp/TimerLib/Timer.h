@@ -17,6 +17,8 @@ class __declspec(dllexport) Timer {
 public:
 	//Constructors
 	Timer(int total_minutes);
+	//Constructor for testing
+	Timer(int total_seconds, bool);
 	//Destructor
 	~Timer();
 

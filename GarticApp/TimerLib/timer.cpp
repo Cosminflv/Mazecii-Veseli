@@ -17,6 +17,16 @@ Timer::Timer(int total_minutes)
 {
 }
 
+Timer::Timer(int total_seconds, bool)
+	: m_initialTime{ total_seconds }
+	, m_remainingTime{ m_initialTime }
+	, m_running{ false }
+	, m_timerResolution{ 1 }
+	, m_toDecreaseTime{ 0 }
+	, m_suspended(false)
+{
+}
+
 Timer::~Timer()
 {
 	m_running = false;
