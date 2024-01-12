@@ -39,9 +39,9 @@ public:
 	void ChoosePainter(std::vector<Player*>& players);
 	bool HaveAllPlayersGuessed() const;
 	bool HasSubRoundEnded() const;
-	bool NoOneGuessed(std::vector<Player*>& players);
+	bool NoOneGuessed(const std::vector<Player*>& players);
 	int AverageSeconds(const std::vector<Player*>& players);
-	void CalculatePainterScore(std::vector<Player*>& players);
+	void CalculatePainterScore(const std::vector<Player*>& players);
 	void MakeAllLettersFalse(const std::string& sizeWord);
 
 private:

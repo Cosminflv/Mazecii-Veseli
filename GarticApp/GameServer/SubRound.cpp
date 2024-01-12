@@ -171,28 +171,21 @@ void SubRound::ChoosePainter(std::vector<Player*>& players)
 
 bool SubRound::HaveAllPlayersGuessed() const
 {
-	if (m_counterGuessingPlayers == m_numberOfPlayers - 1)
-		return true;
-	return false;
+	return m_counterGuessingPlayers == m_numberOfPlayers - 1 ? true : false;
 }
 
 bool SubRound::HasSubRoundEnded() const
 {
-	if (HaveAllPlayersGuessed() == true)
-		return true;
-	else if (m_hasTimeEnded == true)
-		return true;
-	return false;
+	return HaveAllPlayersGuessed() == true ? true : false;
 }
 
-bool SubRound::NoOneGuessed(std::vector<Player*>& players)
+bool SubRound::NoOneGuessed(const std::vector<Player*>& players)
 {
-	for (auto player : players)
-	{
-		if (player->GetSecond() != 60)
-			return false;
-	}
-	return true;
+	// Using std::all_of to check the condition for all players
+	return std::all_of(players.begin(), players.end(),
+		[](const Player* player) {
+			return player->GetSecond() == 60;
+		});
 }
 
 int SubRound::AverageSeconds(const std::vector<Player*>& players)
@@ -207,7 +200,7 @@ int SubRound::AverageSeconds(const std::vector<Player*>& players)
 	return static_cast<int>(sum / players.size());
 }
 
-void SubRound::CalculatePainterScore(std::vector<Player*>& players)
+void SubRound::CalculatePainterScore(const std::vector<Player*>& players)
 {
 	int score = 0;
 	if (NoOneGuessed(players))
