@@ -44,6 +44,7 @@ void ScribbleArea::SetUpUi()
 		}
 
 		m_drawing = std::vector<Coordinate>();
+		m_info = std::vector<DrawingInfo>();
 
 		m_getDrawing = new QPushButton("see drawing", this);
 		m_getDrawing->setGeometry(300, 10, 130, 30);
@@ -244,12 +245,13 @@ void ScribbleArea::DrawFromServer()
 	painter.setRenderHint(QPainter::TextAntialiasing, true);
 	painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
 
-	const int breakLineThreshold = 100;
+	const int breakLineThreshold = 70;
 
 	for (size_t i = 1; i < m_drawing.size(); i++)
 	{
 		QColor color(QString::fromUtf8(m_info[i].first.c_str()));
 		painter.setPen(QPen(color, m_info[i].second, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+		painter.drawPoint(m_drawing[i].first, m_drawing[i].second);
 
 		int x1 = m_drawing[i - 1].first;
 		int y1 = m_drawing[i - 1].second;
@@ -291,7 +293,6 @@ void ScribbleArea::mouseMoveEvent(QMouseEvent* event)
 		if ((event->buttons() & Qt::LeftButton) && m_isScribbling)
 		{
 			DrawLineTo(event->pos());
-			DrawInMatrix(event->pos().x(), event->pos().y());
 		}
 	}
 }
@@ -302,7 +303,6 @@ void ScribbleArea::mouseReleaseEvent(QMouseEvent* event)
 	{
 		if (event->button() == Qt::LeftButton && m_isScribbling) {
 			DrawLineTo(event->pos());
-			DrawInMatrix(event->pos().x(), event->pos().y());
 			m_isScribbling = false;
 		}
 	}
@@ -414,8 +414,8 @@ void ScribbleArea::onGetDrawing()
 		}
 		else
 		{
-			painter.drawLine(x1, y1, x2, y2); // continue current line
-		}
+			painter.drawLine(x1, y1, x2, y2); // continue current lineint rad = (m_penWidth / 2) + 2;
+		}	
 	}
 
 	label->setPixmap(canvas);
