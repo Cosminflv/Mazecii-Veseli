@@ -26,7 +26,6 @@ public:
 	std::chrono::milliseconds GetRemainingTime();
 
 	//Setters
-	void SetNotifyChange(TimerCallback newFunc);
 	void SetTimerResolution(int ms);
 	void SetUpdateWordCallback(TimerCallback updateWordCallback);
 

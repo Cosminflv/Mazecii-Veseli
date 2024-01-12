@@ -1,5 +1,4 @@
 #include "Timer.h";
-#include "Chat.h";
 
 #include "gtest/gtest.h"
 
