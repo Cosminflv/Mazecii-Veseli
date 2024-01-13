@@ -38,12 +38,12 @@ public:
 	void StartRound();
 	void StopRound();
 
-	void ChoosePainter(std::vector<Player*>& players);
+	void ChoosePainter(std::vector<PlayerPtr>& players);
 	bool HaveAllPlayersGuessed() const;
 	bool HasSubRoundEnded() const;
-	bool NoOneGuessed(const std::vector<Player*>& players);
-	int AverageSeconds(const std::vector<Player*>& players);
-	void CalculatePainterScore(const std::vector<Player*>& players);
+	bool NoOneGuessed(const std::vector<PlayerPtr>& players);
+	int AverageSeconds(const std::vector<PlayerPtr>& players);
+	void CalculatePainterScore(const std::vector<PlayerPtr>& players);
 	void MakeAllLettersFalse(const std::string& sizeWord);
 
 private:

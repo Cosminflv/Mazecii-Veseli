@@ -157,12 +157,58 @@ namespace TestsNative
             std::string seenWord = "example";
             SubRound subRound(seenWord, 3);
             std::string currentWord = "*******"; // Masked word
+            std::string initialCurrentWord = "*******";
             subRound.MakeAllLettersFalse(seenWord);
             std::string result = subRound.UpdateWordWithLetters(seenWord, currentWord);
 
-            Assert::IsTrue(result == currentWord, L"currentWord should be updated with at least one letter from seenWord.");
+            Assert::IsTrue(result != initialCurrentWord, L"currentWord should be updated with at least one letter from seenWord.");
             Assert::IsTrue(result.find('*') != std::string::npos, L"currentWord should still contain some masked letters.");
             Assert::IsTrue(result.size() == seenWord.size(), L"Updated word should have the same size as seenWord.");
+        }
+
+        TEST_METHOD(MakeAllLettersFalse_EmptyString)
+        {
+            SubRound subRound;
+            std::string emptyWord = ""; // Empty word
+            subRound.MakeAllLettersFalse(emptyWord);
+
+            const std::vector<bool>& letterShown = subRound.GetLetterShown();
+
+            Assert::AreEqual(size_t(0), letterShown.size(), L"m_letterShown should be empty when the input string is empty.");
+        }
+
+        TEST_METHOD(NonOneGuessed_AllPlayersNotGuessed)
+        {
+            SubRound s;
+
+            PlayerPtr player1 = std::make_shared<Player>("Player1", PlayerRole::Guesser, 0);
+            PlayerPtr player2 = std::make_shared<Player>("Player2", PlayerRole::Guesser, 0);
+            PlayerPtr player3 = std::make_shared<Player>("Player2", PlayerRole::Guesser, 0);
+
+            player1->SetSecond(60);
+            player2->SetSecond(60);
+            player3->SetSecond(60);
+
+            std::vector<PlayerPtr> players = { player1, player2, player3 };
+
+            Assert::IsTrue(s.NoOneGuessed(players));
+        }
+
+        TEST_METHOD(NonOneGuessed_SomePlayersGuessed)
+        {
+            SubRound s;
+
+            PlayerPtr player1 = std::make_shared<Player>("Player1", PlayerRole::Guesser, 0);
+            PlayerPtr player2 = std::make_shared<Player>("Player2", PlayerRole::Guesser, 0);
+            PlayerPtr player3 = std::make_shared<Player>("Player2", PlayerRole::Guesser, 0);
+
+            player1->SetSecond(60);
+            player2->SetSecond(27); // player2 guessed at second 27
+            player3->SetSecond(60);
+
+            std::vector<PlayerPtr> players = { player1, player2, player3 };
+
+            Assert::IsFalse(s.NoOneGuessed(players));
         }
     };
 }

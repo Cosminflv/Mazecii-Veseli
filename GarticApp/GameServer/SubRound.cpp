@@ -163,7 +163,7 @@ std::string SubRound::GetSeenWord()
 	return m_seenWord;
 }
 
-void SubRound::ChoosePainter(std::vector<Player*>& players)
+void SubRound::ChoosePainter(std::vector<PlayerPtr>& players)
 {
 	if (players.empty()) {
 		std::cout << "Empty player vector.\n";
@@ -188,27 +188,27 @@ bool SubRound::HasSubRoundEnded() const
 	return HaveAllPlayersGuessed() == true ? true : false;
 }
 
-bool SubRound::NoOneGuessed(const std::vector<Player*>& players)
+bool SubRound::NoOneGuessed(const std::vector<PlayerPtr>& players)
 {
 	return std::all_of(players.begin(), players.end(),
-		[](const Player* player) {
+		[](const PlayerPtr player) {
 			return player->GetSecond() == 60;
 		});
 }
 
-int SubRound::AverageSeconds(const std::vector<Player*>& players)
+int SubRound::AverageSeconds(const std::vector<PlayerPtr>& players)
 {
 	if (players.empty()) return 0;
 
 	auto sum = std::accumulate(players.begin(), players.end(), 0,
-		[](int total, const Player* player) {
+		[](int total, const PlayerPtr player) {
 			return total + player->GetSecond();
 		});
 
 	return static_cast<int>(sum / players.size());
 }
 
-void SubRound::CalculatePainterScore(const std::vector<Player*>& players)
+void SubRound::CalculatePainterScore(const std::vector<PlayerPtr>& players)
 {
 	int score = 0;
 	if (NoOneGuessed(players))
