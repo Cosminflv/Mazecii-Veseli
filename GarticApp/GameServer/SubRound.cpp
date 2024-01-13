@@ -109,10 +109,10 @@ std::string SubRound::HideWord(const std::string& word)
 {
 	bool hasSpaces = std::any_of(word.begin(), word.end(), [](char c) { return c == ' ' || c == '_'; });
 	std::string hiddenWord(word.length(), hasSpaces ? ' ' : '-');
+	MakeAllLettersFalse(word);
 
 	if (!hasSpaces)
 	{
-		MakeAllLettersFalse(word);
 		m_counterLetters = 1;
 	}
 	else
@@ -131,7 +131,7 @@ std::string SubRound::UpdateWordWithLetters(std::string& seenWord, std::string&c
 		return "";
 	}
 	int randomIndex=0;
-	if (m_counterLetters<seenWord.size()/2)
+	if (m_counterLetters<=seenWord.size()/2)
 	{
 		do {
 			randomIndex = rand() % currentWord.size();
@@ -183,7 +183,6 @@ bool SubRound::HaveAllPlayersGuessed() const
 {
 	return m_counterGuessingPlayers == m_numberOfPlayers - 1 ? true : false;
 }
-
 
 
 bool SubRound::HasSubRoundEnded() const
