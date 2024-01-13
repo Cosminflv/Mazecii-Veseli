@@ -52,6 +52,15 @@ SubRound::SubRound(const std::string& word, const int numberOfPlayers, Storage s
 	m_duration = 60;
 }
 
+SubRound::SubRound(const std::string& word, const int numberOfPlayers)
+	: m_seenWord{word},
+	m_numberOfPlayers{numberOfPlayers},
+	m_storage{createStorage("Database.sqlite")},
+	m_timer(1),
+	m_duration(60)
+{
+}
+
 
 void SubRound::SeeWord(const std::string& word) const
 {

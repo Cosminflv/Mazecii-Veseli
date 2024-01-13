@@ -14,6 +14,7 @@ public:
 	SubRound(const std::vector<PlayerPtr>& players);
 	SubRound(const SubRound& r);
 	SubRound(const std::string& word, int numberOfPlayers, Storage storage);
+	SubRound(const std::string& word, int numberOfPlayers);
 
 	//Getters
 	Storage GetStorage() const;

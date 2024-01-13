@@ -1,6 +1,7 @@
 #pragma once
 #include "PlayerRole.h"
 #include "AdminRole.h"
+
 class Player
 {
 public:
