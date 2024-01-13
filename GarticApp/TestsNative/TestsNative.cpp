@@ -210,5 +210,88 @@ namespace TestsNative
 
             Assert::IsFalse(s.NoOneGuessed(players));
         }
+
+        TEST_METHOD(AverageSeconds_EmptyPlayerVector)
+        {
+            SubRound s;
+            std::vector<PlayerPtr> players;
+
+            int result = s.AverageSeconds(players);
+
+            Assert::AreEqual(0, result);
+        }
+
+        TEST_METHOD(AverageSeconds_SinglePlayer)
+        {
+            SubRound s;
+
+            PlayerPtr player = std::make_shared<Player>("Player1", PlayerRole::Guesser, 0);
+            player->SetSecond(60);
+
+            std::vector<PlayerPtr> players = { player };
+
+            int result = s.AverageSeconds(players);
+
+            Assert::AreEqual(60, result);
+        }
+
+        TEST_METHOD(AverageSeconds_MultiplePlayers1)
+        {
+            SubRound s;
+            PlayerPtr player1 = std::make_shared<Player>("Player1", PlayerRole::Guesser, 0);
+            PlayerPtr player2 = std::make_shared<Player>("Player2", PlayerRole::Guesser, 0);
+            PlayerPtr player3 = std::make_shared<Player>("Player3", PlayerRole::Guesser, 0);
+            player1->SetSecond(60);
+            player2->SetSecond(30);
+            player3->SetSecond(90);
+            std::vector<PlayerPtr> players = { player1, player2, player3 };
+
+            int result = s.AverageSeconds(players);
+
+            Assert::AreEqual(60, result);
+        }
+
+        TEST_METHOD(AverageSeconds_MultiplePlayers2)
+        {
+            SubRound s;
+            PlayerPtr player1 = std::make_shared<Player>("Player1", PlayerRole::Guesser, 0);
+            PlayerPtr player2 = std::make_shared<Player>("Player2", PlayerRole::Guesser, 0);
+            PlayerPtr player3 = std::make_shared<Player>("Player3", PlayerRole::Guesser, 0);
+            player1->SetSecond(50);
+            player2->SetSecond(45);
+            player3->SetSecond(15);
+            std::vector<PlayerPtr> players = { player1, player2, player3 };
+            int expectedResult = (50 + 45 + 15) / 3;
+
+            int result = s.AverageSeconds(players);
+
+            Assert::AreEqual(expectedResult, result);
+        }
+
+        TEST_METHOD(CalculatePainterScore_EmptyPlayerVector)
+        {
+            SubRound s;
+            std::vector<PlayerPtr> players;
+
+            int result = s.CalculatePainterScore(players);
+
+            Assert::AreEqual(-100, result);
+        }
+
+        TEST_METHOD(CalculatePainterScore_NoPlayerGuessed)
+        {
+            SubRound s;
+            PlayerPtr player1 = std::make_shared<Player>("Player1", PlayerRole::Guesser, 0);
+            PlayerPtr player2 = std::make_shared<Player>("Player2", PlayerRole::Guesser, 0);
+            PlayerPtr player3 = std::make_shared<Player>("Player3", PlayerRole::Guesser, 0);
+            player1->SetSecond(60);
+            player2->SetSecond(60);
+            player3->SetSecond(60);
+            std::vector<PlayerPtr> players = { player1, player2, player3 };
+
+            int result = s.CalculatePainterScore(players);
+
+            Assert::AreEqual(-100, result);
+        }
     };
 }

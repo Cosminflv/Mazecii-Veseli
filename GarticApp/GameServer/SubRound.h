@@ -43,7 +43,7 @@ public:
 	bool HasSubRoundEnded() const;
 	bool NoOneGuessed(const std::vector<PlayerPtr>& players);
 	int AverageSeconds(const std::vector<PlayerPtr>& players);
-	void CalculatePainterScore(const std::vector<PlayerPtr>& players);
+	int CalculatePainterScore(const std::vector<PlayerPtr>& players);
 	void MakeAllLettersFalse(const std::string& sizeWord);
 
 private:

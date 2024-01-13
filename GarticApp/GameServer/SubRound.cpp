@@ -208,13 +208,10 @@ int SubRound::AverageSeconds(const std::vector<PlayerPtr>& players)
 	return static_cast<int>(sum / players.size());
 }
 
-void SubRound::CalculatePainterScore(const std::vector<PlayerPtr>& players)
+int SubRound::CalculatePainterScore(const std::vector<PlayerPtr>& players)
 {
-	int score = 0;
-	if (NoOneGuessed(players))
-		score = -100;
-	else
-		score = ((60 - AverageSeconds(players)) * 100) / 60;
+	int score = NoOneGuessed(players) ? -100 : ((60 - AverageSeconds(players)) * 100) / 60;
+	return score;
 }
 
 void SubRound::MakeAllLettersFalse(const std::string& sizeWord)
