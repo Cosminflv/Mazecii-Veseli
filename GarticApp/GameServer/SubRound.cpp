@@ -251,3 +251,8 @@ bool SubRound::GetHasTimeEnded() const
 {
 	return m_hasTimeEnded;
 }
+
+std::vector<bool> SubRound::GetLetterShown() const
+{
+	return m_letterShown;
+}

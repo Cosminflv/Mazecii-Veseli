@@ -23,6 +23,7 @@ public:
 	std::string GetWord() const;
 	int GetDuration() const;
 	bool GetHasTimeEnded() const;
+	std::vector<bool> GetLetterShown() const;
 
     std::string SelectRandomWord(uint16_t difficulty); 
 	std::string HideWord(const std::string& word);

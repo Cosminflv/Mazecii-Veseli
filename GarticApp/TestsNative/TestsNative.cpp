@@ -104,5 +104,65 @@ namespace TestsNative
 
             Assert::AreEqual(true, result);
         }
+
+        //TEST_METHOD(SelectRandomWordTest) CANNOT BE TESTED
+        //{
+        //    SubRound s;
+
+        //    auto result = s.SelectRandomWord(static_cast<uint16_t>(1));
+
+        //    Assert::IsFalse(result.empty());
+        //}
+
+        TEST_METHOD(HideWordTest)
+        {
+            SubRound s;
+
+            std::string result = s.HideWord("pineapple");
+            std::string expectedResult = "---------";
+
+            Assert::AreEqual(expectedResult, result);
+        }
+
+        TEST_METHOD(UpdateWordWithLetters_EmptyCurrentWord)
+        {
+            SubRound subRound; // Assuming default constructor is available
+            std::string seenWord = "example";
+            std::string currentWord = "";
+
+            std::string result = subRound.UpdateWordWithLetters(seenWord, currentWord);
+
+            Assert::AreEqual(size_t(0), result.size(), L"Result should be an empty string when currentWord is empty.");
+        }
+
+        TEST_METHOD(MakeAllLettersFalse_SetsAllToFalse)
+        {
+            std::string sizeWord = "example"; // Example word
+            SubRound subRound(sizeWord, 3);
+            subRound.MakeAllLettersFalse(sizeWord);
+
+            // Accessor method or friend class needed to get the value of m_letterShown
+            const std::vector<bool>& letterShown = subRound.GetLetterShown();
+
+            Assert::AreEqual(sizeWord.size(), letterShown.size(), L"m_letterShown size does not match sizeWord size.");
+
+            for (bool letterState : letterShown)
+            {
+                Assert::IsFalse(letterState, L"Not all elements in m_letterShown are set to false.");
+            }
+        }
+
+        TEST_METHOD(UpdateWordWithLetters_NonEmptyCurrentWord)
+        {
+            std::string seenWord = "example";
+            SubRound subRound(seenWord, 3);
+            std::string currentWord = "*******"; // Masked word
+            subRound.MakeAllLettersFalse(seenWord);
+            std::string result = subRound.UpdateWordWithLetters(seenWord, currentWord);
+
+            Assert::IsTrue(result == currentWord, L"currentWord should be updated with at least one letter from seenWord.");
+            Assert::IsTrue(result.find('*') != std::string::npos, L"currentWord should still contain some masked letters.");
+            Assert::IsTrue(result.size() == seenWord.size(), L"Updated word should have the same size as seenWord.");
+        }
     };
 }
