@@ -68,6 +68,11 @@ bool Game::CheckUniquePlayerUsername(PlayerPtr player) const
 	return setOfUsernames.find(player->GetUsername()) != setOfUsernames.end() ? false : true;
 }
 
+bool Game::IsCurrentRoundReset() const
+{
+	return m_currRound == nullptr;
+}
+
 std::map<PlayerPtr, int>Game::GetLeaderboard() const
 {
 	return m_leaderboard;

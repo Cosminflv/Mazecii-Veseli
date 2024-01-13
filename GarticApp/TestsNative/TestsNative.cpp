@@ -428,7 +428,7 @@ namespace TestsNative
             }
         }
 
-        TEST_METHOD(AddPlayer_AdmireRoleSetCorrectly)
+        TEST_METHOD(AddPlayer_AdminRoleSetCorrectly)
         {
             std::unique_ptr<Game> game = std::make_unique<Game>();
 
@@ -446,6 +446,61 @@ namespace TestsNative
             Assert::AreEqual(adminRoleString, game->GetPlayers()[0]->GetAdminRoleAsString());
             Assert::AreEqual(nonAdminRoleString, game->GetPlayers()[1]->GetAdminRoleAsString());
             Assert::AreEqual(nonAdminRoleString, game->GetPlayers()[2]->GetAdminRoleAsString());
+        }
+
+        TEST_METHOD(ResetGame_ResetsAllPlayerScores) {
+            Game game;
+            game.AddPlayer(std::make_shared<Player>());
+            game.AddPlayer(std::make_shared<Player>());
+
+            for (auto& player : game.GetPlayers()) {
+                player->SetScore(100);
+            }
+
+            game.ResetGame();
+
+            for (const auto& player : game.GetPlayers()) {
+                int resultScore = player->GetScore();
+                Assert::AreEqual(0, resultScore, L"Player scores should be reset to 0.");
+            }
+        }
+
+        TEST_METHOD(ResetGame_ResetsAllPlayerScoresAndCurrentRound) {
+            Game game;
+            game.AddPlayer(std::make_shared<Player>());
+            game.AddPlayer(std::make_shared<Player>());
+
+            // Set some initial scores to ensure they get reset
+            for (auto& player : game.GetPlayers()) {
+                player->SetScore(100);
+            }
+
+            game.ResetGame();
+
+            // Check if all player scores are reset to 0
+            for (const auto& player : game.GetPlayers()) {
+                int resultScore = player->GetScore();
+                Assert::AreEqual(0, resultScore, L"Player scores should be reset to 0.");
+            }
+
+            // Check if current round is reset
+            Assert::IsTrue(game.IsCurrentRoundReset(), L"Current round should be reset.");
+        }
+
+        TEST_METHOD(ResetGame_ResetsRound) {
+            Game game;
+            game.AddPlayer(std::make_shared<Player>());
+            game.AddPlayer(std::make_shared<Player>());
+
+            // Set some initial scores to ensure they get reset
+            for (auto& player : game.GetPlayers()) {
+                player->SetScore(100);
+            }
+
+            game.ResetGame();
+
+            // Check if current round is reset
+            Assert::IsTrue(game.IsCurrentRoundReset(), L"Current round should be reset.");
         }
     };
 

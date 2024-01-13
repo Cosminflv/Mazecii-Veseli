@@ -25,6 +25,7 @@ public:
 	void SetGameStatus(const std::string& status);
 
 	bool CheckUniquePlayerUsername(PlayerPtr player) const;
+	bool IsCurrentRoundReset() const;
 	void AddPlayer(PlayerPtr player);
 	std::map<PlayerPtr, int>GetLeaderboard() const;
 
