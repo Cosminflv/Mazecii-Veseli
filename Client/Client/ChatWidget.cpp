@@ -18,12 +18,7 @@ ChatWidget::ChatWidget(QWidget* parent)
 	messageInput->setFont(QFont("8514oem", 13));
 	layout->addWidget(messageInput);
 
-	setLayout(layout);
-
-	m_requestsTimer = new QTimer(this);
-	m_requestsTimer->setInterval(1000); // Set interval to 1 second
-	m_requestsTimer->start();
-	connect(m_requestsTimer, &QTimer::timeout, this, &ChatWidget::fetchAndUpdateChat);
+	setLayout(layout);	
 
 	setStyleSheet("background-color: #ffffff");
 }
@@ -32,6 +27,17 @@ ChatWidget::~ChatWidget()
 {
 	delete messageDisplay;
 	delete messageInput;
+}
+
+void ChatWidget::SetUi()
+{
+	//if (m_you.GetPlayerRole() == "Guesser")
+	//{
+		m_requestsTimer = new QTimer(this);
+		m_requestsTimer->setInterval(1000); // Set interval to 1 second
+		m_requestsTimer->start();
+		connect(m_requestsTimer, &QTimer::timeout, this, &ChatWidget::fetchAndUpdateChat);
+	//}
 }
 
 std::string ChatWidget::GetUsernameOfClient() const
@@ -44,24 +50,45 @@ void ChatWidget::SetClientUsername(const std::string& user)
 	m_username = user;
 }
 
+void ChatWidget::SetClient(const PlayerClient& client)
+{
+	m_you.SetUsername(client.GetUsername());
+	m_you.SetAdminRole(client.GetAdminRole());
+	m_you.UpdatePlayerRole(client.GetPlayerRole());
+	m_you.UpdateScore(client.GetScore());
+	m_you.UpdateStatus(client.GetStatus());
+	if (m_you.GetPlayerRole() == "Guesser")
+	{
+		m_username = m_you.GetUsername();
+	}
+	else
+	{
+		m_username = " ";
+	}
+}
+
 void ChatWidget::sendMessage()
 {
-	QString message = messageInput->text();
-	m_message = message.toUtf8().constData();
-	QString user = QString::fromUtf8(m_username.c_str());
+	if (m_you.GetPlayerRole() == "Guesser")
+	{
+		QString message = messageInput->text();
+		m_message = message.toUtf8().constData();
+		QString user = QString::fromUtf8(m_username.c_str());
 
-	if (!message.isEmpty()) {
-		messageDisplay->setFont(QFont("8514oem", 13));
-		messageDisplay->append(user + ": " + message);
-		messageInput->clear();
-		emit messageSent(user, message);
+		if (!message.isEmpty()) {
+			messageDisplay->setFont(QFont("8514oem", 13));
+			messageDisplay->append(user + ": " + message);
+			messageInput->clear();
+			emit messageSent(user, message);
+		}
+		qDebug() << m_username << " - " << m_message << "\n";
 	}
-	qDebug() << m_username << " - " << m_message << "\n";
 }
 
 void ChatWidget::keyPressEvent(QKeyEvent* e)
 {
-	if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)
+	if ((e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)
+		&& m_you.GetPlayerRole() == "Guesser")
 	{
 		sendMessage();
 		crow::json::wvalue jsonChat;

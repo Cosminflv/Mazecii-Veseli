@@ -14,9 +14,11 @@ class ChatWidget : public QWidget
 public:
 	ChatWidget(QWidget* parent = nullptr);
 	~ChatWidget();
+	void SetUi();
 
 	std::string GetUsernameOfClient() const;
 	void SetClientUsername(const std::string& user);
+	void SetClient(const PlayerClient& client);
 	QString fromJsonToQString(const crow::json::detail::r_string value);
 
 signals:
@@ -31,12 +33,13 @@ protected:
 	void keyPressEvent(QKeyEvent* e) override;
 
 private:
-
 	QTimer* m_requestsTimer;
 
 	QTextEdit* messageDisplay;
 	QLineEdit* messageInput;
 	std::string m_username;
 	std::string m_message;
+
+	PlayerClient m_you;
 };
 

@@ -109,7 +109,8 @@ void Difficulty::SelectDifficulty()
 	//w->GetWordWidget()->UpdateWord(w->GetWordWidget()->HiddenWord(w->GetWordWidget()->FetchWordFromServer(m_difficulty)));
 	w->GetWordWidget()->GetWordLabel()->setFont(QFont("Sitka Text Semibold", 25));
 	qDebug() << "client difficulty set:" << w->GetDifficulty();
-	w->GetChat()->SetClientUsername(m_you.GetUsername());
+	w->GetChat()->SetClient(m_you);
+	w->GetChat()->SetUi();
 	w->show();
 	hide();	
 }
