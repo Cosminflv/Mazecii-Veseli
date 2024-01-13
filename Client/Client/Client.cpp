@@ -30,8 +30,8 @@ Client::Client(QWidget* parent)
             m_timerWidget->GetTimeLabel()->setPalette(textColor);
         });
     connect(m_chatWidget, &ChatWidget::messageSent, [this]() {
-        // Așteaptă 1000 milisecunde (1 secundă) înainte de a apela UpdateScoreUI
-        QTimer::singleShot(1000, this, [this]() {
+        // Așteaptă 500 milisecunde (0,5 secunde) înainte de a apela UpdateScoreUI
+        QTimer::singleShot(500, this, [this]() {
             m_playerWidget->UpdateScoreUI(m_you.GetUsername());
             });
         });

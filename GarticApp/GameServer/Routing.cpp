@@ -301,7 +301,6 @@ void Routing::Run()
 				handler.WriteMessage(username, message);
 
 				std::cout << "Received message from " << username << ": " << message;
-
 				std::vector<PlayerPtr>players = game->GetPlayers();
 				if (handler.CheckEnteredMessage(message)) {
 					handler.CalculateScoreForGuesser(username, players, T);

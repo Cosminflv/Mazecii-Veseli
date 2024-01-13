@@ -20,7 +20,7 @@ PlayerRole ConvertToRole(const std::string& role)
 		return PlayerRole::Guesser;
 
 	if (role == "Guessed")
-		return PlayerRole::Guessed;
+		return PlayerRole::HasNotGuessedYet;
 
 	if (role == "Painter")
 		return PlayerRole::Painter;

@@ -48,6 +48,16 @@ int16_t Player::GetScore() const
 	return m_score;
 }
 
+void Player::AlreadyGuessed(bool ok)
+{
+	m_alreadyGuessed = ok;
+}
+
+bool Player::HasNotGuessedYet()
+{
+	return m_alreadyGuessed;
+}
+
 bool Player::GetPlayerStatus() const
 {
 	return m_hasPainted;
@@ -73,7 +83,7 @@ std::string Player::GetAdminRoleAsString() const
 
 std::string Player::GetPlayerRoleAsString() const
 {
-	if (m_playerRole == PlayerRole::Guessed)
+	if (m_playerRole == PlayerRole::HasNotGuessedYet)
 		return "Guessed";
 	if (m_playerRole == PlayerRole::Guesser)
 		return "Guesser";

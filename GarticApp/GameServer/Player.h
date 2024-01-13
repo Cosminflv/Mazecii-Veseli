@@ -18,6 +18,8 @@ public:
 	void SetScore(int16_t points);
 	void CalculateGuesserScore(std::chrono::seconds second);
 	int16_t GetScore() const;
+	void AlreadyGuessed(bool ok);
+	bool HasNotGuessedYet();
 
 	bool GetPlayerStatus() const;
 	void SetPlayerStatus(const bool &status);
@@ -41,7 +43,7 @@ private:
 	PlayerRole m_playerRole;
 	AdminRole m_adminRole;
 	bool m_hasPainted;
-
+	bool m_alreadyGuessed;
 };
 
 std::ostream& operator <<(std::ostream& os, const Player& player);

@@ -184,6 +184,8 @@ bool SubRound::HaveAllPlayersGuessed() const
 	return m_counterGuessingPlayers == m_numberOfPlayers - 1 ? true : false;
 }
 
+
+
 bool SubRound::HasSubRoundEnded() const
 {
 	return HaveAllPlayersGuessed() == true ? true : false;
