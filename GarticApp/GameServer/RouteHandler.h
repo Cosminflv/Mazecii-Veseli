@@ -1,6 +1,7 @@
 #pragma once
 #include "Game.h"
 #include <random>
+#include <string_view>
 
 class RouteHandler
 {
@@ -12,7 +13,7 @@ public:
 	std::shared_ptr<Game> GetGame();
 
 
-	bool CheckEnteredMessage(const std::string& message);
+	bool CheckEnteredMessage(const std::string_view& message);
 	void AddPlayer(const std::string& username);
 	void WriteMessage(const std::string& username, const std::string& message);
 	std::string PickWord(uint16_t difficulty);

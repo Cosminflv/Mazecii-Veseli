@@ -30,11 +30,11 @@ public:
 	std::string UpdateWordWithLetters(std::string& seenWord, std::string& currentWord);
 	void SetHiddenWord(std::string& word);
 	std::string GetHiddentWord();
-	void SetSeenWord(std::string& word);
+	void SetSeenWord(std::string_view word);
 	std::string GetSeenWord();
 
 	void SeeWord(const std::string& word) const;
-	bool GuessWord(const std::string& word) const;
+	bool GuessWord(const std::string_view& word) const;
 	void StartRound();
 	void StopRound();
 

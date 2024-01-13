@@ -6,6 +6,7 @@
 #include <string>
 #include <random>
 #include <numeric>
+#include <string_view>
 
 
 SubRound::SubRound() :
@@ -67,7 +68,7 @@ void SubRound::SeeWord(const std::string& word) const
 	std::cout << "Your word is: " << word;
 }
 
-bool SubRound::GuessWord(const std::string& word) const
+bool SubRound::GuessWord(const std::string_view& word) const
 {
 	return m_seenWord == word;
 }
@@ -153,7 +154,7 @@ std::string SubRound::GetHiddentWord()
 	return m_hiddenWord;
 }
 
-void SubRound::SetSeenWord(std::string& word)
+void SubRound::SetSeenWord(std::string_view word)
 {
 	m_seenWord = word;
 }

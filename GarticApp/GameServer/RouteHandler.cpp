@@ -13,7 +13,7 @@ std::shared_ptr<Game> RouteHandler::GetGame()
     return m_game;
 }
 
-bool RouteHandler::CheckEnteredMessage(const std::string& message)
+bool RouteHandler::CheckEnteredMessage(const std::string_view& message)
 {
     RoundPtr round = m_game->GetRound();
     SubRoundPtr subround = round->GetSubround();

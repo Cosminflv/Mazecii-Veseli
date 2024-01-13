@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "CppUnitTest.h"
-#include "Chat.h"
-#include "Game.h"
-#include "SubRound.h"
+#include "RouteHandler.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -96,13 +94,22 @@ namespace TestsNative
             Assert::AreEqual(expectedWord, resultWord);
         }
 
-        TEST_METHOD(GuessWordTest)
+        TEST_METHOD(GuessWordTest_GuessedCorrectly)
         {
             SubRound s("pineapple", 3);
 
             bool result = s.GuessWord("pineapple");
 
             Assert::AreEqual(true, result);
+        }
+
+        TEST_METHOD(GuessWordTest_GuessedIncorrectly)
+        {
+            SubRound s("pineapple", 3);
+
+            bool result = s.GuessWord("apple");
+
+            Assert::AreNotEqual(true, result);
         }
 
         //TEST_METHOD(SelectRandomWordTest) CANNOT BE TESTED
@@ -439,6 +446,127 @@ namespace TestsNative
             Assert::AreEqual(adminRoleString, game->GetPlayers()[0]->GetAdminRoleAsString());
             Assert::AreEqual(nonAdminRoleString, game->GetPlayers()[1]->GetAdminRoleAsString());
             Assert::AreEqual(nonAdminRoleString, game->GetPlayers()[2]->GetAdminRoleAsString());
+        }
+    };
+
+    TEST_CLASS(RouteHandlerTests)
+    {
+    public:
+        //INVOLVES storage.select() and cannot be tested
+        //TEST_METHOD(PickWord_ReturnsValidWord)
+        //{
+        //    std::shared_ptr<Game> game = std::make_shared<Game>();
+        //    RouteHandler routeHandler(game);
+
+        //    std::string pickedWord = routeHandler.PickWord(3);
+
+        //    Assert::IsTrue(!pickedWord.empty(), L"The picked word should not be empty.");
+        //}
+
+        TEST_METHOD(CheckEnteredMessage_GuessedCorrectly)
+        {
+            std::shared_ptr<Game> game = std::make_shared<Game>();
+            game->GetRound()->GetSubround()->SetSeenWord("pineapple");
+            RouteHandler routeHandler(game);
+
+            bool result = routeHandler.CheckEnteredMessage("pineapple");
+
+            Assert::AreEqual(true, result);
+        }
+
+        TEST_METHOD(CheckEnteredMessage_GuessedIncorrectly)
+        {
+            std::shared_ptr<Game> game = std::make_shared<Game>();
+            game->GetRound()->GetSubround()->SetSeenWord("pineapple");
+            RouteHandler routeHandler(game);
+
+            bool result = routeHandler.CheckEnteredMessage("apple");
+
+            Assert::AreEqual(false, result);
+        }
+
+        TEST_METHOD(AddPlayer_AddingFirstPlayerAsAdmin)
+        {
+            std::shared_ptr<Game> game = std::make_shared<Game>();
+            PlayerPtr player1 = std::make_shared<Player>("Player1", PlayerRole::Guesser, 0);
+            PlayerPtr player2 = std::make_shared<Player>("Player2", PlayerRole::Guesser, 0);
+            PlayerPtr player3 = std::make_shared<Player>("Player3", PlayerRole::Guesser, 0);
+            game->AddPlayer(player1);
+            game->AddPlayer(player2);
+            game->AddPlayer(player3);
+
+            RouteHandler routeHandler(game);
+
+            std::string adminResult = "Admin";
+            std::string nonAdminResult = "NonAdmin";
+
+            Assert::AreEqual(adminResult, routeHandler.GetGame()->GetPlayers()[0]->GetAdminRoleAsString());
+            Assert::AreEqual(nonAdminResult, routeHandler.GetGame()->GetPlayers()[1]->GetAdminRoleAsString());
+            Assert::AreEqual(nonAdminResult, routeHandler.GetGame()->GetPlayers()[2]->GetAdminRoleAsString());
+        }
+
+        TEST_METHOD(WriteMessage)
+        {
+            std::shared_ptr<Game> game = std::make_shared<Game>();
+            RouteHandler routeHandler(game);
+
+            routeHandler.WriteMessage("Player1", "pineapple");
+
+            Assert::AreEqual(std::string("Player1"), routeHandler.GetGame()->GetChat().getChatVector()[0].first);
+            Assert::AreEqual(std::string("pineapple"), routeHandler.GetGame()->GetChat().getChatVector()[0].second);
+        }
+
+        TEST_METHOD(HideWord)
+        {
+            std::shared_ptr<Game> game = std::make_shared<Game>();
+            game->GetRound()->GetSubround()->SetSeenWord(std::string("pineapple"));
+            RouteHandler routeHandler(game);
+
+            std::string result = routeHandler.HideTheWord("pineapple");
+
+            Assert::AreEqual(std::string("---------"), result);
+        }
+
+        TEST_METHOD(UpdateWord_FirstTime)
+        {
+            std::shared_ptr<Game> game = std::make_shared<Game>();
+            game->GetRound()->GetSubround()->SetSeenWord("pineapple");
+            game->GetRound()->GetSubround()->HideWord("pineapple");
+            game->GetRound()->GetSubround()->MakeAllLettersFalse("pineapple");
+            RouteHandler routeHandler(game);
+
+            std::string word = "pineapple";
+            std::string currentWord = "---------";
+
+            routeHandler.UpdateWord(word, currentWord);
+
+            bool foundLetter = std::any_of(currentWord.begin(), currentWord.end(), [](char c) {
+                return c != '-';
+                });
+
+            Assert::AreEqual(true, foundLetter);
+        }
+
+        TEST_METHOD(UpdateWord_MultipleTimes)
+        {
+            std::shared_ptr<Game> game = std::make_shared<Game>();
+            game->GetRound()->GetSubround()->SetSeenWord("pineapple");
+            game->GetRound()->GetSubround()->HideWord("pineapple");
+            game->GetRound()->GetSubround()->MakeAllLettersFalse("pineapple");
+            RouteHandler routeHandler(game);
+
+            std::string word = "pineapple";
+            std::string currentWord = "---------";
+
+            routeHandler.UpdateWord(word, currentWord);
+            routeHandler.UpdateWord(word, currentWord);
+            routeHandler.UpdateWord(word, currentWord);
+
+            int countDifferentLetters = std::count_if(currentWord.begin(), currentWord.end(), [](char c) {
+                return c != '-';
+                });
+
+            Assert::AreEqual(3, countDifferentLetters);
         }
     };
 }
