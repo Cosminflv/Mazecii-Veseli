@@ -52,6 +52,4 @@ bool Round::RoundIsOver(std::vector<PlayerPtr>& players) const
 		return true;
 	}
 	return false;
-
-
 }

@@ -55,7 +55,7 @@ void RouteHandler::CalculateScoreForGuesser(const std::string& username, std::ve
     {
         if (username == player->GetUsername())
         {
-            player->CalcultateGuesserScore(remainingSeconds);
+            player->CalculateGuesserScore(remainingSeconds);
             player->SetSecond(30 + (30 - remainingSeconds.count())); // a ghicit la secunda 40 -> inseamna ca a ghicit in 20 de sec; second.count()=40; 30+(30-40)=30-10=20 secunde.
             std::cout << "Scorul player-ului " << player->GetUsername() << ": " << player->GetScore() << "\n";
         }

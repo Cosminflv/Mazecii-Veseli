@@ -318,4 +318,127 @@ namespace TestsNative
             Assert::AreEqual(50, result);
         }
     };
+
+    TEST_CLASS(PlayerTests)
+    {
+    public:
+        TEST_METHOD(CalculateGuesserScore_GreatherThan30Seconds)
+        {
+            PlayerPtr player = std::make_shared<Player>("Player", PlayerRole::Guesser, 0);
+            int initScore = player->GetScore();
+            player->CalculateGuesserScore(std::chrono::seconds(31));
+            int expectedScore = player->GetScore();
+
+            Assert::AreEqual(100, expectedScore, L"Score should be set to 100 when seconds are greater than 30.");
+        }
+
+        TEST_METHOD(CalculateGuesserScore_LessThan30SecondsAndNotZero)
+        {
+            PlayerPtr player = std::make_shared<Player>("Player", PlayerRole::Guesser, 0);
+            player->CalculateGuesserScore(std::chrono::seconds(20));
+
+            int expectedScore = static_cast<int>(std::round(((60 - (30 + (30 - 20))) * 100) / 30));
+            int resultScore = player->GetScore();
+
+            Assert::AreEqual(expectedScore, resultScore, L"Score should be calculated and set correctly when seconds are less than 30 and not zero.");
+        }
+
+        TEST_METHOD(CalculateGuesserScore_ZeroSeconds)
+        {
+            PlayerPtr player = std::make_shared<Player>("Player", PlayerRole::Guesser, 0);
+            player->CalculateGuesserScore(std::chrono::seconds(0));
+
+            int result = player->GetScore();
+
+            Assert::AreEqual(-50, result, L"Score should be set to -50 when seconds are zero.");
+        }
+
+    };
+
+    TEST_CLASS(RoundTests)
+    {
+    public:
+        TEST_METHOD(CreateSubround)
+        {
+            std::vector<PlayerPtr> players = {
+                std::make_shared<Player>("Player1", PlayerRole::Guesser, 0),
+                std::make_shared<Player>("Player2", PlayerRole::Guesser, 0),
+                std::make_shared<Player>("Player3", PlayerRole::Guesser, 0),
+                std::make_shared<Player>("Player4", PlayerRole::Painter, 0),
+            };
+
+            RoundPtr r = std::make_shared<Round>(players);
+
+            r->CreateSubRound(players);
+
+            Assert::IsNotNull(r->GetSubround().get());
+        }
+    };
+
+    TEST_CLASS(GameTests)
+    {
+    public:
+        TEST_METHOD(AddPlayer_NumberOfPlayers)
+        {
+            std::unique_ptr<Game> game = std::make_unique<Game>();
+
+            PlayerPtr player1 = std::make_shared<Player>("Player1", PlayerRole::Guesser, 0);
+            PlayerPtr player2 = std::make_shared<Player>("Player2", PlayerRole::Guesser, 0);
+            PlayerPtr player3 = std::make_shared<Player>("Player3", PlayerRole::Guesser, 0);
+
+            game->AddPlayer(player1);
+            game->AddPlayer(player2);
+            game->AddPlayer(player3);
+
+            int resultNumberOfPlayers = game->GetPlayers().size();
+
+            Assert::AreEqual(3, resultNumberOfPlayers);
+        }
+
+        TEST_METHOD(AddPlayer_SameInstancesOfPlayers)
+        {
+            std::unique_ptr<Game> game = std::make_unique<Game>();
+
+            PlayerPtr player1 = std::make_shared<Player>("Player1", PlayerRole::Guesser, 0);
+            PlayerPtr player2 = std::make_shared<Player>("Player2", PlayerRole::Guesser, 0);
+            PlayerPtr player3 = std::make_shared<Player>("Player3", PlayerRole::Guesser, 0);
+
+            std::vector<PlayerPtr> players = {
+                player1,
+                player2,
+                player3
+            };
+
+            game->AddPlayer(player1);
+            game->AddPlayer(player2);
+            game->AddPlayer(player3);
+
+            for (size_t i = 0; i < players.size(); i++)
+            {
+                Assert::AreEqual(players[i]->GetUsername(), game->GetPlayers()[i]->GetUsername());
+                Assert::AreEqual(players[i]->GetPlayerRoleAsString(), game->GetPlayers()[i]->GetPlayerRoleAsString());
+                Assert::AreEqual(players[i]->GetAdminRoleAsString(), game->GetPlayers()[i]->GetAdminRoleAsString());
+            }
+        }
+
+        TEST_METHOD(AddPlayer_AdmireRoleSetCorrectly)
+        {
+            std::unique_ptr<Game> game = std::make_unique<Game>();
+
+            PlayerPtr player1 = std::make_shared<Player>("Player1", PlayerRole::Guesser, 0);
+            PlayerPtr player2 = std::make_shared<Player>("Player2", PlayerRole::Guesser, 0);
+            PlayerPtr player3 = std::make_shared<Player>("Player3", PlayerRole::Guesser, 0);
+
+            game->AddPlayer(player1);
+            game->AddPlayer(player2);
+            game->AddPlayer(player3);
+
+            std::string adminRoleString = "Admin";
+            std::string nonAdminRoleString = "NonAdmin";
+
+            Assert::AreEqual(adminRoleString, game->GetPlayers()[0]->GetAdminRoleAsString());
+            Assert::AreEqual(nonAdminRoleString, game->GetPlayers()[1]->GetAdminRoleAsString());
+            Assert::AreEqual(nonAdminRoleString, game->GetPlayers()[2]->GetAdminRoleAsString());
+        }
+    };
 }

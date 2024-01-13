@@ -16,7 +16,7 @@ public:
 	void SetSecond(int second);
 	int GetSecond() const;
 	void SetScore(int16_t points);
-	void CalcultateGuesserScore(std::chrono::seconds second);
+	void CalculateGuesserScore(std::chrono::seconds second);
 	int16_t GetScore() const;
 
 	bool GetPlayerStatus() const;
@@ -31,6 +31,8 @@ public:
 	void SetAdminRole(AdminRole adminRole);
 	static AdminRole RoleStatusFromString(const std::string& adrole);
 	void SetAdminRoleAsString(const std::string& adrole);
+
+	bool operator==(const Player& other) const;
 
 private:
 	std::string m_username;
