@@ -47,7 +47,6 @@ private slots:
 	void onClearButtonClicked();
 	void onColorButtonClicked();
 	void onSelectColor(const QColor& color);
-	void onGetDrawing();
 
 protected:
 	void mousePressEvent(QMouseEvent* event) override;
@@ -61,7 +60,6 @@ private:
 
 	PlayerClient m_you;
 
-	bool m_modified;
 	bool m_isScribbling;
 	int m_penWidth;
 

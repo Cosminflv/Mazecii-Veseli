@@ -46,19 +46,14 @@ void ScribbleArea::SetUpUi()
 		m_drawing = std::vector<Coordinate>();
 		m_info = std::vector<DrawingInfo>();
 
-		m_getDrawing = new QPushButton("see drawing", this);
-		m_getDrawing->setGeometry(300, 10, 130, 30);
-		m_getDrawing->setFont(QFont("8514oem", 13));
-		connect(m_getDrawing, &QPushButton::clicked, this, &ScribbleArea::onGetDrawing);
-
-		m_timer = new QTimer(this);		
+		m_timer = new QTimer(this);
 		connect(m_timer, &QTimer::timeout, this, &ScribbleArea::SendToSever);
 		m_timer->setInterval(300);
 		m_timer->start();
 	}
-	else if (m_you.GetPlayerRole()  == "Guesser")
+	else if (m_you.GetPlayerRole() == "Guesser")
 	{
-		m_timer = new QTimer(this);		
+		m_timer = new QTimer(this);
 		connect(m_timer, &QTimer::timeout, this, &ScribbleArea::UpdateDrawingUI);
 		connect(m_timer, &QTimer::timeout, this, &ScribbleArea::DrawFromServer);
 		m_timer->setInterval(300);
@@ -199,11 +194,11 @@ void ScribbleArea::SendToSever()
 
 void ScribbleArea::UpdateDrawingUI()
 {
-	std::thread([this]() {		
+	std::thread([this]() {
 		try {
 
 			cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:18080/drawing" });
-			
+
 
 			if (response.status_code == 200)
 			{
@@ -212,6 +207,15 @@ void ScribbleArea::UpdateDrawingUI()
 				{
 					const auto& coordJSON = drawing["Coordinates"];
 					const auto& infoJSON = drawing["DrawingInfo"];
+
+					if (coordJSON.size() == 0)
+					{
+						m_drawing.clear();
+						m_info.clear();
+						m_image.fill(qRgb(255, 255, 255));
+						update();
+
+					}
 
 					for (size_t i = 0; i < coordJSON.size(); i++)
 					{
@@ -222,21 +226,21 @@ void ScribbleArea::UpdateDrawingUI()
 						m_info.emplace_back(info["color"].s(), info["width"].i());
 					}
 					qDebug() << "DRAWING RECIEVED." << m_drawing.size() << "\n";
-					
+
 				}
 			}
 			else
 			{
 				qDebug() << "FAIL - Status code: " << response.status_code;
 			}
-			
+
 		}
 		catch (const std::exception& e)
 		{
 			qDebug() << "Drawing request exception: " << e.what();
 		}
-		
-	}).detach();
+
+		}).detach();
 }
 
 void ScribbleArea::DrawFromServer()
@@ -247,6 +251,9 @@ void ScribbleArea::DrawFromServer()
 	painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
 
 	const int breakLineThreshold = 70;
+
+	if (m_drawing.size() == 0)
+		m_image.fill(qRgb(255, 255, 255));
 
 	for (size_t i = 1; i < m_drawing.size(); i++)
 	{
@@ -340,7 +347,6 @@ void ScribbleArea::DrawLineTo(const QPoint& endPoint)
 		Qt::RoundJoin));
 
 	painter.drawLine(m_lastPoint, endPoint);
-	m_modified = true;
 
 	// draw line points into the matrix
 	DrawInMatrix(m_lastPoint.x(), m_lastPoint.y());
@@ -358,10 +364,43 @@ void ScribbleArea::onClearButtonClicked()
 {
 	m_path = QPainterPath();
 	m_image.fill(qRgb(255, 255, 255));
-//	PrintCoordinates("0_coordinates.txt");
 	m_drawing.clear();
 	m_info.clear();
-	m_modified = true;
+
+	crow::json::wvalue jsonVectors;
+	crow::json::wvalue::list coordinatesVect;
+	crow::json::wvalue::list infoVect;
+
+	for (const auto& coordinate : m_drawing)
+	{
+		crow::json::wvalue obj;
+		obj["x"] = coordinate.first;
+		obj["y"] = coordinate.second;
+		coordinatesVect.push_back(obj);
+	}
+
+	jsonVectors["Coordinates"] = std::move(coordinatesVect);
+
+	for (const auto& info : m_info)
+	{
+		crow::json::wvalue obj;
+		obj["color"] = info.first;
+		obj["width"] = info.second;
+		infoVect.push_back(obj);
+	}
+
+	jsonVectors["DrawingInfo"] = std::move(infoVect);
+	std::string jsonString = jsonVectors.dump();
+	cpr::Response response = cpr::Post(cpr::Url("http://localhost:18080/drawing"), cpr::Body{ jsonString });
+
+	if (response.status_code == 200)
+	{
+		qDebug() << "DRAWING SENT." << m_drawing.size() << "\n";
+	}
+	else
+	{
+		qDebug() << "FAIL - DRAWING.";
+	}
 	update();
 }
 
@@ -377,53 +416,4 @@ void ScribbleArea::onColorButtonClicked()
 void ScribbleArea::onSelectColor(const QColor& color)
 {
 	SetPenColor(color);
-}
-
-void ScribbleArea::onGetDrawing()
-{
-	// checking to see how well the image is reproduced 
-	QDialog* drawingDialog = new QDialog(this);
-	drawingDialog->setWindowTitle("Drawing Viewer");
-	drawingDialog->setAttribute(Qt::WA_StaticContents);
-
-	QLabel* label = new QLabel(drawingDialog);
-	label->setGeometry(0, 0, this->width(), this->height());
-
-	QPixmap canvas(this->size());
-	canvas.fill(Qt::white);
-	QPainter painter(&canvas);
-	painter.setRenderHint(QPainter::Antialiasing, true);
-	painter.setRenderHint(QPainter::TextAntialiasing, true);
-	painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
-
-	const int breakLineThreshold = 70;
-
-	for (size_t i = 1; i < m_drawing.size(); i++)
-	{
-		QColor color(QString::fromUtf8(m_info[i].first.c_str()));
-		painter.setPen(QPen(color, m_info[i].second, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-
-		int x1 = m_drawing[i - 1].first;
-		int y1 = m_drawing[i - 1].second;
-		int x2 = m_drawing[i].first;
-		int y2 = m_drawing[i].second;
-
-		if (std::abs(x2 - x1) > breakLineThreshold || std::abs(y2 - y1) > breakLineThreshold)
-		{
-			painter.drawLine(x2, y2, x2, y2); // exceeds threshold => start new line
-		}
-		else
-		{
-			painter.drawLine(x1, y1, x2, y2); // continue current lineint rad = (m_penWidth / 2) + 2;
-		}	
-	}
-
-	label->setPixmap(canvas);
-	label->setAlignment(Qt::AlignCenter);
-
-	QVBoxLayout* layout = new QVBoxLayout(drawingDialog);
-	layout->addWidget(label);
-
-	drawingDialog->setLayout(layout);
-	drawingDialog->exec();
 }
