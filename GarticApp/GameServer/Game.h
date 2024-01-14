@@ -1,7 +1,7 @@
 #pragma once 
+import Chat;
 #include "Player.h"
 #include "Round.h"
-#include "Chat.h"
 #include "EGameStatus.h"
 
 #include <vector>

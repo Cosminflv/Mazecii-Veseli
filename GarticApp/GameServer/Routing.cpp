@@ -1,8 +1,7 @@
 ﻿#include "Routing.h"
-#include "Chat.h"
+import Chat;
 #include "PlayerDB.h"
 #include "SubRound.h"
-#include "Chat.h"
 #include "Timer.h"
 #include <filesystem>
 #include <memory>
