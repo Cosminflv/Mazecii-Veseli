@@ -66,6 +66,9 @@
     <ClCompile Include="PlayerRole.cpp">
       <Filter>Source Files\Enums</Filter>
     </ClCompile>
+    <ClCompile Include="Chat.cppm">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="PlayerData.txt">
@@ -89,9 +92,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Chat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PlayerDB.h">

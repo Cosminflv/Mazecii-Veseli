@@ -106,6 +106,9 @@
     <ClCompile Include="WordWidget.cpp">
       <Filter>Source Files\Widgets</Filter>
     </ClCompile>
+    <ClCompile Include="LobbyRequestException.cpp">
+      <Filter>Source Files\Exceptions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ClientException.h">
@@ -140,6 +143,9 @@
     </ClInclude>
     <ClInclude Include="WordWidget.h">
       <Filter>Header Files\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="LobbyRequestException.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

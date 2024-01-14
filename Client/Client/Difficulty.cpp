@@ -95,6 +95,11 @@ void Difficulty::SelectDifficulty()
 		m_difficulty = 2;
 	}
 
+	crow::json::wvalue json;
+	json["Gamestatus"] = "Playing";
+	std::string jsString = json.dump();
+	cpr::Response statusResponse = cpr::Post(cpr::Url("http://localhost:18080/gamestatus"), cpr::Body{ jsString });
+
 	qDebug() << m_difficulty;
 	Client* w = new Client();
 	w->You(m_you);
@@ -104,8 +109,9 @@ void Difficulty::SelectDifficulty()
 	w->SetUi();
 	w->GetScribbleArea()->UpdateClient(m_you);
 	w->GetScribbleArea()->SetUpUi();
-	w->GetPlayerWidget()->UpdateList(m_clientsToPass);
-	w->GetPlayerWidget()->DisplayPlayers();	
+	w->GetPlayerWidget()->SetUi();
+	//w->GetPlayerWidget()->UpdateList(m_clientsToPass);
+	//w->GetPlayerWidget()->DisplayPlayers();	
 	//w->GetWordWidget()->UpdateWord(w->GetWordWidget()->HiddenWord(w->GetWordWidget()->FetchWordFromServer(m_difficulty)));
 	w->GetWordWidget()->GetWordLabel()->setFont(QFont("Sitka Text Semibold", 25));
 	qDebug() << "client difficulty set:" << w->GetDifficulty();

@@ -7,7 +7,7 @@
 #include "Player.h"
 #include "SubRound.h"
 #include "GameData.h"
-#include "Chat.h"
+import Chat;
 #include"PlayerDB.h"
 #include "Routing.h"
 #include <thread>

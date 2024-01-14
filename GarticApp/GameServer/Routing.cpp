@@ -1,8 +1,7 @@
 ﻿#include "Routing.h"
-#include "Chat.h"
+import Chat;
 #include "PlayerDB.h"
 #include "SubRound.h"
-#include "Chat.h"
 #include "Timer.h"
 #include <filesystem>
 #include <memory>
@@ -19,6 +18,7 @@ std::string m_seenWord = "";
 
 void Routing::Run()
 {
+	Timer T{ 2 };
 	GameStorage storage = m_storage;
 	std::shared_ptr<Game> game = m_routeHandler.GetGame();
 	RouteHandler& handler = m_routeHandler;
@@ -35,7 +35,7 @@ void Routing::Run()
 		});
 
 	CROW_ROUTE(m_app, "/gamestatus").methods("POST"_method)
-		([&game](const crow::request& req)
+		([&game, &T](const crow::request& req)
 			{
 				crow::json::rvalue data = crow::json::load(req.body);
 				if (!data)
@@ -43,8 +43,17 @@ void Routing::Run()
 					return crow::response(400, "Invalid JSON format.\n");
 				}
 				std::string status = data["Gamestatus"].s();
+
+				if (status == "Playing")
+				{
+					T.StartTimer();
+				}
+
 				game->SetGameStatus(status);
 				std::cout << "RECEIVED GAME STATUS: " << game->GetGameStatusAsString() << std::endl;
+
+				
+
 				return crow::response(200);
 			});
 
@@ -186,6 +195,8 @@ void Routing::Run()
 					crow::json::wvalue::list coordinates;
 					crow::json::wvalue::list info;
 
+					std::cout << "SENDING SIZE: " << m_receivedCoordinates.size() << "\n\n\n\n\n";
+
 					for (size_t i = 0; i < m_receivedCoordinates.size(); i++)
 					{
 						crow::json::wvalue objC;
@@ -253,8 +264,6 @@ void Routing::Run()
 				return wordJson;
 			});
 
-
-	Timer T{ 1 };
 	CROW_ROUTE(m_app, "/timer")([&T]()
 		{
 			std::chrono::milliseconds milliseconds = T.GetRemainingTime();
@@ -276,7 +285,6 @@ void Routing::Run()
 		return response;
 		});
 
-	T.StartTimer();
 	CROW_ROUTE(m_app, "/updateWord/")
 		.methods("GET"_method)
 		([&handler, this]()
@@ -348,6 +356,7 @@ void Routing::Run()
 
 					std::cout << "Received username: " << username << std::endl;
 					std::cout << "Received password: " << password << std::endl;
+			
 					//db.replace(user);
 					handler.AddPlayer(username);
 					return crow::response(200);

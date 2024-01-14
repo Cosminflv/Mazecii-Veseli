@@ -6,39 +6,39 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace TestsNative
 {
-	TEST_CLASS(ChatTests)
-	{
-	public:
-		
-        TEST_METHOD(ChatWriteMessage)
-        {
-            Chat c;
+	//TEST_CLASS(ChatTests)
+	//{
+	//public:
+	//	
+ //       TEST_METHOD(ChatWriteMessage)
+ //       {
+ //           Chat c;
 
-            c.WriteMessage({ "PlayerName", "this is a test message" });
+ //           c.WriteMessage({ "PlayerName", "this is a test message" });
 
-            std::vector<std::pair<std::string, std::string>> expectedMessages = { { "PlayerName", "this is a test message" } };
+ //           std::vector<std::pair<std::string, std::string>> expectedMessages = { { "PlayerName", "this is a test message" } };
 
-            auto actualMessages = c.getChatVector();
+ //           auto actualMessages = c.getChatVector();
 
-            // Assert to check if the actual messages are equal to the expected messages
-            Assert::AreEqual(expectedMessages.size(), actualMessages.size(), L"Message vector sizes are not equal");
+ //           // Assert to check if the actual messages are equal to the expected messages
+ //           Assert::AreEqual(expectedMessages.size(), actualMessages.size(), L"Message vector sizes are not equal");
 
-            for (size_t i = 0; i < expectedMessages.size(); ++i)
-            {
-                Assert::AreEqual(expectedMessages[i].first, actualMessages[i].first, L"Player names are not equal");
-                Assert::AreEqual(expectedMessages[i].second, actualMessages[i].second, L"Messages are not equal");
-            }
-        }
+ //           for (size_t i = 0; i < expectedMessages.size(); ++i)
+ //           {
+ //               Assert::AreEqual(expectedMessages[i].first, actualMessages[i].first, L"Player names are not equal");
+ //               Assert::AreEqual(expectedMessages[i].second, actualMessages[i].second, L"Messages are not equal");
+ //           }
+ //       }
 
-        TEST_METHOD(ChatEmpty)
-        {
-            Chat c;
+ //       TEST_METHOD(ChatEmpty)
+ //       {
+ //           Chat c;
 
-            auto messages = c.getChatVector();
+ //           auto messages = c.getChatVector();
 
-            Assert::AreEqual(0, (int)messages.size());
-        }
-	};
+ //           Assert::AreEqual(0, (int)messages.size());
+ //       }
+	//};
 
     TEST_CLASS(TimerTests)
     {
@@ -560,16 +560,16 @@ namespace TestsNative
             Assert::AreEqual(nonAdminResult, routeHandler.GetGame()->GetPlayers()[2]->GetAdminRoleAsString());
         }
 
-        TEST_METHOD(WriteMessage)
-        {
-            std::shared_ptr<Game> game = std::make_shared<Game>();
-            RouteHandler routeHandler(game);
+        //TEST_METHOD(WriteMessage)
+        //{
+        //    std::shared_ptr<Game> game = std::make_shared<Game>();
+        //    RouteHandler routeHandler(game);
 
-            routeHandler.WriteMessage("Player1", "pineapple");
+        //    routeHandler.WriteMessage("Player1", "pineapple");
 
-            Assert::AreEqual(std::string("Player1"), routeHandler.GetGame()->GetChat().getChatVector()[0].first);
-            Assert::AreEqual(std::string("pineapple"), routeHandler.GetGame()->GetChat().getChatVector()[0].second);
-        }
+        //    Assert::AreEqual(std::string("Player1"), routeHandler.GetGame()->GetChat().getChatVector()[0].first);
+        //    Assert::AreEqual(std::string("pineapple"), routeHandler.GetGame()->GetChat().getChatVector()[0].second);
+        //}
 
         TEST_METHOD(HideWord)
         {

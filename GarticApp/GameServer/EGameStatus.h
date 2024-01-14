@@ -4,5 +4,5 @@ enum class EGameStatus
 {
 	Lobby,
 	Playing,
-	Waiting
+	DifficultySelected
 };

@@ -39,7 +39,8 @@ void PlayerWidget::InsertPlayer(const PlayerClient& player)
 
 void PlayerWidget::DisplayPlayers()
 {
-	qDebug() << "Sunt in display Players";
+	m_playerList->clear();
+
 	for (const auto& player : m_players)
 	{
 		QString playerInfo = QString::fromUtf8(player.GetUsername().c_str()) + "\n[" + QString::number(player.GetScore()) + " points]";
@@ -95,4 +96,67 @@ void PlayerWidget::UpdateScoreUI(const PlayerClient& client)
 			}
 		}
 	}
+}
+
+void PlayerWidget::SetUi()
+{
+	m_requestsTimer = new QTimer(this);
+	m_requestsTimer->setInterval(1000); // Set interval to 1 second
+	m_requestsTimer->start();
+
+	connect(m_requestsTimer, &QTimer::timeout, this, &PlayerWidget::fetchAndUpdatePlayers);
+}
+
+void PlayerWidget::fetchAndUpdatePlayers()
+{
+	std::thread([this]() {
+		try {
+			m_players.clear();
+			cpr::Response responsePlayer = cpr::Get(cpr::Url{ "http://localhost:18080/playerinfo" });
+
+			if (responsePlayer.error)
+			{
+				qDebug() << "Player Request failed with error: " << responsePlayer.error.message;
+				qDebug() << "HTTP status code: " << responsePlayer.status_code;
+				throw(PlayerRequestException("FAIL - Player Request"));
+			}
+
+			auto serverUsers = crow::json::load(responsePlayer.text);
+
+			for (const auto& user : serverUsers)
+			{
+				if (user.has("Username") && user.has("Status")) {
+					if (user["Username"].t() == crow::json::type::String &&
+						user["Status"].t() == crow::json::type::String)
+					{
+						int16_t score = static_cast<int16_t>(user["Score"].i());
+						PlayerClient client{ user["Username"].s(), user["Status"].s(), score, user["PlayerRole"].s(), user["AdminRole"].s() };
+
+						qDebug() << "\nUSERNAME: " << client.GetUsername() << "\nSTATUS: " << client.GetStatus() << "\nSCORE: " << client.GetScore()
+							<< "\nPLAYER ROLE: " << client.GetPlayerRole() << "\nADMIN ROLE: " << client.GetAdminRole() << "\n";
+
+						m_players.push_back(client);
+					}
+					else {
+						// Handle incorrect data types
+						std::cerr << "Invalid data types for Username or Status\n";
+					}
+				}
+				else {
+					// Handle missing keys
+					std::cerr << "Missing keys Username or Status\n";
+				}
+			}
+
+			QMetaObject::invokeMethod(this, [this]() {
+				DisplayPlayers();
+				}, Qt::QueuedConnection);
+
+		}
+		catch (const LobbyRequestException& e) {
+			// Handle the exception
+			// Log, show an error message, or take appropriate action
+			qDebug() << "Lobby request exception: " << e.what();
+		}
+		}).detach();
 }

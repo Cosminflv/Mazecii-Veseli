@@ -106,6 +106,7 @@
     <ClCompile Include="ColorWidget.cpp" />
     <ClCompile Include="Difficulty.cpp" />
     <ClCompile Include="Lobby.cpp" />
+    <ClCompile Include="LobbyRequestException.cpp" />
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="PasswordException.cpp" />
     <ClCompile Include="PlayerClient.cpp" />
@@ -136,6 +137,7 @@
     <QtMoc Include="Login.h" />
     <QtMoc Include="Difficulty.h" />
     <QtMoc Include="Lobby.h" />
+    <ClInclude Include="LobbyRequestException.h" />
     <ClInclude Include="PasswordException.h" />
     <ClInclude Include="PlayerClient.h" />
     <ClInclude Include="PlayerRequestException.h" />
