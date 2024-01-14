@@ -183,7 +183,7 @@ void ScribbleArea::SendToSever()
 
 			if (response.status_code == 200)
 			{
-				qDebug() << "DRAWING SENT.";
+				qDebug() << "DRAWING SENT." << m_drawing.size() << "\n";
 			}
 			else
 			{
@@ -221,6 +221,7 @@ void ScribbleArea::UpdateDrawingUI()
 						m_drawing.emplace_back(coord[i].i(), coord[i].i());
 						m_info.emplace_back(info[i].s(), info[i].i());
 					}
+					qDebug() << "DRAWING RECIEVED." << m_drawing.size() << "\n";
 					
 				}
 			}

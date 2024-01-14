@@ -95,6 +95,11 @@ void Difficulty::SelectDifficulty()
 		m_difficulty = 2;
 	}
 
+	crow::json::wvalue json;
+	json["Gamestatus"] = "Playing";
+	std::string jsString = json.dump();
+	cpr::Response statusResponse = cpr::Post(cpr::Url("http://localhost:18080/gamestatus"), cpr::Body{ jsString });
+
 	qDebug() << m_difficulty;
 	Client* w = new Client();
 	w->You(m_you);

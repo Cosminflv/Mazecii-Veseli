@@ -1,6 +1,7 @@
 #include "Lobby.h"
 #include <QLabel>
 #include "Difficulty.h"
+#include "Client.h"
 #include "ClientExceptions.h"
 #include "crow.h"
 #include <cpr/cpr.h>
@@ -71,7 +72,7 @@ void Lobby::SetUi()
 				user["Status"].t() == crow::json::type::String)
 			{
 				int16_t score = static_cast<int16_t>(user["Score"].i());
-				PlayerClient client{ user["Username"].s(), user["Status"].s(), score, user["PlayerRole"].s(), user["AdminRole"].s()};
+				PlayerClient client{ user["Username"].s(), user["Status"].s(), score, user["PlayerRole"].s(), user["AdminRole"].s() };
 
 				qDebug() << "\nUSERNAME: " << client.GetUsername() << "\nSTATUS: " << client.GetStatus() << "\nSCORE: " << client.GetScore()
 					<< "\nPLAYER ROLE: " << client.GetPlayerRole() << "\nADMIN ROLE: " << client.GetAdminRole() << "\n";
@@ -85,9 +86,9 @@ void Lobby::SetUi()
 					m_you.UpdateScore(score);
 					qDebug() << "Score after: " << score;
 					m_you.UpdatePlayerRole(user["PlayerRole"].s());
-					//m_you.UpdatePlayerRole("Guesser");
+					//m_you.UpdatePlayerRole("Painter");
 					m_you.SetAdminRole(user["AdminRole"].s());
-				}	
+				}
 			}
 			else {
 				// Handle incorrect data types
@@ -100,7 +101,7 @@ void Lobby::SetUi()
 		}
 	}
 
-	for (const auto& u : m_users)	
+	for (const auto& u : m_users)
 	{
 		QListWidgetItem* newUser = new QListWidgetItem(QString::fromUtf8(u.GetUsername().c_str()));
 		m_userDisplay->addItem(newUser);
@@ -114,7 +115,7 @@ void Lobby::SetUi()
 		QLabel* infotext = new QLabel("Waiting for game\nto start...", this);
 		infotext->setGeometry(30, 30, 340, 100);
 		infotext->setFont(QFont("", 30));
-		infotext->setAlignment(Qt::AlignCenter);		
+		infotext->setAlignment(Qt::AlignCenter);
 		m_userDisplay->setStyleSheet("background-color: #faf3ea");
 		setStyleSheet("background-color:#e0ebe4");
 	}
@@ -127,7 +128,7 @@ void Lobby::SetUi()
 		m_startGame = new QPushButton("Start Game", this);
 		m_startGame->setGeometry(125, 450, 150, 40);
 		m_startGame->setFont(QFont("", 17));
-		connect(m_startGame, &QPushButton::clicked, this, &Lobby::StartGame);		
+		connect(m_startGame, &QPushButton::clicked, this, &Lobby::StartGame);
 		m_userDisplay->setStyleSheet("background-color: #faf3ea");
 		m_startGame->setStyleSheet("background-color:#ffe6cc; color:#5c8a74");
 		setStyleSheet("background-color:#e0ebe4");
@@ -139,7 +140,7 @@ void Lobby::fetchAndUpdateLobby()
 	std::thread([this]() {
 		try {
 			cpr::Response responsePlayer = cpr::Get(cpr::Url{ "http://localhost:18080/playerinfo" });
-			
+
 			if (responsePlayer.error)
 			{
 				qDebug() << "Player Request failed with error: " << responsePlayer.error.message;
@@ -171,8 +172,8 @@ void Lobby::fetchAndUpdateLobby()
 							m_you.UpdateStatus(user["Status"].s());
 							m_you.UpdateScore(score);
 							qDebug() << "Score after: " << score;
-							//m_you.UpdatePlayerRole(user["PlayerRole"].s());
-							m_you.UpdatePlayerRole("Guesser");
+							m_you.UpdatePlayerRole(user["PlayerRole"].s());
+							//m_you.UpdatePlayerRole("Painter");
 							m_you.SetAdminRole(user["AdminRole"].s());
 						}
 					}
@@ -190,7 +191,7 @@ void Lobby::fetchAndUpdateLobby()
 			QMetaObject::invokeMethod(this, [this, players]() {
 				UpdateUi(players);
 				}, Qt::QueuedConnection);
-		
+
 		}
 		catch (const LobbyRequestException& e) {
 			// Handle the exception
@@ -222,11 +223,11 @@ void Lobby::fetchAndUpdateGameState()
 					if (!stopThreadFlag)
 					{
 						QMetaObject::invokeMethod(this, [this]() {
-							UpdateGameState();
+							UpdateGameState(updateGameStateCalled);
 							}, Qt::QueuedConnection);
+						updateGameStateCalled = true;
+						stopThreadFlag = true;
 					}
-					stopThreadFlag = true;
-
 				}
 			}
 
@@ -239,9 +240,29 @@ void Lobby::fetchAndUpdateGameState()
 		}).detach();
 }
 
-void Lobby::UpdateGameState()
+void Lobby::UpdateGameState(bool updateGameStateCalled)
 {
-		StartGame();
+	if (m_you.GetAdminRole() == "NonAdmin")
+	{
+		Client* w = new Client();
+		w->You(m_you);
+		qDebug() << "YOUR USERNAME: " << w->YourInstance().GetUsername();
+		qDebug() << "YOUR ROLE: " << w->YourInstance().GetPlayerRole();
+		w->SetDifficulty(0);
+		w->SetUi();
+		w->GetScribbleArea()->UpdateClient(m_you);
+		w->GetScribbleArea()->SetUpUi();
+		w->GetPlayerWidget()->SetUi();
+		//w->GetPlayerWidget()->UpdateList(m_clientsToPass);
+		//w->GetPlayerWidget()->DisplayPlayers();	
+		//w->GetWordWidget()->UpdateWord(w->GetWordWidget()->HiddenWord(w->GetWordWidget()->FetchWordFromServer(m_difficulty)));
+		w->GetWordWidget()->GetWordLabel()->setFont(QFont("Sitka Text Semibold", 25));
+		qDebug() << "client difficulty set:" << w->GetDifficulty();
+		w->GetChat()->SetClient(m_you);
+		w->GetChat()->SetUi();
+		w->show();
+		hide();
+	}
 }
 
 void Lobby::UpdateUi(std::vector<PlayerClient> players)
@@ -284,19 +305,13 @@ void Lobby::UpdateUi(std::vector<PlayerClient> players)
 
 void Lobby::StartGame()
 {
-	Difficulty* d = new Difficulty();	
-	crow::json::wvalue json;
-	json["Gamestatus"] = "Playing";
-	std::string jsString = json.dump();
-	cpr::Response statusResponse = cpr::Post(cpr::Url("http://localhost:18080/gamestatus"), cpr::Body{ jsString });
-	if (statusResponse.status_code == 200)
-	{
-		qDebug() << "\nUSERNAME: " << m_you.GetUsername() << "\nSTATUS: " << m_you.GetStatus() << "\nSCORE: " << m_you.GetScore()
-			<< "\nPLAYER ROLE: " << m_you.GetPlayerRole() << "\nADMIN ROLE: " << m_you.GetAdminRole() << "\n";
-		d->SetClient(m_you);
-		d->SendAllClients(m_users);
-		if(m_you.GetAdminRole() == "Admin")
-			d->show();
-		hide();
-	}
+	Difficulty* d = new Difficulty();
+
+	qDebug() << "\nUSERNAME: " << m_you.GetUsername() << "\nSTATUS: " << m_you.GetStatus() << "\nSCORE: " << m_you.GetScore()
+		<< "\nPLAYER ROLE: " << m_you.GetPlayerRole() << "\nADMIN ROLE: " << m_you.GetAdminRole() << "\n";
+	d->SetClient(m_you);
+	d->SendAllClients(m_users);
+	d->show();
+	hide();
+
 }

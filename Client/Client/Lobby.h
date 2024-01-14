@@ -27,13 +27,14 @@ private slots:
 	void StartGame();
 	void fetchAndUpdateLobby();
 	void fetchAndUpdateGameState();
-	void UpdateGameState();
+	void UpdateGameState(bool updateGameStateCalled);
 	void UpdateUi(std::vector<PlayerClient> m_players);
 
 private:
 	Ui::LobbyClass ui;
 	QTimer* m_requestsTimer;
 	std::atomic<bool> stopThreadFlag;
+	bool updateGameStateCalled;
 
 	std::string m_loginUsername;
 	PlayerClient m_you;
