@@ -254,7 +254,7 @@ void Routing::Run()
 			});
 
 
-	Timer T{ 1 };
+	Timer T{ 4 };
 	CROW_ROUTE(m_app, "/timer")([&T]()
 		{
 			std::chrono::milliseconds milliseconds = T.GetRemainingTime();

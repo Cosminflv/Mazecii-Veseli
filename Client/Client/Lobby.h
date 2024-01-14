@@ -25,9 +25,12 @@ public:
 
 private slots:
 	void StartGame();
+	void fetchAndUpdateLobby();
+	void UpdateUi(std::vector<PlayerClient> m_players);
 
 private:
 	Ui::LobbyClass ui;
+	QTimer* m_requestsTimer;
 
 	std::string m_loginUsername;
 	PlayerClient m_you;

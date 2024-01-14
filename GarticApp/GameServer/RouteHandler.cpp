@@ -22,7 +22,7 @@ bool RouteHandler::CheckEnteredMessage(const std::string_view& message)
 
 void RouteHandler::AddPlayer(const std::string& username)
 {
-    PlayerPtr newPlayer = std::make_shared<Player>(username, PlayerRole::Guesser, 0);
+    PlayerPtr newPlayer = std::make_shared<Player>(username, PlayerRole::Painter, 0);
     m_game->AddPlayer(newPlayer);
 }
 
