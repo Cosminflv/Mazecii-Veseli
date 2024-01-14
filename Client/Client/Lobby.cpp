@@ -9,6 +9,7 @@ Lobby::Lobby(QWidget* parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
+	stopThreadFlag = false;
 
 	setFont(QFont("8514oem", 20));
 	setWindowTitle("Lobby");
@@ -50,6 +51,7 @@ void Lobby::SetUi()
 	m_requestsTimer->setInterval(1000); // Set interval to 1 second
 	m_requestsTimer->start();
 	connect(m_requestsTimer, &QTimer::timeout, this, &Lobby::fetchAndUpdateLobby);
+	connect(m_requestsTimer, &QTimer::timeout, this, &Lobby::fetchAndUpdateGameState);
 
 	cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:18080/playerinfo" });
 
@@ -138,7 +140,6 @@ void Lobby::fetchAndUpdateLobby()
 		try {
 			cpr::Response responsePlayer = cpr::Get(cpr::Url{ "http://localhost:18080/playerinfo" });
 			
-
 			if (responsePlayer.error)
 			{
 				qDebug() << "Player Request failed with error: " << responsePlayer.error.message;
@@ -147,6 +148,7 @@ void Lobby::fetchAndUpdateLobby()
 			}
 
 			auto serverUsers = crow::json::load(responsePlayer.text);
+
 			std::vector<PlayerClient> players;
 
 			for (const auto& user : serverUsers)
@@ -202,6 +204,51 @@ void Lobby::fetchAndUpdateLobby()
 			qDebug() << "Lobby request exception: " << e.what();
 		}
 		}).detach();
+}
+
+void Lobby::fetchAndUpdateGameState()
+{
+	std::thread([this]() {
+		try {
+			while (!stopThreadFlag)
+			{
+				cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:18080/gamestatus" });
+
+				if (response.error)
+				{
+					qDebug() << "Player Request failed with error: " << response.error.message;
+					qDebug() << "HTTP status code: " << response.status_code;
+					throw(PlayerRequestException("FAIL - Player Request"));
+				}
+
+				auto gameState = crow::json::load(response.text);
+
+				if (gameState["Gamestatus"].s() == "Playing")
+				{
+					if (!stopThreadFlag)
+					{
+						QMetaObject::invokeMethod(this, [this]() {
+							UpdateGameState();
+							}, Qt::QueuedConnection);
+					}
+					stopThreadFlag = true;
+
+				}
+			}
+
+		}
+		catch (const LobbyRequestException& e) {
+			// Handle the exception
+			// Log, show an error message, or take appropriate action
+			qDebug() << "Lobby request exception: " << e.what();
+		}
+		}).detach();
+
+}
+
+void Lobby::UpdateGameState()
+{
+		StartGame();
 }
 
 void Lobby::UpdateUi(std::vector<PlayerClient> players)

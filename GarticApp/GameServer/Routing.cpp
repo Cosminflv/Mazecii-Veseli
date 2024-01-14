@@ -348,6 +348,7 @@ void Routing::Run()
 
 					std::cout << "Received username: " << username << std::endl;
 					std::cout << "Received password: " << password << std::endl;
+			
 					//db.replace(user);
 					handler.AddPlayer(username);
 					return crow::response(200);
