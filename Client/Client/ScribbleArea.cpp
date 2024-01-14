@@ -218,8 +218,8 @@ void ScribbleArea::UpdateDrawingUI()
 						const auto& coord = coordJSON[i];
 						const auto& info = infoJSON[i];
 
-						m_drawing.emplace_back(coord[i].i(), coord[i].i());
-						m_info.emplace_back(info[i].s(), info[i].i());
+						m_drawing.emplace_back(coord["x"].i(), coord["y"].i());
+						m_info.emplace_back(info["color"].s(), info["width"].i());
 					}
 					qDebug() << "DRAWING RECIEVED." << m_drawing.size() << "\n";
 					
@@ -241,7 +241,7 @@ void ScribbleArea::UpdateDrawingUI()
 
 void ScribbleArea::DrawFromServer()
 {
-	QPainter painter(this);
+	QPainter painter(&m_image);
 	painter.setRenderHint(QPainter::Antialiasing, true);
 	painter.setRenderHint(QPainter::TextAntialiasing, true);
 	painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
@@ -252,7 +252,6 @@ void ScribbleArea::DrawFromServer()
 	{
 		QColor color(QString::fromUtf8(m_info[i].first.c_str()));
 		painter.setPen(QPen(color, m_info[i].second, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-		painter.drawPoint(m_drawing[i].first, m_drawing[i].second);
 
 		int x1 = m_drawing[i - 1].first;
 		int y1 = m_drawing[i - 1].second;
@@ -261,11 +260,11 @@ void ScribbleArea::DrawFromServer()
 
 		if (std::abs(x2 - x1) > breakLineThreshold || std::abs(y2 - y1) > breakLineThreshold)
 		{
-			painter.drawLine(x1, y1, x1, y1); // exceeds threshold => start new line
+			painter.drawLine(x2, y2, x2, y2); // exceeds threshold => start new line
 		}
 		else
 		{
-			painter.drawLine(x1, y1, x2, y2); // continue current line
+			painter.drawLine(x1, y1, x2, y2); // continue current lineint rad = (m_penWidth / 2) + 2;
 		}
 	}
 }
