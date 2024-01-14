@@ -18,12 +18,19 @@ public:
 	void DisplayPlayers();
 	void UpdateList(const std::vector<PlayerClient>& clients);
 	void UpdateScoreUI(const PlayerClient& client);
+	void SetUi();
 
 private:
 	QString fromJsonToQString(const crow::json::detail::r_string value);
 
+private slots:
+	void fetchAndUpdatePlayers();
+	//void UpdateUi();
+
 private:
 	QListWidget* m_playerList;
+	QTimer* m_requestsTimer;
+
 	std::vector<PlayerClient> m_players;
 };
 

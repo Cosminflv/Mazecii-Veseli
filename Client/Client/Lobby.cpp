@@ -187,12 +187,6 @@ void Lobby::fetchAndUpdateLobby()
 				}
 			}
 
-			for (const auto& u : players)
-			{
-				QListWidgetItem* newUser = new QListWidgetItem(QString::fromUtf8(u.GetUsername().c_str()));
-				m_userDisplay->addItem(newUser);
-			}
-
 			QMetaObject::invokeMethod(this, [this, players]() {
 				UpdateUi(players);
 				}, Qt::QueuedConnection);
@@ -243,7 +237,6 @@ void Lobby::fetchAndUpdateGameState()
 			qDebug() << "Lobby request exception: " << e.what();
 		}
 		}).detach();
-
 }
 
 void Lobby::UpdateGameState()
@@ -302,7 +295,8 @@ void Lobby::StartGame()
 			<< "\nPLAYER ROLE: " << m_you.GetPlayerRole() << "\nADMIN ROLE: " << m_you.GetAdminRole() << "\n";
 		d->SetClient(m_you);
 		d->SendAllClients(m_users);
-		d->show();
+		if(m_you.GetAdminRole() == "Admin")
+			d->show();
 		hide();
 	}
 }
