@@ -18,7 +18,7 @@ std::string m_seenWord = "";
 
 void Routing::Run()
 {
-	Timer T{ 1 };
+	Timer T{ 2 };
 	GameStorage storage = m_storage;
 	std::shared_ptr<Game> game = m_routeHandler.GetGame();
 	RouteHandler& handler = m_routeHandler;

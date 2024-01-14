@@ -1,11 +1,11 @@
 #pragma once 
-import Chat;
 #include "Player.h"
 #include "Round.h"
 #include "EGameStatus.h"
 
 #include <vector>
 #include <map>
+import Chat;
 
 using PlayerPtr = std::shared_ptr<class Player>;
 using RoundPtr = std::shared_ptr<class Round>;
