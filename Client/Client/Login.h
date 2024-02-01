@@ -7,8 +7,8 @@
 #include <QLineEdit>
 #include <QVBoxLayout>
 #include <string>
-#include <QFontDatabase>
 #include <QKeyEvent>
+#include "PlayerClient.h"
 #include "crow.h"
 #include <cpr/cpr.h>
 
@@ -40,4 +40,6 @@ private:
 
 	std::string m_username;
 	std::string m_password;
+
+	PlayerClient m_you;
 };

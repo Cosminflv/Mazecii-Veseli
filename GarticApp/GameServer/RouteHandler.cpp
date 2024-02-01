@@ -1,4 +1,5 @@
 ﻿#include "RouteHandler.h"
+#include <ranges>
 
 RouteHandler::RouteHandler()
 {
@@ -13,6 +14,21 @@ std::shared_ptr<Game> RouteHandler::GetGame()
     return m_game;
 }
 
+std::vector<PlayerPtr> RouteHandler::GetLoggedInUsers()
+{
+    return m_loggedInUsers;
+}
+
+std::optional<PlayerPtr> RouteHandler::GetPlayerWithUsername(const std::string& username)
+{
+    auto it = std::ranges::find_if(m_loggedInUsers, [&](const PlayerPtr player)
+        {
+            return player->GetUsername() == username;
+        });
+ 
+    return (it != m_loggedInUsers.end()) ? std::make_optional(*it) : std::nullopt;
+}
+
 bool RouteHandler::CheckEnteredMessage(const std::string_view& message)
 {
     RoundPtr round = m_game->GetRound();
@@ -20,14 +36,32 @@ bool RouteHandler::CheckEnteredMessage(const std::string_view& message)
     return subround->GuessWord(message);
 }
 
+void RouteHandler::AddLoggedInUsers(const std::string& username)
+{
+    PlayerPtr newUser;
+    if (m_loggedInUsers.size() == 0)
+    {
+        newUser = std::make_shared<Player>(username, AdminRole::Admin, PlayerRole::Painter);
+        m_game->AddPlayer(newUser);
+    }
+    else
+    {
+        newUser = std::make_shared<Player>(username, AdminRole::NonAdmin, PlayerRole::Guesser);
+    }
+    m_loggedInUsers.push_back(newUser);
+}
+
 void RouteHandler::AddPlayer(const std::string& username)
 {
-    PlayerPtr newPlayer;
-    if (m_game->GetPlayers().size() == 0)
-         newPlayer = std::make_shared<Player>(username, PlayerRole::Painter, 0);
+    std::optional<PlayerPtr> newPlayer = GetPlayerWithUsername(username);
+    if (newPlayer.has_value())
+    {
+        m_game->AddPlayer(newPlayer.value());
+    }
     else
-         newPlayer = std::make_shared<Player>(username, PlayerRole::Guesser, 0);
-    m_game->AddPlayer(newPlayer);
+    {
+        std::cout << "\nPlayer not found.\n\n";
+    }
 }
 
 void RouteHandler::WriteMessage(const std::string& username, const std::string& message)
@@ -60,27 +94,20 @@ void RouteHandler::CalculateScoreForGuesser(const std::string& username, std::ve
         if (username == player->GetUsername() && player->HasNotGuessedYet())
         {
             player->CalculateGuesserScore(remainingSeconds);
-            player->SetSecond(30 + (30 - remainingSeconds.count())); // a ghicit la secunda 40 -> inseamna ca a ghicit in 20 de sec; second.count()=40; 30+(30-40)=30-10=20 secunde.
+            player->SetSecond(30 + (30 - remainingSeconds.count())); 
             player->AlreadyGuessed(false);
-            std::cout << "Scorul player-ului " << player->GetUsername() << ": " << player->GetScore() << "\n";
         }
     }
 
     if (T.IsTimeExpired())
     {
-        std::cout << "true";
-
         for (const auto& player : players)
         {
             if (username == player->GetUsername())
             {
                 player->SetScore(-50);
-                player->SetSecond(60); // "60 va fi timpul alocat pentru jucatorii care nu au furnizat un raspuns corect" -> document Proiecte MC++, pentru a calcula scorul unui Painter
-                std::cout << "Timp expirat. Scorulul player-ului " << player->GetUsername() << ": " << player->GetScore() << "\n";
+                player->SetSecond(60); // "60 va fi timpul alocat pentru jucatorii care nu au furnizat un raspuns corect" -> document Proiecte MC++, pentru a calcula scorul unui Painter         
             }
         }
     }
 }
-
-
-

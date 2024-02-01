@@ -23,6 +23,17 @@ Player::Player(const std::string& username)
 	// Empty
 }
 
+Player::Player(const std::string& username, AdminRole arole, PlayerRole role)
+	: m_username{ username },
+	m_adminRole{ arole },
+	m_playerRole{ role },
+	m_score{ 0 },
+	m_second{ 60 },
+	m_hasPainted{ false }
+{
+	// Empty
+}
+
 std::string Player::GetUsername() const
 {
 	return m_username;
@@ -98,7 +109,6 @@ void Player::SetScore(int16_t points)
 void Player::CalculateGuesserScore(std::chrono::seconds second)
 {
 	int intSecond = second.count();
-	std::cout << "\nIn metodata calculate score secunda e: " << intSecond << "\n";
 	if (intSecond > 30)
 	{
 		SetScore(100);

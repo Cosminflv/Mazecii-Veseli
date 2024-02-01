@@ -56,7 +56,6 @@ private:
 	int m_counterLetters;
 	int m_duration;
 	bool m_hasTimeEnded;
-	Timer m_timer;
-	
+	Timer m_timer;	
 };
 

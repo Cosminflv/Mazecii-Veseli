@@ -109,6 +109,9 @@
     <ClCompile Include="LobbyRequestException.cpp">
       <Filter>Source Files\Exceptions</Filter>
     </ClCompile>
+    <ClCompile Include="EnterCode.cpp">
+      <Filter>Source Files\Windows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ClientException.h">
@@ -173,6 +176,9 @@
     <QtMoc Include="ChatWidget.h">
       <Filter>Header Files\Widgets</Filter>
     </QtMoc>
+    <QtMoc Include="EnterCode.h">
+      <Filter>Header Files\Windows</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Register.ui">
@@ -185,6 +191,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="Lobby.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="EnterCode.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

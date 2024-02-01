@@ -22,7 +22,7 @@ void Routing::Run()
 	GameStorage storage = m_storage;
 	std::shared_ptr<Game> game = m_routeHandler.GetGame();
 	RouteHandler& handler = m_routeHandler;
-
+	
 	CROW_ROUTE(m_app, "/gamestatus")([&game]()
 		{
 			std::vector<crow::json::wvalue> playersJson;
@@ -50,9 +50,7 @@ void Routing::Run()
 				}
 
 				game->SetGameStatus(status);
-				std::cout << "RECEIVED GAME STATUS: " << game->GetGameStatusAsString() << std::endl;
-
-				
+				std::cout << "RECEIVED GAME STATUS: " << game->GetGameStatusAsString() << std::endl;			
 
 				return crow::response(200);
 			});
@@ -76,6 +74,27 @@ void Routing::Run()
 					}
 				}
 				return crow::json::wvalue{ playersJson };
+			});
+
+	CROW_ROUTE(m_app, "/userinfo")
+		.methods("GET"_method)
+		([&handler]()
+			{
+				std::vector<crow::json::wvalue> usersJson;
+				if (!handler.GetLoggedInUsers().empty())
+				{
+					for (const auto& user : handler.GetLoggedInUsers())
+					{
+						crow::json::wvalue u
+						{
+							{"Username", user->GetUsername()},  {"Status", user->GetPlayerStatus() == true ? "Painted" : "NotPainted"}  ,
+							{"Score", user->GetScore()}, {"PlayerRole", user->GetPlayerRoleAsString()},
+							{"AdminRole", user->GetAdminRoleAsString()}
+						};
+						usersJson.push_back(u);
+					}
+				}
+				return crow::json::wvalue{ usersJson };
 			});
 
 	CROW_ROUTE(m_app, "/users")([&storage]()
@@ -119,7 +138,7 @@ void Routing::Run()
 				}
 				return crow::json::wvalue{ wordsJson };
 			});
-	//500 Internal Server Error  
+
 	CROW_ROUTE(m_app, "/users_score")([&storage]()
 		{
 			std::vector<crow::json::wvalue> usersJson;
@@ -135,6 +154,7 @@ void Routing::Run()
 			};
 			return crow::json::wvalue{ usersJson };
 		});
+
 	CROW_ROUTE(m_app, "/chat")([&game]()
 		{
 			std::vector<crow::json::wvalue> chatMessagesJson;
@@ -151,6 +171,60 @@ void Routing::Run()
 			}
 			return crow::json::wvalue{ chatMessagesJson };
 		});
+
+	CROW_ROUTE(m_app, "/gamecode")
+		.methods("POST"_method, "GET"_method)
+		([this](const crow::request& req)
+			{
+				if (req.method == crow::HTTPMethod::Post)
+				{
+					crow::json::rvalue jsonData = crow::json::load(req.body);
+					if (!jsonData || !jsonData.has("code"))
+					{
+						return crow::response(400, "Invalid JSON format");
+					}
+
+					const auto& codeJSON = jsonData["code"].s();
+					std::cout << "\n RECEIVED CODE : " << codeJSON << "\n\n\n";
+					m_codes.insert(codeJSON);
+					return crow::response(200);
+				}
+				else if (req.method == crow::HTTPMethod::Get)
+				{
+					crow::json::wvalue json;
+					crow::json::wvalue::list jsonCodes;
+					for (const auto& code : m_codes)
+					{
+						crow::json::wvalue obj;
+						obj["code"] = code;
+						jsonCodes.push_back(obj);
+					}
+
+					json["codes"] = std::move(jsonCodes);
+					return crow::response(json);
+				}
+				return crow::response(444, "Method Not Allowed");
+			});
+
+	CROW_ROUTE(m_app, "/codesignal").methods("POST"_method)
+		([&handler, this](const crow::request& req)
+			{
+				crow::json::rvalue jsonData = crow::json::load(req.body);
+				if (!jsonData || !jsonData.has("signal") || !jsonData.has("user"))
+				{
+					return crow::response(400, "Invalid JSON format");
+				}
+
+				const auto& userJSON = jsonData["user"].s();
+				const auto& signalJSON = jsonData["signal"].s();
+
+				if (m_codes.find(signalJSON) != m_codes.end())
+				{
+					handler.AddPlayer(userJSON);
+				}
+
+				return crow::response(200);
+			});
 
 	CROW_ROUTE(m_app, "/drawing")
 		.methods("POST"_method, "GET"_method)
@@ -195,8 +269,6 @@ void Routing::Run()
 					crow::json::wvalue::list coordinates;
 					crow::json::wvalue::list info;
 
-					std::cout << "SENDING SIZE: " << m_receivedCoordinates.size() << "\n\n\n\n\n";
-
 					for (size_t i = 0; i < m_receivedCoordinates.size(); i++)
 					{
 						crow::json::wvalue objC;
@@ -239,7 +311,6 @@ void Routing::Run()
 				if (storage.InsertUser(username, password))
 				{
 					return crow::response(200);
-					handler.AddPlayer(username);
 					//adaugata de mine~AndBuz
 					storage.InsertPlayerScore(username);
 				}
@@ -357,8 +428,7 @@ void Routing::Run()
 					std::cout << "Received username: " << username << std::endl;
 					std::cout << "Received password: " << password << std::endl;
 			
-					//db.replace(user);
-					handler.AddPlayer(username);
+					handler.AddLoggedInUsers(username);
 					return crow::response(200);
 				}
 				else

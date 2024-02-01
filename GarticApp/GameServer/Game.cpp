@@ -97,18 +97,19 @@ void Game::StartGame()
 
 void Game::EndGame()
 {
-	std::cout << "Jocul s-a incheiat!\n";
+	std::cout << "GAME OVER!\n";
 	//afisare clasament
 	std::string choice;
-	std::cout << "Doriti sa reluati jocul? (Da/Nu): ";
+	std::cout << "Would you like to restart the game (Y/N): ";
 	std::cin >> choice;
 
-	if (choice == "Da") {
+	if (choice == "Y") {
 		ResetGame();
 		StartGame();
 	}
-	else {
-		std::cout << "Jocul s-a incheiat.\n";
+	else
+	{
+		std::cout << "Bye!\n";
 	}
 }
 

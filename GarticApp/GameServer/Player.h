@@ -9,6 +9,7 @@ public:
 	Player() = default;
 	Player(const std::string& username, PlayerRole role, int16_t score);
 	Player(const std::string& username);
+	Player(const std::string& username, AdminRole arole, PlayerRole role);
 
 	std::string GetUsername() const;
 	void SetUsername(const std::string& username);

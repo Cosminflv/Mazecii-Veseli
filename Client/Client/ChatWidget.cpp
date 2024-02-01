@@ -31,13 +31,10 @@ ChatWidget::~ChatWidget()
 
 void ChatWidget::SetUi()
 {
-	//if (m_you.GetPlayerRole() == "Guesser")
-	//{
-		m_requestsTimer = new QTimer(this);
-		m_requestsTimer->setInterval(1000); // Set interval to 1 second
-		m_requestsTimer->start();
-		connect(m_requestsTimer, &QTimer::timeout, this, &ChatWidget::fetchAndUpdateChat);
-	//}
+	m_requestsTimer = new QTimer(this);
+	m_requestsTimer->setInterval(1000);
+	m_requestsTimer->start();
+	connect(m_requestsTimer, &QTimer::timeout, this, &ChatWidget::fetchAndUpdateChat);
 }
 
 std::string ChatWidget::GetUsernameOfClient() const
@@ -124,7 +121,6 @@ void ChatWidget::fetchAndUpdateChat() {
 				QString message = fromJsonToQString(messageFromServer["Message"].s());
 				messages.push_back({ name, message });
 			}
-
 			// Update UI in the main thread using a queued connection
 			QMetaObject::invokeMethod(this, [this, messages]() {
 				updateUi(messages);

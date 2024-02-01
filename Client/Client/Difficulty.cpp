@@ -110,9 +110,6 @@ void Difficulty::SelectDifficulty()
 	w->GetScribbleArea()->UpdateClient(m_you);
 	w->GetScribbleArea()->SetUpUi();
 	w->GetPlayerWidget()->SetUi();
-	//w->GetPlayerWidget()->UpdateList(m_clientsToPass);
-	//w->GetPlayerWidget()->DisplayPlayers();	
-	//w->GetWordWidget()->UpdateWord(w->GetWordWidget()->HiddenWord(w->GetWordWidget()->FetchWordFromServer(m_difficulty)));
 	w->GetWordWidget()->GetWordLabel()->setFont(QFont("Sitka Text Semibold", 25));
 	qDebug() << "client difficulty set:" << w->GetDifficulty();
 	w->GetChat()->SetClient(m_you);
