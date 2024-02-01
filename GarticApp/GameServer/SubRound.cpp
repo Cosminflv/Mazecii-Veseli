@@ -1,6 +1,5 @@
 ﻿#include "Round.h"
 #include "SubRound.h"
-
 #include <algorithm>
 #include <iostream>
 #include <string>
@@ -60,8 +59,8 @@ SubRound::SubRound(const std::string& word, const int numberOfPlayers)
 	m_timer(1),
 	m_duration(60)
 {
+	// Empty
 }
-
 
 void SubRound::SeeWord(const std::string& word) const
 {
@@ -92,16 +91,20 @@ std::string SubRound::SelectRandomWord(uint16_t difficulty)
 		std::cerr << "There are no words with the selected difficulty.\n";
 		return "";
 	}
-	std::srand(static_cast<unsigned int>(std::time(nullptr)));
-	auto randomIndex = std::rand() % filteredWords.size();
+
+	std::mt19937 rng(std::random_device{}());
+	std::uniform_int_distribution<size_t> distribution(0, filteredWords.size() - 1);
+	auto randomIndex = distribution(rng);
+
 	m_seenWord = filteredWords[randomIndex];
+
 	size_t found = m_seenWord.find('_');
 	while (found != std::string::npos)
 	{
 		m_seenWord.replace(found, 1, " ");
 		found = m_seenWord.find('_', found + 1);
 	}
-	std::cout << "\nCuvantul filtrat fara _ si cu spatii este:\n" << m_seenWord;
+
 	return filteredWords[randomIndex];
 }
 
@@ -131,14 +134,14 @@ std::string SubRound::UpdateWordWithLetters(std::string& seenWord, std::string&c
 		return "";
 	}
 	int randomIndex=0;
-	if (m_counterLetters<=seenWord.size()/2)
+	if (m_counterLetters <= seenWord.size() / 2)
 	{
 		do {
 			randomIndex = rand() % currentWord.size();
 		} while (m_letterShown[randomIndex]);
 
-	m_letterShown[randomIndex] = true;
-	currentWord[randomIndex] = seenWord[randomIndex];
+		m_letterShown[randomIndex] = true;
+		currentWord[randomIndex] = seenWord[randomIndex];
 	}
 	m_counterLetters++;
 	return currentWord;
@@ -183,7 +186,6 @@ bool SubRound::HaveAllPlayersGuessed() const
 {
 	return m_counterGuessingPlayers == m_numberOfPlayers - 1 ? true : false;
 }
-
 
 bool SubRound::HasSubRoundEnded() const
 {

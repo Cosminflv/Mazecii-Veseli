@@ -105,6 +105,7 @@
     <ClCompile Include="ClientException.cpp" />
     <ClCompile Include="ColorWidget.cpp" />
     <ClCompile Include="Difficulty.cpp" />
+    <ClCompile Include="EnterCode.cpp" />
     <ClCompile Include="Lobby.cpp" />
     <ClCompile Include="LobbyRequestException.cpp" />
     <ClCompile Include="Login.cpp" />
@@ -125,6 +126,7 @@
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="Main.cpp" />
     <QtUic Include="Difficulty.ui" />
+    <QtUic Include="EnterCode.ui" />
     <QtUic Include="Lobby.ui" />
     <QtUic Include="Login.ui" />
     <QtUic Include="Register.ui" />
@@ -137,6 +139,7 @@
     <QtMoc Include="Login.h" />
     <QtMoc Include="Difficulty.h" />
     <QtMoc Include="Lobby.h" />
+    <QtMoc Include="EnterCode.h" />
     <ClInclude Include="LobbyRequestException.h" />
     <ClInclude Include="PasswordException.h" />
     <ClInclude Include="PlayerClient.h" />

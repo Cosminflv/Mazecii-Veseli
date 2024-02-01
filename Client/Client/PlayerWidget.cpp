@@ -58,8 +58,6 @@ void PlayerWidget::UpdateList(const std::vector<PlayerClient>& clients)
 
 void PlayerWidget::UpdateScoreUI(const PlayerClient& client)
 {
-	qDebug() << "semnal emis! ";
-	qDebug() << "numele player-ului:" << client.GetUsername();
 	int16_t newScore = 0;
 	cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:18080/playerinfo" });
 	if (response.status_code == 200)
@@ -72,27 +70,26 @@ void PlayerWidget::UpdateScoreUI(const PlayerClient& client)
 				if (playerJson["Username"].s() == client.GetUsername())
 				{
 					newScore = playerJson["Score"].i();
-					qDebug() << "score: " << newScore;
 				}
 			}
 		}
 
-		for (int i = 0; i < m_players.size(); i++)
+		auto it = std::find_if(m_players.begin(), m_players.end(),
+			[&](const auto& player) {return player.GetUsername() == client.GetUsername(); });
+
+		if (it != m_players.end())
 		{
-			if (m_players[i].GetUsername() == client.GetUsername())
+			it->UpdateScore(newScore);
+			auto index = std::distance(m_players.begin(), it); // calculated distance from begin() to iterator to get pos
+			if (index < m_playerList->count())
 			{
-				m_players[i].UpdateScore(newScore);
-				qDebug() << m_players[i].GetUsername() << " are scorul : " << m_players[i].GetScore();
-				if (i < m_playerList->count())
+				QListWidgetItem* item = m_playerList->item(index);
+				if (item)
 				{
-					QListWidgetItem* item = m_playerList->item(i);
-					if (item)
-					{
-						QString playerInfo = QString::fromUtf8(m_players[i].GetUsername().c_str()) + "\n[" + QString::number(m_players[i].GetScore()) + " points]";
-						item->setText(playerInfo);
-					}
+					QString playerInfo = QString::fromUtf8(it->GetUsername().c_str()) + 
+						"\n[" + QString::number(it->GetScore()) + " points]";
+					item->setText(playerInfo);
 				}
-				break;
 			}
 		}
 	}
@@ -101,9 +98,8 @@ void PlayerWidget::UpdateScoreUI(const PlayerClient& client)
 void PlayerWidget::SetUi()
 {
 	m_requestsTimer = new QTimer(this);
-	m_requestsTimer->setInterval(1000); // Set interval to 1 second
+	m_requestsTimer->setInterval(1000);
 	m_requestsTimer->start();
-
 	connect(m_requestsTimer, &QTimer::timeout, this, &PlayerWidget::fetchAndUpdatePlayers);
 }
 
@@ -131,19 +127,13 @@ void PlayerWidget::fetchAndUpdatePlayers()
 					{
 						int16_t score = static_cast<int16_t>(user["Score"].i());
 						PlayerClient client{ user["Username"].s(), user["Status"].s(), score, user["PlayerRole"].s(), user["AdminRole"].s() };
-
-						qDebug() << "\nUSERNAME: " << client.GetUsername() << "\nSTATUS: " << client.GetStatus() << "\nSCORE: " << client.GetScore()
-							<< "\nPLAYER ROLE: " << client.GetPlayerRole() << "\nADMIN ROLE: " << client.GetAdminRole() << "\n";
-
 						m_players.push_back(client);
 					}
 					else {
-						// Handle incorrect data types
 						std::cerr << "Invalid data types for Username or Status\n";
 					}
 				}
 				else {
-					// Handle missing keys
 					std::cerr << "Missing keys Username or Status\n";
 				}
 			}
@@ -154,8 +144,6 @@ void PlayerWidget::fetchAndUpdatePlayers()
 
 		}
 		catch (const LobbyRequestException& e) {
-			// Handle the exception
-			// Log, show an error message, or take appropriate action
 			qDebug() << "Lobby request exception: " << e.what();
 		}
 		}).detach();

@@ -183,7 +183,6 @@ void Register::CreateAccount()
 	{
 		m_password = std::to_string(std::hash<std::string> {} (m_passwordText->text().toUtf8().constData()));
 		qDebug() << m_username << " " << m_password;
-		//impachetez campuri
 		crow::json::wvalue jsonPayload;
 		jsonPayload["username"] = m_username;
 		jsonPayload["password"] = m_password;

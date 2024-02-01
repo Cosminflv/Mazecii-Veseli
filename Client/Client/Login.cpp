@@ -1,8 +1,8 @@
 #include "Login.h"
 #include <QLabel>
 #include "Difficulty.h"
-#include "PlayerClient.h"
 #include "Lobby.h"
+#include "EnterCode.h"
 
 Login::Login(QWidget *parent)
 	: QMainWindow(parent)
@@ -86,12 +86,47 @@ void Login::LogintoAccount()
 		cpr::Response statusResponse = cpr::Post(cpr::Url("http://localhost:18080/gamestatus"), cpr::Body{ jsString });
 		if (statusResponse.status_code == 200)
 		{
-			Lobby* lobby = new Lobby();
-			lobby->SetLoginUsername(m_username);
-			qDebug() << "SET LOGIN USERNAME TO LOBBY: " << lobby->GetLoginUsername();
-			lobby->SetUi();
-			lobby->show();
-			hide();
+			cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:18080/userinfo" });
+
+			if (response.error)
+			{
+				throw(PlayerRequestException("FAIL - Player Request"));
+			}
+
+			auto serverUsers = crow::json::load(response.text);
+
+			for (const auto& user : serverUsers)
+			{
+				if (user.has("Username") && user.has("AdminRole"))
+				{
+					if (user["Username"].t() == crow::json::type::String &&
+						user["AdminRole"].t() == crow::json::type::String)
+					{
+						if (m_username == user["Username"].s())
+						{
+							m_you.SetUsername(user["Username"].s());
+							m_you.SetAdminRole(user["AdminRole"].s());
+						}
+					}
+				}
+			}
+
+			if (m_you.GetAdminRole() == "Admin")
+			{
+				Lobby* lobby = new Lobby();
+				lobby->SetLoginUsername(m_username);
+				qDebug() << "SET LOGIN USERNAME TO LOBBY: " << lobby->GetLoginUsername();
+				lobby->SetUi();
+				lobby->show();
+				hide();
+			}
+			else if (m_you.GetAdminRole() == "NonAdmin")
+			{
+				EnterCode* e = new EnterCode();
+				e->SetLoginUsername(m_username);
+				e->show();
+				hide();
+			}
 		}		
 	}
 	else if (r.status_code == 101)

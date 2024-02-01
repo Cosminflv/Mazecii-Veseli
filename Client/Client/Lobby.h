@@ -23,12 +23,21 @@ public:
 	QString FromJsonToQString(const crow::json::detail::r_string value);	
 	void SetUi();
 
+private:
+	std::string GenerateGameCode();
+	void AdminSetUp();
+	void NonAdminSetUp();
+	std::vector<PlayerClient> PlayerSetUp();
+
 private slots:
 	void StartGame();
 	void fetchAndUpdateLobby();
 	void fetchAndUpdateGameState();
 	void UpdateGameState(bool updateGameStateCalled);
 	void UpdateUi(std::vector<PlayerClient> m_players);
+	void SendCode();
+	void ShowErrorMessage();
+	void HideErrorMessage();
 
 private:
 	Ui::LobbyClass ui;
@@ -36,9 +45,13 @@ private:
 	std::atomic<bool> stopThreadFlag;
 	bool updateGameStateCalled;
 
+	std::string m_code;
 	std::string m_loginUsername;
 	PlayerClient m_you;
 	std::vector<PlayerClient> m_users;
 	QPushButton* m_startGame;
 	QListWidget* m_userDisplay;
+	QPushButton* m_generateCode;
+	QLabel* error;
+	QTimer timedError;
 };

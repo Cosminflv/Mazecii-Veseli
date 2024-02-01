@@ -34,6 +34,9 @@ public:
     void You(const PlayerClient& you);
 
 private:
+    void AddWidgets();
+
+private:
     Ui::ClientClass ui;
 
     PlayerClient m_you;

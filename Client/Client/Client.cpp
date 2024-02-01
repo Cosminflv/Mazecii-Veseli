@@ -21,7 +21,6 @@ Client::Client(QWidget* parent)
     m_colorWidget->setFixedHeight(100);
     m_wordWidget->setFixedSize(300, 50);
 
-    //preia cuvantul din ruta
     m_wordWidget->FetchTheWord(m_difficulty);
 
     connect(m_timerWidget, &TimerWidget::timerUpdate, [this](const QString& timeString, const QPalette& textColor)
@@ -30,36 +29,41 @@ Client::Client(QWidget* parent)
             m_timerWidget->GetTimeLabel()->setPalette(textColor);
         });
     connect(m_chatWidget, &ChatWidget::messageSent, [this]() {
-        // Așteaptă 500 milisecunde (0,5 secunde) înainte de a apela UpdateScoreUI
         QTimer::singleShot(500, this, [this]() {
             m_playerWidget->UpdateScoreUI(m_you.GetUsername());
             });
         });
 }
 
-void Client::SetUi()
+void Client::AddWidgets()
 {
     QGridLayout* mainLayout = new QGridLayout(this);
+    setFont(QFont("8514oem", 13));
+    setStyleSheet("background-color: #eaeafa");
+    mainLayout->addWidget(m_timerWidget, 0, 0, 1, 3);
+    mainLayout->addWidget(m_playerWidget, 1, 0);
+    mainLayout->addWidget(m_colorWidget, 2, 0);
+    mainLayout->addWidget(m_scribbleArea, 1, 1, 2, 1);
+    mainLayout->addWidget(m_chatWidget, 1, 2, 3, 1);
+    mainLayout->addWidget(m_wordWidget, 0, 1, 1, 3);
+    mainLayout->setAlignment(m_wordWidget, Qt::AlignCenter);
+    mainLayout->setColumnStretch(0, 4);
+    mainLayout->setColumnStretch(1, 11);
+    mainLayout->setColumnStretch(2, 5);
+    mainLayout->setRowStretch(0, 1);
+    mainLayout->setRowStretch(1, 3);
+    mainLayout->setRowStretch(2, 2);
+    QWidget* centralWidget = new QWidget(this);
+    centralWidget->setLayout(mainLayout);
+    setCentralWidget(centralWidget);
+}
 
+void Client::SetUi()
+{
     if (m_you.GetPlayerRole() == "Painter")
     {
         setWindowTitle(tr("PAINT!"));
-        setFont(QFont("8514oem", 13));
-        setStyleSheet("background-color: #eaeafa");
-        m_scribbleArea->UpdatePlayerRole("Painter");
-        mainLayout->addWidget(m_timerWidget, 0, 0, 1, 3); // Row 0, Column 0, Row Span 1, Column Span 3
-        mainLayout->addWidget(m_playerWidget, 1, 0);
-        mainLayout->addWidget(m_colorWidget, 2, 0);
-        mainLayout->addWidget(m_scribbleArea, 1, 1, 2, 1); // Row 1, Column 1, Row Span 2, Column Span 1
-        mainLayout->addWidget(m_chatWidget, 1, 2, 3, 1); // Row 0, Column 2, Row Span 3, Column Span 1
-        mainLayout->addWidget(m_wordWidget, 0, 1, 1, 3);
-        mainLayout->setAlignment(m_wordWidget, Qt::AlignCenter);
-        mainLayout->setColumnStretch(0, 4);
-        mainLayout->setColumnStretch(1, 11);
-        mainLayout->setColumnStretch(2, 5);
-        mainLayout->setRowStretch(0, 1);
-        mainLayout->setRowStretch(1, 3);
-        mainLayout->setRowStretch(2, 2);
+        m_scribbleArea->UpdatePlayerRole("Painter");      
         connect(m_colorWidget, &ColorWidget::selectColor, m_scribbleArea, &ScribbleArea::SetPenColor);
         m_wordWidget->UpdateWord(m_wordWidget->FetchSeenWordFromServer(m_difficulty));
     }
@@ -69,27 +73,10 @@ void Client::SetUi()
         setFont(QFont("8514oem", 13));
         setStyleSheet("background-color: #eaeafa");
         m_scribbleArea->UpdatePlayerRole("Guesser");
-        mainLayout->addWidget(m_timerWidget, 0, 0, 1, 3); // Row 0, Column 0, Row Span 1, Column Span 3
-        mainLayout->addWidget(m_playerWidget, 1, 0);
-        mainLayout->addWidget(m_scribbleArea, 1, 1, 2, 1); // Row 1, Column 1, Row Span 2, Column Span 1
-        mainLayout->addWidget(m_chatWidget, 1, 2, 3, 1); // Row 0, Column 2, Row Span 3, Column Span 1
-        mainLayout->addWidget(m_wordWidget, 0, 1, 1, 3);
-        mainLayout->setAlignment(m_wordWidget, Qt::AlignCenter);
-        mainLayout->setColumnStretch(0, 4);
-        mainLayout->setColumnStretch(1, 11);
-        mainLayout->setColumnStretch(2, 5);
-        mainLayout->setRowStretch(0, 1);
-        mainLayout->setRowStretch(1, 3);
-        mainLayout->setRowStretch(2, 2);
-        //preia cuvantul updatat cu litere din ruta
-        m_wordWidget->FetchTheWord(m_difficulty);
         connect(m_timerWidget, &TimerWidget::wordUpdated, m_wordWidget, &WordWidget::UpdateWordFromServer);
         m_wordWidget->UpdateWord(m_wordWidget->FetchUpdatedWordFromServer());
     }
-
-    QWidget* centralWidget = new QWidget(this);
-    centralWidget->setLayout(mainLayout);
-    setCentralWidget(centralWidget);
+    AddWidgets();
 }
 
 Client::~Client()
@@ -150,3 +137,4 @@ void Client::You(const PlayerClient& you)
     m_you.UpdateScore(you.GetScore());
     m_you.UpdateStatus(you.GetStatus());
 }
+

@@ -1,20 +1,5 @@
 #include "GameData.h"
 
-//
-//void populateStorage(Storage& storage)
-//{
-//	std::ifstream inputFile("wordsIn.txt");
-//	std::string word;
-//	std::vector<Word>words;
-//	uint16_t difficulty;
-//	while (inputFile >> word>>difficulty)
-//	{
-//		Word w{ -1,word,difficulty };
-//		words.push_back(w);
-//	}
-//	storage.insert_range(words.begin(), words.end());
-//}
-
 bool GameStorage::Initialize()
 {
 	m_db.sync_schema();
@@ -70,10 +55,6 @@ bool GameStorage::CheckUser(const std::string& username, const std::string& pass
 {
 	if (m_db.count<PlayerDB>(sql::where(sql::c(&PlayerDB::GetUsername) == username)) == 1)
 	{
-		//if (m_db.count<PlayerDB>(sql::where(sql::c(&PlayerDB::GetPassword) == password)) == 1)
-		//{
-		//	return true;
-		//}
 		return true;
 	}
 	return false;

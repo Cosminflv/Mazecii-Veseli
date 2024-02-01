@@ -1,6 +1,7 @@
 #pragma once
 #include "Game.h"
 #include <random>
+#include <optional>
 #include <string_view>
 
 class RouteHandler
@@ -11,16 +12,20 @@ public:
 
 	//Getters
 	std::shared_ptr<Game> GetGame();
-
+	std::vector<PlayerPtr> GetLoggedInUsers();
+	std::optional<PlayerPtr> GetPlayerWithUsername(const std::string& username);
 
 	bool CheckEnteredMessage(const std::string_view& message);
+	void AddLoggedInUsers(const std::string& username);
 	void AddPlayer(const std::string& username);
 	void WriteMessage(const std::string& username, const std::string& message);
 	std::string PickWord(uint16_t difficulty);
 	std::string HideTheWord(std::string word);
 	std::string UpdateWord(std::string& word, std::string &currentWord);
 	void CalculateScoreForGuesser(const std::string& username, std::vector<PlayerPtr>& players, Timer& T);
+
 private:
 	std::shared_ptr<Game> m_game;
+	std::vector<PlayerPtr> m_loggedInUsers;
 };
 

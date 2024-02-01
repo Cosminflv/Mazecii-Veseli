@@ -20,9 +20,8 @@ TimerWidget::TimerWidget()
 	layout->addWidget(m_timeLabel);
 	setLayout(layout);
 
-	// Create and configure the timer
 	m_timer = new QTimer(this);
-	m_timer->setInterval(1000); // Set interval to 1 second
+	m_timer->setInterval(1000);
 	m_timer->start();
 	connect(m_timer, &QTimer::timeout, this, &TimerWidget::fetchAndUpdateTimer);
 }
@@ -35,13 +34,13 @@ QLabel* TimerWidget::GetTimeLabel() const
 
 
 void TimerWidget::fetchAndUpdateTimer() {
-	// Fetch the timer value in a separate thread
+	// fetch timer value in a separate thread
 	std::thread([this]() {
 		cpr::Response response = cpr::Get(cpr::Url{ "http://localhost:18080/timer" });
 		auto remainingTimeRvalue = crow::json::load(response.text);
 		auto remainingTime = static_cast<int>(remainingTimeRvalue["Seconds"].u());
 
-		// Update UI in the main thread using a queued connection
+		// invoca o metoda in firul principal
 		emit wordUpdated(response.text.c_str());
 		QMetaObject::invokeMethod(this, [this, remainingTime]() {
 			updateUi(remainingTime);
@@ -51,11 +50,9 @@ void TimerWidget::fetchAndUpdateTimer() {
 				m_halfTimeReached = true; // Marchează că semnalul a fost emis
 				emit halfTimeReachedSignal();    // Emite semnalul
 			}
-			}, Qt::QueuedConnection);
-		}).detach();
+			}, Qt::QueuedConnection); // asigura ca invocarea metodei se va intampla in bucla de evenimente a firului principal
+		}).detach(); // thread detasat => se poate executa independent de cel principal
 }
-
-
 
 void TimerWidget::stopTimer()
 {
