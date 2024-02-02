@@ -97,6 +97,8 @@ void Routing::Run()
 				return crow::json::wvalue{ usersJson };
 			});
 
+
+
 	CROW_ROUTE(m_app, "/users")([&storage]()
 		{
 			std::vector<crow::json::wvalue>usersJson;
@@ -220,7 +222,33 @@ void Routing::Run()
 
 				if (m_codes.find(signalJSON) != m_codes.end())
 				{
-					handler.AddPlayer(userJSON);
+					handler.AddPlayer(userJSON, AdminRole::NonAdmin);
+				}
+
+				return crow::response(200);
+			});
+
+	CROW_ROUTE(m_app, "/action").methods("POST"_method)
+		([&handler, this](const crow::request& req)
+			{
+				crow::json::rvalue jsonData = crow::json::load(req.body);
+
+				if (!jsonData || !jsonData.has("action") || !jsonData.has("user"))
+				{
+					return crow::response(400, "Invalid JSON format");
+				}
+
+				const auto& userJSON = jsonData["user"].s();
+				const auto& actionJSON = jsonData["action"].s();
+				std::cout << "\n\n" << userJSON << "  " << actionJSON << "\n\n";
+
+				if (actionJSON == "Admin")
+				{
+					handler.AddPlayer(userJSON, AdminRole::Admin);
+				}
+				else
+				{
+					std::cout << "\nNonAdmin players must enter code first.\n";
 				}
 
 				return crow::response(200);

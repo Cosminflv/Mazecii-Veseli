@@ -103,6 +103,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ActionException.cpp" />
     <ClCompile Include="ChatRequestException.cpp" />
     <ClCompile Include="ClientException.cpp" />
     <ClCompile Include="ColorWidget.cpp" />
@@ -136,6 +137,7 @@
     <QtUic Include="Register.ui" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActionException.h" />
     <ClInclude Include="ChatRequestException.h" />
     <QtMoc Include="ChatWidget.h" />
     <ClInclude Include="ClientException.h" />

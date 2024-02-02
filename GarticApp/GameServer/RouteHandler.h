@@ -17,7 +17,7 @@ public:
 
 	bool CheckEnteredMessage(const std::string_view& message);
 	void AddLoggedInUsers(const std::string& username);
-	void AddPlayer(const std::string& username);
+	void AddPlayer(const std::string& username, const AdminRole& arole);
 	void WriteMessage(const std::string& username, const std::string& message);
 	std::string PickWord(uint16_t difficulty);
 	std::string HideTheWord(std::string word);

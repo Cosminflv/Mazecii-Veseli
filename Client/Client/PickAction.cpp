@@ -1,4 +1,7 @@
 #include "PickAction.h"
+#include "crow.h"
+#include <cpr/cpr.h>
+#include "ActionException.h"
 
 PickAction::PickAction(QWidget *parent)
 	: QMainWindow(parent)
@@ -29,22 +32,51 @@ PickAction::~PickAction()
 void PickAction::SetLoginUsername(const std::string & username)
 {
 	m_loginUsername = username;
+	qDebug() << "USERNAME : " << m_loginUsername;
 }
 
 void PickAction::CreateRoom()
 {
-	Lobby* lobby = new Lobby();
-	lobby->SetLoginUsername(m_loginUsername);
-	lobby->SetClientARole("Admin");
-	lobby->SetUi();
-	lobby->show();
-	hide();
+	try {
+		crow::json::wvalue json;
+		json["user"] = m_loginUsername;
+		json["action"] = "Admin";
+		std::string jsonString = json.dump();
+		cpr::Response r = cpr::Post(cpr::Url("http://localhost:18080/action"), cpr::Body{ jsonString });
+		if (r.status_code == 200)
+		{
+			Lobby* lobby = new Lobby();
+			lobby->SetLoginUsername(m_loginUsername);
+			lobby->SetClientARole("Admin");
+			lobby->SetUi();
+			lobby->show();
+			hide();
+		}
+	}
+	catch (const ActionException& e)
+	{
+		qDebug() << "Action exception: " << e.what();
+	}
 }
 
 void PickAction::JoinRoom()
 {
-	EnterCode* e = new EnterCode();
-	e->SetLoginUsername(m_loginUsername);
-	e->show();
-	hide();
+	try {
+		crow::json::wvalue json;
+		json["user"] = m_loginUsername;
+		json["action"] = "NonAdmin";
+		std::string jsonString = json.dump();
+		cpr::Response r = cpr::Post(cpr::Url("http://localhost:18080/action"), cpr::Body{ jsonString });
+		if (r.status_code == 200)
+		{
+			EnterCode* e = new EnterCode();
+			e->SetLoginUsername(m_loginUsername);
+			e->show();
+			hide();
+		}
+	}
+	catch (const ActionException& e)
+	{
+		qDebug() << "Action exception: " << e.what();
+	}
 }

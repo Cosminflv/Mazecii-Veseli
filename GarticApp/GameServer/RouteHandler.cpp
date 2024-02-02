@@ -42,7 +42,7 @@ void RouteHandler::AddLoggedInUsers(const std::string& username)
     if (m_loggedInUsers.size() == 0)
     {
         newUser = std::make_shared<Player>(username, AdminRole::NonAdmin, PlayerRole::Painter);
-        m_game->AddPlayer(newUser);
+        //m_game->AddPlayer(newUser);
     }
     else
     {
@@ -51,9 +51,10 @@ void RouteHandler::AddLoggedInUsers(const std::string& username)
     m_loggedInUsers.push_back(newUser);
 }
 
-void RouteHandler::AddPlayer(const std::string& username)
+void RouteHandler::AddPlayer(const std::string& username, const AdminRole& arole)
 {
     std::optional<PlayerPtr> newPlayer = GetPlayerWithUsername(username);
+    newPlayer.value().get()->SetAdminRole(arole);
     if (newPlayer.has_value())
     {
         m_game->AddPlayer(newPlayer.value());
