@@ -68,12 +68,14 @@
     <ClCompile>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PreprocessorDefinitions>_WIN32_WINNT=0x0601;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PreprocessorDefinitions>_WIN32_WINNT=0x0601;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
@@ -110,6 +112,7 @@
     <ClCompile Include="LobbyRequestException.cpp" />
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="PasswordException.cpp" />
+    <ClCompile Include="PickAction.cpp" />
     <ClCompile Include="PlayerClient.cpp" />
     <ClCompile Include="PlayerRequestException.cpp" />
     <ClCompile Include="PlayerWidget.cpp" />
@@ -129,6 +132,7 @@
     <QtUic Include="EnterCode.ui" />
     <QtUic Include="Lobby.ui" />
     <QtUic Include="Login.ui" />
+    <QtUic Include="PickAction.ui" />
     <QtUic Include="Register.ui" />
   </ItemGroup>
   <ItemGroup>
@@ -142,6 +146,7 @@
     <QtMoc Include="EnterCode.h" />
     <ClInclude Include="LobbyRequestException.h" />
     <ClInclude Include="PasswordException.h" />
+    <QtMoc Include="PickAction.h" />
     <ClInclude Include="PlayerClient.h" />
     <ClInclude Include="PlayerRequestException.h" />
     <QtMoc Include="Register.h" />

@@ -112,6 +112,9 @@
     <ClCompile Include="EnterCode.cpp">
       <Filter>Source Files\Windows</Filter>
     </ClCompile>
+    <ClCompile Include="PickAction.cpp">
+      <Filter>Source Files\Windows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ClientException.h">
@@ -148,7 +151,7 @@
       <Filter>Header Files\Widgets</Filter>
     </ClInclude>
     <ClInclude Include="LobbyRequestException.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Exceptions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -179,6 +182,9 @@
     <QtMoc Include="EnterCode.h">
       <Filter>Header Files\Windows</Filter>
     </QtMoc>
+    <QtMoc Include="PickAction.h">
+      <Filter>Header Files\Windows</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Register.ui">
@@ -194,6 +200,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="EnterCode.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="PickAction.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

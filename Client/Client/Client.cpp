@@ -42,8 +42,9 @@ void Client::AddWidgets()
     setStyleSheet("background-color: #eaeafa");
     mainLayout->addWidget(m_timerWidget, 0, 0, 1, 3);
     mainLayout->addWidget(m_playerWidget, 1, 0);
-    mainLayout->addWidget(m_colorWidget, 2, 0);
     mainLayout->addWidget(m_scribbleArea, 1, 1, 2, 1);
+    if(m_you.GetPlayerRole() == "Painter")
+        mainLayout->addWidget(m_colorWidget, 2, 0);
     mainLayout->addWidget(m_chatWidget, 1, 2, 3, 1);
     mainLayout->addWidget(m_wordWidget, 0, 1, 1, 3);
     mainLayout->setAlignment(m_wordWidget, Qt::AlignCenter);

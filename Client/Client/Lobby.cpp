@@ -52,6 +52,16 @@ QString Lobby::FromJsonToQString(const crow::json::detail::r_string value)
 	return QString::fromUtf8(stringValue.c_str(), static_cast<int>(stringValue.size()));
 }
 
+PlayerClient Lobby::GetClient() const
+{
+	return m_you;
+}
+
+void Lobby::SetClientARole(const std::string& role)
+{
+	m_you.SetAdminRole(role);
+}
+
 void Lobby::AdminSetUp()
 {
 	QLabel* infotext = new QLabel("Waiting for players\nto join...", this);
@@ -115,7 +125,7 @@ std::vector<PlayerClient> Lobby::PlayerSetUp()
 					m_you.UpdateStatus(user["Status"].s());
 					m_you.UpdateScore(score);
 					m_you.UpdatePlayerRole(user["PlayerRole"].s());
-					m_you.SetAdminRole(user["AdminRole"].s());
+					//m_you.SetAdminRole(user["AdminRole"].s());
 				}
 			}
 			else {

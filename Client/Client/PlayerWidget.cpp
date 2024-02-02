@@ -1,6 +1,7 @@
 #include "PlayerWidget.h"
 #include "ClientExceptions.h"
 #include <crow/json.h>
+#include <ranges>
 
 PlayerWidget::PlayerWidget(QWidget* parent)
 {
@@ -65,17 +66,22 @@ void PlayerWidget::UpdateScoreUI(const PlayerClient& client)
 		crow::json::rvalue json_data = crow::json::load(response.text);
 		if (json_data)
 		{
-			for (const auto& playerJson : json_data)
+			if(json_data)
 			{
-				if (playerJson["Username"].s() == client.GetUsername())
+				for (const auto& playerJson : json_data)
 				{
-					newScore = playerJson["Score"].i();
+					if (playerJson["Username"].s() == client.GetUsername())
+					{
+						newScore = playerJson["Score"].i();
+					}
 				}
 			}
 		}
 
-		auto it = std::find_if(m_players.begin(), m_players.end(),
-			[&](const auto& player) {return player.GetUsername() == client.GetUsername(); });
+		auto it = std::ranges::find_if(m_players, [&](const auto& player)
+			{
+				return player.GetUsername() == client.GetUsername(); 
+			});
 
 		if (it != m_players.end())
 		{

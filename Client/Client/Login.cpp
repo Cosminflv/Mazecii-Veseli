@@ -3,6 +3,7 @@
 #include "Difficulty.h"
 #include "Lobby.h"
 #include "EnterCode.h"
+#include "PickAction.h"
 
 Login::Login(QWidget *parent)
 	: QMainWindow(parent)
@@ -111,7 +112,12 @@ void Login::LogintoAccount()
 				}
 			}
 
-			if (m_you.GetAdminRole() == "Admin")
+			PickAction* p = new PickAction();
+			p->SetLoginUsername(m_username);
+			p->show();
+			hide();
+
+			/*if (m_you.GetAdminRole() == "Admin")
 			{
 				Lobby* lobby = new Lobby();
 				lobby->SetLoginUsername(m_username);
@@ -126,7 +132,7 @@ void Login::LogintoAccount()
 				e->SetLoginUsername(m_username);
 				e->show();
 				hide();
-			}
+			}*/
 		}		
 	}
 	else if (r.status_code == 101)

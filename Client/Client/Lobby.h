@@ -21,6 +21,8 @@ public:
 	void SetLoginUsername(const std::string& username);
 	std::vector<PlayerClient> GetClients() const;
 	QString FromJsonToQString(const crow::json::detail::r_string value);	
+	PlayerClient GetClient() const;
+	void SetClientARole(const std::string& role);
 	void SetUi();
 
 private:

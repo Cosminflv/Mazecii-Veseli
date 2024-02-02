@@ -81,6 +81,7 @@ void EnterCode::EnterGame()
 		{
 			Lobby* lobby = new Lobby();
 			lobby->SetLoginUsername(m_username);
+			lobby->SetClientARole("NonAdmin");
 			lobby->SetUi();
 			lobby->show();
 			hide();

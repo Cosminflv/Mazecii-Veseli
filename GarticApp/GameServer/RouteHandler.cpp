@@ -41,7 +41,7 @@ void RouteHandler::AddLoggedInUsers(const std::string& username)
     PlayerPtr newUser;
     if (m_loggedInUsers.size() == 0)
     {
-        newUser = std::make_shared<Player>(username, AdminRole::Admin, PlayerRole::Painter);
+        newUser = std::make_shared<Player>(username, AdminRole::NonAdmin, PlayerRole::Painter);
         m_game->AddPlayer(newUser);
     }
     else
