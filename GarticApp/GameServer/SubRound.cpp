@@ -5,6 +5,7 @@
 #include <string>
 #include <random>
 #include <numeric>
+#include <ranges>
 #include <string_view>
 
 
@@ -94,18 +95,11 @@ std::string SubRound::SelectRandomWord(uint16_t difficulty)
 
 	std::mt19937 rng(std::random_device{}());
 	std::uniform_int_distribution<size_t> distribution(0, filteredWords.size() - 1);
-	auto randomIndex = distribution(rng);
+	auto randomIter = std::ranges::next(filteredWords.begin(), distribution(rng));
 
-	m_seenWord = filteredWords[randomIndex];
-
-	size_t found = m_seenWord.find('_');
-	while (found != std::string::npos)
-	{
-		m_seenWord.replace(found, 1, " ");
-		found = m_seenWord.find('_', found + 1);
-	}
-
-	return filteredWords[randomIndex];
+	m_seenWord = *randomIter;
+	std::ranges::replace(m_seenWord, '_', ' ');
+	return m_seenWord;
 }
 
 std::string SubRound::HideWord(const std::string& word)
@@ -114,14 +108,7 @@ std::string SubRound::HideWord(const std::string& word)
 	std::string hiddenWord(word.length(), hasSpaces ? ' ' : '-');
 	MakeAllLettersFalse(word);
 
-	if (!hasSpaces)
-	{
-		m_counterLetters = 1;
-	}
-	else
-	{
-		m_counterLetters = 0;
-	}
+	m_counterLetters = hasSpaces ? 0 : 1;
 
 	return hiddenWord;
 }
@@ -133,7 +120,7 @@ std::string SubRound::UpdateWordWithLetters(std::string& seenWord, std::string&c
 		std::cerr << "Word string empty." << std::endl;
 		return "";
 	}
-	int randomIndex=0;
+	int randomIndex = 0;
 	if (m_counterLetters <= seenWord.size() / 2)
 	{
 		do {

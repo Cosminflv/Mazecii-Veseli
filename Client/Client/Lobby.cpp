@@ -125,7 +125,6 @@ std::vector<PlayerClient> Lobby::PlayerSetUp()
 					m_you.UpdateStatus(user["Status"].s());
 					m_you.UpdateScore(score);
 					m_you.UpdatePlayerRole(user["PlayerRole"].s());
-					//m_you.SetAdminRole(user["AdminRole"].s());
 				}
 			}
 			else {
@@ -171,16 +170,13 @@ void Lobby::SetUi()
 std::string Lobby::GenerateGameCode()
 {
 	static const std::string_view alphabet = "0123456789abcdefghijklmnopqrstuvwxyz";
-	//read-only sequence that doesn't need to be modified & strview doesn't allocate memory
 	static const std::string::size_type length = 5;
-	thread_local static std::mt19937 rg{ std::random_device{}() };
-	thread_local static std::uniform_int_distribution<std::string::size_type> choose(0, alphabet.size() - 1);
+	static std::mt19937 rg{ std::random_device{}() };
+	static std::uniform_int_distribution<std::string::size_type> choose(0, alphabet.size() - 1);
 
 	std::string code;
 	code.reserve(length);
-	//using generate_n to generate n (here, 5) randomly chosen values
-	//using back_inserter to append the generated values to code string
-	std::generate_n(std::back_inserter(code), length, [&]()
+	std::ranges::generate_n(std::back_inserter(code), length, [&]()
 		{
 			return alphabet[choose(rg)];
 		});

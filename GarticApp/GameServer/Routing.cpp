@@ -97,8 +97,6 @@ void Routing::Run()
 				return crow::json::wvalue{ usersJson };
 			});
 
-
-
 	CROW_ROUTE(m_app, "/users")([&storage]()
 		{
 			std::vector<crow::json::wvalue>usersJson;
@@ -241,15 +239,7 @@ void Routing::Run()
 				const auto& userJSON = jsonData["user"].s();
 				const auto& actionJSON = jsonData["action"].s();
 				std::cout << "\n\n" << userJSON << "  " << actionJSON << "\n\n";
-
-				if (actionJSON == "Admin")
-				{
-					handler.AddPlayer(userJSON, AdminRole::Admin);
-				}
-				else
-				{
-					std::cout << "\nNonAdmin players must enter code first.\n";
-				}
+				handler.AddPlayer(userJSON, AdminRole::Admin);
 
 				return crow::response(200);
 			});
@@ -419,7 +409,6 @@ void Routing::Run()
 				return crow::response(200);
 			});
 
-	//verificare secunda
 	CROW_ROUTE(m_app, "/send_second")
 		.methods("GET"_method)
 		([&T]() {

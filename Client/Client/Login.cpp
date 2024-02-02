@@ -80,7 +80,7 @@ void Login::LogintoAccount()
 	if (r.status_code == 200)
 	{
 		qDebug() << "login data sent.\n";
-		
+
 		crow::json::wvalue json;
 		json["Gamestatus"] = "Lobby";
 		std::string jsString = json.dump();
@@ -111,29 +111,11 @@ void Login::LogintoAccount()
 					}
 				}
 			}
-
 			PickAction* p = new PickAction();
 			p->SetLoginUsername(m_username);
 			p->show();
 			hide();
-
-			/*if (m_you.GetAdminRole() == "Admin")
-			{
-				Lobby* lobby = new Lobby();
-				lobby->SetLoginUsername(m_username);
-				qDebug() << "SET LOGIN USERNAME TO LOBBY: " << lobby->GetLoginUsername();
-				lobby->SetUi();
-				lobby->show();
-				hide();
-			}
-			else if (m_you.GetAdminRole() == "NonAdmin")
-			{
-				EnterCode* e = new EnterCode();
-				e->SetLoginUsername(m_username);
-				e->show();
-				hide();
-			}*/
-		}		
+		}
 	}
 	else if (r.status_code == 101)
 	{

@@ -296,7 +296,7 @@ void ScribbleArea::mouseMoveEvent(QMouseEvent* event)
 {
 	if (m_you.GetPlayerRole() == "Painter")
 	{
-		if ((event->buttons() & Qt::LeftButton) && m_isScribbling) // a fost apasat deci se deseneaza
+		if ((event->buttons() & Qt::LeftButton) && m_isScribbling)
 		{
 			DrawLineTo(event->pos());
 		}
@@ -309,7 +309,7 @@ void ScribbleArea::mouseReleaseEvent(QMouseEvent* event)
 	{
 		if (event->button() == Qt::LeftButton && m_isScribbling) {
 			DrawLineTo(event->pos());
-			m_isScribbling = false; // nu se mai deseneaza
+			m_isScribbling = false;
 		}
 	}
 }
@@ -320,11 +320,9 @@ void ScribbleArea::paintEvent(QPaintEvent* event)
 	painter.setRenderHint(QPainter::Antialiasing, true);
 	painter.setRenderHint(QPainter::TextAntialiasing, true);
 	painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
-	QRect dirtyRect = event->rect(); // un dreptunghi asociat evenimentului care trebuie redesenat
-	// dirtyRect = "zona murdara"/modificata
+	QRect dirtyRect = event->rect(); 
 
-	painter.drawImage(dirtyRect, m_image, dirtyRect); //deseneaza imaginea in interiorul dreptunghiului
-	// => se va modifica doar zona specificata de dreptunghi
+	painter.drawImage(dirtyRect, m_image, dirtyRect); 
 }
 
 void ScribbleArea::resizeEvent(QResizeEvent* event)
@@ -340,27 +338,23 @@ void ScribbleArea::resizeEvent(QResizeEvent* event)
 
 void ScribbleArea::DrawLineTo(const QPoint& endPoint)
 {
-	QPainter painter(&m_image); // deseneaza pe imagine
+	QPainter painter(&m_image); 
 	painter.setRenderHint(QPainter::Antialiasing, true);
 	painter.setRenderHint(QPainter::TextAntialiasing, true);
 	painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
 	painter.setPen(QPen(m_penColor, m_penWidth, Qt::SolidLine, Qt::RoundCap,
 		Qt::RoundJoin));
 
-	painter.drawLine(m_lastPoint, endPoint); // lastPoint este initializat in PressEvent
-	// endPoint se modifica in MoveEvent si ReleaseEvent
+	painter.drawLine(m_lastPoint, endPoint); 
 
-	// draw line points into the matrix
 	DrawInMatrix(m_lastPoint.x(), m_lastPoint.y());
 	DrawInMatrix(endPoint.x(), endPoint.y());
 
-	int rad = (m_penWidth / 2) + 2; // raza pentru un chenar (bounding rectangle) ce inconjoara linia desenata
-	QRect boundingRect = QRect(m_lastPoint, endPoint).normalized().adjusted(-rad, -rad, +rad, +rad); // ajustat in fd raza
+	int rad = (m_penWidth / 2) + 2; 
+	QRect boundingRect = QRect(m_lastPoint, endPoint).normalized().adjusted(-rad, -rad, +rad, +rad); 
+	update(boundingRect); 
 
-	update(boundingRect); // declanseaza un eveniment de redesenare, specificand zona modificata
-	// => evenimentul de desenare va actualiza doar zona specifica
-
-	m_lastPoint = endPoint; // dupa ce a fost desenat la pozitia curenta lastPoint se updateaza cu cel curent
+	m_lastPoint = endPoint;
 }
 
 void ScribbleArea::onClearButtonClicked()

@@ -86,7 +86,7 @@ void PlayerWidget::UpdateScoreUI(const PlayerClient& client)
 		if (it != m_players.end())
 		{
 			it->UpdateScore(newScore);
-			auto index = std::distance(m_players.begin(), it); // calculated distance from begin() to iterator to get pos
+			auto index = std::distance(m_players.begin(), it);
 			if (index < m_playerList->count())
 			{
 				QListWidgetItem* item = m_playerList->item(index);

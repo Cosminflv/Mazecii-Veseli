@@ -103,15 +103,12 @@ void Difficulty::SelectDifficulty()
 	qDebug() << m_difficulty;
 	Client* w = new Client();
 	w->You(m_you);
-	qDebug() << "YOUR USERNAME: " << w->YourInstance().GetUsername();
-	qDebug() << "YOUR ROLE: " << w->YourInstance().GetPlayerRole();
 	w->SetDifficulty(m_difficulty);
 	w->SetUi();
 	w->GetScribbleArea()->UpdateClient(m_you);
 	w->GetScribbleArea()->SetUpUi();
 	w->GetPlayerWidget()->SetUi();
 	w->GetWordWidget()->GetWordLabel()->setFont(QFont("Sitka Text Semibold", 25));
-	qDebug() << "client difficulty set:" << w->GetDifficulty();
 	w->GetChat()->SetClient(m_you);
 	w->GetChat()->SetUi();
 	w->show();
